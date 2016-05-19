@@ -1,0 +1,30 @@
+year,country,category,value,source,details
+2009,DRC,Diagnosis Rate (# per year),8270,Marrakech,Collected from country team in Marrakech
+2010,DRC,Diagnosis Rate (# per year),8074,Marrakech,Collected from country team in Marrakech
+2011,DRC,Diagnosis Rate (# per year),5589,Marrakech,Collected from country team in Marrakech
+2012,DRC,Diagnosis Rate (# per year),4930,Marrakech,Collected from country team in Marrakech
+2013,DRC,Diagnosis Rate (# per year),6254,Marrakech,Collected from country team in Marrakech
+2009,DRC,Care Rate (# per year),5954,Marrakech,Collected from country team in Marrakech
+2010,DRC,Care Rate (# per year),4553,Marrakech,Collected from country team in Marrakech
+2011,DRC,Care Rate (# per year),4250,Marrakech,Collected from country team in Marrakech
+2012,DRC,Care Rate (# per year),3652,Marrakech,Collected from country team in Marrakech
+2013,DRC,Care Rate (# per year),4585,Marrakech,Collected from country team in Marrakech
+2009,DRC,ART Initiation Rate (# per year),2316,Marrakech,Collected from country team in Marrakech
+2010,DRC,ART Initiation Rate (# per year),3521,Marrakech,Collected from country team in Marrakech
+2011,DRC,ART Initiation Rate (# per year),3155,Marrakech,Collected from country team in Marrakech
+2012,DRC,ART Initiation Rate (# per year),2857,Marrakech,Collected from country team in Marrakech
+2013,DRC,ART Initiation Rate (# per year),2654,Marrakech,Collected from country team in Marrakech
+2013,India,Diagnosis Rate (# per year),240234,India,Collected from country team in Marrakech
+2013,India,Care Rate (# per year),208581,India,Collected from country team in Marrakech
+2013,India,ART Initiation Rate (# per year),115816,India,Collected from country team in Marrakech
+2013,India,ART Retention Rate (# per year),101598,India,Collected from country team in Marrakech
+2014,India,Diagnosis Rate (# per year),223704,India,Collected from country team in Marrakech
+2014,India,Care Rate (# per year),208630,India,Collected from country team in Marrakech
+2014,India,ART Initiation Rate (# per year),121201,India,Collected from country team in Marrakech
+2014,India,ART Retention Rate (# per year),104808,India,Collected from country team in Marrakech
+2013,Indonesia,Diagnosis Rate (# per year),29037,Indonesia,Collected from country team in Marrakech
+2013,Indonesia,Care Rate (# per year),23017,Indonesia,Collected from country team in Marrakech
+2013,Indonesia,ART Initiation Rate (# per year),17563,Indonesia,Collected from country team in Marrakech
+2013,Indonesia,ART Retention Rate (# per year),4825,Indonesia,Collected from country team in Marrakech
+2014,Brazil,ART Initiation Rate (# per year),49000,http://www.aids.gov.br/en/noticia/2015/brazil-progresses-towards-achievement-90-90-90-target,See website
+2014,Brazil,Viral Suppression Rate (# per year),45000,http://www.aids.gov.br/en/noticia/2015/brazil-progresses-towards-achievement-90-90-90-target,See website

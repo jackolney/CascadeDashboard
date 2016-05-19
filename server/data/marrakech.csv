@@ -1,0 +1,26 @@
+country,year,plhiv,diagnosed,care,art,retention,suppression,plhiv_score,diagnosed_score,care_score,art_score,retention_score,suppression_score
+Brazil,2013,"734,000","589,000","537,000","355,000", NA ,"293,000",amber,green,green,green,red,green
+Cambodia,2014,"75,615","59,826","57,081","52,907", NA , NA ,green,amber,green,green,red,red
+Cameroon,2014,"657,457","208,234","145,038","145,038","87,023","119,511",green,red,amber,green,amber,red
+Cote d'Ivoire,2014,"459,319","263,094","196,856","140,710", NA ,"15,845",red,red,red,red,red,red
+DRC,2014,"420,000","119,517","112,516","101,324","83,086","7,397",green,green,green,green,green,green
+Ethiopia,2014,"730,000","777,368","621,894","380,000", NA ,"201,400",red,red,red,red,red,red
+Haiti,2014,"156,458","91,212","52,137","67,115", NA ,"1,800",red,red,red,red,red,red
+India,2015,"2,100,000","1,410,000","1,150,000","900,000","666,000","801,000",green,amber,green,green,amber,amber
+Indonesia,2014,"638,329","160,138","166,975","50,400","35,935", NA ,green,green,green,green,amber,red
+Kenya,2015,"1,630,939", NA ,"931,518","823,738", NA ,"354,516",green,red,green,green,red,amber
+Malawi,2014,"1,100,000","690,000","680,000","568,470", NA ,"484,000",red,red,red,red,red,red
+Morocco,2013,"29,000","13,547","10,838","10,000","7,498","6,523",red,amber,green,red,red,red
+Mozambique,2014,"1,543,011", NA ,"1,174,554","709,165", NA ,"475,141",red,red,red,red,red,red
+Myanmar,2014,"212,935","164,317","112,479","85,626","70,213","75,008",green,amber,green,green,red,green
+Nigeria,2015,"3,400,000","2,969,833","2,616,292","767,176", NA , NA ,red,red,red,red,red,red
+Pakistan,2015,"93,925", NA ,"13,929","7,292", NA , NA ,red,red,red,red,red,red
+Philippines,2015,"42,207","27,138","13,794","7,894","6,947","7,004",green,amber,amber,amber,green,amber
+Russia,2015, NA ,"6,000","3,000","1,000",800, NA ,red,red,red,red,red,red
+South Africa,2014,"6,800,000","4,490,094", NA ,"3,618,344", NA ,"224,489",red,red,red,red,red,red
+South Sudan,2014,"190,000","30,000","18,160","15,065", NA , NA ,red,red,red,red,red,red
+Thailand,2014,"445,503","344,629","326,789","258,233","229,260","203,264",green,green,amber,amber,red,red
+Uganda,2014,"1,500,000","840,000","1,054,083","818,740","704,116","728,679",green,green,green,green,green,green
+Ukraine,2015,"223,000","137,970","107,120","61,730", NA ,"48,273",red,red,red,red,red,red
+Vietnam,2014,"250,060","171,000","94,693","93,298", NA ,"86,674",green,green,green,green,red,amber
+Zimbabwe,2014,"1,550,250","1,038,668","866,778","787,980", NA ,"628,367",red,red,red,red,red,red

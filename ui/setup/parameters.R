@@ -1,0 +1,80 @@
+tabItem(tabName = "parameters",
+    column(width = 8,
+        shinyjs::useShinyjs(),
+        box(width = NULL,
+            status = "primary",
+            solidHeader = TRUE,
+            title = "Parameter Values",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            bsModal(id = "seeParameterTable", title = "Parameter Table", trigger = "viewParameterTable", size = "large",
+                DT::dataTableOutput('parameterTable', width = "100%")
+            ),
+            helpText("Below is a detailed diagram of the model showing the flow of patients through care and the progression of HIV,
+                captured by the decline of CD4 counts when not on treatment and the recovery of CD4 counts when on ART.
+                A table of parameter values is shown in the 'Help Panel' and several sliders are shown below which can be
+                used to manipulate certain parameter values. Parameter values can be manipulated by changing the rate or the inverse of the rate (time to event).
+                You only need to change one slider as the other updated auotmatically. Please note that the parameter table is 'live' and will update in real-time."),
+            img(src = "ModelSimple.png", height = "100%", width = "100%")
+        ),
+        box(width = NULL,
+            status = "warning",
+            # background = "yellow",
+            solidHeader = TRUE,
+            title = "Diagnosis Rate",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            id = "parameter-panel-1",
+            sliderInput('rho','Diagnosis rate (diagnoses/py) (rho):', min = 0, max = 5, value = 0.205, step = 0.001, width = 1000),
+            sliderInput('invRho','Average time to diagnosis (years) (1 / rho):', min = 0, max = 100, value = 1/0.205, step = 0.001, width = 1000)
+        ),
+        box(width = NULL,
+            status = "warning",
+            # background = "yellow",
+            solidHeader = TRUE,
+            title = "Care Seeking Care",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            id = "parameter-panel-2",
+            sliderInput('epsilon','Care seeking rate (persons seeking care/py) (epsilon):', min = 0, max = 20, value = 16.949, step = 0.001, width = 1000),
+            sliderInput('invEpsilon','Average time to seeking care (years) (1 / epsilon):', min = 0, max = 100, value = 1/16.949, step = 0.001, width = 1000)
+        ),
+        box(width = NULL,
+            status = "warning",
+            # background = "yellow",
+            solidHeader = TRUE,
+            title = "ART Initiation Rate",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            id = "parameter-panel-3",
+            sliderInput('gamma','ART initiation rate (ART initiations/py) (gamma):', min = 0, max = 5, value = 2.556, step = 0.001, width = 1000),
+            sliderInput('invGamma','Average time to ART initiation (years) (1 / gamma):', min = 0, max = 100, value = 1/2.556, step = 0.001, width = 1000)
+        ),
+        box(width = NULL,
+            status = "warning",
+            # background = "yellow",
+            solidHeader = TRUE,
+            title = "ART Dropout Rate",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            id = "parameter-panel-4",
+            sliderInput('omega','ART dropout rate (ART dropout/py) (omega):', min = 0, max = 5, value = 0.033, step = 0.001, width = 1000),
+            sliderInput('invOmega','Average time to ART dropout (years) (1 / omega):', min = 0, max = 100, value = 1/0.033, step = 0.001, width = 1000)
+        )
+    ),
+    column(width = 4,
+        box(width = NULL,
+            status = "warning",
+            solidHeader = TRUE,
+            title = "Help Panel",
+            helpText("It is not neccessary to alter any of these values, but feel free to move the sliders around and see the values in the table change.
+                Hit 'RESET PARAMETERS' to reset all parameters including the 'ART dropout rate' if specified in the 'Setup' tab."),
+            bsButton("resetParameters", label = "RESET PARAMETERS", style = "danger", block = TRUE),
+            bsButton("viewParameterTable", label = "VIEW PARAMETERS", style = "primary", block = TRUE),
+            # p(" "),
+            # tableOutput("parameterTable"),
+            helpText("Details regarding the origin of these parameter values are found in the 'Model Document', under the 'More' tab.")
+        ),
+        bsButton(inputId = "wizardResults_1", label = "Next", style = "success", size = "large", block = TRUE, icon = icon("arrow-right", class = "fa-lg fa-fw", lib = "font-awesome"))
+    )
+)
