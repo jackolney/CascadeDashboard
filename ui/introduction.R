@@ -69,7 +69,7 @@ tabItem(tabName = "introduction",
                 Data entered can be saved by clicking 'SAVE' on any relevant page. A pdf containing details about
                 the entire model can be found in the 'more' tab along with links to spreadsheets containing data used in the model.",
             br(),
-            h4("Contributors"),
+            h5("Contributors"),
             "Jack J Olney, Jeffrey W Eaton, Ellen McRobie & Timothy B Hallett"
         ),
         bsButton(inputId = "NEXT_intro", label = "Start Wizard", style = "success", size = "large", block = TRUE, icon = icon("magic", class = "fa-lg fa-fw", lib = "font-awesome"))

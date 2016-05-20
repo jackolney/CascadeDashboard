@@ -45,13 +45,25 @@ tabItem(tabName = "opt-wizard",
             title = "Optimisation Detail",
             "Click on the following buttons to access further details about the optimisation.",
             br(),
-            bsButton(inputId = "NEXT_optParam",  label = "Interventions",  size = "large", style = "primary", block = TRUE, icon = icon("gear", class = "fa-lg fa-fw", lib = "font-awesome")),
-            bsButton(inputId = "NEXT_optCost",   label = "Cost",           size = "large", style = "primary", block = TRUE, icon = icon("usd",  class = "fa-lg fa-fw", lib = "font-awesome"))
+            fluidRow(
+                column(width = 6,
+                    bsButton(inputId = "NEXT_optParam",  label = "Interventions",  size = "large", style = "primary", block = TRUE, icon = icon("gear", class = "fa-lg fa-fw", lib = "font-awesome"))
+                ),
+                column(width = 6,
+                    bsButton(inputId = "NEXT_optCost",   label = "Cost",           size = "large", style = "primary", block = TRUE, icon = icon("usd",  class = "fa-lg fa-fw", lib = "font-awesome"))
+                )
+            )
         )
     ),
     column(width = 4,
-        bsButton(inputId = "optimStart", label = "Start", style = "success", size = "large", block = TRUE, icon = icon("play", class = "fa-lg fa-fw", lib = "font-awesome")),
-        bsButton(inputId = "optimStop",  label = "Stop",  style = "danger",  size = "large", block = TRUE, icon = icon("stop", class = "fa-lg fa-fw", lib = "font-awesome")),
+        fluidRow(
+            column(width = 6,
+                bsButton(inputId = "optimStart", label = "Start", style = "success", size = "large", block = TRUE, icon = icon("play", class = "fa-lg fa-fw", lib = "font-awesome"))
+            ),
+            column(width = 6,
+                bsButton(inputId = "optimStop",  label = "Stop",  style = "danger",  size = "large", block = TRUE, icon = icon("stop", class = "fa-lg fa-fw", lib = "font-awesome"))
+            )
+        ),
         br(),
         box(width = NULL,
             status = "warning",
