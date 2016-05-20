@@ -124,27 +124,27 @@ is.not.empty <- function(ListElement) {
 GetCountryData <- function(uCountry) {
     # Read in all relevant csv files
     c.file.path <- "server/data/calibration"
-    calib.incidence            <- readr::read_csv(paste0(c.file.path, "/incident-infections.csv"),   col_names = TRUE, skip = 1)
-    calib.cd4                  <- readr::read_csv(paste0(c.file.path, "/cd4-distribution-2010.csv"), col_names = TRUE, skip = 0)
-    calib.art                  <- readr::read_csv(paste0(c.file.path, "/art.csv"),                   col_names = TRUE, skip = 1)
-    calib.hiv_awareness_unaids <- readr::read_csv(paste0(c.file.path, "/hiv-awareness-unaids.csv"),  col_names = TRUE, skip = 0)
-    calib.not_on_art           <- readr::read_csv(paste0(c.file.path, "/not-on-art.csv"),            col_names = TRUE, skip = 1)
-    calib.plhiv                <- readr::read_csv(paste0(c.file.path, "/plhiv.csv"),                 col_names = TRUE, skip = 1)
-    calib.previous_data        <- readr::read_csv(paste0(c.file.path, "/previous-data.csv"),         col_names = TRUE, skip = 0)
-    calib.rates                <- readr::read_csv(paste0(c.file.path, "/rates.csv"),                 col_names = TRUE, skip = 0)
-    calib.treatment_guidelines <- readr::read_csv(paste0(c.file.path, "/treatment-guidelines-cd4.csv"),  col_names = TRUE, skip = 0)
+    calib.incidence            <- readr::read_csv(paste0(c.file.path, "/incidence-uncertainty.csv"),    col_names = TRUE, skip = 1)
+    calib.cd4                  <- readr::read_csv(paste0(c.file.path, "/cd4-distribution-2010.csv"),    col_names = TRUE, skip = 0)
+    calib.art                  <- readr::read_csv(paste0(c.file.path, "/art.csv"),                      col_names = TRUE, skip = 1)
+    calib.hiv_awareness_unaids <- readr::read_csv(paste0(c.file.path, "/hiv-awareness-unaids.csv"),     col_names = TRUE, skip = 0)
+    calib.not_on_art           <- readr::read_csv(paste0(c.file.path, "/not-on-art.csv"),               col_names = TRUE, skip = 1)
+    calib.plhiv                <- readr::read_csv(paste0(c.file.path, "/plhiv.csv"),                    col_names = TRUE, skip = 1)
+    calib.previous_data        <- readr::read_csv(paste0(c.file.path, "/previous-data.csv"),            col_names = TRUE, skip = 0)
+    calib.rates                <- readr::read_csv(paste0(c.file.path, "/rates.csv"),                    col_names = TRUE, skip = 0)
+    calib.treatment_guidelines <- readr::read_csv(paste0(c.file.path, "/treatment-guidelines-cd4.csv"), col_names = TRUE, skip = 0)
 
     # Compile data.frame
     calib.df <- list()
-    calib.df[[1]] <- calib.incidence[[uCountry]]
-    calib.df[[2]] <- dplyr::filter(calib.cd4, country == uCountry)
-    calib.df[[3]] <- dplyr::filter(calib.treatment_guidelines, country == uCountry)
-    calib.df[[4]] <- dplyr::filter(calib.art, country == uCountry)
-    calib.df[[5]] <- dplyr::filter(calib.hiv_awareness_unaids, country == uCountry)
-    calib.df[[6]] <- dplyr::filter(calib.not_on_art, country == uCountry)
-    calib.df[[7]] <- dplyr::filter(calib.plhiv, country == uCountry)
-    calib.df[[8]] <- dplyr::filter(calib.previous_data, country == uCountry)
-    calib.df[[9]] <- dplyr::filter(calib.rates, country == uCountry)
+    calib.df[[1]] <- dplyr::filter(calib.incidence,             country == uCountry)
+    calib.df[[2]] <- dplyr::filter(calib.cd4,                   country == uCountry)
+    calib.df[[3]] <- dplyr::filter(calib.treatment_guidelines,  country == uCountry)
+    calib.df[[4]] <- dplyr::filter(calib.art,                   country == uCountry)
+    calib.df[[5]] <- dplyr::filter(calib.hiv_awareness_unaids,  country == uCountry)
+    calib.df[[6]] <- dplyr::filter(calib.not_on_art,            country == uCountry)
+    calib.df[[7]] <- dplyr::filter(calib.plhiv,                 country == uCountry)
+    calib.df[[8]] <- dplyr::filter(calib.previous_data,         country == uCountry)
+    calib.df[[9]] <- dplyr::filter(calib.rates,                 country == uCountry)
     calib.df[[10]] <- dplyr::filter(calib.treatment_guidelines, country == uCountry)
 
     # Create a vector of data names
