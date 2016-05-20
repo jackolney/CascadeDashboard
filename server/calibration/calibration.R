@@ -62,7 +62,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
             )
         # y <- GetCalibInitial(p, data)
-        i <- incidence(as.double(data[["incidence"]]))
+        # i <- incidence(as.double(data[["incidence"]]))
 
         ## Parameter Sampling
         setProgress(value = 0 / 1, detail = "Defining parameter space")
@@ -93,6 +93,10 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         # Garbage collection (lhsInitial is deprecated at this point)
         rm(lhsInitial)
 
+        # INCIDENCE
+        incRange <- DefineIncidenceRange(incidenceData = data$incidence)
+        lhsIncidence <- FME::Latinhyper(incRange, num = maxIterations)
+
         ## For each draw, update parameter vector (p), run model, calculate error and store it.
         # Haven't put into a function as probably too many arguements.
         setProgress(value = 0 / 1, detail = "Running simulations")
@@ -110,6 +114,8 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             p[["p"]]       <- lhs[,"p"][k]
             p[["q"]]       <- lhs[,"q"][k]
 
+            i <- incidence(as.double(lhsIncidence[k,]))
+            print(i)
             y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
             out <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
             runError[k] <<- sum(out[out$source == "error", "value"])
@@ -142,6 +148,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             p[["p"]]       <- lhs[,"p"][selectedRuns[l]]
             p[["q"]]       <- lhs[,"q"][selectedRuns[l]]
 
+            i <- incidence(as.double(lhsIncidence[selectedRuns[l],]))
             y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[selectedRuns[l],])
             iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
             CalibOut <<- rbind(CalibOut, iOut)

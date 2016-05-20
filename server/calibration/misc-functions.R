@@ -123,6 +123,30 @@ DefineInitRange <- function(data, min, max) {
     initRange
 }
 
+DefineIncidenceRange <- function(incidenceData) {
+    parRange <- data.frame(
+        min = c(
+            yr2010 = as.double(incidenceData[incidenceData$type == "Lower", "2010"]),
+            yr2011 = as.double(incidenceData[incidenceData$type == "Lower", "2011"]),
+            yr2012 = as.double(incidenceData[incidenceData$type == "Lower", "2012"]),
+            yr2013 = as.double(incidenceData[incidenceData$type == "Lower", "2013"]),
+            yr2014 = as.double(incidenceData[incidenceData$type == "Lower", "2014"]),
+            yr2015 = as.double(incidenceData[incidenceData$type == "Lower", "2015"]),
+            yr2016 = as.double(incidenceData[incidenceData$type == "Lower", "2016"])
+        ),
+        max = c(
+            yr2010 = as.double(incidenceData[incidenceData$type == "Upper", "2010"]),
+            yr2011 = as.double(incidenceData[incidenceData$type == "Upper", "2011"]),
+            yr2012 = as.double(incidenceData[incidenceData$type == "Upper", "2012"]),
+            yr2013 = as.double(incidenceData[incidenceData$type == "Upper", "2013"]),
+            yr2014 = as.double(incidenceData[incidenceData$type == "Upper", "2014"]),
+            yr2015 = as.double(incidenceData[incidenceData$type == "Upper", "2015"]),
+            yr2016 = as.double(incidenceData[incidenceData$type == "Upper", "2016"])
+        )
+    )
+    parRange
+}
+
 FindSense <- function(samples) {
 
     # Create output matrix
