@@ -107,13 +107,22 @@ tabItem(tabName = "calibration",
     ),
     column(width = 4,
         box(width = NULL,
-            background = "yellow",
+            # background = "yellow",
+            status = "warning",
             solidHeader = TRUE,
             title = "Calibration Control",
             "Hit 'Run Calibration' to stat the calibration, the progress bar will indicate the remaining run-time. Hit 'Accept' if you are content with the calibration figure and 'ghost-values' presented. If you are not happy with either, then please edit the ghost-values and hit 'Repeat'",
             p(""),
-            bsButton(inputId = "REPEAT_calib", label = "Repeat", style = "danger",  size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome")),
-            bsButton(inputId = "NEXT_calib", label = "Accept", style = "success", size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
+            fluidRow(
+                column(width = 6,
+                    bsButton(inputId = "REPEAT_calib", label = "Repeat", style = "danger",  size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome"))
+                ),
+                column(width = 6,
+                    bsButton(inputId = "NEXT_calib", label = "Accept", style = "success", size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
+                )
+            )
+            # bsButton(inputId = "REPEAT_calib", label = "Repeat", style = "danger",  size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome")),
+            # bsButton(inputId = "NEXT_calib", label = "Accept", style = "success", size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
         ),
         box(width = NULL,
             solidHeader = TRUE,

@@ -7,10 +7,6 @@ tabItem(tabName = "data-review",
             title = "Calibration Data Review",
             collapsible = TRUE,
             collapsed = FALSE,
-            "This page will have a plot (here) that illustrates the currently loaded data in the model,
-            from (MasterData). The user can review it and pull down a modal with all the values printed.
-            The user will then be able to click either 'ENTER DATA' or 'CALIBRATE' and be taken to the
-            relevant pages.",
             bsModal(id = "seeDataTable_DATA", title = "Data Table", trigger = "viewData_DATA", size = "large",
                 DT::dataTableOutput('dataTable_DATA', width = "100%")
             ),
