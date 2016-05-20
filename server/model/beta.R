@@ -25,6 +25,5 @@ GetBeta <- function(y, p, iterationInc) {
         ((y[36] + y[37] + y[38] + y[39] + y[40] + y[41] + y[42]) * p[61]))
 
     beta <- numerator / denominator
-    message(paste("Beta =", round(beta, digits = 4)))
     beta
 }

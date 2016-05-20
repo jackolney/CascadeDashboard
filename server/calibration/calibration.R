@@ -105,7 +105,6 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             p[["q"]]       <- lhs[,"q"][k]
 
             i <- incidence(as.double(lhsIncidence[k,]))
-            print(i)
             y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
             out <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
             runError[k] <<- sum(out[out$source == "error", "value"])
