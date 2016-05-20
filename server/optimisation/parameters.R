@@ -13,9 +13,8 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut) {
         t_4 = ConvertYear2015(data[["treatment_guidelines"]][["less250"]]),
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
-        # These guys still need to be set by the model.
+        # These guys still need to be set by the model
         Theta = round(lapply(calibParamOut, function(x) {return(mean(x))})[["theta"]], digits = 4),
-        Mu    = round(lapply(calibParamOut, function(x) {return(mean(x))})[["mu"]],    digits = 4),
         p     = round(lapply(calibParamOut, function(x) {return(mean(x))})[["p"]],     digits = 4),
 
         # MODIFYING #
@@ -44,9 +43,9 @@ GetMeanPar <- function(masterCD4, data, calibParamOut) {
         t_4 = ConvertYear2015(data[["treatment_guidelines"]][["less250"]]),
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
-        # Just using mean parameter values for the momen #
+        # Just using mean parameter values for the moment
+        # Transition to using the 'best' fit (i.e. lowest error)
         Theta = round(lapply(calibParamOut, function(x) {return(mean(x))})[["theta"]], digits = 4),
-        Mu    = round(lapply(calibParamOut, function(x) {return(mean(x))})[["mu"]],    digits = 4),
         p     = round(lapply(calibParamOut, function(x) {return(mean(x))})[["p"]],     digits = 4),
         Rho   = round(lapply(calibParamOut, function(x) {return(mean(x))})[["rho"]],   digits = 4),
         Kappa = round(lapply(calibParamOut, function(x) {return(mean(x))})[["kappa"]], digits = 4),

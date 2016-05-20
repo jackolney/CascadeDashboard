@@ -16,7 +16,7 @@ CallMeanModel <- function() {
         iterationResult = meanCalibInitial,
         masterCD4 = MasterCD4_2015)
 
-    p[["beta"]] <- GetBeta(y = y, p = p, data = MasterData)
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = MasterData$incidence[MasterData$incidence$type == "Median", as.character(seq(from = 2010, to = 2016))])
 
     result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

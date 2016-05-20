@@ -46,7 +46,7 @@ observeEvent(input$optimStart, {
                 iterationResult = meanCalibInitial,
                 masterCD4 = MasterCD4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, data = MasterData)
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = MasterData$incidence[MasterData$incidence$type == "Median", as.character(seq(from = 2010, to = 2016))])
 
             theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
 
