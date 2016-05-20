@@ -1,7 +1,6 @@
 # Main Model Call
 # This now needs to take input from the calibration data set and return a formatted data.frame ready for plotting.
 CallModel <- reactive({
-    message("CallModel() called.")
     # Setup #
     # This does ignore the cascade::parameter and cascade::initial
     MasterOut <- vector("list", dim(CalibParamOut)[1])

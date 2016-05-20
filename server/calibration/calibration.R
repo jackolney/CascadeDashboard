@@ -60,7 +60,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             t_3 = ConvertYear(data[["treatment_guidelines"]][["less350"]]),
             t_4 = ConvertYear(data[["treatment_guidelines"]][["less250"]]),
             t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
-            )
+        )
 
         ## Sample Parameters
         # Defines max / min
@@ -90,9 +90,10 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         ## For each draw, update parameter vector (p), run model, calculate error and store it.
         # Initial Calibration
         setProgress(value = 0 / 1, detail = "Running simulations")
-        v = 0
+        v <- 0
         selectedRuns <- c()
         runError <<- c()
+        CalibOut <<- c()
         for (k in 1:dim(lhsInitial_Sense)[1]) {
 
             p[["Rho"]]     <- lhs[,"rho"][k]
@@ -106,38 +107,17 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
 
             i <- incidence(as.double(lhsIncidence[k,]))
             y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
-            out <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
-            runError[k] <<- sum(out[out$source == "error", "value"])
+            iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
+            runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
             # If error <= maxError then store value of k
             if (runError[k] <= maxError) {
                 v <- v + 1
                 selectedRuns[v] <- k
+                CalibOut <<- rbind(CalibOut, iOut)
                 setProgress(value = v / limit, detail = paste0(round((v / limit) * 100, digits = 0), "%"))
                 if (v == limit) break;
             }
-        }
-
-        ## For the runs that had error less than maxError, re-run simulations and store results
-        # Faster than storing ALL results in the first place (I think)
-        setProgress(value = 0 / 1, detail = "Sampling best runs")
-        CalibOut <<- c()
-        for (l in 1:limit) {
-
-            p[["Rho"]]     <- lhs[,"rho"][selectedRuns[l]]
-            p[["Epsilon"]] <- lhs[,"epsilon"][selectedRuns[l]]
-            p[["Kappa"]]   <- lhs[,"kappa"][selectedRuns[l]]
-            p[["Gamma"]]   <- lhs[,"gamma"][selectedRuns[l]]
-            p[["Theta"]]   <- lhs[,"theta"][selectedRuns[l]]
-            p[["Omega"]]   <- lhs[,"omega"][selectedRuns[l]]
-            p[["p"]]       <- lhs[,"p"][selectedRuns[l]]
-            p[["q"]]       <- lhs[,"q"][selectedRuns[l]]
-
-            i <- incidence(as.double(lhsIncidence[selectedRuns[l],]))
-            y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[selectedRuns[l],])
-            iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
-            CalibOut <<- rbind(CalibOut, iOut)
-            setProgress(value = l / limit, detail = paste0("Resample ", round((l / limit) * 100, digits = 0), "%"))
         }
 
         # Global Data Frames for Parameters / Initial Values
