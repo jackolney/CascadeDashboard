@@ -4,7 +4,7 @@
 # Ideally, will just be a case of drag and drop of functions.
 # Create all functions external to this script.
 rm(list=ls())
-setwd("~/git/WhoCascade/CascadeApp/CascadeDashboard")
+setwd("~/git/WhoCascade/CascadeDashboard")
 # dir()
 graphics.off()
 quartz.options(w = 10, h = 8)
