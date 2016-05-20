@@ -45,7 +45,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
 
     withProgress(message = 'Running Calibration:', value = 0, {
 
-        # Set important parameters
+        # Set Global Variables
         time <- seq(0, 5, 1)
         p <- parameters(
             prop_preART_500    = data[["cd4"]][1,"prop.Off.ART.500"][[1]],
@@ -61,44 +61,34 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             t_4 = ConvertYear(data[["treatment_guidelines"]][["less250"]]),
             t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
             )
-        # y <- GetCalibInitial(p, data)
-        # i <- incidence(as.double(data[["incidence"]]))
 
-        ## Parameter Sampling
+        ## Sample Parameters
+        # Defines max / min
+        # Allows user to override these
+        # Uses LHS to sample parameter space
         setProgress(value = 0 / 1, detail = "Defining parameter space")
         intParRange <- DefineParmRange(param = p, min = 0.01, max = 5)
-
-        # Need a function here that over-rides the ranges if a value has been entered by the user.
         parRange <- UserOverRide(intParRange)
-
-        # Use Latin Hypercube Sampling to randomly sample from parRange n times
         lhs <- FME::Latinhyper(parRange, num = maxIterations)
 
-        # Sample initial states
-        # Need a vector containing all the initial states too and their max / min ranges too.
-        # We COULD account for how reliable the 2010 data is in our estimates?
-        # This function, needs to be clever enough to calculate and fill in any gaps in the data.
+        ## Sample Initial Compartment Values
+        # Define max / min (also accounts for missing data)
+        # Uses LHS to sample parameter space
+        # Fishes out only sensical data
+        # Deletes previous data.frame
         initRange <- DefineInitRange(data = data, min = 0.9, max = 1.1)
-
-        # LHS Sample
-        # Scope to modify this to pick normally distributed values with a mean of 2010, sd = ??
         lhsInitial <- FME::Latinhyper(initRange, num = maxIterations)
-
-        # We now need to take check that ALL samples make sense.
-        # Sense = bar-1 > bar-2 > bar-3
-        # Throw away any samples that do not.
-        # Perhaps resample if we find that we get less than ~2e3 sensical samples?
         lhsInitial_Sense <- FindSense(samples = lhsInitial)
-
-        # Garbage collection (lhsInitial is deprecated at this point)
         rm(lhsInitial)
 
-        # INCIDENCE
+        ## Sample Incidence
+        # Define max / min (from Spectrum Uncertainty Analysis)
+        # Uses LHS to sample parameter space
         incRange <- DefineIncidenceRange(incidenceData = data$incidence)
         lhsIncidence <- FME::Latinhyper(incRange, num = maxIterations)
 
         ## For each draw, update parameter vector (p), run model, calculate error and store it.
-        # Haven't put into a function as probably too many arguements.
+        # Initial Calibration
         setProgress(value = 0 / 1, detail = "Running simulations")
         v = 0
         selectedRuns <- c()
@@ -127,15 +117,11 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
                 setProgress(value = v / limit, detail = paste0(round((v / limit) * 100, digits = 0), "%"))
                 if (v == limit) break;
             }
-            # setProgress(value = k/dim(lhs)[1], detail = paste0((k/dim(lhs)[1])*100,"%"))
         }
-
-        # Order sum of total error from lowest to highest and pick the lowest 10%
-        setProgress(value = 0 / 1, detail = "Sampling best runs")
-        # bestTenPercent <- order(error)[1:(maxIterations * 0.1)]
 
         ## For the runs that had error less than maxError, re-run simulations and store results
         # Faster than storing ALL results in the first place (I think)
+        setProgress(value = 0 / 1, detail = "Sampling best runs")
         CalibOut <<- c()
         for (l in 1:limit) {
 
@@ -155,13 +141,11 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             setProgress(value = l / limit, detail = paste0("Resample ", round((l / limit) * 100, digits = 0), "%"))
         }
 
-        # Create data.frame to hold all parameter values used by top 10%
+        # Global Data Frames for Parameters / Initial Values
         CalibParamOut <<- FillParValues(samples = lhs, positions = selectedRuns, limit = limit)
-
-        # Will need a CalibInitOut
         CalibInitOut <<- FillInitValues(samples = lhsInitial_Sense, positions = selectedRuns, limit = limit)
 
-        # Calculate min and max values used by parameter set
+        # Calculate min and max values used by parameter set (deprecated now?)
         ParamMaxMin <<- data.frame(
             min = apply(CalibParamOut, 2, min),
             max = apply(CalibParamOut, 2, max)
@@ -184,12 +168,9 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         CalibParamMaxMin$p_MIN       <- ParamMaxMin["p"     , "min"]
 
         # Plots
-        # Then comment this out and call it elsewhere.
         setProgress(value = 1, detail = "Building figures")
         BuildCalibrationPlots(data = CalibOut, originalData = data)
         BuildCalibrationHistogram(runError = runError, maxError = maxError)
     })
-
-    # Return min and max values used for all parameters.
-    return(ParamMaxMin)
+    ParamMaxMin
 }
