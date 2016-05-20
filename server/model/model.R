@@ -24,7 +24,7 @@ CallModel <- reactive({
             masterCD4 = MasterCD4_2015
             )
 
-        p[["beta"]] <- GetBeta(y = y, p = p, data = MasterData)
+        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[i,])
 
         result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

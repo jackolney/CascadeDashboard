@@ -201,14 +201,14 @@ FillParValues <- function(samples, positions, limit) {
 
     # Loop through all iterations and fill out data.frame
     for (l in 1:limit) {
-        out[l,"rho"]     = samples[,"rho"][positions[l]]
-        out[l,"epsilon"] = samples[,"epsilon"][positions[l]]
-        out[l,"kappa"]   = samples[,"kappa"][positions[l]]
-        out[l,"gamma"]   = samples[,"gamma"][positions[l]]
-        out[l,"theta"]   = samples[,"theta"][positions[l]]
-        out[l,"omega"]   = samples[,"omega"][positions[l]]
-        out[l,"p"]       = samples[,"p"][positions[l]]
-        out[l,"q"]       = samples[,"q"][positions[l]]
+        out[l,"rho"]     <- samples[,"rho"][positions[l]]
+        out[l,"epsilon"] <- samples[,"epsilon"][positions[l]]
+        out[l,"kappa"]   <- samples[,"kappa"][positions[l]]
+        out[l,"gamma"]   <- samples[,"gamma"][positions[l]]
+        out[l,"theta"]   <- samples[,"theta"][positions[l]]
+        out[l,"omega"]   <- samples[,"omega"][positions[l]]
+        out[l,"p"]       <- samples[,"p"][positions[l]]
+        out[l,"q"]       <- samples[,"q"][positions[l]]
     }
     out
 }
@@ -218,10 +218,26 @@ FillInitValues <- function(samples, positions, limit) {
 
     # Loop through all iterations and fill out data.frame
     for (l in 1:limit) {
-        out[l,"plhiv"]      = samples[,"plhiv"][positions[l]]
-        out[l,"plhiv_diag"] = samples[,"plhiv_diag"][positions[l]]
-        out[l,"plhiv_care"] = samples[,"plhiv_care"][positions[l]]
-        out[l,"plhiv_art"]  = samples[,"plhiv_art"][positions[l]]
+        out[l,"plhiv"]      <- samples[,"plhiv"][positions[l]]
+        out[l,"plhiv_diag"] <- samples[,"plhiv_diag"][positions[l]]
+        out[l,"plhiv_care"] <- samples[,"plhiv_care"][positions[l]]
+        out[l,"plhiv_art"]  <- samples[,"plhiv_art"][positions[l]]
+    }
+    out
+}
+
+FillIncValue <- function(samples, positions, limit) {
+    out <- data.frame(yr2010 = 0, yr2011 = 0, yr2012 = 0, yr2013 = 0, yr2014 = 0, yr2015 = 0, yr2016 = 0)
+
+    # Loop through all iterations and fill out data.frame
+    for(l in 1:limit) {
+        out[l,"yr2010"] <- samples[,"yr2010"][positions[l]]
+        out[l,"yr2011"] <- samples[,"yr2011"][positions[l]]
+        out[l,"yr2012"] <- samples[,"yr2012"][positions[l]]
+        out[l,"yr2013"] <- samples[,"yr2013"][positions[l]]
+        out[l,"yr2014"] <- samples[,"yr2014"][positions[l]]
+        out[l,"yr2015"] <- samples[,"yr2015"][positions[l]]
+        out[l,"yr2016"] <- samples[,"yr2016"][positions[l]]
     }
     out
 }

@@ -1,10 +1,10 @@
-# Beta calculation
-# Feed in incidence array from MasterData
-GetBeta <- function(y, p, data) {
+## Beta calculation
+# Feed in incidence array from CalibIncOut
+GetBeta <- function(y, p, iterationInc) {
 
-    Numerator <- data[["incidence"]][6]
+    numerator <- as.double(iterationInc)[6]
 
-    Denominator <- as.double((
+    denominator <- as.double((
 
         # Entering with CD4 >500
         (y[1] + y[8] + y[15] + y[22] + y[29] + y[43]) * p[57]) +
@@ -24,9 +24,7 @@ GetBeta <- function(y, p, data) {
         # Entering on ART and Virally Suppressed
         ((y[36] + y[37] + y[38] + y[39] + y[40] + y[41] + y[42]) * p[61]))
 
-    # print(paste("Numerator =",Numerator))
-    # print(paste("Denominator =",Denominator))
-
-    beta <- Numerator / Denominator
+    beta <- numerator / denominator
+    message(paste("Beta =", round(beta, digits = 4)))
     beta
 }

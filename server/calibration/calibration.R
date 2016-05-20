@@ -142,8 +142,9 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         }
 
         # Global Data Frames for Parameters / Initial Values
-        CalibParamOut <<- FillParValues(samples = lhs, positions = selectedRuns, limit = limit)
-        CalibInitOut <<- FillInitValues(samples = lhsInitial_Sense, positions = selectedRuns, limit = limit)
+        CalibParamOut <<- FillParValues(samples = lhs,               positions = selectedRuns, limit = limit)
+        CalibInitOut  <<- FillInitValues(samples = lhsInitial_Sense, positions = selectedRuns, limit = limit)
+        CalibIncOut   <<- FillIncValue(samples = lhsIncidence,       positions = selectedRuns, limit = limit)
 
         # Calculate min and max values used by parameter set (deprecated now?)
         ParamMaxMin <<- data.frame(
@@ -152,20 +153,20 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         )
 
         # Copy over to reactiveValues
-        CalibParamMaxMin$rho_MAX     <- ParamMaxMin["rho"   , "max"]
-        CalibParamMaxMin$rho_MIN     <- ParamMaxMin["rho"   , "min"]
-        CalibParamMaxMin$q_MAX       <- ParamMaxMin["q"     , "max"]
-        CalibParamMaxMin$q_MIN       <- ParamMaxMin["q"     , "min"]
-        CalibParamMaxMin$gamma_MAX   <- ParamMaxMin["gamma" , "max"]
-        CalibParamMaxMin$gamma_MIN   <- ParamMaxMin["gamma" , "min"]
-        CalibParamMaxMin$theta_MAX   <- ParamMaxMin["theta" , "max"]
-        CalibParamMaxMin$theta_MIN   <- ParamMaxMin["theta" , "min"]
-        CalibParamMaxMin$kappa_MAX   <- ParamMaxMin["kappa" , "max"]
-        CalibParamMaxMin$kappa_MIN   <- ParamMaxMin["kappa" , "min"]
-        CalibParamMaxMin$omega_MAX   <- ParamMaxMin["omega" , "max"]
-        CalibParamMaxMin$omega_MIN   <- ParamMaxMin["omega" , "min"]
-        CalibParamMaxMin$p_MAX       <- ParamMaxMin["p"     , "max"]
-        CalibParamMaxMin$p_MIN       <- ParamMaxMin["p"     , "min"]
+        CalibParamMaxMin$rho_MAX     <- ParamMaxMin["rho",   "max"]
+        CalibParamMaxMin$rho_MIN     <- ParamMaxMin["rho",   "min"]
+        CalibParamMaxMin$q_MAX       <- ParamMaxMin["q",     "max"]
+        CalibParamMaxMin$q_MIN       <- ParamMaxMin["q",     "min"]
+        CalibParamMaxMin$gamma_MAX   <- ParamMaxMin["gamma", "max"]
+        CalibParamMaxMin$gamma_MIN   <- ParamMaxMin["gamma", "min"]
+        CalibParamMaxMin$theta_MAX   <- ParamMaxMin["theta", "max"]
+        CalibParamMaxMin$theta_MIN   <- ParamMaxMin["theta", "min"]
+        CalibParamMaxMin$kappa_MAX   <- ParamMaxMin["kappa", "max"]
+        CalibParamMaxMin$kappa_MIN   <- ParamMaxMin["kappa", "min"]
+        CalibParamMaxMin$omega_MAX   <- ParamMaxMin["omega", "max"]
+        CalibParamMaxMin$omega_MIN   <- ParamMaxMin["omega", "min"]
+        CalibParamMaxMin$p_MAX       <- ParamMaxMin["p",     "max"]
+        CalibParamMaxMin$p_MIN       <- ParamMaxMin["p",     "min"]
 
         # Plots
         setProgress(value = 1, detail = "Building figures")
