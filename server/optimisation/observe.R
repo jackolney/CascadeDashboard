@@ -23,8 +23,8 @@ observeEvent(input$optimStart, {
 
         theList <- list()
 
-        # Extract the mean initial values from calibration
-        meanCalibInitial <<- GetAverageCalibOut(CalibOut)
+        # Extract the initial values of the 'best' fit from calibration
+        bestCalibInitial <<- GetBestCalibOut(calibOut = CalibOut, minErrorRun = minErrorRun)
 
         ## THE BIG LOOP ##
         for (i in 1:dim(par)[1]) {
@@ -43,10 +43,10 @@ observeEvent(input$optimStart, {
             # Now we need the initials.
             y <- GetInitial(
                 p = p,
-                iterationResult = meanCalibInitial,
+                iterationResult = bestCalibInitial,
                 masterCD4 = MasterCD4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = MasterData$incidence[MasterData$incidence$type == "Median", as.character(seq(from = 2010, to = 2016))])
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
             theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
 
@@ -62,7 +62,7 @@ observeEvent(input$optimStart, {
         # Although, may need to reverse on this strategy tomorrow.
         # Need a sensible answer first.
         # BaseModel <- BaselineModel()
-        BaseModel <- BaselineModelMean()
+        BaseModel <- CallBaselineModel()
         BaseDALY  <- Calc_DALY(BaseModel)
         BaseCost  <- Calc_Cost(BaseModel)
 

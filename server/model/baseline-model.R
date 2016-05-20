@@ -1,22 +1,22 @@
-# Main Model Call
+# Baseline Model Call
 # This now needs to take input from the calibration data set and return a formatted data.frame ready for plotting.
-CallMeanModel <- function() {
-    message("CallMeanModel() called.")
+CallBaselineModel <- function() {
 
     # Setup #
     time <- seq(0, 5, 0.02)
 
-    p <- GetMeanPar(
+    p <- GetBestPar(
         masterCD4 = MasterCD4_2015,
         data = MasterData,
-        calibParamOut = CalibParamOut)
+        calibParamOut = CalibParamOut,
+        minErrorRun = minErrorRun)
 
     y <- GetInitial(
         p = p,
-        iterationResult = meanCalibInitial,
+        iterationResult = bestCalibInitial,
         masterCD4 = MasterCD4_2015)
 
-    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = MasterData$incidence[MasterData$incidence$type == "Median", as.character(seq(from = 2010, to = 2016))])
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
     result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

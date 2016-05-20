@@ -92,6 +92,8 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         setProgress(value = 0 / 1, detail = "Running simulations")
         v <- 0
         selectedRuns <- c()
+        minError <<- 1e6
+        minErrorRun <<- NULL
         runError <<- c()
         CalibOut <<- c()
         for (k in 1:dim(lhsInitial_Sense)[1]) {
@@ -113,6 +115,10 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             # If error <= maxError then store value of k
             if (runError[k] <= maxError) {
                 v <- v + 1
+                if (runError[k] < minError) {
+                    minError <<- runError[k]
+                    minErrorRun <<- k
+                }
                 selectedRuns[v] <- k
                 CalibOut <<- rbind(CalibOut, iOut)
                 setProgress(value = v / limit, detail = paste0(round((v / limit) * 100, digits = 0), "%"))

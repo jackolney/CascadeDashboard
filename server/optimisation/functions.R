@@ -142,21 +142,6 @@ FindPar_909090 <- function(result, par) {
     return(res_list)
 }
 
-GetAverageCalibOut <- function(calibOut) {
-    # subset only model output for 2015
-    out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",]
-    # find only unique values
-    indicator <- unique(out$indicator)
-    # pick out values
-    value <- c()
-    for (j in 1:length(indicator)) {
-        value[j] <- mean(out[out$indicator == indicator[j], "value"])
-    }
-    # build data.frame and return
-    df <- data.frame(indicator, value)
-    df
-}
-
 Extract909090DataSingle <- function(data) {
     year <- 251
     PLHIV <- data$N[year]
@@ -189,8 +174,7 @@ Extract909090DataSingle <- function(data) {
     df
 }
 
-BaselineModelMean <- function() {
-    warning("This version of the model currently compares all optimisation output to the MEAN, initial and parameter values from calibration.")
-    out <- CallMeanModel()
-    out
+GetBestCalibOut <- function(calibOut, minErrorRun) {
+    out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),]
+    out[, c("indicator", "value")]
 }
