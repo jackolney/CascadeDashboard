@@ -123,6 +123,19 @@ observeEvent(input$NEXT_calib, {
     )
 })
 
+observeEvent(input$ADJ_param, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "parameters"
+    )
+})
+
+observeEvent(input$PREV_param, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "calibration")
+})
+
 # Your Cascade
 observeEvent(input$PREV_yourCascade, {
     updateTabItems(session,

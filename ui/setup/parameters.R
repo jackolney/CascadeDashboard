@@ -1,65 +1,90 @@
 tabItem(tabName = "parameters",
     column(width = 8,
-        shinyjs::useShinyjs(),
-        box(width = NULL,
-            status = "primary",
-            solidHeader = TRUE,
-            title = "Parameter Values",
-            collapsible = TRUE,
-            collapsed = FALSE,
-            bsModal(id = "seeParameterTable", title = "Parameter Table", trigger = "viewParameterTable", size = "large",
-                DT::dataTableOutput('parameterTable', width = "100%")
+        # Row ONE
+        fluidRow(
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "Diagnosis Rate",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Rate at which undiagnosed individuals become diagnosed (py^-1).",
+                uiOutput("calib_rho_max"),
+                uiOutput("calib_rho_min"),
+                uiOutput("UI_calib_rho")
             ),
-            helpText("Below is a detailed diagram of the model showing the flow of patients through care and the progression of HIV,
-                captured by the decline of CD4 counts when not on treatment and the recovery of CD4 counts when on ART.
-                A table of parameter values is shown in the 'Help Panel' and several sliders are shown below which can be
-                used to manipulate certain parameter values. Parameter values can be manipulated by changing the rate or the inverse of the rate (time to event).
-                You only need to change one slider as the other updated auotmatically. Please note that the parameter table is 'live' and will update in real-time."),
-            img(src = "ModelSimple.png", height = "100%", width = "100%")
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "Proportion Linking to Care",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Proportion of diagnosed individuals that link to care immediately.",
+                uiOutput("calib_q_max"),
+                uiOutput("calib_q_min"),
+                uiOutput("UI_calib_q")
+            ),
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "ART Initiation Rate (In Care)",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "ART initiation rate for diagnosed individuals engaged in pre-ART care (py^-1).",
+                uiOutput("calib_gamma_max"),
+                uiOutput("calib_gamma_min"),
+                uiOutput("UI_calib_gamma")
+            )
         ),
-        box(width = NULL,
-            status = "warning",
-            # background = "yellow",
-            solidHeader = TRUE,
-            title = "Diagnosis Rate",
-            collapsible = TRUE,
-            collapsed = TRUE,
-            id = "parameter-panel-1",
-            sliderInput('rho','Diagnosis rate (diagnoses/py) (rho):', min = 0, max = 5, value = 0.205, step = 0.001, width = 1000),
-            sliderInput('invRho','Average time to diagnosis (years) (1 / rho):', min = 0, max = 100, value = 1/0.205, step = 0.001, width = 1000)
+        # Row TWO
+        fluidRow(
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "ART Initiation Rate (Not In Care)",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "ART initiation rate individuals not currently engaged in pre-ART care. This is also a function of current CD4 count (py^-1).",
+                uiOutput("calib_theta_max"),
+                uiOutput("calib_theta_min"),
+                uiOutput("UI_calib_theta")
+            ),
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "Pre-ART Dropout Rate",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Rate at which diagnosed individuals disengage from pre-ART care (py^-1).",
+                uiOutput("calib_kappa_max"),
+                uiOutput("calib_kappa_min"),
+                uiOutput("UI_calib_kappa")
+            ),
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "ART Disengagement Rate",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Rate at which individuals on treatment disengage from ART care (py^-1).",
+                uiOutput("calib_omega_max"),
+                uiOutput("calib_omega_min"),
+                uiOutput("UI_calib_omega")
+            )
         ),
-        box(width = NULL,
-            status = "warning",
-            # background = "yellow",
-            solidHeader = TRUE,
-            title = "Care Seeking Care",
-            collapsible = TRUE,
-            collapsed = TRUE,
-            id = "parameter-panel-2",
-            sliderInput('epsilon','Care seeking rate (persons seeking care/py) (epsilon):', min = 0, max = 20, value = 16.949, step = 0.001, width = 1000),
-            sliderInput('invEpsilon','Average time to seeking care (years) (1 / epsilon):', min = 0, max = 100, value = 1/16.949, step = 0.001, width = 1000)
-        ),
-        box(width = NULL,
-            status = "warning",
-            # background = "yellow",
-            solidHeader = TRUE,
-            title = "ART Initiation Rate",
-            collapsible = TRUE,
-            collapsed = TRUE,
-            id = "parameter-panel-3",
-            sliderInput('gamma','ART initiation rate (ART initiations/py) (gamma):', min = 0, max = 5, value = 2.556, step = 0.001, width = 1000),
-            sliderInput('invGamma','Average time to ART initiation (years) (1 / gamma):', min = 0, max = 100, value = 1/2.556, step = 0.001, width = 1000)
-        ),
-        box(width = NULL,
-            status = "warning",
-            # background = "yellow",
-            solidHeader = TRUE,
-            title = "ART Dropout Rate",
-            collapsible = TRUE,
-            collapsed = TRUE,
-            id = "parameter-panel-4",
-            sliderInput('omega','ART dropout rate (ART dropout/py) (omega):', min = 0, max = 5, value = 0.033, step = 0.001, width = 1000),
-            sliderInput('invOmega','Average time to ART dropout (years) (1 / omega):', min = 0, max = 100, value = 1/0.033, step = 0.001, width = 1000)
+        # Row FOUR
+        fluidRow(
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
+                title = "Proportion Adhering to Treatment",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Proportion of individuals initiating ART that adhere to treatment and become virally suppressed.",
+                uiOutput("calib_p_max"),
+                uiOutput("calib_p_min"),
+                uiOutput("UI_calib_p")
+            )
         )
     ),
     column(width = 4,
@@ -67,14 +92,8 @@ tabItem(tabName = "parameters",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("It is not neccessary to alter any of these values, but feel free to move the sliders around and see the values in the table change.
-                Hit 'RESET PARAMETERS' to reset all parameters including the 'ART dropout rate' if specified in the 'Setup' tab."),
-            bsButton("resetParameters", label = "RESET PARAMETERS", style = "danger", block = TRUE),
-            bsButton("viewParameterTable", label = "VIEW PARAMETERS", style = "primary", block = TRUE),
-            # p(" "),
-            # tableOutput("parameterTable"),
-            helpText("Details regarding the origin of these parameter values are found in the 'Model Document', under the 'More' tab.")
+            helpText("Screw around with parameters here.")
         ),
-        bsButton(inputId = "wizardResults_1", label = "Next", style = "success", size = "large", block = TRUE, icon = icon("arrow-right", class = "fa-lg fa-fw", lib = "font-awesome"))
+        bsButton(inputId = "PREV_param", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )

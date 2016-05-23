@@ -12,7 +12,6 @@ dashboardSidebar(
             menuSubItem("Treatment Coverage",     tabName = "treatment"),
             menuSubItem("Viral Suppression",      tabName = "suppression"),
             menuSubItem("Calibration",            tabName = "calibration"),
-            menuSubItem("Setup",                  tabName = "setup"),
             menuSubItem("Parameters",             tabName = "parameters")
             ),
         menuItem("Results", icon = icon("line-chart", class = "fa-lg fa-fw", lib = "font-awesome"),

@@ -18,9 +18,6 @@ dashboardPage(
             source("ui/setup/treatment.R",                local = TRUE)$value,
             source("ui/setup/suppression.R",              local = TRUE)$value,
             source("ui/setup/calibration.R",              local = TRUE)$value,
-
-            # TO BE REMOVED (eventually)
-            source("ui/setup/setup.R",                    local = TRUE)$value,
             source("ui/setup/parameters.R",               local = TRUE)$value,
 
             # Results
