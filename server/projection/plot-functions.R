@@ -34,7 +34,7 @@ GenYourCascadePlot <- function(h) {
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
 }
 
@@ -59,7 +59,7 @@ GenCascadePlot <- function() {
     ggOne <- ggOne + theme(legend.position = "none")
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
-    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + theme(axis.line.y = element_line())
 
     ggTwo <- ggplot(t5, aes(x = def, y = res))
     ggTwo <- ggTwo + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
@@ -76,7 +76,7 @@ GenCascadePlot <- function() {
     ggTwo <- ggTwo + theme(legend.position = "none")
     ggTwo <- ggTwo + theme(plot.background = element_blank())
     ggTwo <- ggTwo + theme(panel.background = element_blank())
-    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + theme(axis.line.y = element_line())
 
     grid.arrange(ggOne, ggTwo, nrow = 1, ncol = 2)
 }
@@ -111,7 +111,6 @@ GenPowersCascadePlot <- function() {
     ggOne <- ggOne + theme(legend.position = "right")
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
-    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
 
     cols <- brewer.pal(9,"Set1")
     p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
@@ -132,7 +131,6 @@ GenPowersCascadePlot <- function() {
     ggTwo <- ggTwo + theme(legend.position = "right")
     ggTwo <- ggTwo + theme(plot.background = element_blank())
     ggTwo <- ggTwo + theme(panel.background = element_blank())
-    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
 
     my.legend <- GrabLegend(ggOne)
     l.width <- sum(my.legend$width)
@@ -190,7 +188,7 @@ Gen909090Plot <- function() {
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
 }
 
@@ -224,9 +222,9 @@ GenNewInfPlot <- function(wizard) {
     ggOut <- ggplot(df, aes(x = timeOut, NewInf))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 1)
+    ggOut <- ggOut + expand_limits(y = round(max(df$max), digits = -4))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
-    ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + xlab("Year")
     ggOut <- ggOut + ylab("Cumulative New Infections / Time")
@@ -273,9 +271,9 @@ GenAidsDeathsPlot <- function(wizard) {
     ggOut <- ggplot(df, aes(x = timeOut, HivMortality))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 1)
+    ggOut <- ggOut + expand_limits(y = round(max(df$max), digits = -4))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
-    ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + xlab("Year")
     ggOut <- ggOut + ylab("Cumulative New Infections / Time")

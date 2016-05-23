@@ -173,8 +173,6 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
     ggOut <- ggOut + theme(title = element_text(size = 18))
-    ggOut <- ggOut + theme(axis.line.x = element_line())
-    ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
 }
 
