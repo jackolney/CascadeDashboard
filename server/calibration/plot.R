@@ -3,7 +3,17 @@ output$plotCalibration <- renderPlot({
     # When 'repeat' button pressed, then we re-run calibration
     input$REPEAT_calib
     RunCalibration(data = MasterData, maxIterations = 1e4, maxError = input$maxError, limit = input$minResults)
-}, height = 800, width = 'auto', bg = 'transparent')
+    BuildCalibrationPlot(data = CalibOut, originalData = MasterData)
+}, height = 400, width = 'auto', bg = 'transparent')
+
+output$plotCalibrationDetail <- renderPlot({
+    # Dependency on 'REPEAT_calib' being hit
+    # When 'repeat' button pressed, then we re-run calibration
+    input$REPEAT_calib
+    input$maxError
+    input$minResults
+    BuildCalibrationPlotDetail(data = CalibOut, originalData = MasterData)
+}, height = 500, width = 'auto', bg = 'transparent')
 
 output$plotCalibHist <- renderPlot({
     input$REPEAT_calib
@@ -16,4 +26,4 @@ output$plotData <- renderPlot({
     input$PREV_plhiv
     input$NEXT_viral
     BuildDataReviewPlot(data = MasterData$calib)
-}, height = 450, width = 'auto', bg = 'transparent')
+}, height = 400, width = 'auto', bg = 'transparent')

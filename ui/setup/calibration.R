@@ -14,7 +14,7 @@ tabItem(tabName = "calibration",
             title = "Calibration Detail",
             collapsible = TRUE,
             collapsed = FALSE,
-            plotOutput('', height = 'auto', width = 'auto')
+            plotOutput('plotCalibrationDetail', height = 'auto', width = 'auto')
         )
     ),
     column(width = 4,

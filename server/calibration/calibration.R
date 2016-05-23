@@ -153,10 +153,8 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         CalibParamMaxMin$p_MAX       <- ParamMaxMin["p",     "max"]
         CalibParamMaxMin$p_MIN       <- ParamMaxMin["p",     "min"]
 
-        # Plots
+        # Plots (control passed back to shiny::renderPlot())
         setProgress(value = 1, detail = "Building figures")
-        BuildCalibrationPlots(data = CalibOut, originalData = data)
-        BuildCalibrationHistogram(runError = runError, maxError = maxError)
     })
     ParamMaxMin
 }
