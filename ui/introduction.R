@@ -64,10 +64,9 @@ tabItem(tabName = "introduction",
             # background = "yellow",
             solidHeader = TRUE,
             title = "Quick Start",
-            "If you want to skip the introduction and get modelling, jump to 'setup' and click on 'DEMO'.
+            helpText("If you want to skip the introduction and get modelling, jump to 'setup' and click on 'DEMO'.
                 Data entered can be saved by clicking 'SAVE' on any relevant page. A pdf containing details about
-                the entire model can be found in the 'more' tab along with links to spreadsheets containing data used in the model.",
-            br(),
+                the entire model can be found in the 'more' tab along with links to spreadsheets containing data used in the model."),
             h5("Contributors"),
             tags$i("Jack J Olney, Jeffrey W Eaton, Ellen McRobie & Timothy B Hallett")
         ),

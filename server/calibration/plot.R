@@ -16,4 +16,4 @@ output$plotData <- renderPlot({
     input$PREV_plhiv
     input$NEXT_viral
     BuildDataReviewPlot(data = MasterData$calib)
-}, height = 400, width = 'auto', bg = 'transparent')
+}, height = 450, width = 'auto', bg = 'transparent')

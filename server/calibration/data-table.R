@@ -10,7 +10,7 @@ output$dataTable_DATA <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
 
@@ -25,7 +25,7 @@ output$dataTable_PLHIV <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
 
@@ -40,7 +40,7 @@ output$dataTable_DIAG <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
 
@@ -55,7 +55,7 @@ output$dataTable_CARE <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
 
@@ -70,7 +70,7 @@ output$dataTable_ART <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
 
@@ -85,6 +85,6 @@ output$dataTable_VIRAL <- DT::renderDataTable({
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
             )
-        ) %>% formatCurrency("value",'')
+        ) %>% formatCurrency("value", currency = '')
     )
 })
