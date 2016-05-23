@@ -47,9 +47,25 @@ observeEvent(input$selectCountry, {
     if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
     try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
     if (exists("MasterData")) {
-        updateButton(session, inputId = "_PROCEED_", label = "PROCEED", style = "success", icon = icon("thumbs-up ", class = "fa-lg fa-fw", lib = "font-awesome"))
+        shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
+        shinyBS::createAlert(session,
+            anchorId = "_PROCEED_",
+            alertId = "alertId_PROCEED",
+            title = paste(icon("check", class = "fa-lg fa-fw", lib = "font-awesome"), "PROCEED"),
+            content = "The model has sufficient data to quantify the cascade.",
+            style = "success",
+            dismiss = TRUE,
+            append = TRUE)
     } else {
-        updateButton(session, inputId = "_PROCEED_", label = "DO NOT PROCEED", style = "danger", icon = icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"))
+        shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
+        shinyBS::createAlert(session,
+            anchorId = "_DONOTPROCEED_",
+            alertId = "alertId_DONOTPROCEED",
+            title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "DO NOT PROCEED"),
+            content = "The model has insufficient data to quantify the cascade. Please select another country.",
+            style = "danger",
+            dismiss = TRUE,
+            append = TRUE)
     }
 
 })

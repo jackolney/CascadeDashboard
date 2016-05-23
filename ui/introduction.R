@@ -6,7 +6,6 @@ tabItem(tabName = "introduction",
             collapsible = TRUE,
             collapsed = FALSE,
             title = "Introduction",
-            bsAlert(anchorId = "startAlert"),
             p("With the release of the Consolidated Information Guidelines for HIV by the World Health Organization (WHO)
             in May 2015, a set of indicators have been agreed upon, based on the cascade of HIV services relating to impact in
             terms of HIV incidence and mortality (see below). These guidelines provide a framework for countries to assess the current state
@@ -70,8 +69,9 @@ tabItem(tabName = "introduction",
                 the entire model can be found in the 'more' tab along with links to spreadsheets containing data used in the model.",
             br(),
             h5("Contributors"),
-            "Jack J Olney, Jeffrey W Eaton, Ellen McRobie & Timothy B Hallett"
+            tags$i("Jack J Olney, Jeffrey W Eaton, Ellen McRobie & Timothy B Hallett")
         ),
+        bsAlert(anchorId = "startAlert"),
         bsButton(inputId = "NEXT_intro", label = "Start Wizard", style = "success", size = "large", block = TRUE, icon = icon("magic", class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )

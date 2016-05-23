@@ -43,9 +43,10 @@ tabItem(tabName = "country",
             bsButton(inputId = "_PLHIV_FLAG_",      label = "PLHIV Estimates (Spectrum)",  style = "danger", size = "small", block = TRUE, disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "_ART_FLAG_",        label = "ART Estimates (Spectrum)",    style = "danger", size = "small", block = TRUE, disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "_Additional_FLAG_", label = "Additional Estimates",        style = "danger", size = "small", block = TRUE, disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome")),
-            bsButton(inputId = "_Rates_FLAG_",      label = "Rates",                       style = "danger", size = "small", block = TRUE, disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome")),
-            bsButton(inputId = "_PROCEED_",         label = "DO NOT PROCEED",              style = "danger", size = "large", block = TRUE, disabled = TRUE, icon = icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"))
-            ),
+            bsButton(inputId = "_Rates_FLAG_",      label = "Rates",                       style = "danger", size = "small", block = TRUE, disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        ),
+        bsAlert(anchorId = "_PROCEED_"),
+        bsAlert(anchorId = "_DONOTPROCEED_"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_country", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
