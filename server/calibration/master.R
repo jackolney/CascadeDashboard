@@ -52,8 +52,13 @@ GetMasterDataSet <- function(userCountry) {
     # Overwrite calib on countryData
     countryData$calib <- countryMasterDataSet[countryMasterDataSet$indicator != "PLHIV not on ART",]
 
-    # Return final list
-    countryData
+    # Only allow certain countries to 'proceed', i.e. return 'countryData'
+    # This will be removed eventually, but good for testing right now.
+    if (userCountry %in% c("Kenya")) {
+        countryData
+    } else {
+        stop("Country not approved for use by this model")
+    }
 }
 
 # GetMasterDataSet("Kenya")[["calib"]]
