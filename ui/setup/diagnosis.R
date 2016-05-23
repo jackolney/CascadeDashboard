@@ -28,8 +28,8 @@ tabItem(tabName = "diagnosis",
                 Once entered hit 'Next' to proceed. For further details please see:"),
             a(href = "http://who.int/hiv/pub/guidelines/strategic-information-guidelines/en/", "WHO - Consolidated Strategic Information Guidelines for HIV in the Health Sector.", target = "_blank"),
             p(""),
-            bsButton(inputId = "viewData_DIAG",   label = "VIEW DATA", style = "primary", size = "default", block = TRUE),
-            bsButton(inputId = "resetDIAG", label = "RESET", style = "danger", size = "default", block = TRUE)
+            bsButton(inputId = "viewData_DIAG", label = "VIEW DATA", style = "primary", size = "default", block = TRUE),
+            bsButton(inputId = "resetDIAG",     label = "RESET",     style = "danger",  size = "default", block = TRUE)
         ),
         bsAlert(anchorId = "uDIAG_ALERT_green"),
         bsAlert(anchorId = "uDIAG_ALERT_amber"),

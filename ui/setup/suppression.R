@@ -28,8 +28,8 @@ tabItem(tabName = "suppression",
                 Once entered hit 'Next' to proceed. For further details please see:"),
             a(href = "http://who.int/hiv/pub/guidelines/strategic-information-guidelines/en/", "WHO - Consolidated Strategic Information Guidelines for HIV in the Health Sector.", target = "_blank"),
             p(""),
-            bsButton(inputId = "viewData_VIRAL",   label = "VIEW DATA", style = "primary", size = "default", block = TRUE),
-            bsButton(inputId = "resetVIRAL", label = "RESET", style = "danger", size = "default", block = TRUE)
+            bsButton(inputId = "viewData_VIRAL", label = "VIEW DATA", style = "primary", size = "default", block = TRUE),
+            bsButton(inputId = "resetVIRAL",     label = "RESET",     style = "danger",  size = "default", block = TRUE)
         ),
         bsAlert(anchorId = "uVIRAL_ALERT_green"),
         bsAlert(anchorId = "uVIRAL_ALERT_amber"),
