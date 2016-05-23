@@ -95,6 +95,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 14))
     ggOne <- ggOne + theme(axis.title =  element_text(size = 15))
     ggOne <- ggOne + theme(title =       element_text(size = 15))
+    ggOne <- ggOne + theme(axis.title.y = element_blank())
 
     ggTwo <- ggplot(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -108,6 +109,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 14))
     ggTwo <- ggTwo + theme(axis.title =  element_text(size = 15))
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
+    ggTwo <- ggTwo + theme(axis.title.y = element_blank())
 
     ggThree <- ggplot(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -121,6 +123,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggThree <- ggThree + theme(axis.text.y = element_text(size = 14))
     ggThree <- ggThree + theme(axis.title =  element_text(size = 15))
     ggThree <- ggThree + theme(title =       element_text(size = 15))
+    ggThree <- ggThree + theme(axis.title.y = element_blank())
 
     ggFour <- ggplot(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -134,6 +137,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFour <- ggFour + theme(axis.text.y = element_text(size = 14))
     ggFour <- ggFour + theme(axis.title =  element_text(size = 15))
     ggFour <- ggFour + theme(title =       element_text(size = 15))
+    ggFour <- ggFour + theme(axis.title.y = element_blank())
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ncol = 2, nrow = 2)
 }
@@ -159,7 +163,7 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = min, ymax = max), width = 0.2, size = 1)
     ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value), size = 5.5)
     ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value, color = weight), size = 5)
-    ggOut <- ggOut + expand_limits(y = base::pretty(seq(0, round(max(out2$max), digits = 0)), n = 1)[2])
+    ggOut <- ggOut + expand_limits(y = round(max(out2$max), digits = -5))
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + mycol
     ggOut <- ggOut + theme_classic()
@@ -178,9 +182,10 @@ BuildCalibrationPlot <- function(data, originalData) {
 BuildDataReviewPlot <- function(data) {
     ggOut <- ggplot(data, aes(x = year, y = value))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+    ggOut <- ggOut + expand_limits(y = round(max(data$value), digits = -5))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(
-        breaks = base::pretty(seq(0, round(max(data$value), digits = 0)), n = 5),
+        breaks = base::pretty(seq(0, round(max(data$value), digits = -5)), n = 5),
         labels = scales::comma,
         expand = c(0, 0))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 14))
