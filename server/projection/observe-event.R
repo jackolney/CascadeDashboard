@@ -3,42 +3,8 @@ observeEvent(input$NEXT_calib, {
     # Upon pressing the 'next' button, read in the 2015 CD4 disitribution and run the model
     # Produce the relevant plots.
 
-    MasterCD4_2015 <<- GetCD4Distribution2015(input$userCountry)
+    MasterCD4_2015 <<- GetCD4Distribution2015(input$selectCountry)
 
-})
-
-observeEvent(input$demoInput, {
-    updateSelectInput(session, "userCountry", selected = "Kenya")
-
-    if (input$userPLHIV == 0 || is.na(input$userPLHIV)) {
-        newPLHIV <- round(1.4e+6,0) # Estimate from Kenya (Marrakech)
-        newDx <- round(newPLHIV * 0.79262,0) # Estimate from AMPATH
-        newCare <- round(848018,0) # Estimate from Kenya (Marrakech)
-        newTx <- round(748000,0) # Estimate from Kenya (Marrakech)
-        newVs <- round(295000,0) # Estimate from Kenya (Marrakech)
-        newLtfu <- round(0,0) # Estimate from Kenya (Marrakech)
-
-        updateNumericInput(session, "userPLHIV", value = newPLHIV)
-        updateNumericInput(session, "userDx",    value = newDx)
-        updateNumericInput(session, "userCare",  value = newCare)
-        updateNumericInput(session, "userTx",    value = newTx)
-        updateNumericInput(session, "userVs",    value = newVs)
-        updateNumericInput(session, "userLtfu",  value = newLtfu)
-    } else {
-        newPLHIV <- round(1.4e+6,0) # Estimate from Kenya (Marrakech)
-        newDx <- round(newPLHIV * 0.79262,0) # Estimate from AMPATH
-        newCare <- round(848018,0) # Estimate from Kenya (Marrakech)
-        newTx <- round(748000,0) # Estimate from Kenya (Marrakech)
-        newVs <- round(295000,0) # Estimate from Kenya (Marrakech)
-        newLtfu <- round(0,0) # Estimate from Kenya (Marrakech)
-
-        updateNumericInput(session, "userPLHIV", value = newPLHIV)
-        updateNumericInput(session, "userDx",    value = newDx)
-        updateNumericInput(session, "userCare",  value = newCare)
-        updateNumericInput(session, "userTx",    value = newTx)
-        updateNumericInput(session, "userVs",    value = newVs)
-        updateNumericInput(session, "userLtfu",  value = newLtfu)
-    }
 })
 
 observeEvent(input$userRetArt12mths, {
@@ -106,71 +72,6 @@ Budget <- reactiveValues(Switch = "the909090")
 observeEvent(input$showBudget909090, ({Budget$Switch <- "the909090"}))
 
 observeEvent(input$showBudgetDALYs, ({Budget$Switch <- "DALYs"}))
-
-observeEvent(input$userCountry, {
-    # Find GSheet
-    # theTable <- locateSheet()
-    # Read new infections
-    # NewInfections <<- as.double(as.double(filter(getIncidenceData(theTable), Country == input$userCountry) %>% select(NewInfections2014)))
-    # if (is.na(NewInfections)) {
-    #     output$warningText <- renderText({return(paste("Warning! NA value returned from", input$userCountry, "data. Using Kenya as default."))})
-    #     # NewInfections <<- as.double(as.double(filter(getIncidenceData(theTable), Country == "Kenya") %>% select(NewInfections2014)))
-    # } else {
-    #     output$warningText <- renderText({return(paste(input$userCountry, "data loaded."))})
-    # }
-    # # Read CD4 distributions
-    # # theCD4 <- getCD4Data(theTable)
-    # if (is.na(as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.500)))) {
-    #     output$warningCD4Text <- renderText({return(paste("CD4 Warning! Using Kenya as default."))})
-    #     p_preArt500 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.500))
-    #     p_preArt350500 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.350500))
-    #     p_preArt250350 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.250350))
-    #     p_preArt200250 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.200250))
-    #     p_preArt100200 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.100200))
-    #     p_preArt50100 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.50100))
-    #     p_preArt50 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.Off.ART.50))
-    #     p_onArt500 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.500))
-    #     p_onArt350500 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.350500))
-    #     p_onArt250350 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.250350))
-    #     p_onArt200250 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.200250))
-    #     p_onArt100200 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.100200))
-    #     p_onArt50100 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.50100))
-    #     p_onArt50 <<- as.double(filter(theCD4,Country == "Kenya") %>% select(prop.On.ART.50))
-    # } else {
-    #     # output$warningCD4Text <- renderText({return(paste(input$userCountry,"CD4 data loaded."))})
-    #     p_preArt500 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.500))
-    #     p_preArt350500 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.350500))
-    #     p_preArt250350 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.250350))
-    #     p_preArt200250 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.200250))
-    #     p_preArt100200 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.100200))
-    #     p_preArt50100 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.50100))
-    #     p_preArt50 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.Off.ART.50))
-    #     p_onArt500 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.500))
-    #     p_onArt350500 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.350500))
-    #     p_onArt250350 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.250350))
-    #     p_onArt200250 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.200250))
-    #     p_onArt100200 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.100200))
-    #     p_onArt50100 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.50100))
-    #     p_onArt50 <<- as.double(filter(theCD4,Country == input$userCountry) %>% select(prop.On.ART.50))
-    # }
-    # print(paste("Country data:",NewInfections))
-})
-
-observeEvent(input$saveInput, {
-    theResult <- c(input$userCountry,
-        as.integer(input$userPLHIV),
-        as.integer(input$userDx),
-        as.integer(input$userCare),
-        as.integer(input$userTx),
-        as.integer(input$userVs),
-        as.integer(input$userLtfu))
-    print(theResult)
-    saveCascadeData(theResult)
-    output$saveText <- renderText({"Saved!"})
-})
-
-# Reset button stuff.
-observeEvent(input$resetInput, {shinyjs::reset("setup-panel")})
 
 observeEvent(input$resetMap, {
     leafletProxy("countryMap") %>% setView(lng = 0, lat = 30, zoom = 2)
