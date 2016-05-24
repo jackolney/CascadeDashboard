@@ -72,12 +72,6 @@ tabItem(tabName = "opt-parameter",
             helpText("For each intervention, select the number of parameter values to simulate and set the range of rates to sample from (rates are uniformally distributed within this range).
                 The parameter values for each intervention are then displayed in the corresponding tables."),
             numericInput(inputId = "optimParamLength",   label = "Number of parameter values to sample:", value = 4, min = 0, max = 10, step = 1, width = "100%"),
-            checkboxInput(inputId = "TestingCheck",      label = "Testing Intervention",           value = TRUE),
-            checkboxInput(inputId = "LinkageCheck",      label = "Linkage Intervention",           value = TRUE),
-            checkboxInput(inputId = "PreRetentionCheck", label = "Pre-ART Retention Intervention", value = TRUE),
-            checkboxInput(inputId = "InitiationCheck",   label = "ART Initiation Intervention",    value = TRUE),
-            checkboxInput(inputId = "AdherenceCheck",    label = "Adherence Intervention",         value = TRUE),
-            checkboxInput(inputId = "RetentionCheck",    label = "Retention Intervention",         value = TRUE),
             bsButton("resetSliders", label = "RESET SLIDERS", block = TRUE, style = "danger"),
             p(" "),
             helpText("Below is the number of iterations the model will simulate along with the estimated time to completion. Hit the 'OPTIMISE' button to begin the simulation. Note the progress bar

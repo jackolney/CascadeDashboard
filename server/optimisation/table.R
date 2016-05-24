@@ -48,12 +48,12 @@ output$optParTable_Omega <- renderTable({
 
 output$optIterationTable <- renderTable({
     ParInput <- data.frame(
-        Rho   = seq(from = if (intSwitch$testing)       {input$userOptRho_Range[1]}   else {1}, to = if (intSwitch$testing)       {input$userOptRho_Range[2]}   else {1}, length.out = input$optimParamLength),
-        Q     = seq(from = if (input$LinkageCheck)      {input$userOptq_Range[1]}     else {1}, to = if (input$LinkageCheck)      {input$userOptq_Range[2]}     else {1}, length.out = input$optimParamLength),
-        Kappa = seq(from = if (input$PreRetentionCheck) {input$userOptKappa_Range[1]} else {1}, to = if (input$PreRetentionCheck) {input$userOptKappa_Range[2]} else {1}, length.out = input$optimParamLength),
-        Gamma = seq(from = if (input$InitiationCheck)   {input$userOptGamma_Range[1]} else {1}, to = if (input$InitiationCheck)   {input$userOptGamma_Range[2]} else {1}, length.out = input$optimParamLength),
-        Sigma = seq(from = if (input$AdherenceCheck)    {input$userOptSigma_Range[1]} else {1}, to = if (input$AdherenceCheck)    {input$userOptSigma_Range[2]} else {1}, length.out = input$optimParamLength),
-        Omega = seq(from = if (input$RetentionCheck)    {input$userOptOmega_Range[1]} else {1}, to = if (input$RetentionCheck)    {input$userOptOmega_Range[2]} else {1}, length.out = input$optimParamLength)
+        Rho   = seq(from = if (intSwitch$testing)      {input$userOptRho_Range[1]}   else {1}, to = if (intSwitch$testing)      {input$userOptRho_Range[2]}   else {1}, length.out = input$optimParamLength),
+        Q     = seq(from = if (intSwitch$linkage)      {input$userOptq_Range[1]}     else {1}, to = if (intSwitch$linkage)      {input$userOptq_Range[2]}     else {1}, length.out = input$optimParamLength),
+        Kappa = seq(from = if (intSwitch$preRetention) {input$userOptKappa_Range[1]} else {1}, to = if (intSwitch$preRetention) {input$userOptKappa_Range[2]} else {1}, length.out = input$optimParamLength),
+        Gamma = seq(from = if (intSwitch$initiation)   {input$userOptGamma_Range[1]} else {1}, to = if (intSwitch$initiation)   {input$userOptGamma_Range[2]} else {1}, length.out = input$optimParamLength),
+        Sigma = seq(from = if (intSwitch$adherence)    {input$userOptSigma_Range[1]} else {1}, to = if (intSwitch$adherence)    {input$userOptSigma_Range[2]} else {1}, length.out = input$optimParamLength),
+        Omega = seq(from = if (intSwitch$retention)    {input$userOptOmega_Range[1]} else {1}, to = if (intSwitch$retention)    {input$userOptOmega_Range[2]} else {1}, length.out = input$optimParamLength)
     )
     tbl <- matrix(0, nrow = 2, ncol = 1)
     size <- dim(unique(expand.grid(ParInput)))[1]

@@ -53,7 +53,7 @@ tabItem(tabName = "calibration",
             identify a range pragmatic parameter values that reconcile any uncertainty around the
             data to estimate the current trajectory of care.",
             p(""),
-            bsButton(inputId = "ADJ_param", label = "Adjust Parameters", style = "primary",  size = "large", block = TRUE, icon = icon("wrench", class = "fa-lg fa-fw", lib = "font-awesome"))
+            bsButton(inputId = "ADJ_param", label = "Adjust Parameters", style = "primary",  size = "default", block = TRUE, icon = icon("wrench", class = "fa-lg fa-fw", lib = "font-awesome"))
         ),
         box(width = NULL,
             solidHeader = TRUE,

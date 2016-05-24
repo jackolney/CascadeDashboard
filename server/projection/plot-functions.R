@@ -239,11 +239,11 @@ GenNewInfPlot <- function(wizard) {
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-        ggOut <- ggOut + theme(axis.title =  element_text(size = 12))
+        ggOut <- ggOut + theme(axis.title =  element_blank())
     } else {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 18))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 18))
-        ggOut <- ggOut + theme(axis.title =  element_text(size = 18))
+        ggOut <- ggOut + theme(axis.title =  element_blank())
     }
     ggOut
 }
@@ -286,11 +286,11 @@ GenAidsDeathsPlot <- function(wizard) {
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-        ggOut <- ggOut + theme(axis.title =  element_text(size = 12))
+        ggOut <- ggOut + theme(axis.title =  element_blank())
     } else {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 18))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 18))
-        ggOut <- ggOut + theme(axis.title =  element_text(size = 18))
+        ggOut <- ggOut + theme(axis.title =  element_blank())
     }
     ggOut
 }

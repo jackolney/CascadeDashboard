@@ -12,51 +12,51 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 round(calibParamOut[minErrorRun, "rho"], digits = 4)
             }, length.out = input$optimParamLength
         ),
-        Q     = seq(from = if (input$LinkageCheck) {
+        Q     = seq(from = if (intSwitch$linkage) {
                 input$userOptq_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "q"], digits = 4)
-            }, to = if (input$LinkageCheck) {
+            }, to = if (intSwitch$linkage) {
                 input$userOptq_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "q"], digits = 4)
             }, length.out = input$optimParamLength
         ),
-        Kappa = seq(from = if (input$PreRetentionCheck) {
+        Kappa = seq(from = if (intSwitch$preRetention) {
                 input$userOptKappa_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "kappa"], digits = 4)
-            }, to = if (input$PreRetentionCheck) {
+            }, to = if (intSwitch$preRetention) {
                 input$userOptKappa_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "kappa"], digits = 4)
             }, length.out = input$optimParamLength
         ),
-        Gamma = seq(from = if (input$InitiationCheck) {
+        Gamma = seq(from = if (intSwitch$initiation) {
                 input$userOptGamma_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "gamma"], digits = 4)
-            }, to = if (input$InitiationCheck) {
+            }, to = if (intSwitch$initiation) {
                 input$userOptGamma_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "gamma"], digits = 4)
             }, length.out = input$optimParamLength
         ),
-        Sigma = seq(from = if (input$AdherenceCheck) {
+        Sigma = seq(from = if (intSwitch$adherence) {
                 input$userOptSigma_Range[1]
             } else {
                 0
-            }, to = if (input$AdherenceCheck) {
+            }, to = if (intSwitch$adherence) {
                 input$userOptSigma_Range[2]
             } else {
                 0
             }, length.out = input$optimParamLength
         ),
-        Omega = seq(from = if (input$RetentionCheck) {
+        Omega = seq(from = if (intSwitch$retention) {
                 input$userOptOmega_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "omega"], digits = 4)
-            }, to = if (input$RetentionCheck) {
+            }, to = if (intSwitch$retention) {
                 input$userOptOmega_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "omega"], digits = 4)
