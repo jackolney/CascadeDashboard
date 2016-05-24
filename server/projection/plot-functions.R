@@ -78,6 +78,15 @@ GenCascadePlot <- function() {
     ggTwo <- ggTwo + theme(panel.background = element_blank())
     ggTwo <- ggTwo + theme(axis.line.y = element_line())
 
+    # Expansion of y.axis
+    if (max(t0$max) >= max(t5$max)) {
+        ggOne <- ggOne + expand_limits(y = round(max(t0$max), digits = -4))
+        ggTwo <- ggTwo + expand_limits(y = round(max(t0$max), digits = -4))
+    } else {
+        ggOne <- ggOne + expand_limits(y = round(max(t5$max), digits = -4))
+        ggTwo <- ggTwo + expand_limits(y = round(max(t5$max), digits = -4))
+    }
+
     grid.arrange(ggOne, ggTwo, nrow = 1, ncol = 2)
 }
 
