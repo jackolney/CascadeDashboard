@@ -1,5 +1,5 @@
 dashboardHeader(title = "Cascade App",
-    shortTitle = icon("bar-chart", class = "fa-lg fa-fw", lib = "font-awesome")
+    shortTitle = HTML('<img src="hivmc-icon.png" width = "40px"/>')
     # Uneccessary Junk
     # Either keep it or dump it
     # dropdownMenu(type = "notifications",
