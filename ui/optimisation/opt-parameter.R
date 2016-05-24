@@ -9,6 +9,15 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = FALSE,
             title = "HIV-Testing (rho)",
+
+            "At current levels, the model predicts that over the next five years, assuming ceteris paribus
+            the number of individuals diagnosed with HIV will be:",
+            uiOutput("opt_rho_baseline"),
+            br(),
+            "However, by simulating an HIV testing intervention, we can increase testing such that an
+            additional number of individuals are diagnosed by 2020:",
+            uiOutput("opt_rho_max"),
+
             uiOutput("UI_optP_rhoRange"),
             tableOutput("optParTable_Rho")
         ),
