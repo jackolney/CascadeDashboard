@@ -227,6 +227,14 @@ observeEvent(input$NEXT_optIntro, {
     )
 })
 
+observeEvent(input$intDetail, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-parameter"
+    )
+})
+
+
 # Optimisation Wizard
 observeEvent(input$NEXT_optWizard, {
     updateTabItems(session,

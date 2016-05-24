@@ -48,7 +48,7 @@ output$optParTable_Omega <- renderTable({
 
 output$optIterationTable <- renderTable({
     ParInput <- data.frame(
-        Rho   = seq(from = if (input$TestingCheck)      {input$userOptRho_Range[1]}   else {1}, to = if (input$TestingCheck)      {input$userOptRho_Range[2]}   else {1}, length.out = input$optimParamLength),
+        Rho   = seq(from = if (intSwitch$testing)       {input$userOptRho_Range[1]}   else {1}, to = if (intSwitch$testing)       {input$userOptRho_Range[2]}   else {1}, length.out = input$optimParamLength),
         Q     = seq(from = if (input$LinkageCheck)      {input$userOptq_Range[1]}     else {1}, to = if (input$LinkageCheck)      {input$userOptq_Range[2]}     else {1}, length.out = input$optimParamLength),
         Kappa = seq(from = if (input$PreRetentionCheck) {input$userOptKappa_Range[1]} else {1}, to = if (input$PreRetentionCheck) {input$userOptKappa_Range[2]} else {1}, length.out = input$optimParamLength),
         Gamma = seq(from = if (input$InitiationCheck)   {input$userOptGamma_Range[1]} else {1}, to = if (input$InitiationCheck)   {input$userOptGamma_Range[2]} else {1}, length.out = input$optimParamLength),

@@ -1,44 +1,45 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
-GetParaMatrix <- function(calibParamOut) {
+
+GetParaMatrix <- function(calibParamOut, minErrorRun) {
     ParRange <- expand.grid(
-        Rho   = seq(from = if (input$TestingCheck) {
+        Rho   = seq(from = if (intSwitch$testing) {
                 input$userOptRho_Range[1]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["rho"]], digits = 4)
-            }, to = if (input$TestingCheck) {
+                round(calibParamOut[minErrorRun, "rho"], digits = 4)
+            }, to = if (intSwitch$testing) {
                 input$userOptRho_Range[2]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["rho"]], digits = 4)
+                round(calibParamOut[minErrorRun, "rho"], digits = 4)
             }, length.out = input$optimParamLength
         ),
         Q     = seq(from = if (input$LinkageCheck) {
                 input$userOptq_Range[1]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["q"]], digits = 4)
+                round(calibParamOut[minErrorRun, "q"], digits = 4)
             }, to = if (input$LinkageCheck) {
                 input$userOptq_Range[2]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["q"]], digits = 4)
+                round(calibParamOut[minErrorRun, "q"], digits = 4)
             }, length.out = input$optimParamLength
         ),
         Kappa = seq(from = if (input$PreRetentionCheck) {
                 input$userOptKappa_Range[2]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["kappa"]], digits = 4)
+                round(calibParamOut[minErrorRun, "kappa"], digits = 4)
             }, to = if (input$PreRetentionCheck) {
                 input$userOptKappa_Range[1]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["kappa"]], digits = 4)
+                round(calibParamOut[minErrorRun, "kappa"], digits = 4)
             }, length.out = input$optimParamLength
         ),
         Gamma = seq(from = if (input$InitiationCheck) {
                 input$userOptGamma_Range[1]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["gamma"]], digits = 4)
+                round(calibParamOut[minErrorRun, "gamma"], digits = 4)
             }, to = if (input$InitiationCheck) {
                 input$userOptGamma_Range[2]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["gamma"]], digits = 4)
+                round(calibParamOut[minErrorRun, "gamma"], digits = 4)
             }, length.out = input$optimParamLength
         ),
         Sigma = seq(from = if (input$AdherenceCheck) {
@@ -54,11 +55,11 @@ GetParaMatrix <- function(calibParamOut) {
         Omega = seq(from = if (input$RetentionCheck) {
                 input$userOptOmega_Range[2]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["omega"]], digits = 4)
+                round(calibParamOut[minErrorRun, "omega"], digits = 4)
             }, to = if (input$RetentionCheck) {
                 input$userOptOmega_Range[1]
             } else {
-                round(lapply(calibParamOut, function(x) {return(mean(x))})[["omega"]], digits = 4)
+                round(calibParamOut[minErrorRun, "omega"], digits = 4)
             }, length.out = input$optimParamLength
         )
     )

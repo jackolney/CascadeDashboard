@@ -9,7 +9,7 @@ intSwitch <- reactiveValues(
     )
 
 observeEvent(input$intCheck_testing, {
-    if (intSwitch$testing == TRUE) {
+    if (intSwitch$testing) {
         intSwitch$testing <- FALSE
         updateButton(session,
             inputId = "intCheck_testing",
@@ -31,7 +31,7 @@ observeEvent(input$intCheck_testing, {
 })
 
 observeEvent(input$intCheck_linkage, {
-    if (intSwitch$linkage == TRUE) {
+    if (intSwitch$linkage) {
         intSwitch$linkage <- FALSE
         updateButton(session,
             inputId = "intCheck_linkage",
@@ -53,7 +53,7 @@ observeEvent(input$intCheck_linkage, {
 })
 
 observeEvent(input$intCheck_preRetention, {
-    if (intSwitch$preRetention == TRUE) {
+    if (intSwitch$preRetention) {
         intSwitch$preRetention <- FALSE
         updateButton(session,
             inputId = "intCheck_preRetention",
@@ -75,7 +75,7 @@ observeEvent(input$intCheck_preRetention, {
 })
 
 observeEvent(input$intCheck_initiation, {
-    if (intSwitch$initiation == TRUE) {
+    if (intSwitch$initiation) {
         intSwitch$initiation <- FALSE
         updateButton(session,
             inputId = "intCheck_initiation",
@@ -97,7 +97,7 @@ observeEvent(input$intCheck_initiation, {
 })
 
 observeEvent(input$intCheck_adherence, {
-    if (intSwitch$adherence == TRUE) {
+    if (intSwitch$adherence) {
         intSwitch$adherence <- FALSE
         updateButton(session,
             inputId = "intCheck_adherence",
@@ -119,7 +119,7 @@ observeEvent(input$intCheck_adherence, {
 })
 
 observeEvent(input$intCheck_retention, {
-    if (intSwitch$retention == TRUE) {
+    if (intSwitch$retention) {
         intSwitch$retention <- FALSE
         updateButton(session,
             inputId = "intCheck_retention",
