@@ -13,6 +13,7 @@ tabItem(tabName = "introduction",
             "Furthermore, as we pass the Millennium Development Goals of 2015 and focus attention on the UNAIDS 90-90-90 targets for 2020,
             countries will be keen to understand whether they are on the right trajectory to achieve these goals. For this purpose, data from
             countries can be input into a mathematical model and used to estimate future incidence, AIDS-deaths and the ascertainment of the 90-90-90 goals.",
+            p(""),
             img(src = "WHO-Guidelines-Front-Crop.png", height = '100%', width = '100%')
         ),
         box(width = NULL,

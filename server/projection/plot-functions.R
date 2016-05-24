@@ -226,8 +226,6 @@ GenNewInfPlot <- function(wizard) {
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + xlab("Year")
-    ggOut <- ggOut + ylab("Cumulative New Infections / Time")
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
@@ -275,8 +273,6 @@ GenAidsDeathsPlot <- function(wizard) {
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + xlab("Year")
-    ggOut <- ggOut + ylab("Cumulative New Infections / Time")
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))

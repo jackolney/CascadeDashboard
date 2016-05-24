@@ -96,6 +96,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggOne <- ggOne + theme(axis.title =  element_text(size = 15))
     ggOne <- ggOne + theme(title =       element_text(size = 15))
     ggOne <- ggOne + theme(axis.title.y = element_blank())
+    ggOne <- ggOne + theme(axis.title.x = element_blank())
 
     ggTwo <- ggplot(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -110,6 +111,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggTwo <- ggTwo + theme(axis.title =  element_text(size = 15))
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
+    ggTwo <- ggTwo + theme(axis.title.x = element_blank())
 
     ggThree <- ggplot(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -124,6 +126,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggThree <- ggThree + theme(axis.title =  element_text(size = 15))
     ggThree <- ggThree + theme(title =       element_text(size = 15))
     ggThree <- ggThree + theme(axis.title.y = element_blank())
+    ggThree <- ggThree + theme(axis.title.x = element_blank())
 
     ggFour <- ggplot(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -138,6 +141,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFour <- ggFour + theme(axis.title =  element_text(size = 15))
     ggFour <- ggFour + theme(title =       element_text(size = 15))
     ggFour <- ggFour + theme(axis.title.y = element_blank())
+    ggFour <- ggFour + theme(axis.title.x = element_blank())
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ncol = 2, nrow = 2)
 }

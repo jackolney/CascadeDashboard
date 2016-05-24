@@ -56,15 +56,6 @@ tabItem(tabName = "opt-wizard",
         )
     ),
     column(width = 4,
-        fluidRow(
-            column(width = 6,
-                bsButton(inputId = "optimStart", label = "Start", style = "success", size = "large", block = TRUE, icon = icon("play", class = "fa-lg fa-fw", lib = "font-awesome"))
-            ),
-            column(width = 6,
-                bsButton(inputId = "optimStop",  label = "Stop",  style = "danger",  size = "large", block = TRUE, icon = icon("stop", class = "fa-lg fa-fw", lib = "font-awesome"))
-            )
-        ),
-        br(),
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
@@ -113,6 +104,15 @@ tabItem(tabName = "opt-wizard",
             title = "ART Retention",
             uiOutput("UI_optW_omega")
         ),
+        fluidRow(
+            column(width = 6,
+                bsButton(inputId = "optimStart", label = "Start", style = "success", size = "large", block = TRUE, icon = icon("play", class = "fa-lg fa-fw", lib = "font-awesome"))
+            ),
+            column(width = 6,
+                bsButton(inputId = "optimStop",  label = "Stop",  style = "danger",  size = "large", block = TRUE, icon = icon("stop", class = "fa-lg fa-fw", lib = "font-awesome"))
+            )
+        ),
+        br(),
         bsButton(inputId = "NEXT_optWizard", label = "Next", style = "success", size = "large", block = TRUE, icon = icon("arrow-right", class = "fa-lg fa-fw", lib = "font-awesome")),
         bsTooltip(id = "NEXT_optWizard", title = "Wait for progress bar to complete before proceeding.", placement = "bottom", trigger = "hover")
     )
