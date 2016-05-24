@@ -92,7 +92,13 @@ tabItem(tabName = "parameters",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Screw around with parameters here.")
+            helpText("During calibration the model simulates thousands of parameter sets to identify those that best fit the available data on the cascade.
+                Based on the settings on the previous page, the model continues running simulations until it accrues a set of 100 (by default) parameter sets
+                that each result in a total absolute model error of less than 2 (default).
+                On this page is displayed the the maximum and minimum values found across all 100 parameter sets.
+                Please check the values to ensure they look correct. If a specific rate or value is known by the user,
+                then it can be entered in the relevant box ('Specify exact rate / proportion'), clicking 'Return' and then 'Repeat'
+                will run the calibration again but keeping the user-defined parameter constant.")
         ),
         bsButton(inputId = "PREV_param", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
     )

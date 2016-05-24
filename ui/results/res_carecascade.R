@@ -11,9 +11,11 @@ tabItem(tabName = "care_cascade",
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
-            title = "The distribution of care between 2015 and 2020",
-            "Note, the denominator in all these calculations is # of PLHIV.",
-            "These figures illustrate the 'Care Cascade' in 2015 (at baseline), and the projection after 5 years (in 2020)."
+            title = "The Care Cascade between 2015 and 2020",
+            "These figures illustrate how the structure of the cascade is likely to change over time
+            from 2015 to 2020. This change arises from the parameter values derived during model calibration.
+            The bars illustrate the mean value across all simulations and the error bars show the maximum and minimum
+            values that arose during calibration."
         ),
         fluidRow(
             column(width = 6,

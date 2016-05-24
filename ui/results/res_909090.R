@@ -12,9 +12,11 @@ tabItem(tabName = "_909090",
             status = "warning",
             solidHeader = TRUE,
             title = "UNAIDS 90-90-90",
-            "By 2020, this is what the model predicts will be achieved in comparison to the UNAIDS goals of 90% diagnosed,
-                90% on treatment and 90% virally suppressed. If you would like to see what changes can be made to resolve any
-                inefficiencies in care, then click on the 'Optimisation' tab."
+            "From the predicted distribution of care in 2020, we can visualise the achievement of the
+            UNAIDS 90-90-90 targets. In 2014, UNAIDS set the target of 90% diagnosis, 90% treatment
+            coverage and 90% viral suppression to be achieved by 2020. The 90% goal is illustrated by
+            the horizontal line in the figure. The values of each bar are also shown in the coloured
+            boxes below. Click 'Next' to continue."
         ),
         valueBoxOutput("vb_90",     width = NULL),
         valueBoxOutput("vb_9090",   width = NULL),

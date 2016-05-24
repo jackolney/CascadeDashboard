@@ -18,10 +18,15 @@ tabItem(tabName = "incidence_mortality",
             solidHeader = TRUE,
             title = "New Infections & Mortality",
             h4("New Infections"),
-            "Predictions of incident infections between 2015 and 2020, illustrated as a proportion of the total HIV-positive population.",
+            "The first tab shows the model estimates of changes in incident infections between 2015 and 2020.
+            The bars illustrate the mean value arising from calibration, and the error bars illustrate
+            the maximum and minimum values resulting from calibration.",
             br(),
             h4("AIDS Deaths"),
-            "Predictions of AIDS deaths between 2015 and 2020, illustrated as a proportion of the total HIV-positive population."
+            "The second tab shows how AIDS-related deaths are expected to change between 2015 and 2020.
+            Again, the bars illustrate the mean values arising from calibraiton, and the error bars the
+            maximum and minimum resulting from calibration. As our uncertainty around results increases over time,
+            the error bars become larger."
         ),
         fluidRow(
             column(width = 6,

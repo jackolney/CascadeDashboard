@@ -73,8 +73,11 @@ tabItem(tabName = "your_cascade",
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
-            title = "Help Panel",
-            "The breakdown of the cascade in 2015 is shown on on this page. Click 'Next' to advance to the next page."
+            title = "Care Cascade",
+            "This page shows the breakdown of the care cascade in 2015, resulting from the calibration
+            of the model on the previous page. Each tab will explain the values behind each bar of the cascade,
+            including the range of plausible values arising from calibration.
+            Clicking 'Next' will advance to the next page."
         ),
         fluidRow(
             column(width = 6,
