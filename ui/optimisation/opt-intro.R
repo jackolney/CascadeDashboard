@@ -64,7 +64,28 @@ tabItem(tabName = "opt-intro",
             Due to the simplistic nature of the model, however, we can only test broad categories of
             interventions. Potential interventions that can be simulated are listed in the main panel.",
             helpText("Please hit 'Next' to proceed to optimisation.
-                Further page options are available from the sidebar.")
+                Further page options are available from the sidebar."),
+            bsButton(inputId = "intDetail",
+                        label = "Intervention Detail",
+                        type = "action",
+                        style = "primary",
+                        size = "default",
+                        block = TRUE,
+                        icon = icon("info", class = "fa-lg fa-fw", lib = "font-awesome"))
+        ),
+        box(width = NULL,
+            status = "danger",
+            # background = "black",
+            title = "Intervention Control",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            solidHeader = TRUE,
+            bsButton(inputId = "intCheck_testing",      label = "Testing",           type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
+            bsButton(inputId = "intCheck_linkage",      label = "Linkage",           type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
+            bsButton(inputId = "intCheck_preRetention", label = "Pre-ART Retention", type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
+            bsButton(inputId = "intCheck_initiation",   label = "ART Initiation",    type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
+            bsButton(inputId = "intCheck_adherence",    label = "Adherence",         type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
+            bsButton(inputId = "intCheck_retention",    label = "ART Retention",     type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         ),
         fluidRow(
             column(width = 6,
