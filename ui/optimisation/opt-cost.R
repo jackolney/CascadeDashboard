@@ -19,11 +19,13 @@ tabItem(tabName = "opt-cost",
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
-            title = "Help Panel",
-            "Review or edit the unit costs using the sliders on the left.",
-            helpText("These costs will be applied to all runs within the optimisation section of this site. Click 'Return' and then run the optimisation to continue."),
-            bsButton("resetCost", label = "RESET COST", block = TRUE, style = "danger")
+            title = "Intervention Cost",
+            "Please review and edit the unit costs applied to the model using the sliders in the main
+            panel. These costs will be applied to all simulations and will allow the cost of interventions
+            to be quantified against a status quo scenario, in the absence of any intervention.",
+            p(""),
+            bsButton("resetCost", label = "RESET COST", block = TRUE, style = "danger", size = "default")
         ),
-        bsButton(inputId = "PREV_optCost", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
+        bsButton(inputId = "PREV_optCost", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )
