@@ -50,7 +50,7 @@ tabItem(tabName = "calibration",
             title = "Calibration Control",
             "This is the main model calibration page, where all previously entered data on the cascade
             is brought together with estimates of incidence and changes in treatment guidelines to
-            identify a range pragmatic parameter values that reconcile any uncertainty around the
+            identify a range of pragmatic parameter values that reconcile any uncertainty around the
             data to estimate the current trajectory of care.",
             p(""),
             bsButton(inputId = "ADJ_param", label = "Adjust Parameters", style = "primary",  size = "default", block = TRUE, icon = icon("wrench", class = "fa-lg fa-fw", lib = "font-awesome"))
