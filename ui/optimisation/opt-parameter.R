@@ -8,18 +8,27 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "HIV-Testing (rho)",
+            title = "HIV-Testing",
 
-            "At current levels, the model predicts that over the next five years, assuming ceteris paribus
-            the number of individuals diagnosed with HIV will be:",
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals diagnosed with HIV will be:",
+            p(""),
             uiOutput("opt_rho_baseline"),
-            br(),
-            "However, by simulating an HIV testing intervention, we can increase testing such that an
-            additional number of individuals are diagnosed by 2020:",
-            uiOutput("opt_rho_max"),
 
-            uiOutput("UI_optP_rhoRange"),
-            tableOutput("optParTable_Rho")
+            tags$h4("Intervention"),
+            "However, by simulating an HIV testing intervention, we can increase testing such that an
+            additional number of individuals are diagnosed by 2020. By adjusting the value below,
+            the testing rate is varied between the status quo (no intervention) and the status quo
+            multiplied by the intervention rate factor (maximum intervention).",
+            p(""),
+            numericInput(inputId = "opt_rho_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            "The total number of additional diagnoses made between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_rho_max")
+
+            # uiOutput("UI_optP_rhoRange"),
+            # tableOutput("optParTable_Rho")
         ),
         box(width = NULL,
             height = '100%',
@@ -27,7 +36,7 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "Linkage (q)",
+            title = "Linkage",
             uiOutput("UI_optP_qRange"),
             tableOutput("optParTable_Q")
         ),
@@ -47,7 +56,7 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "Treatment Initiation (gamma)",
+            title = "Treatment Initiation",
             uiOutput("UI_optP_gammaRange"),
             tableOutput("optParTable_Gamma")
         ),
@@ -57,7 +66,7 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "Adherence (sigma)",
+            title = "Adherence",
             uiOutput("UI_optP_sigmaRange"),
             tableOutput("optParTable_Sigma")
         ),
@@ -67,7 +76,7 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "ART Retention (omega)",
+            title = "ART Retention",
             uiOutput("UI_optP_omegaRange"),
             tableOutput("optParTable_Omega")
         )
