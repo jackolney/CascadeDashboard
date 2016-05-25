@@ -24,8 +24,8 @@ dashboardSidebar(
         menuItem("Optimisation", icon = icon("pie-chart", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Introduction",           tabName = "opt-intro"),
             menuSubItem("Intervention Detail",    tabName = "opt-parameter"),
+            menuSubItem("Intervention Cost",      tabName = "opt-cost"),
             menuSubItem("Wizard",                 tabName = "opt-wizard"),
-            menuSubItem("Cost",                   tabName = "opt-cost"),
             menuSubItem("Results",                tabName = "opt-results"),
             menuSubItem("Budget",                 tabName = "opt-budget")
             ),
