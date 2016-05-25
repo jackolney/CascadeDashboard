@@ -183,6 +183,7 @@ BuildCalibrationPlot <- function(data, originalData) {
 
 
 BuildDataReviewPlot <- function(data) {
+    data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
     ggOut <- ggplot(data, aes(x = year, y = value))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
     ggOut <- ggOut + expand_limits(y = round(max(data$value), digits = -5))
