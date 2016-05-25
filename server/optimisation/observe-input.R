@@ -1,3 +1,7 @@
+###################################
+# MOST OF THIS IS DECPRECATED NOW #
+###################################
+
 ## Wizard Page Sliders ##
 ## Currently dummies ##
 output$UI_optW_rho <- renderUI({
