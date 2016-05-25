@@ -44,6 +44,9 @@ theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
 # ------------ #
 
 theOut <- RunNSOptimisation()
+# pryr::object_size(theOut)
+# save(theOut, file = "Optimisation-Output.RData")
+# dir()
 
 dim(theOut)
 
@@ -53,5 +56,22 @@ ggplot(theOut, aes(x = VS, y = Cost)) + geom_point(aes(col = Omega))
 
 # How do we best quantify this output then?
 
-pryr::object_size(theOut)
+# Compute some metric to assess the quality of results?
 
+# Cost Per Daly Averted?
+theOut$Cost / theOut$VS
+
+plot(theOut$VS / theOut$Cost, type = 'l')
+
+plot(theOut$Cost / theOut$VS, type = 'l')
+
+# Of interventions that achieved at least ___ % VS
+
+range(theOut$VS)
+
+sum(theOut$VS > 0.9)
+
+
+test <- subset(theOut, theOut$VS > 0.85)
+
+ggplot(test, aes(x = VS, y = Cost)) + geom_point(alpha = 0.5)
