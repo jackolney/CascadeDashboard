@@ -25,7 +25,7 @@ RunOptimisation <- function() {
         print(input$opt_omega_factor)
 
 
-        par <- GetParaMatrix(calibParamOut = CalibParamOut, minErrorRun = minErrorRun)
+        par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
 
         updateButton(session,
             inputId = "optimStart",
@@ -67,7 +67,6 @@ RunOptimisation <- function() {
             p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
             theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
-
 
         }
         ## END OF LOOP ##

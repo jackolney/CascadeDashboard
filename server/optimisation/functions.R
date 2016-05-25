@@ -1,60 +1,60 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
 
-GetParaMatrix <- function(calibParamOut, minErrorRun) {
+GetParaMatrix <- function(cParamOut, minErrorRun) {
     ParRange <- expand.grid(
 
         Rho   = seq(
             from = if (intSwitch$testing) {
-                    CalibParamOut[minErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 } else {
-                    CalibParamOut[minErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 },
             to = if (intSwitch$testing) {
-                    CalibParamOut[minErrorRun, "rho"] * input$opt_rho_factor
+                    cParamOut[minErrorRun, "rho"] * input$opt_rho_factor
                 } else {
-                    CalibParamOut[minErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 },
             length.out = 4
         ),
 
         Q     = seq(
             from = if (intSwitch$linkage) {
-                    calibParamOut[minErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 } else {
-                    calibParamOut[minErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 },
             to = if (intSwitch$linkage) {
                     input$opt_q_factor
                 } else {
-                    calibParamOut[minErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 },
             length.out = 4
         ),
 
         Kappa = seq(
             from = if (intSwitch$preRetention) {
-                    CalibParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
+                    cParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
                 } else {
-                    CalibParamOut[minErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 },
             to = if (intSwitch$preRetention) {
-                    CalibParamOut[minErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 } else {
-                    CalibParamOut[minErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 },
             length.out = 4
         ),
 
         Gamma = seq(
             from = if (intSwitch$initiation) {
-                    CalibParamOut[minErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 } else {
-                    CalibParamOut[minErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 },
             to = if (intSwitch$initiation) {
-                    CalibParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
+                    cParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
                 } else {
-                    CalibParamOut[minErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 },
             length.out = 4
         ),
@@ -75,14 +75,14 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
 
         Omega = seq(
             from = if (intSwitch$retention) {
-                    CalibParamOut[minErrorRun, "omega"] / input$opt_omega_factor
+                    cParamOut[minErrorRun, "omega"] / input$opt_omega_factor
                 } else {
-                    CalibParamOut[minErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 },
             to = if (intSwitch$retention) {
-                    CalibParamOut[minErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 } else {
-                    CalibParamOut[minErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 },
             length.out = 4
         )
