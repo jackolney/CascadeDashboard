@@ -18,16 +18,6 @@ output$opt_rho_max <- renderUI({
 })
 
 # Linkage Intervention
-output$opt_q_maxProp <- renderUI({
-    numericInput(inputId = "opt_q_factor",
-        label = "Maximum Intervention Proportion:",
-        value = 1,
-        min = round(CalibParamOut[minErrorRun, "q"], digits = 3),
-        max = 1,
-        step = 0.001,
-        width = "100%")
-})
-
 output$opt_q_baseline <- renderUI({
     baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
     answer <- cumsum(baseline$Care)[251] - baseline$Care[1]

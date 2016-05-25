@@ -2,65 +2,89 @@
 
 GetParaMatrix <- function(calibParamOut, minErrorRun) {
     ParRange <- expand.grid(
-        Rho   = seq(from = if (intSwitch$testing) {
-                input$userOptRho_Range[1]
-            } else {
-                round(calibParamOut[minErrorRun, "rho"], digits = 4)
-            }, to = if (intSwitch$testing) {
-                input$userOptRho_Range[2]
-            } else {
-                round(calibParamOut[minErrorRun, "rho"], digits = 4)
-            }, length.out = 4
+
+        Rho   = seq(
+            from = if (intSwitch$testing) {
+                    CalibParamOut[minErrorRun, "rho"]
+                } else {
+                    CalibParamOut[minErrorRun, "rho"]
+                },
+            to = if (intSwitch$testing) {
+                    CalibParamOut[minErrorRun, "rho"] * input$opt_rho_factor
+                } else {
+                    CalibParamOut[minErrorRun, "rho"]
+                },
+            length.out = 4
         ),
-        Q     = seq(from = if (intSwitch$linkage) {
-                input$userOptq_Range[1]
-            } else {
-                round(calibParamOut[minErrorRun, "q"], digits = 4)
-            }, to = if (intSwitch$linkage) {
-                input$userOptq_Range[2]
-            } else {
-                round(calibParamOut[minErrorRun, "q"], digits = 4)
-            }, length.out = 4
+
+        Q     = seq(
+            from = if (intSwitch$linkage) {
+                    calibParamOut[minErrorRun, "q"]
+                } else {
+                    calibParamOut[minErrorRun, "q"]
+                },
+            to = if (intSwitch$linkage) {
+                    input$opt_q_factor
+                } else {
+                    calibParamOut[minErrorRun, "q"]
+                },
+            length.out = 4
         ),
-        Kappa = seq(from = if (intSwitch$preRetention) {
-                input$userOptKappa_Range[2]
-            } else {
-                round(calibParamOut[minErrorRun, "kappa"], digits = 4)
-            }, to = if (intSwitch$preRetention) {
-                input$userOptKappa_Range[1]
-            } else {
-                round(calibParamOut[minErrorRun, "kappa"], digits = 4)
-            }, length.out = 4
+
+        Kappa = seq(
+            from = if (intSwitch$preRetention) {
+                    CalibParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
+                } else {
+                    CalibParamOut[minErrorRun, "kappa"]
+                },
+            to = if (intSwitch$preRetention) {
+                    CalibParamOut[minErrorRun, "kappa"]
+                } else {
+                    CalibParamOut[minErrorRun, "kappa"]
+                },
+            length.out = 4
         ),
-        Gamma = seq(from = if (intSwitch$initiation) {
-                input$userOptGamma_Range[1]
-            } else {
-                round(calibParamOut[minErrorRun, "gamma"], digits = 4)
-            }, to = if (intSwitch$initiation) {
-                input$userOptGamma_Range[2]
-            } else {
-                round(calibParamOut[minErrorRun, "gamma"], digits = 4)
-            }, length.out = 4
+
+        Gamma = seq(
+            from = if (intSwitch$initiation) {
+                    CalibParamOut[minErrorRun, "gamma"]
+                } else {
+                    CalibParamOut[minErrorRun, "gamma"]
+                },
+            to = if (intSwitch$initiation) {
+                    CalibParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
+                } else {
+                    CalibParamOut[minErrorRun, "gamma"]
+                },
+            length.out = 4
         ),
-        Sigma = seq(from = if (intSwitch$adherence) {
-                input$userOptSigma_Range[1]
-            } else {
-                0
-            }, to = if (intSwitch$adherence) {
-                input$userOptSigma_Range[2]
-            } else {
-                0
-            }, length.out = 4
+
+        Sigma = seq(
+            from = if (intSwitch$adherence) {
+                    0
+                } else {
+                    0
+                },
+            to = if (intSwitch$adherence) {
+                input$opt_sigma_factor
+                } else {
+                    0
+                },
+            length.out = 4
         ),
-        Omega = seq(from = if (intSwitch$retention) {
-                input$userOptOmega_Range[2]
-            } else {
-                round(calibParamOut[minErrorRun, "omega"], digits = 4)
-            }, to = if (intSwitch$retention) {
-                input$userOptOmega_Range[1]
-            } else {
-                round(calibParamOut[minErrorRun, "omega"], digits = 4)
-            }, length.out = 4
+
+        Omega = seq(
+            from = if (intSwitch$retention) {
+                    CalibParamOut[minErrorRun, "omega"] / input$opt_omega_factor
+                } else {
+                    CalibParamOut[minErrorRun, "omega"]
+                },
+            to = if (intSwitch$retention) {
+                    CalibParamOut[minErrorRun, "omega"]
+                } else {
+                    CalibParamOut[minErrorRun, "omega"]
+                },
+            length.out = 4
         )
     )
     out <- unique(ParRange)

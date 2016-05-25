@@ -44,7 +44,7 @@ tabItem(tabName = "opt-parameter",
             the linkage proportion is varied between the status quo (no intervention) and value entered
             to simulate various permutations of a linkage intervention.",
             p(""),
-            uiOutput("opt_q_maxProp"),
+            numericInput(inputId = "opt_q_factor", label = "Maximum Intervention Proportion:", value = 1, min = 0, max = 1, step = 0.001, width = "100%"),
             "The maximum number of additional succesful linkages to care made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_q_max")
