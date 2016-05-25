@@ -10,7 +10,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptRho_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "rho"], digits = 4)
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         ),
         Q     = seq(from = if (intSwitch$linkage) {
                 input$userOptq_Range[1]
@@ -20,7 +20,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptq_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "q"], digits = 4)
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         ),
         Kappa = seq(from = if (intSwitch$preRetention) {
                 input$userOptKappa_Range[2]
@@ -30,7 +30,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptKappa_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "kappa"], digits = 4)
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         ),
         Gamma = seq(from = if (intSwitch$initiation) {
                 input$userOptGamma_Range[1]
@@ -40,7 +40,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptGamma_Range[2]
             } else {
                 round(calibParamOut[minErrorRun, "gamma"], digits = 4)
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         ),
         Sigma = seq(from = if (intSwitch$adherence) {
                 input$userOptSigma_Range[1]
@@ -50,7 +50,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptSigma_Range[2]
             } else {
                 0
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         ),
         Omega = seq(from = if (intSwitch$retention) {
                 input$userOptOmega_Range[2]
@@ -60,7 +60,7 @@ GetParaMatrix <- function(calibParamOut, minErrorRun) {
                 input$userOptOmega_Range[1]
             } else {
                 round(calibParamOut[minErrorRun, "omega"], digits = 4)
-            }, length.out = input$optimParamLength
+            }, length.out = 4
         )
     )
     out <- unique(ParRange)

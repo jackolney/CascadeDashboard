@@ -77,17 +77,9 @@ observeEvent(input$resetMap, {
     leafletProxy("countryMap") %>% setView(lng = 0, lat = 30, zoom = 2)
 })
 
-observeEvent(input$resetParameters, {
-    shinyjs::reset("parameter-panel-1")
-    shinyjs::reset("parameter-panel-2")
-    shinyjs::reset("parameter-panel-3")
-    shinyjs::reset("parameter-panel-4")
-    updateNumericInput(session,"userRetArt12mths",value = 0)
-})
-
 observeEvent(input$resetCost, {shinyjs::reset("cost-panel")})
 
-observeEvent(input$resetSliders, {shinyjs::reset("optimisation-panel")})
+observeEvent(input$resetInterventions, {shinyjs::reset("optimisation-panel")})
 
 
 # ART Initiation Checkbox Rules #

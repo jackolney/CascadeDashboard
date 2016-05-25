@@ -9,26 +9,21 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "HIV-Testing",
-
             tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals diagnosed with HIV will be:",
+                "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+                the total number of individuals diagnosed with HIV will be:",
             p(""),
             uiOutput("opt_rho_baseline"),
-
             tags$h4("Intervention"),
-            "However, by simulating an HIV testing intervention, we can increase testing such that an
-            additional number of individuals are diagnosed by 2020. By adjusting the value below,
-            the testing rate is varied between the status quo (no intervention) and the status quo
-            multiplied by the intervention rate factor (maximum intervention).",
+                "However, by simulating an HIV testing intervention, we can increase testing such that an
+                additional number of individuals are diagnosed by 2020. By adjusting the value below,
+                the testing rate is varied between the status quo (no intervention) and the status quo
+                multiplied by the intervention rate factor (maximum intervention).",
             p(""),
             numericInput(inputId = "opt_rho_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
-            "The maximum number of additional diagnoses made between 2015 and 2015 will be:",
+                "The maximum number of additional diagnoses made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_rho_max")
-
-            # uiOutput("UI_optP_rhoRange"),
-            # tableOutput("optParTable_Rho")
         ),
         box(width = NULL,
             height = '100%',
@@ -37,7 +32,6 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Linkage",
-
             tags$h4("Status Quo"),
             "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
             the total number of individuals who successfully link to care will be:",
@@ -65,13 +59,11 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Pre-ART Retention",
-
             tags$h4("Status Quo"),
             "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
             the total number of individuals lost from pre-ART care will be:",
             p(""),
             uiOutput("opt_kappa_baseline"),
-
             tags$h4("Intervention"),
             "However, by simulating a pre-ART retentionintervention, we can reduce loss such that an
             additional number of individuals are retained in care by 2020. By adjusting the value below,
@@ -82,7 +74,6 @@ tabItem(tabName = "opt-parameter",
             "The total number of additional persons retained in pre-ART care between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_kappa_max")
-
             # uiOutput("UI_optP_kappaRange"),
             # tableOutput("optParTable_Kappa")
         ),
@@ -93,13 +84,11 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Treatment Initiation",
-
             tags$h4("Status Quo"),
             "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
             the total number of individuals initiated onto treatment will be:",
             p(""),
             uiOutput("opt_gamma_baseline"),
-
             tags$h4("Intervention"),
             "However, by simulating an ART initiation intervention, we can increase treatment coverage
             such that an additional number of individuals will initiate by 2020. By adjusting the value below,
@@ -110,7 +99,6 @@ tabItem(tabName = "opt-parameter",
             "The total number of additional initiations made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_gamma_max")
-
             # uiOutput("UI_optP_gammaRange"),
             # tableOutput("optParTable_Gamma")
         ),
@@ -121,13 +109,11 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Adherence",
-
             tags$h4("Status Quo"),
             "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
             the total number of individuals ever adhering to ART will be:",
             p(""),
             uiOutput("opt_sigma_baseline"),
-
             tags$h4("Intervention"),
             "However, by simulating an adherence intervention, we can increase adherence to treatment
             such that an additional number of individuals on treatment start to adhere by 2020.
@@ -138,7 +124,6 @@ tabItem(tabName = "opt-parameter",
             "The total number of additional individuals adhering to ART between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_sigma_max")
-
             # uiOutput("UI_optP_sigmaRange"),
             # tableOutput("optParTable_Sigma")
         ),
@@ -149,13 +134,11 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "ART Retention",
-
             tags$h4("Status Quo"),
             "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
             the total number of individuals lost from ART care will be:",
             p(""),
             uiOutput("opt_omega_baseline"),
-
             tags$h4("Intervention"),
             "However, by simulating an ART retention intervention, we can reduce loss such that an
             additional number of individuals are retained on treatment by 2020. By adjusting the value below,
@@ -166,7 +149,6 @@ tabItem(tabName = "opt-parameter",
             "The total number of additional persons retained in ART care between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_omega_max")
-
             # uiOutput("UI_optP_omegaRange"),
             # tableOutput("optParTable_Omega")
         )
@@ -175,18 +157,14 @@ tabItem(tabName = "opt-parameter",
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
-            title = "Parameter Selection",
-            p("The optimisation algorithm takes six model parameters representing six hypothetical interventions and simulates the cost and impact of all permutations."),
-            helpText("For each intervention, select the number of parameter values to simulate and set the range of rates to sample from (rates are uniformally distributed within this range).
-                The parameter values for each intervention are then displayed in the corresponding tables."),
-            numericInput(inputId = "optimParamLength",   label = "Number of parameter values to sample:", value = 4, min = 0, max = 10, step = 1, width = "100%"),
-            bsButton("resetSliders", label = "RESET SLIDERS", block = TRUE, style = "danger"),
-            p(" "),
-            helpText("Below is the number of iterations the model will simulate along with the estimated time to completion. Hit the 'OPTIMISE' button to begin the simulation. Note the progress bar
-                at the top of the screen, and the run number and elapsed time on the top right. Please wait until the optimisation algorithm has completed the below bar has turned green before proceeding to the results tab."),
-            p(" "),
-            tableOutput("optIterationTable")
+            title = "Intervention Detail",
+            "The model allows up to six non-specific interventions targetting different aspects of
+            the cascade to be tested simultaneously. Click '+' to expand details of a particular
+            intervention, and adjust its settings. By default, four uniformally distributed
+            permutations of each intervention are simulated by the model.",
+            p(""),
+            bsButton(inputId = "resetInterventions", label = "RESET INTERVENTIONS", block = TRUE, style = "danger")
         ),
-        bsButton(inputId = "PREV_optParam", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
+        bsButton(inputId = "PREV_optParam", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )
