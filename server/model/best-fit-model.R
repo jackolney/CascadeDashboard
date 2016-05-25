@@ -1,5 +1,5 @@
 # Best 'fit' Model Call
-CallBestModel <- function(...) {
+CallBestModel <- function(CalibOut, minErrorRun, ...) {
     # Setup #
     # This does ignore the cascade::parameter and cascade::initial
 

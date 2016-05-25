@@ -7,7 +7,7 @@ tabItem(tabName = "opt-parameter",
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             title = "HIV-Testing",
 
             tags$h4("Status Quo"),
@@ -23,7 +23,7 @@ tabItem(tabName = "opt-parameter",
             multiplied by the intervention rate factor (maximum intervention).",
             p(""),
             numericInput(inputId = "opt_rho_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
-            "The total number of additional diagnoses made between 2015 and 2015 will be:",
+            "The maximum number of additional diagnoses made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_rho_max")
 
@@ -35,50 +35,140 @@ tabItem(tabName = "opt-parameter",
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             title = "Linkage",
-            uiOutput("UI_optP_qRange"),
-            tableOutput("optParTable_Q")
+
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals who successfully link to care will be:",
+            p(""),
+            uiOutput("opt_q_baseline"),
+
+            tags$h4("Intervention"),
+            "However, by simulating a linkage intervention, we can increase linkage such that an
+            additional number of individuals are successfully linked by 2020. By adjusting the value below,
+            the linkage proportion is varied between the status quo (no intervention) and value entered
+            to simulate various permutations of a linkage intervention.",
+            p(""),
+            uiOutput("opt_q_maxProp"),
+            "The maximum number of additional succesful linkages to care made between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_q_max")
+
+            # uiOutput("UI_optP_qRange"),
+            # tableOutput("optParTable_Q")
         ),
         box(width = NULL,
             height = '100%',
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
-            title = "Pre-ART Retention (kappa)",
-            uiOutput("UI_optP_kappaRange"),
-            tableOutput("optParTable_Kappa")
+            collapsed = TRUE,
+            title = "Pre-ART Retention",
+
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals lost from pre-ART care will be:",
+            p(""),
+            uiOutput("opt_kappa_baseline"),
+
+            tags$h4("Intervention"),
+            "However, by simulating a pre-ART retentionintervention, we can reduce loss such that an
+            additional number of individuals are retained in care by 2020. By adjusting the value below,
+            the pre-ART dropout rate is varied between the status quo (no intervention) and the status quo
+            divided by the intervention rate factor (maximum intervention).",
+            p(""),
+            numericInput(inputId = "opt_kappa_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            "The total number of additional persons retained in pre-ART care between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_kappa_max")
+
+            # uiOutput("UI_optP_kappaRange"),
+            # tableOutput("optParTable_Kappa")
         ),
         box(width = NULL,
             height = '100%',
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             title = "Treatment Initiation",
-            uiOutput("UI_optP_gammaRange"),
-            tableOutput("optParTable_Gamma")
+
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals initiated onto treatment will be:",
+            p(""),
+            uiOutput("opt_gamma_baseline"),
+
+            tags$h4("Intervention"),
+            "However, by simulating an ART initiation intervention, we can increase treatment coverage
+            such that an additional number of individuals will initiate by 2020. By adjusting the value below,
+            the initiation rate is varied between the status quo (no intervention) and the status quo
+            multiplied by the intervention rate factor (maximum intervention).",
+            p(""),
+            numericInput(inputId = "opt_gamma_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            "The total number of additional initiations made between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_gamma_max")
+
+            # uiOutput("UI_optP_gammaRange"),
+            # tableOutput("optParTable_Gamma")
         ),
         box(width = NULL,
             height = '100%',
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             title = "Adherence",
-            uiOutput("UI_optP_sigmaRange"),
-            tableOutput("optParTable_Sigma")
+
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals ever adhering to ART will be:",
+            p(""),
+            uiOutput("opt_sigma_baseline"),
+
+            tags$h4("Intervention"),
+            "However, by simulating an adherence intervention, we can increase adherence to treatment
+            such that an additional number of individuals on treatment start to adhere by 2020.
+            The status quo rate of transition from not adhering to adhering is zero. By adjusting the
+            rate below, the number of individuals transitioning can be increased.",
+            p(""),
+            numericInput(inputId = "opt_sigma_factor", label = "Intervention Rate (py^-1):", value = 5, min = 0, max = 10, step = 1, width = "100%"),
+            "The total number of additional individuals adhering to ART between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_sigma_max")
+
+            # uiOutput("UI_optP_sigmaRange"),
+            # tableOutput("optParTable_Sigma")
         ),
         box(width = NULL,
             height = '100%',
             status = "primary",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             title = "ART Retention",
-            uiOutput("UI_optP_omegaRange"),
-            tableOutput("optParTable_Omega")
+
+            tags$h4("Status Quo"),
+            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
+            the total number of individuals lost from ART care will be:",
+            p(""),
+            uiOutput("opt_omega_baseline"),
+
+            tags$h4("Intervention"),
+            "However, by simulating an ART retention intervention, we can reduce loss such that an
+            additional number of individuals are retained on treatment by 2020. By adjusting the value below,
+            the ART dropout rate is varied between the status quo (no intervention) and the status quo
+            multiplied by the intervention rate factor (maximum intervention).",
+            p(""),
+            numericInput(inputId = "opt_omega_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            "The total number of additional persons retained in ART care between 2015 and 2015 will be:",
+            p(""),
+            uiOutput("opt_omega_max")
+
+            # uiOutput("UI_optP_omegaRange"),
+            # tableOutput("optParTable_Omega")
         )
     ),
     column(width = 4,

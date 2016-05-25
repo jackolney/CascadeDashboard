@@ -126,21 +126,3 @@ output$UI_optP_omegaRange <- renderUI({
         step = 0.0001,
         sep = "")
 })
-
-
-### TESTING AREA ###
-
-output$opt_rho_baseline <- renderUI({
-    baseline <- CallBestModel()
-    answer <- cumsum(baseline$Dx)[251] - baseline$Dx[1]
-    tags$code(scales::comma(round(answer, digits = 0)))
-})
-
-output$opt_rho_max <- renderUI({
-    baseline <- CallBestModel()
-    base_answer <- cumsum(baseline$Dx)[251] - baseline$Dx[1]
-
-    alt <- CallBestModel(Rho = CalibParamOut[minErrorRun, "rho"] * input$opt_rho_factor)
-    alt_answer <- cumsum(alt$Dx)[251] - alt$Dx[1]
-    tags$code(scales::comma(round(alt_answer - base_answer, digits = 0)))
-})
