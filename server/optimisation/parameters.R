@@ -14,8 +14,9 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, minErrorRu
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
         # These guys still need to be set by the model (but use the best fit run)
-        Theta = round(calibParamOut[minErrorRun, "theta"], digits = 4),
-        p     = round(calibParamOut[minErrorRun, "p"], digits = 4),
+        Theta   = calibParamOut[minErrorRun, "theta"],
+        p       = calibParamOut[minErrorRun, "p"],
+        Epsilon = calibParamOut[minErrorRun, "epsilon"],
 
         # MODIFYING #
         Rho   = iterationParam[["Rho"]],
@@ -44,13 +45,14 @@ GetBestPar <- function(masterCD4, data, calibParamOut, minErrorRun) {
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
         # Using best fit run)
-        Theta = round(calibParamOut[minErrorRun, "theta"], digits = 4),
-        p     = round(calibParamOut[minErrorRun, "p"],     digits = 4),
-        Rho   = round(calibParamOut[minErrorRun, "rho"],   digits = 4),
-        Kappa = round(calibParamOut[minErrorRun, "kappa"], digits = 4),
-        Gamma = round(calibParamOut[minErrorRun, "gamma"], digits = 4),
-        Omega = round(calibParamOut[minErrorRun, "omega"], digits = 4),
-        q     = round(calibParamOut[minErrorRun, "q"],     digits = 4)
+        Theta   = calibParamOut[minErrorRun, "theta"],
+        p       = calibParamOut[minErrorRun, "p"],
+        Rho     = calibParamOut[minErrorRun, "rho"],
+        Kappa   = calibParamOut[minErrorRun, "kappa"],
+        Gamma   = calibParamOut[minErrorRun, "gamma"],
+        Omega   = calibParamOut[minErrorRun, "omega"],
+        Epsilon = calibParamOut[minErrorRun, "epsilon"],
+        q       = calibParamOut[minErrorRun, "q"]
     )
     p
 }
