@@ -530,3 +530,19 @@ round(test$Q / bestPar[["q"]], digits = 2)
 
 unlist(lapply((test$Q / bestPar[["q"]]), function(x) if (x > 1) x))
 
+
+
+color_from_middle <- function(data, color1, color2) {
+  max_val <- max(abs(data))
+  JS(sprintf("isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'",
+             max_val, color1, max_val, color1, color2, color2, max_val, max_val))
+}
+
+data <- data.frame(a=c(rep("a",9)),value=c(-4,-3,-2,-1,0,1,2,3,4))
+
+DT::datatable(data) %>%
+  DT::formatStyle('value', background = color_from_middle(data$value, '#FF6347', '#90EE90'))
+
+
+
+isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'

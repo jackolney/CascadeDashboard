@@ -34,8 +34,9 @@ tabItem(tabName = "opt-wizard",
             then over the next five years on average a number of changes must occur,
             these changes are described below:",
             p(""),
-            tags$em("Please note that values below are absolute and not to be interpretted as the
-                additional number of tests, initiations relative to a baseline scenario."),
+            tags$em("Please note that values below may indicate decreases in some aspects of care,
+                this is correct, and explained by specific changes in care having an in-direct impact
+                on reducing incidence, thereby reducing the total population of infected individuals."),
             p(""),
             DT::dataTableOutput('optimDTout', width = "100%")
         ),

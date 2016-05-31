@@ -1,6 +1,27 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
 
 GetParaMatrix <- function(cParamOut, minErrorRun) {
+    print("GetParaMatrix() testing...")
+    message(paste('intSwitch$testing =\n\t', intSwitch$testing))
+    message(paste('cParamOut[minErrorRun, "rho"] =\n\t', cParamOut[minErrorRun, "rho"]))
+    message(paste('input$opt_rho_factor =\n\t', input$opt_rho_factor))
+    message(paste('intSwitch$linkage =\n\t', intSwitch$linkage))
+    message(paste('cParamOut[minErrorRun, "q"] =\n\t', cParamOut[minErrorRun, "q"]))
+    message(paste('input$opt_q_factor =\n\t', input$opt_q_factor))
+    message(paste('intSwitch$preRetention =\n\t', intSwitch$preRetention))
+    message(paste('cParamOut[minErrorRun, "kappa"]  =\n\t', cParamOut[minErrorRun, "kappa"] ))
+    message(paste('input$opt_kappa_factor =\n\t', input$opt_kappa_factor))
+    message(paste('intSwitch$initiation =\n\t', intSwitch$initiation))
+    message(paste('cParamOut[minErrorRun, "gamma"] =\n\t', cParamOut[minErrorRun, "gamma"]))
+    message(paste('input$opt_gamma_factor =\n\t', input$opt_gamma_factor))
+    message(paste('intSwitch$adherence =\n\t', intSwitch$adherence))
+    message(paste('input$opt_sigma_factor =\n\t', input$opt_sigma_factor))
+    message(paste('intSwitch$retention =\n\t', intSwitch$retention))
+    message(paste('cParamOut[minErrorRun, "omega"] =\n\t', cParamOut[minErrorRun, "omega"]))
+    message(paste('input$opt_omega_factor =\n\t', input$opt_omega_factor))
+    message('cParamOut test =')
+    print(cParamOut)
+
     ParRange <- expand.grid(
 
         Rho   = seq(
@@ -202,4 +223,10 @@ Extract909090DataSingle <- function(data) {
 GetBestCalibOut <- function(calibOut, minErrorRun) {
     out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),]
     out[, c("indicator", "value")]
+}
+
+ColorFromMiddle <- function(data, color1, color2) {
+    max_val <- max(abs(data))
+    JS(sprintf("isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'",
+        max_val, color1, max_val, color1, color2, color2, max_val, max_val))
 }

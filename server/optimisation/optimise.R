@@ -24,8 +24,9 @@ RunOptimisation <- function() {
         print("opt_omega_factor =")
         print(input$opt_omega_factor)
 
-
+        message("GetParaMatrix() should only be called once.")
         par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
+        message("End of GetParaMaterix() call.")
 
         updateButton(session,
             inputId = "optimStart",

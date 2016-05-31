@@ -48,12 +48,12 @@ output$optimDTout <- DT::renderDataTable({
 
     # The values used in uiOutput()
     Value <- c(
-        round(cumsum(alt$Dx)[251]      - alt$Dx[1],      digits = 0),
-        round(cumsum(alt$Care)[251]    - alt$Care[1],    digits = 0),
-        round(cumsum(alt$PreLtfu)[251] - alt$PreLtfu[1], digits = 0),
-        round(cumsum(alt$Tx)[251]      - alt$Tx[1],      digits = 0),
-        round(cumsum(alt$Vs)[251]      - alt$Vs[1],      digits = 0),
-        round(cumsum(alt$Ltfu)[251]    - alt$Ltfu[1],    digits = 0)
+        round(cumsum(alt$Dx)[251]           - alt$Dx[1]           - cumsum(baseline$Dx)[251]   - baseline$Dx[1],   digits = 0),
+        round(cumsum(alt$Care)[251]         - alt$Care[1]         - cumsum(baseline$Care)[251] - baseline$Care[1], digits = 0),
+        round(cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1] - cumsum(alt$PreLtfu)[251]   - alt$PreLtfu[1],   digits = 0),
+        round(cumsum(alt$Tx)[251]           - alt$Tx[1]           - cumsum(baseline$Tx)[251]   - baseline$Tx[1],   digits = 0),
+        round(cumsum(alt$Vs)[251]           - alt$Vs[1]           - cumsum(baseline$Vs)[251]   - baseline$Vs[1],   digits = 0),
+        round(cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]    - cumsum(alt$Ltfu)[251]      - alt$Ltfu[1],      digits = 0)
     )
 
     # The proportion of simulations that required that thing (then will add a bar in post processing)
@@ -83,7 +83,7 @@ output$optimDTout <- DT::renderDataTable({
         fontWeight = 'bold'
     ) %>% formatStyle(
         columns = 'Value',
-        background = styleColorBar(data = cbind(0, optimDT$Value), color = 'lightblue'),
+        background = ColorFromMiddle(data = cbind(0, optimDT$Value), color1 = '#FF6347', color2 = '#90EE90'),
         backgroundSize = '100% 88%',
         backgroundRepeat = 'no-repeat',
         backgroundPosition = 'center'
