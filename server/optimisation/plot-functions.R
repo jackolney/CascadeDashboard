@@ -30,27 +30,26 @@ BuildOptimisationPlot <- function(theOut) {
         "Adherence",
         "ART Retention")
 
-    value <- c(
-        sum(round(selectedResults$Rho,   digits = 4)  / bestPar[["Rho"]])   / dim(selectedResults)[1],
-        sum(round(selectedResults$Q,     digits = 4)  / bestPar[["q"]])     / dim(selectedResults)[1],
-        sum(round(selectedResults$Kappa, digits = 4)  / bestPar[["Kappa"]]) / dim(selectedResults)[1],
-        sum(round(selectedResults$Gamma, digits = 4)  / bestPar[["Gamma"]]) / dim(selectedResults)[1],
-        sum(round(selectedResults$Sigma, digits = 4)) / dim(selectedResults)[1],
-        sum(round(selectedResults$Omega, digits = 4)  / bestPar[["Omega"]]) / dim(selectedResults)[1]
+    strength <- c(
+        sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / dim(selectedResults)[1],
+        sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / dim(selectedResults)[1],
+        sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / dim(selectedResults)[1],
+        sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / dim(selectedResults)[1],
+        sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / dim(selectedResults)[1],
+        sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / dim(selectedResults)[1]
     )
 
     # build data.frame
-    resultOut <- data.frame(intervention, value)
+    resultOut <- data.frame(intervention, strength)
 
     # Check level order
     resultOut$intervention <- factor(resultOut$intervention, levels = intervention)
 
     # This show the proportion of selected runs that use a particular intervention.
-    ggOut <- ggplot(resultOut, aes(x = intervention, y = value))
+    ggOut <- ggplot(resultOut, aes(x = intervention, y = strength))
     ggOut <- ggOut + geom_bar(aes(fill = intervention), stat = "identity")
     ggOut <- ggOut + theme_classic()
-
-    ggOut <- ggOut + ggtitle("Popular Interventions", subtitle = "The average percentage increase in each aspect of care")
+    ggOut <- ggOut + ggtitle(label = "Average improvement in each aspect of the cascade", subtitle = "Percentage increase brought about by interventions")
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 14))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 14))
