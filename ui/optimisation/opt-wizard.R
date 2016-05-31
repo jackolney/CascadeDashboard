@@ -17,8 +17,8 @@ tabItem(tabName = "opt-wizard",
             to what degree they were used. For further details, see the 'Strategy' section.",
             p(""),
             plotOutput('plotOptim_result', height = 'auto', width = 'auto'),
-            bsModal(id = "opt909090TableModal", title = "Result Table (showing 90-90-90 targets)", trigger = "optData", size = "large",
-                DT::dataTableOutput('opt909090Table', width = "100%")
+            bsModal(id = "optimDTmodalID", title = "Result Table (showing 90-90-90 targets)", trigger = "optData", size = "large",
+                DT::dataTableOutput('optimDTmodal', width = "100%")
             )
         ),
         box(width = NULL,
@@ -45,10 +45,14 @@ tabItem(tabName = "opt-wizard",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Cost vs. Impact",
-            plotOutput('plotOpt909090',
-                dblclick = "plotOpt909090_dblclick",
+            selectInput(inputId = "userStratPoint",
+                label = "Select intervention to stratify results by:",
+                choices = InterventionList,
+                selected = "Initiation"),
+            plotOutput('plotOptim_CostImpact',
+                dblclick = "plotOptim_CostImpact_dblclick",
                 brush = brushOpts(
-                    id = "plotOpt909090_brush",
+                    id = "plotOptim_CostImpact_brush",
                     clip = TRUE,
                     resetOnNew = TRUE
                 ),

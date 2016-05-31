@@ -174,3 +174,5 @@ VariableNames <- c(
     "cd4_50",
     "DALY"
 )
+
+InterventionList <- c("Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention")

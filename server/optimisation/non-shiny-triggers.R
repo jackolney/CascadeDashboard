@@ -1,5 +1,7 @@
 # non-shiny optimisation triggers and setup
 # input stuff etc.
+graphics.off()
+quartz.options(w = 10, h = 5)
 
 source("server/model/best-fit-model.R",                local = FALSE)
 source("server/model/beta.R",                          local = FALSE)
@@ -69,10 +71,12 @@ plot(theOut$Cost / theOut$VS, type = 'l')
 
 range(theOut$VS)
 
-sum(theOut$VS > 0.9)
+sum(theOut$VS > 0.5)
 
 
 test <- subset(theOut, theOut$VS > 0.6)
+dim(test)
+# optResult <- test
 
 ggplot(test, aes(x = VS, y = Cost)) + geom_point(aes(col = Gamma), alpha = 0.5)
 ls()
@@ -112,7 +116,7 @@ sum((round(test$Gamma, digits = 4) / bestPar[["Gamma"]]) > 1)
 sum(round(test$Sigma, digits = 4) > 0)
 sum((round(test$Omega, digits = 4) / bestPar[["Omega"]]) < 1)
 
-test <- subset(theOut, theOut$VS > 0.75)
+test <- subset(theOut, theOut$VS > 0.6)
 dim(test)
 value <- c(
     sum((round(test$Rho, digits = 4) / bestPar[["Rho"]]) > 1) / dim(test)[1],
@@ -288,17 +292,85 @@ sum(unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x) if (x > 1) TRUE)))
 ###########################
 ### I THINK THIS IS IT ####
 ###########################
+test <- subset(theOut, theOut$VS > 0.6)
+dim(test)
+strength <- c(
+    sum(unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x) if (x > 1) x))) / dim(test)[1],
+    sum(unlist(lapply((test$Q / bestPar[["q"]]), function(x) if (x > 1) x))) / dim(test)[1],
+    sum(unlist(lapply((bestPar[["Kappa"]] / test$Kappa), function(x) if (x > 1) x))) / dim(test)[1],
+    sum(unlist(lapply((test$Gamma / bestPar[["Gamma"]]), function(x) if (x > 1) x))) / dim(test)[1],
+    sum(unlist(lapply((test$Sigma), function(x) if (x > 1) x))) / dim(test)[1],
+    sum(unlist(lapply((bestPar[["Omega"]] / test$Omega), function(x) if (x > 1) x))) / dim(test)[1]
+)
+barplot(strength)
 
 value <- c(
-sum(unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x) if (x > 1) x))) / dim(test)[1],
-sum(unlist(lapply((test$Q / bestPar[["q"]]), function(x) if (x > 1) x))) / dim(test)[1],
-sum(unlist(lapply((bestPar[["Kappa"]] / test$Kappa), function(x) if (x > 1) x))) / dim(test)[1],
-sum(unlist(lapply((test$Gamma / bestPar[["Gamma"]]), function(x) if (x > 1) x))) / dim(test)[1],
-sum(unlist(lapply((test$Sigma), function(x) if (x > 1) x))) / dim(test)[1],
-sum(unlist(lapply((bestPar[["Omega"]] / test$Omega), function(x) if (x > 1) x))) / dim(test)[1]
+    sum(unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x) if (x > 1) TRUE))) / dim(test)[1],
+    sum(unlist(lapply((test$Q / bestPar[["q"]]), function(x) if (x > 1) TRUE))) / dim(test)[1],
+    sum(unlist(lapply((bestPar[["Kappa"]] / test$Kappa), function(x) if (x > 1) TRUE))) / dim(test)[1],
+    sum(unlist(lapply((test$Gamma / bestPar[["Gamma"]]), function(x) if (x > 1) TRUE))) / dim(test)[1],
+    sum(unlist(lapply((test$Sigma), function(x) if (x > 1) TRUE))) / dim(test)[1],
+    sum(unlist(lapply((bestPar[["Omega"]] / test$Omega), function(x) if (x > 1) TRUE))) / dim(test)[1]
 )
 
-barplot(value)
+testing <- data.frame(intervention, value, strength)
+testing$intervention <- factor(testing$intervention, levels = intervention)
+
+# Convert to just a table DT::renderDataTable()
+# testOne <- ggplot(testing, aes(x = intervention, y = value)) +
+#     geom_bar(aes(fill = intervention), stat = "identity") +
+#     theme_classic() +
+#     theme(legend.position = "none") +
+#     ggtitle("Proportion of simulations in which each intervention was active") +
+#     theme(axis.text.x = element_text(size = 12)) +
+#     theme(axis.text.y = element_text(size = 12)) +
+#     theme(title =       element_text(size = 13)) +
+#     theme(axis.title.y = element_blank()) +
+#     theme(axis.title.x = element_blank()) +
+#     theme(axis.line.y = element_line()) +
+#     scale_y_continuous(labels = scales::percent, expand = c(0, 0))
+
+testTwo <- ggplot(testing, aes(x = intervention, y = strength)) +
+    geom_bar(aes(fill = intervention), stat = "identity") +
+    theme_classic() +
+    theme(legend.position = "none") +
+    ggtitle("Average increase in each aspect of the cascade") +
+    theme(axis.text.x = element_text(size = 12)) +
+    theme(axis.text.y = element_text(size = 12)) +
+    theme(title =       element_text(size = 13)) +
+    theme(axis.title.y = element_blank()) +
+    theme(axis.title.x = element_blank()) +
+    theme(axis.line.y = element_line()) +
+    scale_y_continuous(labels = scales::percent, expand = c(0, 0))
+testTwo
+
+date()
+
+# have an inline bar of whether this was used.
+testing$value
+# Then all the bull shit with average values.
+
+# Then below the master cost / impact plot.
+# dropdown for different interventions
+
+
+head(test)
+
+
+ggplot(test, aes(x = VS, y = Cost)) + geom_point(aes(col = Rho, alpha = Gamma))
+
+# gridExtra::grid.arrange(testOne, testTwo, ncol = 2, nrow = 1)
+
+a = value * strength
+
+barplot(a)
+
+# ggOne = average
+# ggTwo = average increase in each area of the cascade
+
+
+# Calculate which interventions are combinations.
+
 
 testing <- (test$Rho / bestPar[["Rho"]])
 
@@ -311,7 +383,6 @@ length(short)
 sum(short > 1)
 
 # Sum all values not equal to one.
-
 sum(unlist(lapply(short, function(x) if(x > 1) x)))
 
 # Try the mean
@@ -320,3 +391,142 @@ mean(unlist(lapply(short, function(x) if(x > 1) x)))
 # As a proportion of all simulations (n = 10)
 
 ##### EXPAND
+
+##################
+# DATA TABLE FUN #
+##################
+
+# require(DT)
+# DT::datatable(iris) %>%
+  formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('normal', 'bold'))) %>%
+  formatStyle(
+    'Sepal.Width',
+    color = styleInterval(c(3.4, 3.8), c('white', 'blue', 'red')),
+    backgroundColor = styleInterval(3.4, c('gray', 'yellow'))
+  ) %>%
+  formatStyle(
+    'Petal.Length',
+    background = styleColorBar(iris$Petal.Length, 'steelblue'),
+    backgroundSize = '100% 90%',
+    backgroundRepeat = 'no-repeat',
+    backgroundPosition = 'center'
+  ) %>%
+  formatStyle(
+    'Species',
+    transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg)',
+    backgroundColor = styleEqual(
+      unique(iris$Species), c('lightblue', 'lightgreen', 'lightpink')
+    )
+  )
+
+# setup
+
+baseline <- CallBestModel(
+    CalibOut = CalibOut,
+    minErrorRun = minErrorRun)
+
+alt <- CallBestModel(
+    CalibOut = CalibOut,
+    minErrorRun = minErrorRun,
+    Rho = mean(selectedResults$Rho),
+    q = mean(selectedResults$Q),
+    Kappa = mean(selectedResults$Kappa),
+    Gamma = mean(selectedResults$Gamma),
+    Sigma = mean(selectedResults$Sigma),
+    Omega = mean(selectedResults$Omega))
+
+Intervention <- c(
+    "Testing",
+    "Linkage",
+    "Pre-ART Retention",
+    "Initiation",
+    "Adherence",
+    "ART Retention"
+)
+
+Description <- c(
+    "The number of individuals requiring diagnosis is:",
+    "The number of individuals that need to be linked to care are:",
+    "The number of individuals that need to be retained in pre-ART care is:",
+    "The number of individuals that need to be initiated onto treatment are:",
+    "The number of individuals that need to fully adhere to treatment are:",
+    "The number of individuals that need to be retained on ART are:"
+)
+
+# The values used in uiOutput()
+Value <- c(
+    round(cumsum(alt$Dx)[251]      - alt$Dx[1],      digits = 0),
+    round(cumsum(alt$Care)[251]    - alt$Care[1],    digits = 0),
+    round(cumsum(alt$PreLtfu)[251] - alt$PreLtfu[1], digits = 0),
+    round(cumsum(alt$Tx)[251]      - alt$Tx[1],      digits = 0),
+    round(cumsum(alt$Vs)[251]      - alt$Vs[1],      digits = 0),
+    round(cumsum(alt$Ltfu)[251]    - alt$Ltfu[1],    digits = 0)
+)
+
+# The proportion of simulations that required that thing (then will add a bar in post processing)
+Use <- c(
+    sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
+    sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
+    sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) TRUE))) / dim(selectedResults)[1]
+)
+Use <- scales::percent(Use)
+
+optimDT <- data.frame(Intervention, Description, Value, Use)
+
+DT::datatable(optimDT, options = list(
+  initComplete = JS(
+    "function(settings, json) {",
+    "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+    "}")
+)) %>% formatStyle(
+    columns = 'Intervention',
+    color = 'red',
+    backgroundColor = '#fff',
+    fontWeight = 'bold'
+) %>% formatStyle(
+    columns = 'Value',
+    background = styleColorBar(data = optimDT$Value, color = 'lightblue'),
+    backgroundSize = '100% 88%',
+    backgroundRepeat = 'no-repeat',
+    backgroundPosition = 'center'
+) %>% formatCurrency(columns = 'Value', currency = '', interval = 3)
+
+
+### ADDING ROWS ###
+
+optResult
+
+names(optResult)
+
+optResult <- dplyr::mutate(optResult,
+    'Testing' = scales::percent(test$Rho / bestPar[["Rho"]]),
+    'Linkage' = scales::percent(round(test$Q / bestPar[["q"]], digits = 2)),
+    'Pre-ART Retention' = scales::percent(round(bestPar[["Kappa"]] / test$Kappa, digits = 0)),
+    'Initiation' = scales::percent(test$Gamma / bestPar[["Gamma"]]),
+    'Adherence' = scales::percent(round(test$Sigma, digits = 0)),
+    'ART Retention' = scales::percent(round(bestPar[["Omega"]] / test$Omega, digits = 0))
+)
+
+optResult[["Testing"]] <- factor(optResult[["Testing"]], levels = unique(optResult[["Testing"]]))
+optResult[["Linkage"]] <- factor(optResult[["Linkage"]], levels = unique(optResult[["Linkage"]]))
+optResult[["Pre-ART Retention"]] <- factor(optResult[["Pre-ART Retention"]], levels = unique(optResult[["Pre-ART Retention"]]))
+optResult[["Initiation"]] <- factor(optResult[["Initiation"]], levels = unique(optResult[["Initiation"]]))
+optResult[["Adherence"]] <- factor(optResult[["Adherence"]], levels = unique(optResult[["Adherence"]]))
+optResult[["ART Retention"]] <- factor(optResult[["ART Retention"]], levels = unique(optResult[["ART Retention"]]))
+
+
+unique(optResult[["Testing"]])
+
+unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x) if (x > 1) x))
+
+range(test$Q / bestPar[["q"]])
+
+(test$Q / bestPar[["q"]]) > 2
+
+round(test$Q / bestPar[["q"]], digits = 2)
+
+unlist(lapply((test$Q / bestPar[["q"]]), function(x) if (x > 1) x))
+

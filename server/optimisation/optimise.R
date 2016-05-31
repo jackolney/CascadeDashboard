@@ -115,8 +115,8 @@ RunOptimisation <- function() {
 
         # Result data.frame for plot(vs,cost)
         setProgress(value = 0.5, message = "Nearly finished", detail = 'compiling dataframes')
-        Result_909090 <<- data.frame(Result90, Result9090, Result909090, ResultVS, ResultCost, ResultPar_Rho, ResultPar_Q, ResultPar_Kappa, ResultPar_Gamma, ResultPar_Sigma, ResultPar_Omega)
-        colnames(Result_909090) <<- c("90", "90-90", "90-90-90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
+        Result_VS <<- data.frame(Result90, Result9090, Result909090, ResultVS, ResultCost, ResultPar_Rho, ResultPar_Q, ResultPar_Kappa, ResultPar_Gamma, ResultPar_Sigma, ResultPar_Omega)
+        colnames(Result_VS) <<- c("90", "90-90", "90-90-90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
 
         # Result data.frame for plot(DALYs,cost)
         setProgress(value = 1, message = "Nearly finished", detail = 'compiling dataframes')
@@ -127,37 +127,37 @@ RunOptimisation <- function() {
         # Subsetting those achieving 90-90-90 Stuff #
         # ----------------------------------------- #
 
-        theList_909090 <- FindResults_909090(theList)
+        # theList_909090 <- FindResults_909090(theList)
 
-        ResultPar_909090 <- FindPar_909090(theList, par)
+        # ResultPar_909090 <- FindPar_909090(theList, par)
 
-        Result909090Impact    <- c()
-        Result909090Cost      <- c()
-        Result909090Par_Rho   <- c()
-        Result909090Par_Q     <- c()
-        Result909090Par_Kappa <- c()
-        Result909090Par_Gamma <- c()
-        Result909090Par_Sigma <- c()
-        Result909090Par_Omega <- c()
-        if (length(theList_909090) > 0) {
-            for (i in 1:length(theList_909090)) {
-                setProgress(value = i / length(theList_909090), message = paste0(i / length(theList_909090), "%"), detail = 'compiling results (90-90-90)')
-                Result909090Impact[i]    <- Calc_DALYsAverted(theList_909090[[i]], BaseDALY)
-                Result909090Cost[i]      <- Calc_AdditionalCost(theList_909090[[i]], BaseCost)
-                Result909090Par_Rho[i]   <- par[i,"rho"]
-                Result909090Par_Q[i]     <- par[i,"q"]
-                Result909090Par_Kappa[i] <- par[i,"kappa"]
-                Result909090Par_Gamma[i] <- par[i,"gamma"]
-                Result909090Par_Sigma[i] <- par[i,"sigma"]
-                Result909090Par_Omega[i] <- par[i,"omega"]
-            }
+        # Result909090Impact    <- c()
+        # Result909090Cost      <- c()
+        # Result909090Par_Rho   <- c()
+        # Result909090Par_Q     <- c()
+        # Result909090Par_Kappa <- c()
+        # Result909090Par_Gamma <- c()
+        # Result909090Par_Sigma <- c()
+        # Result909090Par_Omega <- c()
+        # if (length(theList_909090) > 0) {
+        #     for (i in 1:length(theList_909090)) {
+        #         setProgress(value = i / length(theList_909090), message = paste0(i / length(theList_909090), "%"), detail = 'compiling results (90-90-90)')
+        #         Result909090Impact[i]    <- Calc_DALYsAverted(theList_909090[[i]], BaseDALY)
+        #         Result909090Cost[i]      <- Calc_AdditionalCost(theList_909090[[i]], BaseCost)
+        #         Result909090Par_Rho[i]   <- par[i,"rho"]
+        #         Result909090Par_Q[i]     <- par[i,"q"]
+        #         Result909090Par_Kappa[i] <- par[i,"kappa"]
+        #         Result909090Par_Gamma[i] <- par[i,"gamma"]
+        #         Result909090Par_Sigma[i] <- par[i,"sigma"]
+        #         Result909090Par_Omega[i] <- par[i,"omega"]
+        #     }
 
-            Result_DALYs_909090 <<- data.frame(Result909090Impact, Result909090Cost, Result909090Par_Rho, Result909090Par_Q, Result909090Par_Kappa, Result909090Par_Gamma, Result909090Par_Sigma, Result909090Par_Omega)
-            colnames(Result_DALYs_909090) <<- c("DALYs", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
-        } else {
-            Result_DALYs_909090 <<- data.frame(0, 0, 0, 0, 0, 0, 0, 0)
-            colnames(Result_DALYs_909090) <<- c("DALYs", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
-        }
+        #     Result_DALYs_909090 <<- data.frame(Result909090Impact, Result909090Cost, Result909090Par_Rho, Result909090Par_Q, Result909090Par_Kappa, Result909090Par_Gamma, Result909090Par_Sigma, Result909090Par_Omega)
+        #     colnames(Result_DALYs_909090) <<- c("DALYs", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
+        # } else {
+        #     Result_DALYs_909090 <<- data.frame(0, 0, 0, 0, 0, 0, 0, 0)
+        #     colnames(Result_DALYs_909090) <<- c("DALYs", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
+        # }
 
         setProgress(value = 1, message = "Finished.", detail = paste(round(proc.time()[[1]] - time, 0), "seconds"))
 
@@ -169,5 +169,5 @@ RunOptimisation <- function() {
             size = "large",
             icon = icon("play", class = "fa-lg fa-fw", lib = "font-awesome"))
     })
-    Result_909090
+    Result_VS
 }

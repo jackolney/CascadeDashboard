@@ -14,6 +14,18 @@ observeEvent(input$userRetArt12mths, {
     }
 })
 
+# New Plot
+observeEvent(input$plotOptim_CostImpact_dblclick, {
+    brush <- input$plotOptim_CostImpact_brush
+    if (!is.null(brush)) {
+        plotOptimCostImpact.ranges$x <- c(brush$xmin, brush$xmax)
+        plotOptimCostImpact.ranges$y <- c(brush$ymin, brush$ymax)
+    } else {
+        plotOptimCostImpact.ranges$x <- NULL
+        plotOptimCostImpact.ranges$y <- NULL
+    }
+})
+
 # Plot 1
 observeEvent(input$plotOpt909090_dblclick, {
     brush <- input$plotOpt909090_brush
@@ -23,9 +35,8 @@ observeEvent(input$plotOpt909090_dblclick, {
     } else {
         plotOpt_909090.ranges$x <- NULL
         plotOpt_909090.ranges$y <- NULL
-        }
     }
-)
+})
 
 # Plot 2
 observeEvent(input$plotOptDALYs_dblclick, {
@@ -36,9 +47,8 @@ observeEvent(input$plotOptDALYs_dblclick, {
     } else {
         plotOpt_DALYs.ranges$x <- NULL
         plotOpt_DALYs.ranges$y <- NULL
-        }
     }
-)
+})
 
 # Plot 3
 observeEvent(input$plotOptDALYs909090_dblclick, {
@@ -49,9 +59,8 @@ observeEvent(input$plotOptDALYs909090_dblclick, {
     } else {
         plotOpt_DALYs_909090.ranges$x <- NULL
         plotOpt_DALYs_909090.ranges$y <- NULL
-        }
     }
-)
+})
 
 # -------------- #
 # Button Control #

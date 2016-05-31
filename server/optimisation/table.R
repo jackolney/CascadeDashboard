@@ -1,7 +1,9 @@
 # Data Table Render Functions
 output$optimDTout <- DT::renderDataTable({
-    # rely on button press
-    # input$repeatOptim
+
+    # rely on REPEAT_optim button press
+    input$REPEAT_optim
+
     # Identify the 'best fit' parameter values
     bestPar <- GetBestPar(
         masterCD4 = MasterCD4_2015,
@@ -81,12 +83,29 @@ output$optimDTout <- DT::renderDataTable({
         fontWeight = 'bold'
     ) %>% formatStyle(
         columns = 'Value',
-        background = styleColorBar(data = optimDT$Value, color = 'lightblue'),
+        background = styleColorBar(data = cbind(0, optimDT$Value), color = 'lightblue'),
         backgroundSize = '100% 88%',
         backgroundRepeat = 'no-repeat',
         backgroundPosition = 'center'
     ) %>% formatCurrency(columns = 'Value', currency = '', interval = 3)
 })
+
+output$optimDTmodal <- DT::renderDataTable({
+    return(datatable(Result_VS, options = list(pageLength = 25, autoWidth = TRUE)) %>%
+        formatRound("90",3) %>%
+        formatRound("90-90",3) %>%
+        formatRound("90-90-90",3) %>%
+        formatRound("VS",3) %>%
+        formatRound("Rho",3) %>%
+        formatRound("Q",3) %>%
+        formatRound("Kappa",3) %>%
+        formatRound("Gamma",3) %>%
+        formatRound("Sigma",3) %>%
+        formatRound("Omega",3) %>%
+        formatCurrency("Cost",'$')
+        )
+    }
+)
 
 output$optParTable_Rho <- renderTable({
     theData <- seq(from = input$userOptRho_Range[1], to = input$userOptRho_Range[2], length.out = 4)

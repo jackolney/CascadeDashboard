@@ -1,13 +1,17 @@
 # Optimisation Test Bed
 
 observeEvent(input$NEXT_optIntro, {
-    # Repeat trigger
-    input$REPEAT_optim
     # Run Optimsation Function
     optResult <<- RunOptimisation()
 })
 
+# Repeat trigger
+observeEvent(input$REPEAT_optim, {
+    optResult <<- RunOptimisation()
+})
+
 output$plotOptim_result <- renderPlot({
+    input$REPEAT_optim
     BuildOptimisationPlot(theOut = optResult)
 }, height = 400, width = 'auto', bg = 'transparent')
 
