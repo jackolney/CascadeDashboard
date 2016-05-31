@@ -37,41 +37,43 @@ tabItem(tabName = "opt-wizard",
             tags$em("Please note that values below are absolute and not to be interpretted as the
                 additional number of tests, initiations relative to a baseline scenario."),
 
-            tags$h3("Testing"),
-            "The number of individuals requiring diagnosis is:",
-            p(""),
-            uiOutput("optResult_testing"),
+            DT::dataTableOutput('optimDTout', width = "100%")
 
-            tags$h3("Linkage"),
-            "The number of individuals that need to be linked to care are:",
-            p(""),
-            uiOutput("optResult_linkage"),
+            # tags$h3("Testing"),
+            # "The number of individuals requiring diagnosis is:",
+            # p(""),
+            # uiOutput("optResult_testing"),
 
-            tags$h3("Pre-ART Retention"),
-            "The number of individuals that need to be retained in pre-ART care is:",
-            p(""),
-            uiOutput("optResult_preRetention"),
+            # tags$h3("Linkage"),
+            # "The number of individuals that need to be linked to care are:",
+            # p(""),
+            # uiOutput("optResult_linkage"),
 
-            tags$h3("ART Initiation"),
-            "The number of individuals that need to be initiated onto treatment are:",
-            p(""),
-            uiOutput("optResult_initiation"),
+            # tags$h3("Pre-ART Retention"),
+            # "The number of individuals that need to be retained in pre-ART care is:",
+            # p(""),
+            # uiOutput("optResult_preRetention"),
 
-            tags$h3("Adherence"),
-            "The number of individuals that need to fully adhere to treatment are:",
-            p(""),
-            uiOutput("optResult_adherence"),
+            # tags$h3("ART Initiation"),
+            # "The number of individuals that need to be initiated onto treatment are:",
+            # p(""),
+            # uiOutput("optResult_initiation"),
 
-            tags$h3("ART Retention"),
-            "The number of individuals that need to be retained on ART are:",
-            p(""),
-            uiOutput("optResult_retention"),
+            # tags$h3("Adherence"),
+            # "The number of individuals that need to fully adhere to treatment are:",
+            # p(""),
+            # uiOutput("optResult_adherence"),
 
-            tags$h3("Cost"),
-            "The cost associated with making these changes to care relative to a baseline scenario
-            without any intervention is:",
-            p(""),
-            uiOutput("optResult_cost")
+            # tags$h3("ART Retention"),
+            # "The number of individuals that need to be retained on ART are:",
+            # p(""),
+            # uiOutput("optResult_retention"),
+
+            # tags$h3("Cost"),
+            # "The cost associated with making these changes to care relative to a baseline scenario
+            # without any intervention is:",
+            # p(""),
+            # uiOutput("optResult_cost")
 
         ),
         box(width = NULL,
