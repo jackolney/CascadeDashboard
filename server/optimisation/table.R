@@ -36,12 +36,12 @@ output$optimDTout <- DT::renderDataTable({
     )
 
     Description <- c(
-        "The number of individuals requiring diagnosis is:",
-        "The number of individuals that need to be linked to care are:",
-        "The number of individuals that need to be retained in pre-ART care is:",
-        "The number of individuals that need to be initiated onto treatment are:",
-        "The number of individuals that need to fully adhere to treatment are:",
-        "The number of individuals that need to be retained on ART are:"
+        "The number of individuals requiring diagnosis",
+        "The number of individuals that need to be linked to care",
+        "The number of individuals that need to be retained in pre-ART care",
+        "The number of individuals that need to be initiated onto treatment",
+        "The number of individuals that need to fully adhere to treatment",
+        "The number of individuals that need to be retained on ART"
     )
 
     # The values used in uiOutput()
@@ -70,9 +70,12 @@ output$optimDTout <- DT::renderDataTable({
     DT::datatable(optimDT, options = list(
       initComplete = JS(
         "function(settings, json) {",
-        "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+        "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
         "}")
     )) %>% formatStyle(
+        columns = 'Use',
+        'text-align' = 'right'
+    ) %>% formatStyle(
         columns = 'Intervention',
         color = 'black',
         fontWeight = 'bold'
