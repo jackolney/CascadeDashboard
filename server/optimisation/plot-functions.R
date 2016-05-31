@@ -49,7 +49,16 @@ BuildOptimisationPlot <- function(theOut) {
     ggOut <- ggplot(resultOut, aes(x = intervention, y = strength))
     ggOut <- ggOut + geom_bar(aes(fill = intervention), stat = "identity")
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + ggtitle(label = "Average improvement in each aspect of the cascade", subtitle = "Percentage increase brought about by interventions")
+    ggOut <- ggOut + ggtitle(
+        label = "Average improvement in each aspect of the cascade",
+        subtitle =
+            paste0("Percentage increase brought about by ",
+                scales::comma(dim(selectedResults)[1]),
+                " interventions, achieving ",
+                input$opt_VS_cutoff,
+                "% viral suppression"
+            )
+        )
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 14))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 14))
