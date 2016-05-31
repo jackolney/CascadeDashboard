@@ -358,3 +358,22 @@ observeEvent(input$uVIRAL_source, {
         shinyBS::closeAlert(session, alertId = "alertId_uVIRAL_red")
     }
 })
+
+# Optimisation Slider Alert
+observeEvent(input$opt_VS_cutoff, {
+    if (exists("optResult")) {
+        if (dim(subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100)))[1] == 0) {
+            shinyBS::closeAlert(session, alertId = "alertId_opt_VS_cutoff")
+            shinyBS::createAlert(session,
+                anchorId = "opt_VS_cutoff_alert",
+                alertId = "alertId_opt_VS_cutoff",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = paste0("No interventions achieved viral suppression of ", input$opt_VS_cutoff, "%"),
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_opt_VS_cutoff")
+        }
+    }
+})

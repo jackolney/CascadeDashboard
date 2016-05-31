@@ -121,6 +121,7 @@ tabItem(tabName = "opt-wizard",
                         block = TRUE,
                         icon = icon("database", class = "fa-lg fa-fw", lib = "font-awesome"))
         ),
+        bsAlert(anchorId = "opt_VS_cutoff_alert"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "REPEAT_optim", label = "Repeat", style = "danger", size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome"))
