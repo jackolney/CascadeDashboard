@@ -63,7 +63,7 @@ tabItem(tabName = "opt-intro",
             impact and cost of a range of hypothetical interventions acting at various stages of care.
             Due to the simplistic nature of the model, however, we can only test broad categories of
             interventions. Potential interventions that can be simulated are listed in the main panel.",
-            helpText("Please hit 'Next' to proceed to optimisation.
+            helpText("Please hit 'Start' to begin simulating interventions.
                 Further page options are available from the sidebar."),
             bsButton(inputId = "intDetail",
                         label = "Intervention Detail",
