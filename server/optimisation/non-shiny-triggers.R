@@ -622,9 +622,102 @@ range(selectedResults$Q)
 
 1 / 0.2
 
+bestPar <- GetBestPar(
+        masterCD4 = MasterCD4_2015,
+        data = MasterData,
+        calibParamOut = CalibParamOut,
+        minErrorRun = minErrorRun)
+
+test <- theOut
+theOut
+test[1,]
+
+a <- (test$Rho / bestPar[["Rho"]]) * test$VS
+
+mean(a)
 
 
+unlist(lapply((test$Rho / bestPar[["Rho"]]), function(x, vs) if (x > 1) x * vs, vs = test$VS))[1]
+
+(test$Rho / bestPar[["Rho"]])[2] * test$VS[2]
 
 
+calc = test$Rho[1] / bestPar[["Rho"]]
+vs = test$VS[1]
+
+WeightResults <- function(calc, vs) {
+    if (calc > 1) calc * vs
+}
+
+WeightResults(calc = calc, vs = vs)
+
+for(i in 1:dim(test)[1]) {
+    i = 2
+    WeightResults(calc = test$Rho[i] / bestPar[["Rho"]], vs = test$VS[i])
+}
+mean(out)
+
+i = 2
+WeightResults(calc = test$Rho[i] / bestPar[["Rho"]], vs = test$VS[i])
+
+# lapply((test$Rho / bestPar[["Rho"]]), function(x, vs) if (x > 1) x * vs, vs = test$VS)
+
+WeightResults <- function(x, vs) {
+    if (x > 1) x * vs
+}
+
+lapply((test$Rho / bestPar[["Rho"]]), function(x, vs) if (x > 1) x * vs, vs = test$VS)
+
+
+# What if I take a subset first?
+a <- subset(test, test$Rho / bestPar[["Rho"]] > 1)
+length(a)
+
+
+#######################################
+### THIS IS NEW AND THIS IS COOL!!! ###
+#######################################
+
+hi <- test
+
+
+subset(hi, hi$Rho / bestPar[["Rho"]] > 1)
+
+# Add columns to data.frame
+hi$testing <- hi$Rho / bestPar[["Rho"]]
+hi$linkage <- hi$Q / bestPar[["q"]]
+hi$preRetention <- bestPar[["Kappa"]] / hi$Kappa
+hi$initiation <- hi$Gamma / bestPar[["Gamma"]]
+hi$adherence <- hi$Sigma
+hi$retention <- bestPar[["Omega"]] / hi$Omega
+
+
+mean(hi[hi$testing > 1, "testing"] * hi[hi$testing > 1, "VS"])
+mean(hi[hi$linkage > 1, "linkage"] * hi[hi$linkage > 1, "VS"])
+mean(hi[hi$preRetention > 1, "preRetention"] * hi[hi$preRetention > 1, "VS"])
+mean(hi[hi$initiation > 1, "initiation"] * hi[hi$initiation > 1, "VS"])
+mean(hi[hi$adherence > 1, "adherence"] * hi[hi$adherence > 1, "VS"])
+mean(hi[hi$retention > 1, "retention"] * hi[hi$retention > 1, "VS"])
+
+intervention <- c(
+    "Testing",
+    "Linkage",
+    "Pre-ART Retention",
+    "Initiation",
+    "Adherence",
+    "ART Retention")
+
+strength <- c(
+    mean(hi[hi$testing > 1, "testing"] * hi[hi$testing > 1, "VS"]),
+    mean(hi[hi$linkage > 1, "linkage"] * hi[hi$linkage > 1, "VS"]),
+    mean(hi[hi$preRetention > 1, "preRetention"] * hi[hi$preRetention > 1, "VS"]),
+    mean(hi[hi$initiation > 1, "initiation"] * hi[hi$initiation > 1, "VS"]),
+    mean(hi[hi$adherence > 1, "adherence"] * hi[hi$adherence > 1, "VS"]),
+    mean(hi[hi$retention > 1, "retention"] * hi[hi$retention > 1, "VS"])
+)
+
+# build data.frame
+resultOut <- data.frame(intervention, strength)
+ggplot(resultOut, aes(x = intervention, y = strength)) + geom_bar(stat = "identity")
 
 
