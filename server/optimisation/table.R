@@ -89,7 +89,7 @@ output$optimDTout <- DT::renderDataTable({
         fontWeight = 'bold'
     ) %>% formatStyle(
         columns = 'Value',
-        background = ColorFromMiddle(data = cbind(0, optimDT$Value), color1 = '#FF6347', color2 = '#90EE90'),
+        background = ColorFromMiddle(data = cbind(0, optimDT$Value), color1 = '#CF553D', color2 = '#46A55F'),
         backgroundSize = '100% 88%',
         backgroundRepeat = 'no-repeat',
         backgroundPosition = 'center'
