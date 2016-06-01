@@ -38,22 +38,22 @@ output$optimDTout <- DT::renderDataTable({
     )
 
     Description <- c(
-        "The number of individuals requiring diagnosis",
-        "The number of individuals that need to be linked to care",
-        "The number of individuals that need to be retained in pre-ART care",
-        "The number of individuals that need to be initiated onto treatment",
-        "The number of individuals that need to fully adhere to treatment",
-        "The number of individuals that need to be retained on ART"
+        "The number of additional individuals requiring diagnosis",
+        "The number of additional individuals that need to be linked to care",
+        "The number of additional individuals that need to be retained in pre-ART care",
+        "The number of additional individuals that need to be initiated onto treatment",
+        "The number of additional individuals that need to fully adhere to treatment",
+        "The number of additional individuals that need to be retained on ART"
     )
 
     # The values used in uiOutput()
     Value <- c(
-        round(cumsum(alt$Dx)[251]           - alt$Dx[1]           - cumsum(baseline$Dx)[251]   - baseline$Dx[1],   digits = 0),
-        round(cumsum(alt$Care)[251]         - alt$Care[1]         - cumsum(baseline$Care)[251] - baseline$Care[1], digits = 0),
-        round(cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1] - cumsum(alt$PreLtfu)[251]   - alt$PreLtfu[1],   digits = 0),
-        round(cumsum(alt$Tx)[251]           - alt$Tx[1]           - cumsum(baseline$Tx)[251]   - baseline$Tx[1],   digits = 0),
-        round(cumsum(alt$Vs)[251]           - alt$Vs[1]           - cumsum(baseline$Vs)[251]   - baseline$Vs[1],   digits = 0),
-        round(cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]    - cumsum(alt$Ltfu)[251]      - alt$Ltfu[1],      digits = 0)
+        round(  (cumsum(alt$Dx)[251]           - alt$Dx[1]          ) - (cumsum(baseline$Dx)[251]   - baseline$Dx[1]    ),   digits = 0),
+        round(  (cumsum(alt$Care)[251]         - alt$Care[1]        ) - (cumsum(baseline$Care)[251] - baseline$Care[1]  ),   digits = 0),
+        round(  (cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1]) - (cumsum(alt$PreLtfu)[251]   - alt$PreLtfu[1]    ),   digits = 0),
+        round(  (cumsum(alt$Tx)[251]           - alt$Tx[1]          ) - (cumsum(baseline$Tx)[251]   - baseline$Tx[1]    ),   digits = 0),
+        round(  (cumsum(alt$Vs)[251]           - alt$Vs[1]          ) - (cumsum(baseline$Vs)[251]   - baseline$Vs[1]    ),   digits = 0),
+        round(  (cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]   ) - (cumsum(alt$Ltfu)[251]      - alt$Ltfu[1]       ),   digits = 0)
     )
 
     # The proportion of simulations that required that thing (then will add a bar in post processing)
