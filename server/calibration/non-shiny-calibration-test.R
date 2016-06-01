@@ -45,3 +45,8 @@ KenyaData <- GetMasterDataSet("Kenya")
 RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
 # All elements should be present, now.
+
+# Is the minErrorRun = k or v
+
+# CalibOut might be longer than 100, then that needs k
+# else everything that is <100 in length needs v.

@@ -9,18 +9,20 @@ output$optimDTout <- DT::renderDataTable({
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        sampleMinErrorRun = sampleMinErrorRun)
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -69,12 +71,18 @@ output$optimDTout <- DT::renderDataTable({
 
     optimDT <- data.frame(Intervention, Description, Value, Use)
 
-    DT::datatable(optimDT, options = list(
-      initComplete = JS(
-        "function(settings, json) {",
-        "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
-        "}")
-    )) %>% formatStyle(
+    DT::datatable(optimDT,
+        style = 'bootstrap',
+        rownames = FALSE,
+        options = list(
+            initComplete = JS(
+                "function(settings, json) {",
+                "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                "}"),
+            autoWidth = FALSE
+            # columnDefs = list(list(width = 'auto', targets = 2))
+        )
+    ) %>% formatStyle(
         columns = 'Use',
         'text-align' = 'right'
     ) %>% formatStyle(
@@ -91,7 +99,17 @@ output$optimDTout <- DT::renderDataTable({
 })
 
 output$optimDTmodal <- DT::renderDataTable({
-    return(datatable(Result_VS, options = list(pageLength = 25, autoWidth = TRUE)) %>%
+    return(datatable(Result_VS,
+        style = 'bootstrap',
+        options = list(
+            pageLength = 25,
+            autoWidth = FALSE,
+            initComplete = JS(
+                "function(settings, json) {",
+                "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                "}")
+            )
+        ) %>%
         formatRound("90",3) %>%
         formatRound("90-90",3) %>%
         formatRound("90-90-90",3) %>%

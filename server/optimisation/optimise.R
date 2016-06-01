@@ -1,32 +1,10 @@
-
 RunOptimisation <- function() {
     # This should be triggered by the renderPlot().
     withProgress(min = 0, max = 1, {
 
         setProgress(value = 0, message = 'Starting optimisation', detail = 'creating parameter matrix')
 
-        # CHECKLIST
-        print("opt_rho_factor =")
-        print(input$opt_rho_factor)
-
-        print("opt_q_factor =")
-        print(input$opt_q_factor)
-
-        print("opt_kappa_factor =")
-        print(input$opt_kappa_factor)
-
-        print("opt_gamma_factor =")
-        print(input$opt_gamma_factor)
-
-        print("opt_sigma_factor =")
-        print(input$opt_sigma_factor)
-
-        print("opt_omega_factor =")
-        print(input$opt_omega_factor)
-
-        message("GetParaMatrix() should only be called once.")
-        par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
-        message("End of GetParaMaterix() call.")
+        par <- GetParaMatrix(cParamOut = CalibParamOut, sampleMinErrorRun = sampleMinErrorRun)
 
         updateButton(session,
             inputId = "optimStart",
@@ -57,7 +35,7 @@ RunOptimisation <- function() {
                 data = MasterData,
                 iterationParam = par[i,],
                 calibParamOut = CalibParamOut,
-                minErrorRun = minErrorRun)
+                sampleMinErrorRun = sampleMinErrorRun)
 
             # Now we need the initials.
             y <- GetInitial(
@@ -65,7 +43,7 @@ RunOptimisation <- function() {
                 iterationResult = bestCalibInitial,
                 masterCD4 = MasterCD4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[sampleMinErrorRun,])
 
             theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
 

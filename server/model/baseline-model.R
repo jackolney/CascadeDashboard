@@ -9,14 +9,14 @@ CallBaselineModel <- function() {
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        sampleMinErrorRun = sampleMinErrorRun)
 
     y <- GetInitial(
         p = p,
         iterationResult = bestCalibInitial,
         masterCD4 = MasterCD4_2015)
 
-    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[sampleMinErrorRun,])
 
     result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

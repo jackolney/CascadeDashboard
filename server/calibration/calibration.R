@@ -94,6 +94,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         selectedRuns <- c()
         minError <<- 1e6
         minErrorRun <<- NULL
+        sampleMinErrorRun <<- NULL
         runError <<- c()
         CalibOut <<- c()
         for (k in 1:dim(lhsInitial_Sense)[1]) {
@@ -118,6 +119,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
                 if (runError[k] < minError) {
                     minError <<- runError[k]
                     minErrorRun <<- k
+                    sampleMinErrorRun <<- v
                 }
                 selectedRuns[v] <- k
                 CalibOut <<- rbind(CalibOut, iOut)

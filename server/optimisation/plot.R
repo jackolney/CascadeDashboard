@@ -7,7 +7,7 @@ output$plotOptim_CostImpact <- renderPlot({
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        sampleMinErrorRun = sampleMinErrorRun)
 
     optResult <- dplyr::mutate(optResult,
         'Testing' = scales::percent(optResult$Rho / bestPar[["Rho"]]),

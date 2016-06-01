@@ -37,7 +37,7 @@ input$opt_omega_factor <- 10
 
 # Can we run the calibration from here?
 
-theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
+theTest <- GetParaMatrix(cParamOut = CalibParamOut, sampleMinErrorRun = sampleMinErrorRun)
 
 # Testing somem functions
 
@@ -90,7 +90,7 @@ bestPar <- GetBestPar(
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        sampleMinErrorRun = sampleMinErrorRun)
 
 
 reshape2::melt(test)
@@ -180,11 +180,12 @@ mean(test$Omega)
 
 # put in paragraph???
 # table???
-baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, sampleMinErrorRun = sampleMinErrorRun)
 
 alt <- CallBestModel(
     CalibOut = CalibOut,
     minErrorRun = minErrorRun,
+    sampleMinErrorRun = sampleMinErrorRun,
     Rho = mean(test$Rho),
     q = mean(test$Q),
     Kappa = mean(test$Kappa),
@@ -423,11 +424,13 @@ mean(unlist(lapply(short, function(x) if(x > 1) x)))
 
 baseline <- CallBestModel(
     CalibOut = CalibOut,
-    minErrorRun = minErrorRun)
+    minErrorRun = minErrorRun,
+    sampleMinErrorRun = sampleMinErrorRun)
 
 alt <- CallBestModel(
     CalibOut = CalibOut,
     minErrorRun = minErrorRun,
+    sampleMinErrorRun = sampleMinErrorRun,
     Rho = mean(selectedResults$Rho),
     q = mean(selectedResults$Q),
     Kappa = mean(selectedResults$Kappa),

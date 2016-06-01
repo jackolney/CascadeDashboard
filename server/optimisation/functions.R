@@ -1,81 +1,60 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
 
-GetParaMatrix <- function(cParamOut, minErrorRun) {
-    print("GetParaMatrix() testing...")
-    message(paste('intSwitch$testing =\n\t', intSwitch$testing))
-    message(paste('cParamOut[minErrorRun, "rho"] =\n\t', cParamOut[minErrorRun, "rho"]))
-    message(paste('input$opt_rho_factor =\n\t', input$opt_rho_factor))
-    message(paste('intSwitch$linkage =\n\t', intSwitch$linkage))
-    message(paste('cParamOut[minErrorRun, "q"] =\n\t', cParamOut[minErrorRun, "q"]))
-    message(paste('input$opt_q_factor =\n\t', input$opt_q_factor))
-    message(paste('intSwitch$preRetention =\n\t', intSwitch$preRetention))
-    message(paste('cParamOut[minErrorRun, "kappa"]  =\n\t', cParamOut[minErrorRun, "kappa"] ))
-    message(paste('input$opt_kappa_factor =\n\t', input$opt_kappa_factor))
-    message(paste('intSwitch$initiation =\n\t', intSwitch$initiation))
-    message(paste('cParamOut[minErrorRun, "gamma"] =\n\t', cParamOut[minErrorRun, "gamma"]))
-    message(paste('input$opt_gamma_factor =\n\t', input$opt_gamma_factor))
-    message(paste('intSwitch$adherence =\n\t', intSwitch$adherence))
-    message(paste('input$opt_sigma_factor =\n\t', input$opt_sigma_factor))
-    message(paste('intSwitch$retention =\n\t', intSwitch$retention))
-    message(paste('cParamOut[minErrorRun, "omega"] =\n\t', cParamOut[minErrorRun, "omega"]))
-    message(paste('input$opt_omega_factor =\n\t', input$opt_omega_factor))
-    message('cParamOut test =')
-    print(cParamOut)
-
+GetParaMatrix <- function(cParamOut, sampleMinErrorRun) {
     ParRange <- expand.grid(
 
         Rho   = seq(
             from = if (intSwitch$testing) {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[sampleMinErrorRun, "rho"]
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[sampleMinErrorRun, "rho"]
                 },
             to = if (intSwitch$testing) {
-                    cParamOut[minErrorRun, "rho"] * input$opt_rho_factor
+                    cParamOut[sampleMinErrorRun, "rho"] * input$opt_rho_factor
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[sampleMinErrorRun, "rho"]
                 },
             length.out = 4
         ),
 
         Q     = seq(
             from = if (intSwitch$linkage) {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[sampleMinErrorRun, "q"]
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[sampleMinErrorRun, "q"]
                 },
             to = if (intSwitch$linkage) {
                     input$opt_q_factor
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[sampleMinErrorRun, "q"]
                 },
             length.out = 4
         ),
 
         Kappa = seq(
             from = if (intSwitch$preRetention) {
-                    cParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
+                    cParamOut[sampleMinErrorRun, "kappa"] / input$opt_kappa_factor
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[sampleMinErrorRun, "kappa"]
                 },
             to = if (intSwitch$preRetention) {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[sampleMinErrorRun, "kappa"]
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[sampleMinErrorRun, "kappa"]
                 },
             length.out = 4
         ),
 
         Gamma = seq(
             from = if (intSwitch$initiation) {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[sampleMinErrorRun, "gamma"]
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[sampleMinErrorRun, "gamma"]
                 },
             to = if (intSwitch$initiation) {
-                    cParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
+                    cParamOut[sampleMinErrorRun, "gamma"] * input$opt_gamma_factor
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[sampleMinErrorRun, "gamma"]
                 },
             length.out = 4
         ),
@@ -96,14 +75,14 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
 
         Omega = seq(
             from = if (intSwitch$retention) {
-                    cParamOut[minErrorRun, "omega"] / input$opt_omega_factor
+                    cParamOut[sampleMinErrorRun, "omega"] / input$opt_omega_factor
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[sampleMinErrorRun, "omega"]
                 },
             to = if (intSwitch$retention) {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[sampleMinErrorRun, "omega"]
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[sampleMinErrorRun, "omega"]
                 },
             length.out = 4
         )
@@ -222,7 +201,12 @@ Extract909090DataSingle <- function(data) {
 
 GetBestCalibOut <- function(calibOut, minErrorRun) {
     out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),]
-    out[, c("indicator", "value")]
+    out <- out[, c("indicator", "value")]
+    if (dim(out)[1] > 7) {
+        warning("out length is > 7")
+        print(out)
+    }
+    out
 }
 
 ColorFromMiddle <- function(data, color1, color2) {

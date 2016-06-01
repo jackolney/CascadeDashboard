@@ -21,7 +21,7 @@ BuildOptimisationPlot <- function(theOut) {
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        sampleMinErrorRun = sampleMinErrorRun)
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(theOut, theOut$VS >= (input$opt_VS_cutoff / 100))
@@ -80,11 +80,13 @@ output$optResult_testing <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -105,11 +107,13 @@ output$optResult_linkage <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -130,11 +134,13 @@ output$optResult_preRetention <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -154,11 +160,13 @@ output$optResult_initiation <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -178,11 +186,13 @@ output$optResult_adherence <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -203,11 +213,13 @@ output$optResult_retention <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),
@@ -227,11 +239,13 @@ output$optResult_cost <- renderUI({
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun)
+        minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
+        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),

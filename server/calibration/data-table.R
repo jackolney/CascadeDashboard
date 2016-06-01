@@ -5,7 +5,12 @@ output$dataTable_DATA <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
@@ -20,7 +25,12 @@ output$dataTable_PLHIV <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
@@ -35,7 +45,12 @@ output$dataTable_DIAG <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
@@ -50,7 +65,12 @@ output$dataTable_CARE <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
@@ -65,7 +85,12 @@ output$dataTable_ART <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
@@ -80,7 +105,12 @@ output$dataTable_VIRAL <- DT::renderDataTable({
 
     return(
         datatable(MasterData$calib,
+            style = 'bootstrap',
             options = list(
+                initComplete = JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                    "}"),
                 pageLength = 100,
                 autoWidth = TRUE,
                 order = list(list(3, 'asc'))
