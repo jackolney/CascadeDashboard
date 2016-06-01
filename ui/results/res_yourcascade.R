@@ -4,7 +4,6 @@ tabItem(tabName = "your_cascade",
         tabBox(
             width = NULL,
             height = "600px",
-            title = icon("bar-chart", class = "fa-lg fa-fw", lib = "font-awesome"),
             selected = "PLHIV",
             side = "left",
 

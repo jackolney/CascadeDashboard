@@ -35,12 +35,12 @@ BuildOptimisationPlot <- function(theOut) {
         "ART Retention")
 
     strength <- c(
-        sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / dim(selectedResults)[1],
-        sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / dim(selectedResults)[1],
-        sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / dim(selectedResults)[1]
+        sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE))),
+        sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) TRUE))),
+        sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) TRUE))),
+        sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) TRUE))),
+        sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) TRUE))),
+        sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) TRUE)))
     )
 
     # build data.frame

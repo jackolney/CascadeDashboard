@@ -77,12 +77,12 @@ output$optimDTout <- DT::renderDataTable({
                 "function(settings, json) {",
                 "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
                 "}"),
-            autoWidth = FALSE
-            # columnDefs = list(list(width = 'auto', targets = 2))
+            autoWidth = FALSE,
+            columnDefs = list(list(className = 'dt-center', targets = 2))
         )
     ) %>% formatStyle(
         columns = 'Use',
-        'text-align' = 'right'
+        'text-align' = 'center'
     ) %>% formatStyle(
         columns = 'Intervention',
         color = 'black',

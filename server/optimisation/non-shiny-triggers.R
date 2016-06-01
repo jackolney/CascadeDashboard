@@ -546,3 +546,85 @@ DT::datatable(data) %>%
 
 
 isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'
+
+
+
+
+#####
+
+selectedResults <- subset(theOut, theOut$VS > 0)
+dim(selectedResults)
+
+
+
+intervention <- c(
+    "Testing",
+    "Linkage",
+    "Pre-ART Retention",
+    "Initiation",
+    "Adherence",
+    "ART Retention")
+
+strength <- c(
+    sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / dim(selectedResults)[1],
+    sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / dim(selectedResults)[1],
+    sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / dim(selectedResults)[1],
+    sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / dim(selectedResults)[1]
+)
+
+# build data.frame
+resultOut <- data.frame(intervention, strength)
+ggplot(resultOut, aes(x = intervention, y = strength)) + geom_bar(stat = "identity")
+
+####
+
+intervention <- c(
+    "Testing",
+    "Linkage",
+    "Pre-ART Retention",
+    "Initiation",
+    "Adherence",
+    "ART Retention")
+
+strength <- c(
+    sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE))),
+    sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) TRUE))),
+    sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) TRUE))),
+    sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) TRUE))),
+    sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) TRUE))),
+    sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) TRUE)))
+)
+
+# build data.frame
+resultOut2 <- data.frame(intervention, strength)
+ggplot(resultOut, aes(x = intervention, y = strength)) + geom_bar(stat = "identity")
+
+
+resultOut
+resultOut2
+
+
+sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / dim(selectedResults)[1]
+
+sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE)))
+
+
+
+sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x)))
+
+range(selectedResults$Q / bestPar[["q"]])
+
+range(selectedResults$Q)
+
+
+
+1 / 0.2
+
+
+
+
+
+
+

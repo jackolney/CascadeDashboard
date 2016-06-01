@@ -3,7 +3,6 @@ tabItem(tabName = "incidence_mortality",
         tabBox(
             width = NULL,
             height = "600px",
-            title = "Results",
             tabPanel("Incidence",
                 plotOutput('plotNewInf', height = "500px")
             ),

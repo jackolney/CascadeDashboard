@@ -8,11 +8,11 @@ tabItem(tabName = "opt-wizard",
             collapsed = FALSE,
             title = "Results",
             "The figure below illustrates the different combinations of interventions that achieve the
-            viral suppression value in 2020 set by the slider on the right hand side
-            (# virally suppressed / # on ART). This figure was calculated by by looking at each
-            intervention in turn, and calculating the percentage increase in a particular rate
-            (e.g. the testing rate) for each simulation, before taking the average across all
-            simulations to arrive at the average percentage increase in each aspect of care.
+            viral suppression value set by the slider on the right hand side (# virally suppressed
+            / # on ART) by 2020. This figure was calculated by looking at the number of times each
+            intervention achieved the viral suppression value on the right, and calculating the
+            percentage increase in a particular rate (e.g. the testing rate) for each and taking
+            the mean to arrive at the average percentage increase in each aspect of care.
             The figure shows for a given viral suppression value, which interventions were used and
             to what degree they were used. For further details, see the 'Strategy' section.",
             p(""),
@@ -27,7 +27,6 @@ tabItem(tabName = "opt-wizard",
             collapsible = TRUE,
             collapsed = FALSE,
             title = "Strategy",
-
             "The results of the optimisation indicate thousands of potential ways to improve care,
             either using interventions individually or in combination. Our simulations find that in
             order to achieve the level of viral suppression selected by the slider (right) by 2020,
