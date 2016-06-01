@@ -37,7 +37,25 @@ tabItem(tabName = "opt-wizard",
                 this is correct, and explained by specific changes in care having an in-direct impact
                 on reducing incidence, thereby reducing the total population of infected individuals."),
             p(""),
-            DT::dataTableOutput('optimDTout', width = "100%")
+            DT::dataTableOutput('optimDTout', width = "100%"),
+            p(""),
+            tags$h3("UNAIDS 90-90-90 Targets by 2020"),
+            "Given the changes listed in the above table, countries can expect to be well on the way
+            to achieving the UNAIDS 90-90-90 targets by 2020. Expected values for each indicator are
+            listed below, along with the total additional cost of changes to care.",
+            p(""),
+            fluidRow(
+                column(width = 4,
+                    valueBoxOutput(outputId = "vbOptim_909090_1", width = "100%")
+                ),
+                column(width = 4,
+                    valueBoxOutput(outputId = "vbOptim_909090_2", width = "100%")
+                ),
+                column(width = 4,
+                    valueBoxOutput(outputId = "vbOptim_909090_3", width = "100%")
+                )
+            ),
+            tags$div(valueBoxOutput(outputId = "vbOptim_COST", width = "100%"), style = "width: 45%; margin: auto;")
         ),
         box(width = NULL,
             status = "danger",
