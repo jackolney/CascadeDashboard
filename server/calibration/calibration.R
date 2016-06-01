@@ -113,7 +113,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
             runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
             # If error <= maxError then store value of k
-            if (runError[k] <= maxError) {
+            if (runError[k] <= maxError & v < limit) {
                 v <- v + 1
                 if (runError[k] < minError) {
                     minError <<- runError[k]
