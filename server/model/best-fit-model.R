@@ -1,5 +1,5 @@
 # Best 'fit' Model Call
-CallBestModel <- function(CalibOut, minErrorRun, sampleMinErrorRun, ...) {
+CallBestModel <- function(CalibOut, minErrorRun, ...) {
     # Setup #
     # This does ignore the cascade::parameter and cascade::initial
 
@@ -21,25 +21,25 @@ CallBestModel <- function(CalibOut, minErrorRun, sampleMinErrorRun, ...) {
         t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
         t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
         t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
-        Rho = CalibParamOut[sampleMinErrorRun,"rho"],
-        Epsilon = CalibParamOut[sampleMinErrorRun,"epsilon"],
-        Kappa = CalibParamOut[sampleMinErrorRun,"kappa"],
-        Gamma = CalibParamOut[sampleMinErrorRun,"gamma"],
-        Theta = CalibParamOut[sampleMinErrorRun,"theta"],
-        Omega = CalibParamOut[sampleMinErrorRun,"omega"],
-        p = CalibParamOut[sampleMinErrorRun,"p"],
-        q = CalibParamOut[sampleMinErrorRun,"q"],
+        Rho = CalibParamOut[minErrorRun,"rho"],
+        Epsilon = CalibParamOut[minErrorRun,"epsilon"],
+        Kappa = CalibParamOut[minErrorRun,"kappa"],
+        Gamma = CalibParamOut[minErrorRun,"gamma"],
+        Theta = CalibParamOut[minErrorRun,"theta"],
+        Omega = CalibParamOut[minErrorRun,"omega"],
+        p = CalibParamOut[minErrorRun,"p"],
+        q = CalibParamOut[minErrorRun,"q"],
         ...
     )
 
     # Now we need the initials.
     y <- GetInitial(
         p = p,
-        iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),],
+        iterationResult = GetBestCalibOut(calibOut = CalibOut, minErrorRun = minErrorRun),
         masterCD4 = MasterCD4_2015
         )
 
-    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[sampleMinErrorRun,])
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
     result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

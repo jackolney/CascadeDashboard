@@ -1,60 +1,60 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
 
-GetParaMatrix <- function(cParamOut, sampleMinErrorRun) {
+GetParaMatrix <- function(cParamOut, minErrorRun) {
     ParRange <- expand.grid(
 
         Rho   = seq(
             from = if (intSwitch$testing) {
-                    cParamOut[sampleMinErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 } else {
-                    cParamOut[sampleMinErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 },
             to = if (intSwitch$testing) {
-                    cParamOut[sampleMinErrorRun, "rho"] * input$opt_rho_factor
+                    cParamOut[minErrorRun, "rho"] * input$opt_rho_factor
                 } else {
-                    cParamOut[sampleMinErrorRun, "rho"]
+                    cParamOut[minErrorRun, "rho"]
                 },
             length.out = 4
         ),
 
         Q     = seq(
             from = if (intSwitch$linkage) {
-                    cParamOut[sampleMinErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 } else {
-                    cParamOut[sampleMinErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 },
             to = if (intSwitch$linkage) {
                     input$opt_q_factor
                 } else {
-                    cParamOut[sampleMinErrorRun, "q"]
+                    cParamOut[minErrorRun, "q"]
                 },
             length.out = 4
         ),
 
         Kappa = seq(
             from = if (intSwitch$preRetention) {
-                    cParamOut[sampleMinErrorRun, "kappa"] / input$opt_kappa_factor
+                    cParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
                 } else {
-                    cParamOut[sampleMinErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 },
             to = if (intSwitch$preRetention) {
-                    cParamOut[sampleMinErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 } else {
-                    cParamOut[sampleMinErrorRun, "kappa"]
+                    cParamOut[minErrorRun, "kappa"]
                 },
             length.out = 4
         ),
 
         Gamma = seq(
             from = if (intSwitch$initiation) {
-                    cParamOut[sampleMinErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 } else {
-                    cParamOut[sampleMinErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 },
             to = if (intSwitch$initiation) {
-                    cParamOut[sampleMinErrorRun, "gamma"] * input$opt_gamma_factor
+                    cParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
                 } else {
-                    cParamOut[sampleMinErrorRun, "gamma"]
+                    cParamOut[minErrorRun, "gamma"]
                 },
             length.out = 4
         ),
@@ -75,14 +75,14 @@ GetParaMatrix <- function(cParamOut, sampleMinErrorRun) {
 
         Omega = seq(
             from = if (intSwitch$retention) {
-                    cParamOut[sampleMinErrorRun, "omega"] / input$opt_omega_factor
+                    cParamOut[minErrorRun, "omega"] / input$opt_omega_factor
                 } else {
-                    cParamOut[sampleMinErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 },
             to = if (intSwitch$retention) {
-                    cParamOut[sampleMinErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 } else {
-                    cParamOut[sampleMinErrorRun, "omega"]
+                    cParamOut[minErrorRun, "omega"]
                 },
             length.out = 4
         )
@@ -200,8 +200,8 @@ Extract909090DataSingle <- function(data) {
 }
 
 GetBestCalibOut <- function(calibOut, minErrorRun) {
-    out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),]
-    out <- out[, c("indicator", "value")]
+    int <- calibOut[1:72 + 72 * (minErrorRun - 1),]
+    out <- int[int$year == 2015 & int$source == "model",]
     if (dim(out)[1] > 7) {
         warning("out length is > 7")
         print(out)

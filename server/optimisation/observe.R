@@ -8,7 +8,7 @@ observeEvent(input$optimStart, {
 
         setProgress(value = 0, message = 'Starting optimisation', detail = 'creating parameter matrix')
 
-        par <- GetParaMatrix(calibParamOut = CalibParamOut, sampleMinErrorRun = sampleMinErrorRun)
+        par <- GetParaMatrix(calibParamOut = CalibParamOut, minErrorRun = minErrorRun)
 
         updateButton(session,
             inputId = "optimStart",
@@ -39,7 +39,7 @@ observeEvent(input$optimStart, {
                 data = MasterData,
                 iterationParam = par[i,],
                 calibParamOut = CalibParamOut,
-                sampleMinErrorRun = sampleMinErrorRun)
+                minErrorRun = minErrorRun)
 
             # Now we need the initials.
             y <- GetInitial(

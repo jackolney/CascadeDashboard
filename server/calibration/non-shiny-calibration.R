@@ -51,7 +51,6 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
     selectedRuns <- c()
     minError <<- 1e6
     minErrorRun <<- NULL
-    sampleMinErrorRun <<- NULL
     runError <<- c()
     CalibOut <<- c()
     for (k in 1:dim(lhsInitial_Sense)[1]) {
@@ -69,16 +68,13 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
         y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
         iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
         runError[k] <<- sum(iOut[iOut$source == "error", "value"])
-iOut[iOut$source == "error",]
-CalibOut
 
         # If error <= maxError then store value of k
         if (runError[k] <= maxError & v < limit) {
             v <- v + 1
             if (runError[k] < minError) {
                 minError <<- runError[k]
-                minErrorRun <<- k
-                sampleMinErrorRun <<- v
+                minErrorRun <<- v
             }
             selectedRuns[v] <- k
             CalibOut <<- rbind(CalibOut, iOut)
@@ -98,5 +94,4 @@ CalibOut
         max = apply(CalibParamOut, 2, max)
     )
     message(paste("minErrorRun =", minErrorRun))
-    message(paste("sampleMinErrorRun =", sampleMinErrorRun))
 }

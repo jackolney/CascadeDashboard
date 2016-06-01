@@ -22,7 +22,7 @@ RunNSOptimisation <- function() {
 
     message("Starting optimisation...")
 
-    par <- GetParaMatrix(cParamOut = CalibParamOut, sampleMinErrorRun = sampleMinErrorRun)
+    par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
 
     # Simulation Loop
     time <- proc.time()[[1]]
@@ -42,7 +42,7 @@ RunNSOptimisation <- function() {
             data = MasterData,
             iterationParam = par[i,],
             calibParamOut = CalibParamOut,
-            sampleMinErrorRun = sampleMinErrorRun)
+            minErrorRun = minErrorRun)
 
         # Now we need the initials.
         y <- GetInitial(
@@ -50,7 +50,7 @@ RunNSOptimisation <- function() {
             iterationResult = bestCalibInitial,
             masterCD4 = MasterCD4_2015)
 
-        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[sampleMinErrorRun,])
+        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
         theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
 

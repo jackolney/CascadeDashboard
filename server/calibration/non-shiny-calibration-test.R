@@ -50,3 +50,57 @@ RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 10
 
 # CalibOut might be longer than 100, then that needs k
 # else everything that is <100 in length needs v.
+
+
+
+# THIS NEEDS FIGURING OUT!
+
+I think its a 1:72 type thing.
+
+    y <- GetInitial(
+        p = p,
+        iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),],
+        masterCD4 = MasterCD4_2015
+        )
+
+    out <- calibOut[calibOut$year == 2015 & calibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),]
+    out <- out[, c("indicator", "value")]
+
+# check all calls to best-fit-modal.R
+
+
+minErrorRun
+minError
+
+dim(CalibOut)
+
+
+CalibOut[CalibOut$year == 2015 & CalibOut$source == "error",][1:7 + 7 * (minErrorRun - 1),]
+
+
+CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (minErrorRun - 1),],
+
+CalibOut[1:72,]["weight",]
+
+test <- CalibOut[1:72 + 72 * (minErrorRun - 1),]
+sum(test[test$source == "error", "value"])
+minError
+
+
+sum(CalibOut[CalibOut$source == "error",][1:7 + 7 * (minErrorRun - 1),"value"])
+
+
+# Get Best Result
+
+int <- CalibOut[1:72 + 72 * (minErrorRun - 1),]
+out <- int[int$year == 2015 & int$source == "model",]
+
+GetBestCalibOut <- function(calibOut, minErrorRun) {
+    int <- calibOut[1:72 + 72 * (minErrorRun - 1),]
+    out <- int[int$year == 2015 & int$source == "model",]
+    if (dim(out)[1] > 7) {
+        warning("out length is > 7")
+        print(out)
+    }
+    out
+}

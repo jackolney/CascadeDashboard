@@ -1,4 +1,4 @@
-GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, sampleMinErrorRun) {
+GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, minErrorRun) {
     p <- parameters(
         prop_preART_500    = masterCD4[1,"prop.Off.ART.500"][[1]],
         prop_preART_350500 = masterCD4[1,"prop.Off.ART.350500"][[1]],
@@ -14,9 +14,9 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, sampleMinE
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
         # These guys still need to be set by the model (but use the best fit run)
-        Theta   = calibParamOut[sampleMinErrorRun, "theta"],
-        p       = calibParamOut[sampleMinErrorRun, "p"],
-        Epsilon = calibParamOut[sampleMinErrorRun, "epsilon"],
+        Theta   = calibParamOut[minErrorRun, "theta"],
+        p       = calibParamOut[minErrorRun, "p"],
+        Epsilon = calibParamOut[minErrorRun, "epsilon"],
 
         # MODIFYING #
         Rho   = iterationParam[["Rho"]],
@@ -29,7 +29,7 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, sampleMinE
     p
 }
 
-GetBestPar <- function(masterCD4, data, calibParamOut, sampleMinErrorRun) {
+GetBestPar <- function(masterCD4, data, calibParamOut, minErrorRun) {
     p <- parameters(
         prop_preART_500    = masterCD4[1,"prop.Off.ART.500"][[1]],
         prop_preART_350500 = masterCD4[1,"prop.Off.ART.350500"][[1]],
@@ -45,14 +45,14 @@ GetBestPar <- function(masterCD4, data, calibParamOut, sampleMinErrorRun) {
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
         # Using best fit run)
-        Theta   = calibParamOut[sampleMinErrorRun, "theta"],
-        p       = calibParamOut[sampleMinErrorRun, "p"],
-        Rho     = calibParamOut[sampleMinErrorRun, "rho"],
-        Kappa   = calibParamOut[sampleMinErrorRun, "kappa"],
-        Gamma   = calibParamOut[sampleMinErrorRun, "gamma"],
-        Omega   = calibParamOut[sampleMinErrorRun, "omega"],
-        Epsilon = calibParamOut[sampleMinErrorRun, "epsilon"],
-        q       = calibParamOut[sampleMinErrorRun, "q"]
+        Theta   = calibParamOut[minErrorRun, "theta"],
+        p       = calibParamOut[minErrorRun, "p"],
+        Rho     = calibParamOut[minErrorRun, "rho"],
+        Kappa   = calibParamOut[minErrorRun, "kappa"],
+        Gamma   = calibParamOut[minErrorRun, "gamma"],
+        Omega   = calibParamOut[minErrorRun, "omega"],
+        Epsilon = calibParamOut[minErrorRun, "epsilon"],
+        q       = calibParamOut[minErrorRun, "q"]
     )
     p
 }

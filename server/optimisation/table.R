@@ -9,20 +9,18 @@ output$optimDTout <- DT::renderDataTable({
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        sampleMinErrorRun = sampleMinErrorRun)
+        minErrorRun = minErrorRun)
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
 
     baseline <- CallBestModel(
         CalibOut = CalibOut,
-        minErrorRun = minErrorRun,
-        sampleMinErrorRun = sampleMinErrorRun)
+        minErrorRun = minErrorRun)
 
     alt <- CallBestModel(
         CalibOut = CalibOut,
         minErrorRun = minErrorRun,
-        sampleMinErrorRun = sampleMinErrorRun,
         Rho = mean(selectedResults$Rho),
         q = mean(selectedResults$Q),
         Kappa = mean(selectedResults$Kappa),

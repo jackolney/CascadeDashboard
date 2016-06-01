@@ -4,7 +4,7 @@ RunOptimisation <- function() {
 
         setProgress(value = 0, message = 'Starting optimisation', detail = 'creating parameter matrix')
 
-        par <- GetParaMatrix(cParamOut = CalibParamOut, sampleMinErrorRun = sampleMinErrorRun)
+        par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
 
         updateButton(session,
             inputId = "optimStart",
@@ -35,7 +35,7 @@ RunOptimisation <- function() {
                 data = MasterData,
                 iterationParam = par[i,],
                 calibParamOut = CalibParamOut,
-                sampleMinErrorRun = sampleMinErrorRun)
+                minErrorRun = minErrorRun)
 
             # Now we need the initials.
             y <- GetInitial(
@@ -43,7 +43,7 @@ RunOptimisation <- function() {
                 iterationResult = bestCalibInitial,
                 masterCD4 = MasterCD4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[sampleMinErrorRun,])
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
             theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
 
