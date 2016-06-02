@@ -120,7 +120,7 @@ tabItem(tabName = "opt-parameter",
             The status quo rate of transition from not adhering to adhering is zero. By adjusting the
             rate below, the number of individuals transitioning can be increased.",
             p(""),
-            numericInput(inputId = "opt_sigma_factor", label = "Intervention Rate (py^-1):", value = 5, min = 0, max = 10, step = 1, width = "100%"),
+            numericInput(inputId = "opt_sigma_factor", label = "Intervention Rate (py^-1):", value = 10, min = 0, max = 10, step = 1, width = "100%"),
             "The total number of additional individuals adhering to ART between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_sigma_max")
