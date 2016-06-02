@@ -11,6 +11,7 @@ observeEvent(input$REPEAT_optim, {
 })
 
 output$plotOptim_result <- renderPlot({
+    input$NEXT_optIntro
     input$REPEAT_optim
     BuildOptimisationPlot(theOut = optResult)
 }, height = 400, width = 'auto', bg = 'transparent')
@@ -26,6 +27,23 @@ BuildOptimisationPlot <- function(theOut) {
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(theOut, theOut$VS >= (input$opt_VS_cutoff / 100))
 
+    selectedResults$testing      <- selectedResults$Rho   / bestPar[["Rho"]]
+    selectedResults$linkage      <- selectedResults$Q     / bestPar[["q"]]
+    selectedResults$preRetention <- bestPar[["Kappa"]]    / selectedResults$Kappa
+    selectedResults$initiation   <- selectedResults$Gamma / bestPar[["Gamma"]]
+    selectedResults$adherence    <- selectedResults$Sigma
+    selectedResults$retention    <- bestPar[["Omega"]]    / selectedResults$Omega
+
+    for(i in 1:dim(selectedResults)[1]) {
+        selectedResults[i,"intCombinations"] <- 0
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"testing"] > 1)      {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"linkage"] > 1)      {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"preRetention"] > 1) {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"initiation"] > 1)   {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"adherence"] > 1)    {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+        selectedResults[i,"intCombinations"] <- if (selectedResults[i,"retention"] > 1)    {selectedResults[i,"intCombinations"] + 1} else {selectedResults[i,"intCombinations"]}
+    }
+
     intervention <- c(
         "Testing",
         "Linkage",
@@ -35,12 +53,12 @@ BuildOptimisationPlot <- function(theOut) {
         "ART Retention")
 
     strength <- c(
-        sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE))),
-        sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) TRUE))),
-        sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) TRUE))),
-        sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) TRUE))),
-        sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) x))) / sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) TRUE))),
-        sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) x))) / sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) TRUE)))
+        sum(selectedResults[selectedResults$testing      > 1, "testing"]      * selectedResults[selectedResults$testing      > 1, "VS"] * (1 / selectedResults[selectedResults$testing      > 1, "intCombinations"])) / dim(selectedResults)[1],
+        sum(selectedResults[selectedResults$linkage      > 1, "linkage"]      * selectedResults[selectedResults$linkage      > 1, "VS"] * (1 / selectedResults[selectedResults$linkage      > 1, "intCombinations"])) / dim(selectedResults)[1],
+        sum(selectedResults[selectedResults$preRetention > 1, "preRetention"] * selectedResults[selectedResults$preRetention > 1, "VS"] * (1 / selectedResults[selectedResults$preRetention > 1, "intCombinations"])) / dim(selectedResults)[1],
+        sum(selectedResults[selectedResults$initiation   > 1, "initiation"]   * selectedResults[selectedResults$initiation   > 1, "VS"] * (1 / selectedResults[selectedResults$initiation   > 1, "intCombinations"])) / dim(selectedResults)[1],
+        sum(selectedResults[selectedResults$adherence    > 1, "adherence"]    * selectedResults[selectedResults$adherence    > 1, "VS"] * (1 / selectedResults[selectedResults$adherence    > 1, "intCombinations"])) / dim(selectedResults)[1],
+        sum(selectedResults[selectedResults$retention    > 1, "retention"]    * selectedResults[selectedResults$retention    > 1, "VS"] * (1 / selectedResults[selectedResults$retention    > 1, "intCombinations"])) / dim(selectedResults)[1]
     )
 
     # build data.frame
@@ -54,9 +72,9 @@ BuildOptimisationPlot <- function(theOut) {
     ggOut <- ggOut + geom_bar(aes(fill = intervention), stat = "identity")
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ggtitle(
-        label = "Average improvement in each aspect of the cascade",
+        label = "Weighted Impact of Individual Interventions",
         subtitle =
-            paste0("Percentage increase brought about by ",
+            paste0("Increase brought about by ",
                 scales::comma(dim(selectedResults)[1]),
                 " interventions, achieving ",
                 input$opt_VS_cutoff,
@@ -70,7 +88,7 @@ BuildOptimisationPlot <- function(theOut) {
     ggOut <- ggOut + theme(axis.title.y = element_blank())
     ggOut <- ggOut + theme(axis.title.x = element_blank())
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + scale_y_continuous(labels = scales::percent, expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0))
     ggOut
 }
 
