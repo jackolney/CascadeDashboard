@@ -10,11 +10,14 @@ tabItem(tabName = "opt-wizard",
             "The figure below illustrates the different combinations of interventions that achieve the
             viral suppression value set by the slider on the right hand side (# virally suppressed
             / # on ART) by 2020. This figure was calculated by looking at the number of times each
-            intervention achieved the viral suppression value on the right, and calculating the
-            percentage increase in a particular rate (e.g. the testing rate) for each and taking
-            the mean to arrive at the average percentage increase in each aspect of care.
-            The figure shows for a given viral suppression value, which interventions were used and
-            to what degree they were used. For further details, see the 'Strategy' section.",
+            intervention achieved the viral suppression value on the right, and calculating for each
+            simulation, the increase in a particular rate (e.g. the testing rate) relative to the
+            baseline rate, then multiplying this proportional increase by the viral suppression value achieved,
+            then penalising this intervention by the reciprocal of the number of active interventions.
+            This means that weak interventions producing a large impact because of the presence of
+            other active interventions are penalised in favour of powerful individual interventions.
+            The central aim is to convey quickly to the reader, which interventions provide a large
+            impact. For further details, see the 'Strategy' section.",
             p(""),
             plotOutput('plotOptim_result', height = 'auto', width = 'auto'),
             bsModal(id = "optimDTmodalID", title = "Result Table (showing 90-90-90 targets)", trigger = "optData", size = "large",
