@@ -119,6 +119,6 @@ output$vbOptim_COST <- renderValueBox({
         value = scales::dollar(cost),
         subtitle = "Additional Cost of Care between 2015 and 2020",
         color = "green",
-        icon = icon("money", lib = "font-awesome")
+        icon = icon("usd", lib = "font-awesome")
     )
   })
