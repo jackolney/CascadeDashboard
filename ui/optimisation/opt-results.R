@@ -86,9 +86,11 @@ tabItem(tabName = "opt-results",
         box(width = NULL,
             status = "warning",
             solidHeader = TRUE,
-            title = "Intervention Control",
-            "This is the main intervention page, where all previously selected interventions are
-            simulated and results presented.",
+            title = "Intervention Results",
+            "When this page renders, figures summarising the results of the intervention simulations
+            will be displayed in both figure and table form. Adjusting the slider below will cause all
+            figures and tables to refresh and results will be a subset of the value selected.
+            Hit 'Next' to identify the optimal route to achieving 90-90-90 by 2020.",
             p(""),
             sliderInput(inputId = "opt_VS_cutoff",
                 label = "Only show interventions achieving viral suppression by 2020 of (%):",

@@ -124,6 +124,34 @@ output$optimDTmodal <- DT::renderDataTable({
     }
 )
 
+
+output$optimDT909090modal <- DT::renderDataTable({
+    return(datatable(Result_VS,
+        style = 'bootstrap',
+        options = list(
+            pageLength = 25,
+            autoWidth = FALSE,
+            initComplete = JS(
+                "function(settings, json) {",
+                "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                "}")
+            )
+        ) %>%
+        formatRound("90",3) %>%
+        formatRound("90-90",3) %>%
+        formatRound("90-90-90",3) %>%
+        formatRound("VS",3) %>%
+        formatRound("Rho",3) %>%
+        formatRound("Q",3) %>%
+        formatRound("Kappa",3) %>%
+        formatRound("Gamma",3) %>%
+        formatRound("Sigma",3) %>%
+        formatRound("Omega",3) %>%
+        formatCurrency("Cost",'$')
+        )
+    }
+)
+
 output$optParTable_Rho <- renderTable({
     theData <- seq(from = input$userOptRho_Range[1], to = input$userOptRho_Range[2], length.out = 4)
     tbl <- matrix(theData, nrow = 1, ncol = 4)
