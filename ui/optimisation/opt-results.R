@@ -1,97 +1,96 @@
-InterventionList <- c("Rho","Q","Kappa","Gamma","Sigma","Omega")
-
-tabItem(tabName = "opt-results"
-    # column(width = 8,
-    #     bsModal(id = "opt909090TableModal", title = "Result Table (showing 90-90-90 targets)", trigger = "showOpt909090Table", size = "large",
-    #         DT::dataTableOutput('opt909090Table', width = "100%")
-    #     ),
-    #     bsModal(id = "opt909090TableBrushedModal", title = "Selected Result Table (showing 90-90-90 targets)", trigger = "showOpt909090BrushedTable", size = "large",
-    #         DT::dataTableOutput('opt909090TableBrushed', width = "100%")
-    #     ),
-    #     bsModal(id = "optDALYsTableModal", title = "Result Table", trigger = "showOptDALYsTable", size = "large",
-    #         DT::dataTableOutput('optDALYsTable', width = "100%")
-    #     ),
-    #     bsModal(id = "optDALYsTableBrushedModal", title = "Selected Result Table", trigger = "showOptDALYsBrushedTable", size = "large",
-    #         DT::dataTableOutput('optDALYsTableBrushed', width = "100%")
-    #     ),
-    #     bsModal(id = "optDALYs909090TableModal", title = "Result Table (results achieving 90-90-90 targets)", trigger = "showOptDALYs909090Table", size = "large",
-    #         DT::dataTableOutput('optDALYs909090Table', width = "100%")
-    #     ),
-    #     bsModal(id = "optDALYs909090TableBrushedModal", title = "Selected Result Table (results achieving 90-90-90 targets)", trigger = "showOptDALYs909090BrushedTable", size = "large",
-    #         DT::dataTableOutput('optDALYs909090TableBrushed', width = "100%")
-    #     ),
-    #     bsCollapse(id = 'optCollapse', open = NULL,
-    #         bsCollapsePanel("Plot 90-90-90",
-    #             plotOutput('plotOpt909090',
-    #                 dblclick = "plotOpt909090_dblclick",
-    #                 brush = brushOpts(
-    #                     id = "plotOpt909090_brush",
-    #                     clip = TRUE,
-    #                     resetOnNew = TRUE
-    #                     )
-    #                 ),
-    #             style = "success"
-    #         ),
-    #         bsCollapsePanel("Plot DALYs",
-    #             plotOutput('plotOptDALYs',
-    #                 dblclick = "plotOptDALYs_dblclick",
-    #                 brush = brushOpts(
-    #                     id = "plotOptDALYs_brush",
-    #                     clip = TRUE,
-    #                     resetOnNew = TRUE
-    #                     )
-    #                 ),
-    #             style = "danger"
-    #         ),
-    #         bsCollapsePanel("Plot DALYs (90-90-90)",
-    #             plotOutput('plotOptDALYs909090',
-    #                 dblclick = "plotOptDALYs909090_dblclick",
-    #                 brush = brushOpts(
-    #                     id = "plotOptDALYs909090_brush",
-    #                     clip = TRUE,
-    #                     resetOnNew = TRUE
-    #                     )
-    #                 ),
-    #             style = "info"
-    #         )
-    #     )
-    # ),
-    # column(width = 4,
-    #     box(width = NULL,
-    #         status = "primary",
-    #         solidHeader = TRUE,
-    #         title = "Results",
-    #         helpText("This section is still under active development."),
-    #         p("The results of the optimisation simulation are shown in the plot to the right. Hit 'Show Result Table' to view all data points and corresponding parameter values.
-    #             Zoom in on data points by drawing a box on the plot with the mouse and double clicking. To view the details of a specific point, draw a box with the mouse over the point and
-    #             hit 'Show Selected Result Table'"),
-    #         p(" "),
-    #         selectInput("userStratPoint","Select parameter to stratify results by:", InterventionList, selected = "Rho"),
-    #         p(" "),
-    #         tags$b("Viral suppression against cost:"),
-    #         p(" "),
-    #         bsButton("showOpt909090Plot", label = "", style = "success", block = TRUE, size = "large", icon = icon("bar-chart", class = "fa-2x fa-fw", lib = "font-awesome")),
-    #         p(" "),
-    #         bsButton("showOpt909090Table", label = "Show Result Table", style = "primary", block = TRUE),
-    #         p(" "),
-    #         bsButton("showOpt909090BrushedTable", label = "Show Selected Result Table", style = "primary", block = TRUE),
-    #         p(" "), br(),
-    #         tags$b("DALYs averted against cost:"),
-    #         p(" "),
-    #         bsButton("showOptDALYsPlot", label = "", style = "danger", block = TRUE, size = "large", icon = icon("bar-chart", class = "fa-2x fa-fw", lib = "font-awesome")),
-    #         p(" "),
-    #         bsButton("showOptDALYsTable", label = "Show Result Table", style = "primary", block = TRUE),
-    #         p(" "),
-    #         bsButton("showOptDALYsBrushedTable", label = "Show Selected Result Table", style = "primary", block = TRUE),
-    #         p(" "), br(),
-    #         tags$b("DALYs averted against cost (for subset achieving 90-90-90):"),
-    #         p(" "),
-    #         bsButton("showOptDALYs909090Plot", label = "", style = "info", block = TRUE, size = "large", icon = icon("bar-chart", class = "fa-2x fa-fw", lib = "font-awesome")),
-    #         p(" "),
-    #         bsButton("showOptDALYs909090Table", label = "Show Result Table", style = "primary", block = TRUE),
-    #         p(" "),
-    #         bsButton("showOptDALYs909090BrushedTable", label = "Show Selected Result Table", style = "primary", block = TRUE)
-    #     ),
-    #     bsButton(inputId = "wizardOpt_4", label = "Next", style = "success", size = "large", block = TRUE, icon = icon("arrow-right", class = "fa-lg fa-fw", lib = "font-awesome"))
-    # )
+tabItem(tabName = "opt-results",
+    column(width = 8,
+        box(width = NULL,
+            status = "primary",
+            # background = "yellow",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = FALSE,
+            title = "UNAIDS 90-90-90",
+            # Allow the below to be dynamic: if they can be achieved, make them have a tick, else a cross.
+            fluidRow(
+                column(width = 4,
+                    valueBox(scales::percent(0.9), "Diagnosed", color = 'red',icon = icon("check"), width = NULL)
+                ),
+                column(width = 4,
+                    valueBox(scales::percent(0.9), "On Treatment", color = 'orange',icon = icon("check"), width = NULL)
+                ),
+                column(width = 4,
+                    valueBox(scales::percent(0.9), "Virally Suppressed", color = 'green',icon = icon("check"), width = NULL)
+                )
+            )
+        ),
+        box(width = NULL,
+            status = "primary",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = FALSE,
+            title = "How to get there?",
+            # Need an algorithm that will identify the cheapest strategy to achieving the 90-90-90,
+            # BUT in the event that it cant be done, we trigger the crosses above, AND then pick the route that gets us CLOSEST (absolute)
+            tags$div(
+                valueBox(scales::dollar(10), "Cost", color = "green", icon = icon("usd"), width = NULL),
+                style = "width: 50%; margin: auto;"
+            ),
+            fluidRow(
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                ),
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                ),
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                )
+            ),
+            fluidRow(
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                ),
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                ),
+                column(width = 4,
+                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                )
+            ),
+            # NEED A DATATABLE HERE SHOWING THE SAME AS BEFORE BUT IN THE HOW DO WE GET TO 90-90-90 SENSE.
+            # What about info boxes instead?
+            "The results of the optimisation indicate thousands of potential ways to improve care,
+            either using interventions individually or in combination. Our simulations find that in
+            order to achieve the level of viral suppression selected by the slider (right) by 2020,
+            then over the next five years on average a number of changes must occur,
+            these changes are described below:",
+            p(""),
+            tags$em("Please note that values below may indicate decreases in some aspects of care,
+                this is correct, and explained by specific changes in care having an in-direct impact
+                on reducing incidence, thereby reducing the total population of infected individuals.")
+        )
+    ),
+    column(width = 4,
+        box(width = NULL,
+            status = "warning",
+            solidHeader = TRUE,
+            title = "Intervention Control",
+            "This is the main intervention page, where all previously selected interventions are
+            simulated and results presented.",
+            p(""),
+            bsButton(inputId = "optData",
+                        label = "View Results",
+                        type = "action",
+                        style = "primary",
+                        size = "default",
+                        block = TRUE,
+                        icon = icon("database", class = "fa-lg fa-fw", lib = "font-awesome"))
+        ),
+        bsAlert(anchorId = "opt_VS_cutoff_alert"),
+        fluidRow(
+            column(width = 6,
+                bsButton(inputId = "REPEAT_optim", label = "Repeat", style = "danger", size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome"))
+            ),
+            column(width = 6,
+                bsButton(inputId = "NEXT_optim", label = "Accept", style = "success", size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
+            )
+        )
+    )
 )
