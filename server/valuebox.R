@@ -1,13 +1,7 @@
 output$vbOptim_909090_1 <- renderValueBox({
     # rely on REPEAT_optim button press
     input$REPEAT_optim
-
-    # Identify the 'best fit' parameter values
-    bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
-        data = MasterData,
-        calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+    input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -38,13 +32,7 @@ output$vbOptim_909090_1 <- renderValueBox({
 output$vbOptim_909090_2 <- renderValueBox({
     # rely on REPEAT_optim button press
     input$REPEAT_optim
-
-    # Identify the 'best fit' parameter values
-    bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
-        data = MasterData,
-        calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+    input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -75,13 +63,7 @@ output$vbOptim_909090_2 <- renderValueBox({
 output$vbOptim_909090_3 <- renderValueBox({
     # rely on REPEAT_optim button press
     input$REPEAT_optim
-
-    # Identify the 'best fit' parameter values
-    bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
-        data = MasterData,
-        calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+    input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -112,13 +94,7 @@ output$vbOptim_909090_3 <- renderValueBox({
 output$vbOptim_COST <- renderValueBox({
     # rely on REPEAT_optim button press
     input$REPEAT_optim
-
-    # Identify the 'best fit' parameter values
-    bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
-        data = MasterData,
-        calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+    input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -137,7 +113,7 @@ output$vbOptim_COST <- renderValueBox({
         Sigma = mean(selectedResults$Sigma),
         Omega = mean(selectedResults$Omega))
 
-    cost <- (cumsum(alt$TotalCost)[251] - alt$TotalCost[1]) - (cumsum(baseline$TotalCost)[251] - baseline$TotalCost[1])
+    cost <- alt$TotalCost[251] - baseline$TotalCost[251]
 
     valueBox(
         value = scales::dollar(cost),
