@@ -3,6 +3,7 @@ output$optimDTout <- DT::renderDataTable({
 
     # rely on REPEAT_optim button press
     input$REPEAT_optim
+    input$NEXT_optIntro
 
     # Identify the 'best fit' parameter values
     bestPar <- GetBestPar(
