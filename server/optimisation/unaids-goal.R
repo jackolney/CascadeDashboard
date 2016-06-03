@@ -64,7 +64,6 @@ Get909090 <- function(result) {
 
 # Get909090(theOut)
 
-
 output$vb909090_1 <- renderValueBox({
 
     res <- Get909090(optResult)
@@ -133,3 +132,218 @@ output$vb909090_3 <- renderValueBox({
         )
     }
   })
+
+output$vb909090_COST <- renderValueBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    cost <- alt$TotalCost[251] - baseline$TotalCost[251]
+
+    valueBox(
+        value = scales::dollar(cost),
+        subtitle = "Additional Cost of Care between 2015 and 2020",
+        color = "green",
+        icon = icon("usd", lib = "font-awesome")
+    )
+  })
+
+output$vb909090_testing <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(alt$Dx)[251] - alt$Dx[1]) - (cumsum(baseline$Dx)[251] - baseline$Dx[1]), digits = 0)
+
+    infoBox(
+        title = "Testing",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional diagnoses",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})
+
+
+output$vb909090_linkage <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(alt$Care)[251] - alt$Care[1] ) - (cumsum(baseline$Care)[251] - baseline$Care[1] ), digits = 0)
+
+    infoBox(
+        title = "Linkage",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional linkage",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})
+
+output$vb909090_preRetention <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1]) - (cumsum(alt$PreLtfu)[251] - alt$PreLtfu[1]), digits = 0)
+
+    infoBox(
+        title = "Pre-ART Retention",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional pre-ART retention",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})
+
+output$vb909090_initiation <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(alt$Tx)[251] - alt$Tx[1]) - (cumsum(baseline$Tx)[251] - baseline$Tx[1]), digits = 0)
+
+    infoBox(
+        title = "ART Initiation",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional ART initiations",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})
+
+output$vb909090_adherence <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(alt$Vs)[251] - alt$Vs[1]) - (cumsum(baseline$Vs)[251] - baseline$Vs[1]), digits = 0)
+
+    infoBox(
+        title = "Adherence",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional adherence",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})
+
+output$vb909090_retention <- renderInfoBox({
+
+    res <- Get909090(optResult)
+
+    baseline <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun)
+
+    alt <- CallBestModel(
+        CalibOut = CalibOut,
+        minErrorRun = minErrorRun,
+        Rho = res[,"Rho"],
+        q = res[,"Q"],
+        Kappa = res[,"Kappa"],
+        Gamma = res[,"Gamma"],
+        Sigma = res[,"Sigma"],
+        Omega = res[,"Omega"])
+
+    out <- round((cumsum(baseline$Ltfu)[251] - baseline$Ltfu[1]) - (cumsum(alt$Ltfu)[251] - alt$Ltfu[1]), digits = 0)
+
+    infoBox(
+        title = "ART Retention",
+        value = scales::comma(out),
+        color = "orange",
+        subtitle = "Additional ART retention",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("check-square-o", lib = "font-awesome")
+    )
+})

@@ -10,13 +10,13 @@ tabItem(tabName = "opt-909090",
             # Allow the below to be dynamic: if they can be achieved, make them have a tick, else a cross.
             fluidRow(
                 column(width = 4,
-                    valueBox(scales::percent(0.9), "Diagnosed", color = 'red',icon = icon("check"), width = NULL)
+                    valueBoxOutput(outputId = "vb909090_1", width = "100%")
                 ),
                 column(width = 4,
-                    valueBox(scales::percent(0.9), "On Treatment", color = 'orange',icon = icon("check"), width = NULL)
+                    valueBoxOutput(outputId = "vb909090_2", width = "100%")
                 ),
                 column(width = 4,
-                    valueBox(scales::percent(0.9), "Virally Suppressed", color = 'green',icon = icon("check"), width = NULL)
+                    valueBoxOutput(outputId = "vb909090_3", width = "100%")
                 )
             )
         ),
@@ -28,30 +28,27 @@ tabItem(tabName = "opt-909090",
             title = "How to get there?",
             # Need an algorithm that will identify the cheapest strategy to achieving the 90-90-90,
             # BUT in the event that it cant be done, we trigger the crosses above, AND then pick the route that gets us CLOSEST (absolute)
-            tags$div(
-                valueBox(scales::dollar(10), "Cost", color = "green", icon = icon("usd"), width = NULL),
-                style = "width: 50%; margin: auto;"
-            ),
+            tags$div(valueBoxOutput(outputId = "vb909090_COST", width = "100%"), style = "width: 50%; margin: auto;"),
             fluidRow(
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_testing",      width = "100%")
                 ),
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_linkage",      width = "100%")
                 ),
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_preRetention", width = "100%")
                 )
             ),
             fluidRow(
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_initiation",   width = "100%")
                 ),
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_adherence",    width = "100%")
                 ),
                 column(width = 4,
-                    infoBox(title = "Linkage", 10 * 2, color = "orange", subtitle = "hello hello hello", width = NULL, fill = TRUE)
+                    infoBoxOutput(outputId = "vb909090_retention",    width = "100%")
                 )
             ),
             # NEED A DATATABLE HERE SHOWING THE SAME AS BEFORE BUT IN THE HOW DO WE GET TO 90-90-90 SENSE.
