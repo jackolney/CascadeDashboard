@@ -223,7 +223,7 @@ observeEvent(input$PREV_optIntro, {
 observeEvent(input$NEXT_optIntro, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "opt-wizard"
+        selected = "opt-results"
     )
 })
 
@@ -257,18 +257,24 @@ observeEvent(input$PREV_optCost, {
     )
 })
 
-# Optimisation Wizard
-observeEvent(input$NEXT_optWizard, {
+# Optimisation Results
+observeEvent(input$NEXT_optim, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-909090"
+    )
+})
+
+observeEvent(input$PREV_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "opt-results"
     )
 })
 
-# Optimisation Budget
-observeEvent(input$NEXT_optResult, {
+observeEvent(input$NEXT_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "opt-budget"
+        selected = "report"
     )
 })
