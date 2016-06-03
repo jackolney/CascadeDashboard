@@ -58,7 +58,7 @@ tabItem(tabName = "opt-wizard",
                     valueBoxOutput(outputId = "vbOptim_909090_3", width = "100%")
                 )
             ),
-            tags$div(valueBoxOutput(outputId = "vbOptim_COST", width = "100%"), style = "width: 45%; margin: auto;")
+            tags$div(valueBoxOutput(outputId = "vbOptim_COST", width = "100%"), style = "width: 50%; margin: auto;")
         ),
         box(width = NULL,
             status = "danger",
@@ -115,7 +115,7 @@ tabItem(tabName = "opt-wizard",
                 bsButton(inputId = "REPEAT_optim", label = "Repeat", style = "danger", size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome"))
             ),
             column(width = 6,
-                bsButton(inputId = "NEXT_optim", label = "Accept", style = "success", size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
+                HTML('<button id="NEXT_optim" type="button" class="btn action-button btn-success btn-lg btn-block"> Next <i class="fa fa-arrow-right fa-lg fa-fw"></i> </button>')
             )
         )
     )
