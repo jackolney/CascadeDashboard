@@ -97,6 +97,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggOne <- ggOne + theme(title =       element_text(size = 15))
     ggOne <- ggOne + theme(axis.title.y = element_blank())
     ggOne <- ggOne + theme(axis.title.x = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
 
     ggTwo <- ggplot(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -112,6 +113,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
     ggTwo <- ggTwo + theme(axis.title.x = element_blank())
+    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
 
     ggThree <- ggplot(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -127,6 +129,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggThree <- ggThree + theme(title =       element_text(size = 15))
     ggThree <- ggThree + theme(axis.title.y = element_blank())
     ggThree <- ggThree + theme(axis.title.x = element_blank())
+    ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
 
     ggFour <- ggplot(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -142,6 +145,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFour <- ggFour + theme(title =       element_text(size = 15))
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
+    ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
 
     ggFive <- ggplot(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
     ggFive <- ggFive + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
@@ -157,6 +161,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFive <- ggFive + theme(title =       element_text(size = 15))
     ggFive <- ggFive + theme(axis.title.y = element_blank())
     ggFive <- ggFive + theme(axis.title.x = element_blank())
+    ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
@@ -195,6 +200,7 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
     ggOut <- ggOut + theme(title = element_text(size = 18))
     ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut
 }
 
