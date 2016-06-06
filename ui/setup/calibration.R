@@ -39,7 +39,7 @@ tabItem(tabName = "calibration",
             solidHeader = TRUE,
             title = "Calibration Detail",
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             plotOutput('plotCalibrationDetail', height = 'auto', width = 'auto')
         )
     ),
