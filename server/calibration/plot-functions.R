@@ -143,7 +143,22 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
 
-    gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ncol = 2, nrow = 2)
+    ggFive <- ggplot(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
+    ggFive <- ggFive + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
+    ggFive <- ggFive + geom_line()
+    ggFive <- ggFive + geom_point(aes(color = weight), size = 5)
+    ggFive <- ggFive + mycol
+    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggFive <- ggFive + theme(legend.position = "none")
+    ggFive <- ggFive + theme(axis.text.x = element_text(size = 14))
+    ggFive <- ggFive + theme(axis.text.y = element_text(size = 14))
+    ggFive <- ggFive + theme(axis.title =  element_text(size = 15))
+    ggFive <- ggFive + theme(title =       element_text(size = 15))
+    ggFive <- ggFive + theme(axis.title.y = element_blank())
+    ggFive <- ggFive + theme(axis.title.x = element_blank())
+
+    gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
 
 BuildCalibrationPlot <- function(data, originalData) {
@@ -161,9 +176,11 @@ BuildCalibrationPlot <- function(data, originalData) {
     cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
     names(cols) <- c("red", "amber", "green")
     mycol <- scale_colour_manual(name = "weight", values = cols)
+    barFill <- rev(brewer.pal(9,"Blues")[3:8])
 
     ggOut <- ggplot(out2[out2$year == 2015,][1:5,], aes(x = indicator, y = mean))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
+    ggOut <- ggOut + scale_fill_manual(values = barFill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = min, ymax = max), width = 0.2, size = 1)
     ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value), size = 5.5)
     ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value, color = weight), size = 5)
