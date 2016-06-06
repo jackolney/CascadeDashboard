@@ -1,8 +1,6 @@
 # Data Table Render Functions
 output$optimDTout <- DT::renderDataTable({
 
-    # rely on REPEAT_optim button press
-    input$REPEAT_optim
     input$NEXT_optIntro
 
     # Identify the 'best fit' parameter values
@@ -57,18 +55,7 @@ output$optimDTout <- DT::renderDataTable({
         round(  (cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]   ) - (cumsum(alt$Ltfu)[251]      - alt$Ltfu[1]       ),   digits = 0)
     )
 
-    # The proportion of simulations that required that thing (then will add a bar in post processing)
-    Use <- c(
-        sum(unlist(lapply((selectedResults$Rho   / bestPar[["Rho"]]),      function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Q     / bestPar[["q"]]),        function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
-        sum(unlist(lapply((bestPar[["Kappa"]]    / selectedResults$Kappa), function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Gamma / bestPar[["Gamma"]]),    function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
-        sum(unlist(lapply((selectedResults$Sigma),                         function(x) if (x > 1) TRUE))) / dim(selectedResults)[1],
-        sum(unlist(lapply((bestPar[["Omega"]]    / selectedResults$Omega), function(x) if (x > 1) TRUE))) / dim(selectedResults)[1]
-    )
-    Use <- scales::percent(Use)
-
-    optimDT <- data.frame(Intervention, Description, Value, Use)
+    optimDT <- data.frame(Intervention, Description, Value)
 
     DT::datatable(optimDT,
         style = 'bootstrap',
@@ -81,9 +68,6 @@ output$optimDTout <- DT::renderDataTable({
             autoWidth = FALSE,
             columnDefs = list(list(className = 'dt-center', targets = 2))
         )
-    ) %>% formatStyle(
-        columns = 'Use',
-        'text-align' = 'center'
     ) %>% formatStyle(
         columns = 'Intervention',
         color = 'black',
