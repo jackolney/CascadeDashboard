@@ -191,11 +191,6 @@ AppendMinMaxMean <- function(data) {
     data
 }
 
-ggColorHue <- function(n) {
-    hues = seq(15, 375, length = n+1)
-    hcl(h = hues, l = 65, c = 100)[1:n]
-}
-
 FillParValues <- function(samples, positions, limit) {
     out <- data.frame(rho = 0, epsilon = 0, kappa = 0, gamma = 0, theta = 0, omega = 0, p = 0, q = 0)
 

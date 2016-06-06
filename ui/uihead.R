@@ -21,5 +21,6 @@ library(shinyTable)
 library(shinythemes)
 library(V8)
 
-# source global-lists
+# source global-lists & misc-functions
 source("ui/global-lists.R", local = TRUE)
+source("server/misc-functions.R", local = TRUE)
