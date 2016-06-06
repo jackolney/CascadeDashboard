@@ -3,13 +3,6 @@ output$optimDTout <- DT::renderDataTable({
 
     input$NEXT_optIntro
 
-    # Identify the 'best fit' parameter values
-    bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
-        data = MasterData,
-        calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
-
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
 
