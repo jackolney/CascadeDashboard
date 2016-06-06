@@ -35,6 +35,7 @@ GenYourCascadePlot <- function(h) {
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
     ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut
 }
 
@@ -60,6 +61,7 @@ GenCascadePlot <- function() {
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
     ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
 
     ggTwo <- ggplot(t5, aes(x = def, y = res))
     ggTwo <- ggTwo + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
@@ -77,6 +79,7 @@ GenCascadePlot <- function() {
     ggTwo <- ggTwo + theme(plot.background = element_blank())
     ggTwo <- ggTwo + theme(panel.background = element_blank())
     ggTwo <- ggTwo + theme(axis.line.y = element_line())
+    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
 
     # Expansion of y.axis
     if (max(t0$max) >= max(t5$max)) {
@@ -198,6 +201,7 @@ Gen909090Plot <- function() {
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
     ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut
 }
 
@@ -236,6 +240,7 @@ GenNewInfPlot <- function(wizard) {
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
@@ -283,6 +288,7 @@ GenAidsDeathsPlot <- function(wizard) {
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
