@@ -114,7 +114,7 @@ tabItem(tabName = "opt-results",
         bsAlert(anchorId = "opt_VS_cutoff_alert"),
         fluidRow(
             column(width = 6,
-                bsButton(inputId = "REPEAT_optim", label = "Repeat", style = "danger", size = "large", block = TRUE, icon = icon("repeat", class = "fa-lg fa-fw", lib = "font-awesome"))
+                bsButton(inputId = "PREV_optim", label = "Back", style = "danger", size = "large", block = TRUE, icon = icon("arrow-left", class = "fa-lg fa-fw", lib = "font-awesome"))
             ),
             column(width = 6,
                 HTML('<button id="NEXT_optim" type="button" class="btn action-button btn-success btn-lg btn-block"> Next <i class="fa fa-arrow-right fa-lg fa-fw"></i> </button>')

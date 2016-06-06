@@ -265,6 +265,13 @@ observeEvent(input$NEXT_optim, {
     )
 })
 
+observeEvent(input$PREV_optim, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-intro"
+    )
+})
+
 observeEvent(input$PREV_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",

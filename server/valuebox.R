@@ -1,6 +1,5 @@
 output$vbOptim_909090_1 <- renderValueBox({
-    # rely on REPEAT_optim button press
-    input$REPEAT_optim
+    # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
@@ -30,8 +29,7 @@ output$vbOptim_909090_1 <- renderValueBox({
   })
 
 output$vbOptim_909090_2 <- renderValueBox({
-    # rely on REPEAT_optim button press
-    input$REPEAT_optim
+    # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
@@ -61,8 +59,7 @@ output$vbOptim_909090_2 <- renderValueBox({
   })
 
 output$vbOptim_909090_3 <- renderValueBox({
-    # rely on REPEAT_optim button press
-    input$REPEAT_optim
+    # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff
@@ -92,8 +89,7 @@ output$vbOptim_909090_3 <- renderValueBox({
   })
 
 output$vbOptim_COST <- renderValueBox({
-    # rely on REPEAT_optim button press
-    input$REPEAT_optim
+    # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
 
     # Subset data using opt_VS_cutoff

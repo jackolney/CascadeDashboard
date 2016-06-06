@@ -1,7 +1,7 @@
 # New Plot
 output$plotOptim_CostImpact <- renderPlot({
-    # dependency on REPEAT_optim
-    input$REPEAT_optim
+
+    input$NEXT_optIntro
 
     bestPar <- GetBestPar(
         masterCD4 = MasterCD4_2015,

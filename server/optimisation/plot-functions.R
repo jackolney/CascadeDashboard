@@ -5,14 +5,8 @@ observeEvent(input$NEXT_optIntro, {
     optResult <<- RunOptimisation()
 })
 
-# Repeat trigger
-observeEvent(input$REPEAT_optim, {
-    optResult <<- RunOptimisation()
-})
-
 output$plotOptim_result <- renderPlot({
     input$NEXT_optIntro
-    input$REPEAT_optim
     BuildOptimisationPlot(theOut = optResult)
 }, height = 400, width = 'auto', bg = 'transparent')
 
