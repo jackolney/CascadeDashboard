@@ -1000,3 +1000,73 @@ resultOut$intervention <- factor(resultOut$intervention, levels = intervention)
 
 ggplot(resultOut, aes(x = intervention, y = strength)) + geom_bar(stat = "identity")
 
+
+##############
+##############
+##############
+##############
+##############
+
+# Subset data using opt_VS_cutoff
+selectedResults <- subset(theOut, theOut$VS >= 0)
+
+baseline <- CallBestModel(
+    CalibOut = CalibOut,
+    minErrorRun = minErrorRun)
+
+alt <- CallBestModel(
+    CalibOut = CalibOut,
+    minErrorRun = minErrorRun,
+    Rho = mean(selectedResults$Rho),
+    q = mean(selectedResults$Q),
+    Kappa = mean(selectedResults$Kappa),
+    Gamma = mean(selectedResults$Gamma),
+    Sigma = mean(selectedResults$Sigma),
+    Omega = mean(selectedResults$Omega))
+
+Intervention <- c(
+    "Testing",
+    "Linkage",
+    "Pre-ART Retention",
+    "Initiation",
+    "Adherence",
+    "ART Retention"
+)
+
+Description <- c(
+    "The number of additional individuals requiring diagnosis",
+    "The number of additional individuals that need to be linked to care",
+    "The number of additional individuals that need to be retained in pre-ART care",
+    "The number of additional individuals that need to be initiated onto treatment",
+    "The number of additional individuals that need to fully adhere to treatment",
+    "The number of additional individuals that need to be retained on ART"
+)
+
+# The values used in uiOutput()
+Value <- c(
+    round(  (cumsum(alt$Dx)[251]           - alt$Dx[1]          ) - (cumsum(baseline$Dx)[251]   - baseline$Dx[1]    ),   digits = 0),
+    round(  (cumsum(alt$Care)[251]         - alt$Care[1]        ) - (cumsum(baseline$Care)[251] - baseline$Care[1]  ),   digits = 0),
+    round(  (cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1]) - (cumsum(alt$PreLtfu)[251]   - alt$PreLtfu[1]    ),   digits = 0),
+    round(  (cumsum(alt$Tx)[251]           - alt$Tx[1]          ) - (cumsum(baseline$Tx)[251]   - baseline$Tx[1]    ),   digits = 0),
+    round(  (cumsum(alt$Vs)[251]           - alt$Vs[1]          ) - (cumsum(baseline$Vs)[251]   - baseline$Vs[1]    ),   digits = 0),
+    round(  (cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]   ) - (cumsum(alt$Ltfu)[251]      - alt$Ltfu[1]       ),   digits = 0)
+)
+
+optimDT <- data.frame(Intervention, Value)
+optimDT$Value[3] <- -1e8
+optimDT$Intervention <- factor(optimDT$Intervention, levels = Intervention)
+
+ggplot(optimDT, aes(x = Intervention, y = Value, fill = Intervention)) +
+geom_bar(stat = "identity") +
+scale_y_continuous(labels = scales::comma) +
+theme_classic() +
+theme(plot.title = element_text(hjust = 0.5)) +
+theme(title = element_text(size = 18)) +
+theme(axis.title = element_blank()) +
+theme(axis.text.x = element_text(size = 12)) +
+theme(axis.text.y = element_text(size = 12)) +
+theme(legend.position = "none") +
+theme(plot.background = element_blank()) +
+theme(panel.background = element_blank()) +
+theme(axis.line.y = element_line()) +
+theme(text = element_text(family = "Avenir Next"))

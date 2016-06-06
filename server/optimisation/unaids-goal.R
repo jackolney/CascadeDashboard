@@ -61,9 +61,6 @@ Get909090 <- function(result) {
     }
 }
 
-
-# Get909090(theOut)
-
 output$vb909090_1 <- renderValueBox({
 
     res <- Get909090(optResult)
