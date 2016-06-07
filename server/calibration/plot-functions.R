@@ -78,10 +78,6 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
 
     out2$weight <- 0
 
-    print(paste("dim(out) =", dim(out)))
-    print(paste("dim(out2) =", dim(out2)))
-    print(paste("limit =", limit))
-    print(paste("length(rep(x = 1:limit, each = 6*7)) =", length(rep(x = 1:limit, each = 6*7))))
     # 6 for six years (2010 to 2015), and 7 for seven indicators
     out2$sim <- rep(x = 1:limit, each = 6 * 7)
 
