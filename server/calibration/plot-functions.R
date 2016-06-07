@@ -61,7 +61,7 @@ BuildBaselineErrorPlots <- function(data) {
     gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
 }
 
-BuildCalibrationPlotDetail <- function(data, originalData) {
+BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     # Subset data to show only 'data'
     out <- data[data$source == "data",]
 
@@ -75,7 +75,15 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
         "PLHIV Suppressed"
         )
     )
+
     out2$weight <- 0
+
+    print(paste("dim(out) =", dim(out)))
+    print(paste("dim(out2) =", dim(out2)))
+    print(paste("limit =", limit))
+    print(paste("length(rep(x = 1:limit, each = 6*7)) =", length(rep(x = 1:limit, each = 6*7))))
+    # 6 for six years (2010 to 2015), and 7 for seven indicators
+    out2$sim <- rep(x = 1:limit, each = 6 * 7)
 
     # Set Colors
     cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
@@ -83,11 +91,11 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     mycol <- scale_colour_manual(name = "weight", values = cols)
 
     # Create some pretty output plots
-    ggOne <- ggplot(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
-    ggOne <- ggOne + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggOne <- ggplot()
+    ggOne <- ggOne + geom_line(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
+    ggOne <- ggOne + geom_point(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
-    ggOne <- ggOne + geom_line()
-    ggOne <- ggOne + geom_point(aes(color = weight), size = 5)
     ggOne <- ggOne + mycol
     ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, shading shows upper and lower model estimates")
     ggOne <- ggOne + theme(legend.position = "none")
@@ -98,12 +106,13 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggOne <- ggOne + theme(axis.title.y = element_blank())
     ggOne <- ggOne + theme(axis.title.x = element_blank())
     ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    ggTwo <- ggplot(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
-    ggTwo <- ggTwo + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggTwo <- ggplot()
+    ggTwo <- ggTwo + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
+    ggTwo <- ggTwo + geom_point(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
-    ggTwo <- ggTwo + geom_line()
-    ggTwo <- ggTwo + geom_point(aes(color = weight), size = 5)
     ggTwo <- ggTwo + mycol
     ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, shading shows upper and lower model estimates")
     ggTwo <- ggTwo + theme(legend.position = "none")
@@ -114,12 +123,13 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
     ggTwo <- ggTwo + theme(axis.title.x = element_blank())
     ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    ggThree <- ggplot(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
-    ggThree <- ggThree + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggThree <- ggplot()
+    ggThree <- ggThree + geom_line(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
+    ggThree <- ggThree + geom_point(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
-    ggThree <- ggThree + geom_line()
-    ggThree <- ggThree + geom_point(aes(color = weight), size = 5)
     ggThree <- ggThree + mycol
     ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, shading shows upper and lower model estimates")
     ggThree <- ggThree + theme(legend.position = "none")
@@ -130,12 +140,13 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggThree <- ggThree + theme(axis.title.y = element_blank())
     ggThree <- ggThree + theme(axis.title.x = element_blank())
     ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
+    ggThree <- ggThree + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    ggFour <- ggplot(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
-    ggFour <- ggFour + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggFour <- ggplot()
+    ggFour <- ggFour + geom_line(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
+    ggFour <- ggFour + geom_point(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
-    ggFour <- ggFour + geom_line()
-    ggFour <- ggFour + geom_point(aes(color = weight), size = 5)
     ggFour <- ggFour + mycol
     ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, shading shows upper and lower model estimates")
     ggFour <- ggFour + theme(legend.position = "none")
@@ -146,12 +157,13 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
     ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
+    ggFour <- ggFour + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    ggFive <- ggplot(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
-    ggFive <- ggFive + geom_ribbon(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey12", alpha = 0.3)
+    ggFive <- ggplot()
+    ggFive <- ggFive + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
+    ggFive <- ggFive + geom_point(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
-    ggFive <- ggFive + geom_line()
-    ggFive <- ggFive + geom_point(aes(color = weight), size = 5)
     ggFive <- ggFive + mycol
     ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, shading shows upper and lower model estimates")
     ggFive <- ggFive + theme(legend.position = "none")
@@ -162,6 +174,7 @@ BuildCalibrationPlotDetail <- function(data, originalData) {
     ggFive <- ggFive + theme(axis.title.y = element_blank())
     ggFive <- ggFive + theme(axis.title.x = element_blank())
     ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
+    ggFive <- ggFive + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }

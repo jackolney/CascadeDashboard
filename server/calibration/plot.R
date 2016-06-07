@@ -12,7 +12,7 @@ output$plotCalibrationDetail <- renderPlot({
     input$REPEAT_calib
     input$maxError
     input$minResults
-    BuildCalibrationPlotDetail(data = CalibOut, originalData = MasterData)
+    BuildCalibrationPlotDetail(data = CalibOut, originalData = MasterData, limit = input$minResults)
 }, height = 750, width = 'auto', bg = 'transparent')
 
 output$plotCalibHist <- renderPlot({
