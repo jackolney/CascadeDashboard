@@ -29,6 +29,7 @@ source("server/calibration/assumptions.R",           local = FALSE)
 source("server/calibration/calibration-data.R",      local = FALSE)
 source("server/calibration/marrakech-data.R",        local = FALSE)
 source("server/calibration/misc-functions.R",        local = FALSE)
+source("server/misc-functions.R",                    local = FALSE)
 source("server/calibration/plot-functions.R",        local = FALSE)
 source("server/calibration/non-shiny-calibration.R", local = FALSE)
 
