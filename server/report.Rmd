@@ -1,6 +1,5 @@
 ---
 title: "Cascade Report for `r input$selectCountry`"
-author: Jack Olney
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: pdf_document
 ---
@@ -10,6 +9,8 @@ Welcome to the cascade report. This report was generated on `r Sys.time()` from 
 The intention of this report is to act as a reference for any data entered, simulations carried out and results generated. The model is still under active development so caution is advised as results are preliminary.
 
 ## Setup
+
+<!-- This is going to need an if statement, as if we don't enter any data, don't display anything -->
 
 The country selected for cascade analysis was: `r input$selectCountry`. Data entered during setup:
 
@@ -25,6 +26,8 @@ Number of people on ART and Virally Suppressed | `r input$uVIRAL` | `r input$uVI
 
 The values entered produced a final country dataset consisting of the following: _(format will be improved upon)_
 
+<!-- How can we format this better? Maybe by printing each element of the list out seperately? -->
+
 ```{r, echo = FALSE}
     MasterData
 ```
@@ -34,6 +37,8 @@ The values entered produced a final country dataset consisting of the following:
 ## Model Calibration
 
 Given the values entered, calibration of the model produced the following figure:
+
+<!-- Update the Figure call. Have the normal calibration figure, then the CalibrationDetail figure, followed by the histogram -->
 
 ```{r, fig.width = 7, fig.height = 8, echo = FALSE}
     BuildCalibrationPlots_Report(data = CalibOut, originalData = MasterData)
@@ -50,6 +55,8 @@ The model has a following structure. Note, this is a simplified view of the stru
 ### Calibrated Parameters
 
 Calibration produced many parameter sets, but for simplicity we will only show the upper and lower limits of parameters used:
+
+<!-- Update the below to reflect changes to parameters used in calibration (i.e. remove MU) -->
 
 Parameter | Upper                            | Lower
 ----------|----------------------------------|--------------------------------
@@ -95,5 +102,36 @@ $p$       | `r ParamMaxMin["p"     , "max"]` | `r ParamMaxMin["gamma" , "min"]`
 ```{r, fig.width = 7, fig.height = 3, echo = FALSE}
     GenAidsDeathsPlot_Report(wizard = FALSE)
 ```
+
+### Best Fit Model
+
+During calibration, we simulate thousands of parameter sets to identify a subset that fit the data
+within a certain interval. As a result we are left with 100 parameter sets that could be plausibly try.
+Now, if we were to then simulate 100 thousand permutations of interventions on each of these 100
+parameter sets we would need to run 1 million simulations. As one of the aims of this model was to
+be simple to use and most importantly fast, we have decided to only run optimisation simulations on
+the best fitting parameter set; that is to say, the parameter set that produces the smallest total
+model error.
+
+The best fitting parameter set is:
+
+Parameter | Value
+----------|----------------------------------
+$\rho$    | SOMETHING
+$q$       | SOMETHING
+$\gamma$  | SOMETHING
+$\theta$  | SOMETHING
+$\kappa$  | SOMETHING
+$\omega$  | SOMETHING
+$\mu$     | SOMETHING
+$p$       | SOMETHING
+
+### Interventions
+
+We then simulate six interventions and show their results?
+
+Print plots.
+
+
 
 Check this out for more information. http://rmarkdown.rstudio.com/authoring_basics.html
