@@ -124,6 +124,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
                 setProgress(value = v / limit, detail = paste0(round((v / limit) * 100, digits = 0), "%"))
                 if (v == limit) break;
             }
+            if (k == dim(lhsInitial_Sense)[1]) warning("Hit iteration wall.")
         }
 
         # Global Data Frames for Parameters / Initial Values
