@@ -25,7 +25,7 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
     # Allows user to override these
     # Uses LHS to sample parameter space
     message("Defining parameter space")
-    parRange <- DefineParmRange(param = p, min = 0.01, max = 5)
+    parRange <- DefineParmRange()
     lhs <- FME::Latinhyper(parRange, num = maxIterations)
 
     ## Sample Initial Compartment Values
@@ -33,9 +33,10 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
     # Uses LHS to sample parameter space
     # Fishes out only sensical data
     # Deletes previous data.frame
-    initRange <- DefineInitRange(data = data, min = 0.9, max = 1.1)
-    lhsInitial <- FME::Latinhyper(initRange, num = maxIterations)
+    initRange <- DefineInitRange(data = data, min = 0.75, max = 1.25)
+    lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 3)
     lhsInitial_Sense <- FindSense(samples = lhsInitial)
+    # dim(lhsInitial_Sense)[1] / maxIterations
     rm(lhsInitial)
 
     ## Sample Incidence
@@ -81,6 +82,7 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
             message(paste0(round((v / limit) * 100, digits = 0), "%"))
             if (v == limit) break;
         }
+        if (k == dim(lhsInitial_Sense)[1]) warning("Hit iteration wall.")
     }
 
     # Global Data Frames for Parameters / Initial Values
