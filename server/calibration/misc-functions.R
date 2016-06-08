@@ -1,3 +1,29 @@
+DefineParmRangeOLD <- function() {
+    parRange <- data.frame(
+        min = c(
+            rho     = 0.00205,
+            epsilon = 0.16949,
+            kappa   = 0.01079,
+            gamma   = 0.02556,
+            theta   = 0.01511,
+            omega   = 0.00033,
+            p       = 0.00950,
+            q       = 0.00500
+        ),
+        max = c(
+            rho     = 1.025,
+            epsilon = 84.745,
+            kappa   = 5.395,
+            gamma   = 12.780,
+            theta   = 7.555,
+            omega   = 0.165,
+            p       = 1,
+            q       = 1
+        )
+    )
+    parRange
+}
+
 DefineParmRange <- function() {
     parRange <- data.frame(
         min = c(
@@ -7,15 +33,15 @@ DefineParmRange <- function() {
             gamma   = 0,
             theta   = 0,
             omega   = 0,
-            p       = 0.6,
+            p       = 0.4,
             q       = 0.1
         ),
         max = c(
-            rho     = 1,
-            epsilon = 50,
-            kappa   = 1,
-            gamma   = 5,
-            theta   = 5,
+            rho     = 2,
+            epsilon = 100,
+            kappa   = 3,
+            gamma   = 10,
+            theta   = 10,
             omega   = 0.5,
             p       = 1,
             q       = 1
@@ -23,6 +49,32 @@ DefineParmRange <- function() {
     )
     parRange
 }
+
+# DefineParmRange <- function() {
+#     parRange <- data.frame(
+#         min = c(
+#             rho     = 0,
+#             epsilon = 0,
+#             kappa   = 0,
+#             gamma   = 0,
+#             theta   = 0,
+#             omega   = 0,
+#             p       = 0.6,
+#             q       = 0.1
+#         ),
+#         max = c(
+#             rho     = 1,
+#             epsilon = 50,
+#             kappa   = 1,
+#             gamma   = 5,
+#             theta   = 5,
+#             omega   = 0.5,
+#             p       = 1,
+#             q       = 1
+#         )
+#     )
+#     parRange
+# }
 
 DefineInitRange <- function(data, min, max) {
     # Take 2010 subset of data.
@@ -271,4 +323,22 @@ UserOverRide <- function(param) {
         param[which(row.names(param) == "q"),"max"]       <- userParRange$q
     }
     param
+}
+
+FillInBlanks <- function(data, countryName, indicatorList) {
+    for(i in 1:6) {
+        yearElement <- seq(2010, 2015, 1)[i]
+        for(j in 1:length(indicatorList)) {
+            if (dim(data[data$year == yearElement & data$indicator == indicatorList[j],])[1] == 0) {
+                country <- countryName
+                indicator <- indicatorList[j]
+                year <- yearElement
+                value <- NA
+                weight <- NA
+                replacement <- data.frame(country, indicator, year, value, weight)
+                data <- rbind(data, replacement)
+            }
+        }
+    }
+    data
 }

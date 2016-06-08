@@ -213,6 +213,44 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut
 }
 
+BuildCalibrationPlotComplex <- function(data, originalData) {
+    rIndicators <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
+    # Find Minimums & Maximums & Mean of data.
+    int <- AppendMinMaxMean(data[data$source == "model",])
+    out <- int[int$indicator %in% rIndicators,]
+    out$indicator <- factor(out$indicator, levels = rIndicators)
+
+    OGout <- originalData[["calib"]][originalData[["calib"]]$indicator != "PLHIV Retained",]
+    OGout <- FillInBlanks(data = OGout, countryName = "Kenya", indicatorList = rIndicators)
+    OGout$indicator <- factor(OGout$indicator, levels = rIndicators)
+
+
+    # Set Colors
+    cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
+    names(cols) <- c("red", "amber", "green")
+    mycol <- scale_colour_manual(name = "weight", values = cols)
+    barFill <- rev(brewer.pal(9,"Blues")[3:8])
+
+    ggOut <- ggplot(out, aes(x = year, y = mean))
+    ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+    ggOut <- ggOut + scale_fill_manual(values = barFill)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(fill = indicator, ymin = min, ymax = max), position = position_dodge(width = 0.9), stat = "identity", width = 0.2)
+    ggOut <- ggOut + expand_limits(y = round(max(out$max), digits = -5))
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOut <- ggOut + mycol
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ggtitle("Calibrated Cascade", subtitle = "Error bars illustrate result ranges, points are data")
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
+    ggOut <- ggOut + theme(title = element_text(size = 18))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + geom_point(data = OGout, aes(y = value, fill = indicator, color = weight), size = 5, position = position_dodge(width = 0.9), stat = "identity")
+    ggOut
+}
+
 
 BuildDataReviewPlot <- function(data) {
     data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))

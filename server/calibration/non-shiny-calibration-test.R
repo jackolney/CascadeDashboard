@@ -44,7 +44,7 @@ KenyaData <- GetMasterDataSet("Kenya")
 # RunBaselineModel(data = KenyaData)
 
 # RUN CALIBRATION
-RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 1.5, limit = 200)
+RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
 # All elements should be present, now.
 
@@ -53,7 +53,7 @@ RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 1.5, limit = 
 # CalibOut might be longer than 100, then that needs k
 # else everything that is <100 in length needs v.
 
-BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 200)
+BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 100)
 
 head(CalibParamOut)
 
@@ -88,10 +88,9 @@ gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ggSix, ggSeven, g
 
 # BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 500)
 
-# BuildCalibrationPlot(data = CalibOut, originalData = KenyaData)
+BuildCalibrationPlot(data = CalibOut, originalData = KenyaData)
 
 
 run <- 1:length(runError)
 theError <- data.frame(run, runError)
 ggplot(theError, aes(runError)) + geom_histogram(aes(fill = ..count..), bins = 30)
-
