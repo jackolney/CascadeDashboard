@@ -1,24 +1,24 @@
-DefineParmRange <- function(param, min, max) {
+DefineParmRange <- function() {
     parRange <- data.frame(
         min = c(
-            rho     = param[["Rho"]]     * min,
-            epsilon = param[["Epsilon"]] * min,
-            kappa   = param[["Kappa"]]   * min,
-            gamma   = param[["Gamma"]]   * min,
-            theta   = param[["Theta"]]   * min,
-            omega   = param[["Omega"]]   * min,
-            p       = if (param[["p"]] * min > 1) {1} else {param[["p"]] * min},
-            q       = if (param[["q"]] * min > 1) {1} else {param[["q"]] * min}
+            rho     = 0,
+            epsilon = 0,
+            kappa   = 0,
+            gamma   = 0,
+            theta   = 0,
+            omega   = 0,
+            p       = 0.6,
+            q       = 0.1
         ),
         max = c(
-            rho     = param[["Rho"]]     * max,
-            epsilon = param[["Epsilon"]] * max,
-            kappa   = param[["Kappa"]]   * max,
-            gamma   = param[["Gamma"]]   * max,
-            theta   = param[["Theta"]]   * max,
-            omega   = param[["Omega"]]   * max,
-            p       = if (param[["p"]] * max > 1) {1} else {param[["p"]] * max},
-            q       = if (param[["q"]] * max > 1) {1} else {param[["q"]] * max}
+            rho     = 1,
+            epsilon = 50,
+            kappa   = 1,
+            gamma   = 5,
+            theta   = 5,
+            omega   = 0.5,
+            p       = 1,
+            q       = 1
         )
     )
     parRange
