@@ -27,6 +27,20 @@ tabItem(tabName = "parameters",
             box(width = 4,
                 solidHeader = TRUE,
                 status = "primary",
+                title = "Linkage Rate",
+                collapsible = TRUE,
+                collapsed = FALSE,
+                "Rate at which diagnosed individuals are linked to care or fail to link.",
+                uiOutput("calib_epsilon_max"),
+                uiOutput("calib_epsilon_min"),
+                uiOutput("UI_calib_epsilon")
+            )
+        ),
+        # Row TWO
+        fluidRow(
+            box(width = 4,
+                solidHeader = TRUE,
+                status = "primary",
                 title = "ART Initiation Rate (In Care)",
                 collapsible = TRUE,
                 collapsed = FALSE,
@@ -34,10 +48,7 @@ tabItem(tabName = "parameters",
                 uiOutput("calib_gamma_max"),
                 uiOutput("calib_gamma_min"),
                 uiOutput("UI_calib_gamma")
-            )
-        ),
-        # Row TWO
-        fluidRow(
+            ),
             box(width = 4,
                 solidHeader = TRUE,
                 status = "primary",
@@ -59,7 +70,10 @@ tabItem(tabName = "parameters",
                 uiOutput("calib_kappa_max"),
                 uiOutput("calib_kappa_min"),
                 uiOutput("UI_calib_kappa")
-            ),
+            )
+        ),
+        # Row FOUR
+        fluidRow(
             box(width = 4,
                 solidHeader = TRUE,
                 status = "primary",
@@ -70,10 +84,7 @@ tabItem(tabName = "parameters",
                 uiOutput("calib_omega_max"),
                 uiOutput("calib_omega_min"),
                 uiOutput("UI_calib_omega")
-            )
-        ),
-        # Row FOUR
-        fluidRow(
+            ),
             box(width = 4,
                 solidHeader = TRUE,
                 status = "primary",
