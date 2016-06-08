@@ -24,6 +24,19 @@ output$UI_calib_q <- renderUI({
     numericInput("uCalib_q","Specify exact proportion:", value = NULL, min = 0, max = 1, step = 1e-3, width = '100%')
 })
 
+# Linkage Rate = epsilon
+output$calib_epsilon_max <- renderUI({
+    numericInput("test_LinkRate_U","Upper:", value = round(CalibParamMaxMin$epsilon_MAX, 4), min = 0, max = 100, step = 1e-6, width = '100%')
+})
+
+output$calib_epsilon_min <- renderUI({
+    numericInput("test_LinkRate_L","Lower:", value = round(CalibParamMaxMin$epsilon_MIN, 4), min = 0, max = 100, step = 1e-6, width = '100%')
+})
+
+output$UI_calib_epsilon <- renderUI({
+    numericInput("uCalib_epsilon","Specify exact rate:", value = NULL, min = 0, max = 1, step = 1e-3, width = '100%')
+})
+
 # ART Initiation Rate = gamma
 output$calib_gamma_max <- renderUI({
     numericInput("test_ARTRate_U","Upper:", value = round(CalibParamMaxMin$gamma_MAX, 4), min = 0, max = 100, step = 1e-6, width = '100%')
