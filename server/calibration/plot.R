@@ -27,3 +27,59 @@ output$plotData <- renderPlot({
     input$NEXT_viral
     BuildDataReviewPlot(data = MasterData$calib)
 }, height = 400, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_rho <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "rho")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_q <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "q")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_epsilon <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "epsilon")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_gamma <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "gamma")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_theta <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "theta")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_kappa <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "kappa")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_omega <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "omega")
+}, height = 200, width = 'auto', bg = 'transparent')
+
+output$plotCalibHist_p <- renderPlot({
+    input$ADJ_param
+    input$PREV_plhiv
+    input$NEXT_viral
+    BuildCalibrationParamHist(pOut = CalibParamOut, param = "p")
+}, height = 200, width = 'auto', bg = 'transparent')

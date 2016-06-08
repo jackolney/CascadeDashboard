@@ -259,3 +259,22 @@ BuildCalibrationHistogram <- function(runError, maxError) {
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut
 }
+
+BuildCalibrationParamHist <- function(pOut, param) {
+    out <- as.data.frame(CalibParamOut)
+    ggOut <- ggplot(out, aes_string(param))
+    ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 10)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(expand = c(0,0))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.title = element_text(size = 12))
+    ggOut <- ggOut + theme(legend.text = element_text(size = 12))
+    ggOut <- ggOut + theme(legend.position = "non")
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + ylab("frequency")
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut
+}
