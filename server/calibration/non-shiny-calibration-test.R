@@ -18,6 +18,7 @@ quartz.options(w = 10, h = 8)
 # --------- #
 
 # source all the relevant files
+require(RColorBrewer)
 source("server/calibration/master.R",  local = FALSE)
 source("server/calibration/initial.R", local = FALSE)
 source("server/calibration/model.R",   local = FALSE)
@@ -43,7 +44,7 @@ KenyaData <- GetMasterDataSet("Kenya")
 # RunBaselineModel(data = KenyaData)
 
 # RUN CALIBRATION
-RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
+RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 1.5, limit = 200)
 
 # All elements should be present, now.
 
@@ -51,3 +52,46 @@ RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 10
 
 # CalibOut might be longer than 100, then that needs k
 # else everything that is <100 in length needs v.
+
+BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 200)
+
+head(CalibParamOut)
+
+# We need to know the mean (and distribution of parameter values being used in the model)
+
+# hist(CalibParamOut$rho, col = "lightblue")
+
+# par(mfrow = c(2,4))
+# hist(CalibParamOut$rho, col = "lightblue")
+# hist(CalibParamOut$epsilon, col = "lightblue")
+# hist(CalibParamOut$kappa, col = "lightblue")
+# hist(CalibParamOut$gamma, col = "lightblue")
+# hist(CalibParamOut$theta, col = "lightblue")
+# hist(CalibParamOut$omega, col = "lightblue")
+# hist(CalibParamOut$p, col = "lightblue")
+# hist(CalibParamOut$q, col = "lightblue")
+
+# DefineParmRange(param = p, min = 0.01, max = 5)
+
+test <- as.data.frame(CalibParamOut)
+ggOne <-   ggplot(test, aes(rho)) +     geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggTwo <-   ggplot(test, aes(epsilon)) + geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggThree <- ggplot(test, aes(kappa)) +   geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggFour <-  ggplot(test, aes(gamma)) +   geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggFive <-  ggplot(test, aes(theta)) +   geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggSix <-   ggplot(test, aes(omega)) +   geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggSeven <- ggplot(test, aes(p)) +       geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+ggEight <- ggplot(test, aes(q)) +       geom_histogram(aes(fill = ..count..), bins = 10) + theme_classic() + theme(legend.position = "none", text = element_text(family = "Avenir Next"), axis.line.x = element_line(), axis.line.y = element_line()) + scale_y_continuous(expand = c(0,0))
+
+gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ggSix, ggSeven, ggEight, ncol = 4, nrow = 2)
+
+
+# BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 500)
+
+# BuildCalibrationPlot(data = CalibOut, originalData = KenyaData)
+
+
+run <- 1:length(runError)
+theError <- data.frame(run, runError)
+ggplot(theError, aes(runError)) + geom_histogram(aes(fill = ..count..), bins = 30)
+
