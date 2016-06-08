@@ -67,7 +67,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         # Allows user to override these
         # Uses LHS to sample parameter space
         setProgress(value = 0 / 1, detail = "Defining parameter space")
-        intParRange <- DefineParmRange(param = p, min = 0.01, max = 5)
+        intParRange <- DefineParmRange()
         parRange <- UserOverRide(intParRange)
         lhs <- FME::Latinhyper(parRange, num = maxIterations)
 
@@ -77,7 +77,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         # Fishes out only sensical data
         # Deletes previous data.frame
         initRange <- DefineInitRange(data = data, min = 0.9, max = 1.1)
-        lhsInitial <- FME::Latinhyper(initRange, num = maxIterations)
+        lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 3)
         lhsInitial_Sense <- FindSense(samples = lhsInitial)
         rm(lhsInitial)
 
@@ -139,20 +139,22 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         )
 
         # Copy over to reactiveValues
-        CalibParamMaxMin$rho_MAX     <- ParamMaxMin["rho",   "max"]
-        CalibParamMaxMin$rho_MIN     <- ParamMaxMin["rho",   "min"]
-        CalibParamMaxMin$q_MAX       <- ParamMaxMin["q",     "max"]
-        CalibParamMaxMin$q_MIN       <- ParamMaxMin["q",     "min"]
-        CalibParamMaxMin$gamma_MAX   <- ParamMaxMin["gamma", "max"]
-        CalibParamMaxMin$gamma_MIN   <- ParamMaxMin["gamma", "min"]
-        CalibParamMaxMin$theta_MAX   <- ParamMaxMin["theta", "max"]
-        CalibParamMaxMin$theta_MIN   <- ParamMaxMin["theta", "min"]
-        CalibParamMaxMin$kappa_MAX   <- ParamMaxMin["kappa", "max"]
-        CalibParamMaxMin$kappa_MIN   <- ParamMaxMin["kappa", "min"]
-        CalibParamMaxMin$omega_MAX   <- ParamMaxMin["omega", "max"]
-        CalibParamMaxMin$omega_MIN   <- ParamMaxMin["omega", "min"]
-        CalibParamMaxMin$p_MAX       <- ParamMaxMin["p",     "max"]
-        CalibParamMaxMin$p_MIN       <- ParamMaxMin["p",     "min"]
+        CalibParamMaxMin$rho_MAX     <- ParamMaxMin["rho",     "max"]
+        CalibParamMaxMin$rho_MIN     <- ParamMaxMin["rho",     "min"]
+        CalibParamMaxMin$epsilon_MAX <- ParamMaxMin["epsilon", "max"]
+        CalibParamMaxMin$epsilon_MIN <- ParamMaxMin["epsilon", "min"]
+        CalibParamMaxMin$q_MAX       <- ParamMaxMin["q",       "max"]
+        CalibParamMaxMin$q_MIN       <- ParamMaxMin["q",       "min"]
+        CalibParamMaxMin$gamma_MAX   <- ParamMaxMin["gamma",   "max"]
+        CalibParamMaxMin$gamma_MIN   <- ParamMaxMin["gamma",   "min"]
+        CalibParamMaxMin$theta_MAX   <- ParamMaxMin["theta",   "max"]
+        CalibParamMaxMin$theta_MIN   <- ParamMaxMin["theta",   "min"]
+        CalibParamMaxMin$kappa_MAX   <- ParamMaxMin["kappa",   "max"]
+        CalibParamMaxMin$kappa_MIN   <- ParamMaxMin["kappa",   "min"]
+        CalibParamMaxMin$omega_MAX   <- ParamMaxMin["omega",   "max"]
+        CalibParamMaxMin$omega_MIN   <- ParamMaxMin["omega",   "min"]
+        CalibParamMaxMin$p_MAX       <- ParamMaxMin["p",       "max"]
+        CalibParamMaxMin$p_MIN       <- ParamMaxMin["p",       "min"]
 
         # Plots (control passed back to shiny::renderPlot())
         setProgress(value = 1, detail = "Building figures")
