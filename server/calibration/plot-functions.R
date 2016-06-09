@@ -177,8 +177,8 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
 
 BuildCalibrationPlot <- function(data, originalData) {
     # Find Minimums & Maximums & Mean of data.
-    out2 <- AppendMinMaxMean(data[data$source == "model",])
-    out2$indicator <- factor(out2$indicator, levels = c(
+    out <- AppendCI(data[data$source == "model",])
+    out$indicator <- factor(out$indicator, levels = c(
         "PLHIV",
         "PLHIV Diagnosed",
         "PLHIV in Care",
@@ -186,20 +186,27 @@ BuildCalibrationPlot <- function(data, originalData) {
         "PLHIV Suppressed"
         )
     )
+
+    OGout <- originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",]
+
     # Set Colors
     cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
     names(cols) <- c("red", "amber", "green")
     mycol <- scale_colour_manual(name = "weight", values = cols)
     barFill <- rev(brewer.pal(9,"Blues")[3:8])
 
-    ggOut <- ggplot(out2[out2$year == 2015,][1:5,], aes(x = indicator, y = mean))
+    ggOut <- ggplot(out[out$year == 2015,][1:5,], aes(x = indicator, y = mean))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
     ggOut <- ggOut + scale_fill_manual(values = barFill)
-    ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = min, ymax = max), width = 0.2, size = 1)
-    ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value), size = 5.5)
-    ggOut <- ggOut + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value, color = weight), size = 5)
-    ggOut <- ggOut + expand_limits(y = round(max(out2$max), digits = -5))
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 5.5)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 5)
+    if (round(max(out$upper), digits = -4) >= round(max(OGout$value), digits = -4)) {
+        ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
+    } else {
+        ggOut <- ggOut + expand_limits(y = round(max(OGout$value), digits = -4) + 1e5)
+    }
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma)
     ggOut <- ggOut + mycol
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate result ranges, points are data")
