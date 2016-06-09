@@ -93,7 +93,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggOne <- ggOne + geom_point(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
     ggOne <- ggOne + mycol
-    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, lines represent each simulation")
     ggOne <- ggOne + theme(legend.position = "none")
     ggOne <- ggOne + theme(axis.text.x = element_text(size = 14))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 14))
@@ -110,7 +110,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggTwo <- ggTwo + geom_point(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
     ggTwo <- ggTwo + mycol
-    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, lines represent each simulation")
     ggTwo <- ggTwo + theme(legend.position = "none")
     ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 14))
     ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 14))
@@ -127,7 +127,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggThree <- ggThree + geom_point(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
     ggThree <- ggThree + mycol
-    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, lines represent each simulation")
     ggThree <- ggThree + theme(legend.position = "none")
     ggThree <- ggThree + theme(axis.text.x = element_text(size = 14))
     ggThree <- ggThree + theme(axis.text.y = element_text(size = 14))
@@ -144,7 +144,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggFour <- ggFour + geom_point(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
     ggFour <- ggFour + mycol
-    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, lines represent each simulation")
     ggFour <- ggFour + theme(legend.position = "none")
     ggFour <- ggFour + theme(axis.text.x = element_text(size = 14))
     ggFour <- ggFour + theme(axis.text.y = element_text(size = 14))
@@ -161,7 +161,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggFive <- ggFive + geom_point(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
     ggFive <- ggFive + mycol
-    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, shading shows upper and lower model estimates")
+    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, lines represent each simulation")
     ggFive <- ggFive + theme(legend.position = "none")
     ggFive <- ggFive + theme(axis.text.x = element_text(size = 14))
     ggFive <- ggFive + theme(axis.text.y = element_text(size = 14))
@@ -209,7 +209,7 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma)
     ggOut <- ggOut + mycol
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate result ranges, points are data")
+    ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate 95% CI, points are data")
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
