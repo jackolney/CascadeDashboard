@@ -35,6 +35,7 @@ tabItem(tabName = "treatment",
         bsAlert(anchorId = "uART_ALERT_amber"),
         bsAlert(anchorId = "uART_ALERT_red"),
         bsAlert(anchorId = "uART_ALERT"),
+        uiOutput(outputId = "UI_uART_national"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_art", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))

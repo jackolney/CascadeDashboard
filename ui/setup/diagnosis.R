@@ -35,6 +35,7 @@ tabItem(tabName = "diagnosis",
         bsAlert(anchorId = "uDIAG_ALERT_amber"),
         bsAlert(anchorId = "uDIAG_ALERT_red"),
         bsAlert(anchorId = "uDIAG_ALERT"),
+        uiOutput(outputId = "UI_uDIAG_national"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_diag", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))

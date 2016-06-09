@@ -35,6 +35,7 @@ tabItem(tabName = "linkage",
         bsAlert(anchorId = "uCARE_ALERT_amber"),
         bsAlert(anchorId = "uCARE_ALERT_red"),
         bsAlert(anchorId = "uCARE_ALERT"),
+        uiOutput(outputId = "UI_uCARE_national"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_care", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))

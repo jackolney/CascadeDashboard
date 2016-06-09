@@ -35,6 +35,7 @@ tabItem(tabName = "suppression",
         bsAlert(anchorId = "uVIRAL_ALERT_amber"),
         bsAlert(anchorId = "uVIRAL_ALERT_red"),
         bsAlert(anchorId = "uVIRAL_ALERT"),
+        uiOutput(outputId = "UI_uVIRAL_national"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_viral", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))

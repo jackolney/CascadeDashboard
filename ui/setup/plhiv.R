@@ -34,6 +34,7 @@ tabItem(tabName = "plhiv",
         bsAlert(anchorId = "uPLHIV_ALERT_green"),
         bsAlert(anchorId = "uPLHIV_ALERT_amber"),
         bsAlert(anchorId = "uPLHIV_ALERT_red"),
+        uiOutput(outputId = "UI_uPLHIV_national"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_plhiv", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
