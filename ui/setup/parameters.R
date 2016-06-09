@@ -117,7 +117,8 @@ tabItem(tabName = "parameters",
                 On this page is displayed the the maximum and minimum values found across all 100 parameter sets.
                 Please check the values to ensure they look correct. If a specific rate or value is known by the user,
                 then it can be entered in the relevant box ('Specify exact rate / proportion'), clicking 'Return' and then 'Repeat'
-                will run the calibration again but keeping the user-defined parameter constant.")
+                will run the calibration again but keeping the user-defined parameter constant."),
+            bsButton(inputId = "resetParam",     label = "RESET",     style = "danger",  size = "default", block = TRUE)
         ),
         bsButton(inputId = "PREV_param", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
     )

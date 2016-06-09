@@ -137,6 +137,28 @@ observeEvent(input$resetCARE,  { shinyjs::reset("care_panel")  })
 observeEvent(input$resetART,   { shinyjs::reset("art_panel")   })
 observeEvent(input$resetVIRAL, { shinyjs::reset("viral_panel") })
 
+observeEvent(input$resetParam, {
+    # This needs to update ALL numeric inputs
+    # shinyjs::reset() fucks it all up.
+    parRange <- DefineParmRange()
+    updateNumericInput(session, "test_DiagRate_U",       value = parRange["rho", "max"])
+    updateNumericInput(session, "test_DiagRate_L",       value = parRange["rho", "min"])
+    updateNumericInput(session, "test_LinkProp_U",       value = parRange["q", "max"])
+    updateNumericInput(session, "test_LinkProp_L",       value = parRange["q", "min"])
+    updateNumericInput(session, "test_LinkRate_U",       value = parRange["epsilon", "max"])
+    updateNumericInput(session, "test_LinkRate_L",       value = parRange["epsilon", "min"])
+    updateNumericInput(session, "test_ARTRate_U",        value = parRange["gamma", "max"])
+    updateNumericInput(session, "test_ARTRate_L",        value = parRange["gamma", "min"])
+    updateNumericInput(session, "test_ARTsideRate_U",    value = parRange["theta", "max"])
+    updateNumericInput(session, "test_ARTsideRate_L",    value = parRange["theta", "min"])
+    updateNumericInput(session, "test_PreARTDropRate_U", value = parRange["kappa", "max"])
+    updateNumericInput(session, "test_PreARTDropRate_L", value = parRange["kappa", "min"])
+    updateNumericInput(session, "test_ARTDropRate_U",    value = parRange["omega", "max"])
+    updateNumericInput(session, "test_ARTDropRate_L",    value = parRange["omega", "min"])
+    updateNumericInput(session, "test_AdhProp_U",        value = parRange["p", "max"])
+    updateNumericInput(session, "test_AdhProp_L",        value = parRange["p", "min"])
+})
+
 ####################
 # Update parRange for calibration
 
@@ -154,24 +176,17 @@ observeEvent(input$uCalib_q,       { userParRange$q       <<- input$uCalib_q    
 
 observeEvent(input$test_DiagRate_U,       { userParRange$rho_MAX     <<- input$test_DiagRate_U       })
 observeEvent(input$test_DiagRate_L,       { userParRange$rho_MIN     <<- input$test_DiagRate_L       })
-
 observeEvent(input$test_LinkProp_U,       { userParRange$q_MAX       <<- input$test_LinkProp_U       })
 observeEvent(input$test_LinkProp_L,       { userParRange$q_MIN       <<- input$test_LinkProp_L       })
-
 observeEvent(input$test_LinkRate_U,       { userParRange$epsilon_MAX <<- input$test_LinkRate_U       })
 observeEvent(input$test_LinkRate_L,       { userParRange$epsilon_MIN <<- input$test_LinkRate_L       })
-
 observeEvent(input$test_ARTRate_U,        { userParRange$gamma_MAX   <<- input$test_ARTRate_U        })
 observeEvent(input$test_ARTRate_L,        { userParRange$gamma_MIN   <<- input$test_ARTRate_L        })
-
 observeEvent(input$test_ARTsideRate_U,    { userParRange$theta_MAX   <<- input$test_ARTsideRate_U    })
 observeEvent(input$test_ARTsideRate_L,    { userParRange$theta_MIN   <<- input$test_ARTsideRate_L    })
-
 observeEvent(input$test_PreARTDropRate_U, { userParRange$kappa_MAX   <<- input$test_PreARTDropRate_U })
 observeEvent(input$test_PreARTDropRate_L, { userParRange$kappa_MIN   <<- input$test_PreARTDropRate_L })
-
 observeEvent(input$test_ARTDropRate_U,    { userParRange$omega_MAX   <<- input$test_ARTDropRate_U    })
 observeEvent(input$test_ARTDropRate_L,    { userParRange$omega_MIN   <<- input$test_ARTDropRate_L    })
-
 observeEvent(input$test_AdhProp_U,        { userParRange$p_MAX       <<- input$test_AdhProp_U        })
 observeEvent(input$test_AdhProp_L,        { userParRange$p_MIN       <<- input$test_AdhProp_L        })
