@@ -140,11 +140,38 @@ observeEvent(input$resetVIRAL, { shinyjs::reset("viral_panel") })
 ####################
 # Update parRange for calibration
 
-observeEvent(input$uCalib_rho,     { userParRange$rho     <<- input$uCalib_rho })
+observeEvent(input$uCalib_rho,     { userParRange$rho     <<- input$uCalib_rho     })
 observeEvent(input$uCalib_epsilon, { userParRange$epsilon <<- input$uCalib_epsilon })
-observeEvent(input$uCalib_kappa,   { userParRange$kappa   <<- input$uCalib_kappa })
-observeEvent(input$uCalib_gamma,   { userParRange$gamma   <<- input$uCalib_gamma })
-observeEvent(input$uCalib_theta,   { userParRange$theta   <<- input$uCalib_theta })
-observeEvent(input$uCalib_omega,   { userParRange$omega   <<- input$uCalib_omega })
-observeEvent(input$uCalib_p,       { userParRange$p       <<- input$uCalib_p })
-observeEvent(input$uCalib_q,       { userParRange$q       <<- input$uCalib_q })
+observeEvent(input$uCalib_kappa,   { userParRange$kappa   <<- input$uCalib_kappa   })
+observeEvent(input$uCalib_gamma,   { userParRange$gamma   <<- input$uCalib_gamma   })
+observeEvent(input$uCalib_theta,   { userParRange$theta   <<- input$uCalib_theta   })
+observeEvent(input$uCalib_omega,   { userParRange$omega   <<- input$uCalib_omega   })
+observeEvent(input$uCalib_p,       { userParRange$p       <<- input$uCalib_p       })
+observeEvent(input$uCalib_q,       { userParRange$q       <<- input$uCalib_q       })
+
+# need a max and min to override too.
+# ALSO A RESET.
+
+observeEvent(input$test_DiagRate_U,       { userParRange$rho_MAX     <<- input$test_DiagRate_U       })
+observeEvent(input$test_DiagRate_L,       { userParRange$rho_MIN     <<- input$test_DiagRate_L       })
+
+observeEvent(input$test_LinkProp_U,       { userParRange$q_MAX       <<- input$test_LinkProp_U       })
+observeEvent(input$test_LinkProp_L,       { userParRange$q_MIN       <<- input$test_LinkProp_L       })
+
+observeEvent(input$test_LinkRate_U,       { userParRange$epsilon_MAX <<- input$test_LinkRate_U       })
+observeEvent(input$test_LinkRate_L,       { userParRange$epsilon_MIN <<- input$test_LinkRate_L       })
+
+observeEvent(input$test_ARTRate_U,        { userParRange$gamma_MAX   <<- input$test_ARTRate_U        })
+observeEvent(input$test_ARTRate_L,        { userParRange$gamma_MIN   <<- input$test_ARTRate_L        })
+
+observeEvent(input$test_ARTsideRate_U,    { userParRange$theta_MAX   <<- input$test_ARTsideRate_U    })
+observeEvent(input$test_ARTsideRate_L,    { userParRange$theta_MIN   <<- input$test_ARTsideRate_L    })
+
+observeEvent(input$test_PreARTDropRate_U, { userParRange$kappa_MAX   <<- input$test_PreARTDropRate_U })
+observeEvent(input$test_PreARTDropRate_L, { userParRange$kappa_MIN   <<- input$test_PreARTDropRate_L })
+
+observeEvent(input$test_ARTDropRate_U,    { userParRange$omega_MAX   <<- input$test_ARTDropRate_U    })
+observeEvent(input$test_ARTDropRate_L,    { userParRange$omega_MIN   <<- input$test_ARTDropRate_L    })
+
+observeEvent(input$test_AdhProp_U,        { userParRange$p_MAX       <<- input$test_AdhProp_U        })
+observeEvent(input$test_AdhProp_L,        { userParRange$p_MIN       <<- input$test_AdhProp_L        })

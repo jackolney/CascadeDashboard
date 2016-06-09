@@ -296,34 +296,90 @@ UserOverRide <- function(param) {
     if (!is.na(userParRange$rho) & userParRange$rho >= 0) {
         param[which(row.names(param) == "rho"),"min"]     <- userParRange$rho
         param[which(row.names(param) == "rho"),"max"]     <- userParRange$rho
+    } else {
+        if (!is.na(userParRange$rho_MAX) & userParRange$rho_MAX != param[which(row.names(param) == "rho"),"max"]) {
+            param[which(row.names(param) == "rho"),"max"] <- userParRange$rho_MAX
+        }
+        if (!is.na(userParRange$rho_MIN) & userParRange$rho_MIN != param[which(row.names(param) == "rho"),"min"]) {
+            param[which(row.names(param) == "rho"),"min"] <- userParRange$rho_MIN
+        }
     }
     if (!is.na(userParRange$epsilon) & userParRange$epsilon >= 0) {
         param[which(row.names(param) == "epsilon"),"min"] <- userParRange$epsilon
         param[which(row.names(param) == "epsilon"),"max"] <- userParRange$epsilon
+    } else {
+        if (!is.na(userParRange$epsilon_MAX) & userParRange$epsilon_MAX != param[which(row.names(param) == "epsilon"),"max"]) {
+            param[which(row.names(param) == "epsilon"),"max"] <- userParRange$epsilon_MAX
+        }
+        if (!is.na(userParRange$epsilon_MIN) & userParRange$epsilon_MIN != param[which(row.names(param) == "epsilon"),"min"]) {
+            param[which(row.names(param) == "epsilon"),"min"] <- userParRange$epsilon_MIN
+        }
     }
     if (!is.na(userParRange$kappa) & userParRange$kappa >= 0) {
         param[which(row.names(param) == "kappa"),"min"]   <- userParRange$kappa
         param[which(row.names(param) == "kappa"),"max"]   <- userParRange$kappa
+    } else {
+        if (!is.na(userParRange$kappa_MAX) & userParRange$kappa_MAX != param[which(row.names(param) == "kappa"),"max"]) {
+            param[which(row.names(param) == "kappa"),"max"] <- userParRange$kappa_MAX
+        }
+        if (!is.na(userParRange$kappa_MIN) & userParRange$kappa_MIN != param[which(row.names(param) == "kappa"),"min"]) {
+            param[which(row.names(param) == "kappa"),"min"] <- userParRange$kappa_MIN
+        }
     }
     if (!is.na(userParRange$gamma) & userParRange$gamma >= 0) {
         param[which(row.names(param) == "gamma"),"min"]   <- userParRange$gamma
         param[which(row.names(param) == "gamma"),"max"]   <- userParRange$gamma
+    } else {
+        if (!is.na(userParRange$gamma_MAX) & userParRange$gamma_MAX != param[which(row.names(param) == "gamma"),"max"]) {
+            param[which(row.names(param) == "gamma"),"max"] <- userParRange$gamma_MAX
+        }
+        if (!is.na(userParRange$gamma_MIN) & userParRange$gamma_MIN != param[which(row.names(param) == "gamma"),"min"]) {
+            param[which(row.names(param) == "gamma"),"min"] <- userParRange$gamma_MIN
+        }
     }
     if (!is.na(userParRange$theta) & userParRange$theta >= 0) {
         param[which(row.names(param) == "theta"),"min"]   <- userParRange$theta
         param[which(row.names(param) == "theta"),"max"]   <- userParRange$theta
+    } else {
+        if (!is.na(userParRange$theta_MAX) & userParRange$theta_MAX != param[which(row.names(param) == "theta"),"max"]) {
+            param[which(row.names(param) == "theta"),"max"] <- userParRange$theta_MAX
+        }
+        if (!is.na(userParRange$theta_MIN) & userParRange$theta_MIN != param[which(row.names(param) == "theta"),"min"]) {
+            param[which(row.names(param) == "theta"),"min"] <- userParRange$theta_MIN
+        }
     }
     if (!is.na(userParRange$omega) & userParRange$omega >= 0) {
         param[which(row.names(param) == "omega"),"min"]   <- userParRange$omega
         param[which(row.names(param) == "omega"),"max"]   <- userParRange$omega
+    } else {
+        if (!is.na(userParRange$omega_MAX) & userParRange$omega_MAX != param[which(row.names(param) == "omega"),"max"]) {
+            param[which(row.names(param) == "omega"),"max"] <- userParRange$omega_MAX
+        }
+        if (!is.na(userParRange$omega_MIN) & userParRange$omega_MIN != param[which(row.names(param) == "omega"),"min"]) {
+            param[which(row.names(param) == "omega"),"min"] <- userParRange$omega_MIN
+        }
     }
     if (!is.na(userParRange$p) & userParRange$p >= 0) {
         param[which(row.names(param) == "p"),"min"]       <- userParRange$p
         param[which(row.names(param) == "p"),"max"]       <- userParRange$p
+    } else {
+        if (!is.na(userParRange$p_MAX) & userParRange$p_MAX != param[which(row.names(param) == "p"),"max"]) {
+            param[which(row.names(param) == "p"),"max"] <- userParRange$p_MAX
+        }
+        if (!is.na(userParRange$p_MIN) & userParRange$p_MIN != param[which(row.names(param) == "p"),"min"]) {
+            param[which(row.names(param) == "p"),"min"] <- userParRange$p_MIN
+        }
     }
     if (!is.na(userParRange$q) & userParRange$q >= 0) {
         param[which(row.names(param) == "q"),"min"]       <- userParRange$q
         param[which(row.names(param) == "q"),"max"]       <- userParRange$q
+    } else {
+        if (!is.na(userParRange$q_MAX) & userParRange$q_MAX != param[which(row.names(param) == "q"),"max"]) {
+            param[which(row.names(param) == "q"),"max"] <- userParRange$q_MAX
+        }
+        if (!is.na(userParRange$q_MIN) & userParRange$q_MIN != param[which(row.names(param) == "q"),"min"]) {
+            param[which(row.names(param) == "q"),"min"] <- userParRange$q_MIN
+        }
     }
     param
 }

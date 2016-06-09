@@ -139,22 +139,22 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         )
 
         # Copy over to reactiveValues
-        CalibParamMaxMin$rho_MAX     <- ParamMaxMin["rho",     "max"]
-        CalibParamMaxMin$rho_MIN     <- ParamMaxMin["rho",     "min"]
-        CalibParamMaxMin$epsilon_MAX <- ParamMaxMin["epsilon", "max"]
-        CalibParamMaxMin$epsilon_MIN <- ParamMaxMin["epsilon", "min"]
-        CalibParamMaxMin$q_MAX       <- ParamMaxMin["q",       "max"]
-        CalibParamMaxMin$q_MIN       <- ParamMaxMin["q",       "min"]
-        CalibParamMaxMin$gamma_MAX   <- ParamMaxMin["gamma",   "max"]
-        CalibParamMaxMin$gamma_MIN   <- ParamMaxMin["gamma",   "min"]
-        CalibParamMaxMin$theta_MAX   <- ParamMaxMin["theta",   "max"]
-        CalibParamMaxMin$theta_MIN   <- ParamMaxMin["theta",   "min"]
-        CalibParamMaxMin$kappa_MAX   <- ParamMaxMin["kappa",   "max"]
-        CalibParamMaxMin$kappa_MIN   <- ParamMaxMin["kappa",   "min"]
-        CalibParamMaxMin$omega_MAX   <- ParamMaxMin["omega",   "max"]
-        CalibParamMaxMin$omega_MIN   <- ParamMaxMin["omega",   "min"]
-        CalibParamMaxMin$p_MAX       <- ParamMaxMin["p",       "max"]
-        CalibParamMaxMin$p_MIN       <- ParamMaxMin["p",       "min"]
+        CalibParamMaxMin$rho_MAX     <- parRange["rho",     "max"]
+        CalibParamMaxMin$rho_MIN     <- parRange["rho",     "min"]
+        CalibParamMaxMin$epsilon_MAX <- parRange["epsilon", "max"]
+        CalibParamMaxMin$epsilon_MIN <- parRange["epsilon", "min"]
+        CalibParamMaxMin$q_MAX       <- parRange["q",       "max"]
+        CalibParamMaxMin$q_MIN       <- parRange["q",       "min"]
+        CalibParamMaxMin$gamma_MAX   <- parRange["gamma",   "max"]
+        CalibParamMaxMin$gamma_MIN   <- parRange["gamma",   "min"]
+        CalibParamMaxMin$theta_MAX   <- parRange["theta",   "max"]
+        CalibParamMaxMin$theta_MIN   <- parRange["theta",   "min"]
+        CalibParamMaxMin$kappa_MAX   <- parRange["kappa",   "max"]
+        CalibParamMaxMin$kappa_MIN   <- parRange["kappa",   "min"]
+        CalibParamMaxMin$omega_MAX   <- parRange["omega",   "max"]
+        CalibParamMaxMin$omega_MIN   <- parRange["omega",   "min"]
+        CalibParamMaxMin$p_MAX       <- parRange["p",       "max"]
+        CalibParamMaxMin$p_MIN       <- parRange["p",       "min"]
 
         # Plots (control passed back to shiny::renderPlot())
         setProgress(value = 1, detail = "Building figures")
