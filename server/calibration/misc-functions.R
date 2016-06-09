@@ -243,6 +243,22 @@ AppendMinMaxMean <- function(data) {
     data
 }
 
+AppendCI <- function(data) {
+    uniqueIndicators <- unique(data$indicator)
+    uniqueYear <- unique(data$year)
+
+    for (m in 1:length(uniqueIndicators)) {
+        for (l in 1:length(uniqueYear)) {
+            CI <- Rmisc::CI(x = data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"value"], ci = 0.95)
+            data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"lower"]  <- CI[["lower"]]
+            data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"upper"]  <- CI[["upper"]]
+            data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"mean"]   <- CI[["mean"]]
+        }
+    }
+    data
+}
+
+
 FillParValues <- function(samples, positions, limit) {
     out <- data.frame(rho = 0, epsilon = 0, kappa = 0, gamma = 0, theta = 0, omega = 0, p = 0, q = 0)
 
