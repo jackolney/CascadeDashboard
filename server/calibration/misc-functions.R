@@ -33,7 +33,7 @@ DefineParmRange <- function() {
             gamma   = 0,
             theta   = 0,
             omega   = 0,
-            p       = 0.4,
+            p       = 0.1,
             q       = 0.1
         ),
         max = c(
