@@ -39,7 +39,7 @@ DefineParmRange <- function() {
         max = c(
             rho     = 2,
             epsilon = 100,
-            kappa   = 3,
+            kappa   = 1,
             gamma   = 10,
             theta   = 10,
             omega   = 0.5,
@@ -289,6 +289,9 @@ FillIncValue <- function(samples, positions, limit) {
     out
 }
 
+# This UserOverRide() is only for a fixed parameter.
+# We need functionality to accept a range of values.
+# An observeEvent on the MAX and MIN which then calls this function.
 UserOverRide <- function(param) {
     if (!is.na(userParRange$rho) & userParRange$rho >= 0) {
         param[which(row.names(param) == "rho"),"min"]     <- userParRange$rho
