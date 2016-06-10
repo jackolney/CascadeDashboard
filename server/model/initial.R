@@ -29,7 +29,7 @@ GetInitial <- function(p, iterationResult, masterCD4) {
     if (i2015_PLHIV - i2015_PLHIV_Diag < 0)
         warning("\tNegative value in model compartment (UnDx)")
 
-    if (i2015_PLHIV_Diag - i2015_PLHIV_Care < 0)
+    if (i2015_PLHIV_Diag - (i2015_PLHIV_Care + i2015_PLHIV_preLtfu + i2015_PLHIV_Ltfu) < 0)
         warning("\tNegative value in model compartment (Dx)")
 
     if (i2015_PLHIV_Care - i2015_PLHIV_ART < 0)

@@ -95,3 +95,49 @@ BuildCalibrationPlotComplex(data = CalibOut, originalData = KenyaData)
 run <- 1:length(runError)
 theError <- data.frame(run, runError)
 ggplot(theError, aes(runError)) + geom_histogram(aes(fill = ..count..), bins = 30)
+
+# Need to compare 2015 estimate of cascade WITH projection model in 2015.
+# Should be identical...
+BuildCalibrationPlot(data = CalibOut, originalData = KenyaData)
+
+
+CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:5,]
+
+
+# CALIBRATION <- out[out$year == 2015,][1:5,]
+CALIBRATION
+
+# NOW FROM CALIBOUT.
+# PROJECTION <- df
+PROJECTION[["res"]]
+
+dim(MasterOut)
+names(result)
+
+names(MasterOut[[1]])
+
+MasterOut[[100]]
+
+test <- c()
+for(i in 1:100) {
+    test[i] <- MasterOut[[i]]$N[1]
+}
+test
+sum(test)
+
+sum(unlist(lapply(result, function(x) sum(x$N[year]))))
+
+
+# ITERATION CHECK
+CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (1 - 1),]
+MasterOut[[i]]$N[1]
+
+
+
+y <- GetInitial(
+            p = p,
+            iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (i - 1),],
+            masterCD4 = MasterCD4_2015
+            )
+
+sum(y)
