@@ -1,7 +1,5 @@
 ## Treatment Guidelines ##
 
-# MAYBE A RESET BUTTON TOO!?
-
 GuidelineCheck <- function(tx_l200, tx_l250, tx_l350, tx_l500, tx_m500) {
     if (tx_l200 <= tx_l250 & tx_l200 <= tx_l350 & tx_l200 <= tx_l500 & tx_l200 <= tx_m500) {
         if (tx_l250 <= tx_l350 & tx_l250 <= tx_l500 & tx_l250 <= tx_m500) {

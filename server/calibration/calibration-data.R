@@ -261,3 +261,18 @@ GetCountryData <- function(uCountry) {
 # cd4
 # rates
 # treatment guidelines
+
+# Below function called when resetting treatment guidelines
+
+GetTreatmentGuidelines <- function(uCountry) {
+    # Read in all relevant csv files
+    c.file.path <- "server/data/calibration"
+    calib.treatment_guidelines <- readr::read_csv(paste0(c.file.path, "/treatment-guidelines-cd4.csv"), col_names = TRUE, skip = 0)
+
+    # Compile data.frame
+    treatment_guidelines <- dplyr::filter(calib.treatment_guidelines, country == uCountry)
+
+    # Return vector
+    treatment_guidelines
+}
+

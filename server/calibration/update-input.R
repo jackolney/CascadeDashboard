@@ -159,6 +159,17 @@ observeEvent(input$resetParam, {
     updateNumericInput(session, "test_AdhProp_L",        value = parRange["p", "min"])
 })
 
+observeEvent(input$resetTxGuidelines, {
+
+    theGuidelines <- GetTreatmentGuidelines(uCountry = input$selectCountry)
+
+    updateSelectInput(session, inputId = "userTx_l200", selected = theGuidelines[["less200"]])
+    updateSelectInput(session, inputId = "userTx_l250", selected = theGuidelines[["less250"]])
+    updateSelectInput(session, inputId = "userTx_l350", selected = theGuidelines[["less350"]])
+    updateSelectInput(session, inputId = "userTx_l500", selected = theGuidelines[["less500"]])
+    updateSelectInput(session, inputId = "userTx_m500", selected = theGuidelines[["more500"]])
+})
+
 ####################
 # Update parRange for calibration
 
