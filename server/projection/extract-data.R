@@ -9,21 +9,15 @@ ExtractCascadeData <- function(year) {
     TX_data <- unlist(lapply(result, function(x) sum(x$ART[year])))
     VS_data <- unlist(lapply(result, function(x) sum(x$Vs[year])))
 
-    NX <- mean(NX_data)
-    DX <- mean(DX_data)
-    CX <- mean(CX_data)
-    TX <- mean(TX_data)
-    VS <- mean(VS_data)
+    NX <- Rmisc::CI(NX_data, ci = 0.95)
+    DX <- Rmisc::CI(DX_data, ci = 0.95)
+    CX <- Rmisc::CI(CX_data, ci = 0.95)
+    TX <- Rmisc::CI(TX_data, ci = 0.95)
+    VS <- Rmisc::CI(VS_data, ci = 0.95)
 
-    NX_range <- range(NX_data)
-    DX_range <- range(DX_data)
-    CX_range <- range(CX_data)
-    TX_range <- range(TX_data)
-    VS_range <- range(VS_data)
-
-    res <- c(NX, DX, CX, TX, VS)
-    min <- c(NX_range[1], DX_range[1], CX_range[1], TX_range[1], VS_range[1])
-    max <- c(NX_range[2], DX_range[2], CX_range[2], TX_range[2], VS_range[2])
+    res <- c(NX[["mean"]], DX[["mean"]], CX[["mean"]], TX[["mean"]], VS[["mean"]])
+    min <- c(NX[["lower"]], DX[["lower"]], CX[["lower"]], TX[["lower"]], VS[["lower"]])
+    max <- c(NX[["upper"]], DX[["upper"]], CX[["upper"]], TX[["upper"]], VS[["upper"]])
 
     def <- c("# PLHIV", "# Diagnosed", "# In Care", "# Treatment", "# Suppressed")
     df <- data.frame(def, res, min, max)
@@ -67,6 +61,7 @@ ExtractPowersCascadeData <- function(year) {
 }
 
 Extract909090Data <- function(...) {
+    # Prevent unncessary calls to CallModel() [shiny might actually handle this automatically]
     data <- c(...)
     if (length(data) > 0L) {
         result <- data
@@ -82,36 +77,15 @@ Extract909090Data <- function(...) {
     TX_data <- unlist(lapply(result, function(x) sum(x$ART[year])))
     VS_data <- unlist(lapply(result, function(x) sum(x$Vs[year])))
 
-    UN_90 <- mean(DX_data / NX_data)
-    UN_9090 <- mean(TX_data / DX_data)
-    UN_909090 <- mean(VS_data / TX_data)
+    UN_90 <- Rmisc::CI(DX_data / NX_data, ci = 0.95)
+    UN_9090 <- Rmisc::CI(TX_data / DX_data, ci = 0.95)
+    UN_909090 <- Rmisc::CI(VS_data / TX_data, ci = 0.95)
 
-    UN_90_range <- range(DX_data / NX_data)
-    UN_9090_range <- range(TX_data / DX_data)
-    UN_909090_range <- range(VS_data / TX_data)
-
-    res <- c(UN_90, UN_9090, UN_909090)
-    min <- c(UN_90_range[1], UN_9090_range[1], UN_909090_range[1])
-    max <- c(UN_90_range[2], UN_9090_range[2], UN_909090_range[2])
+    res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
+    min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])
+    max <- c(UN_90[["upper"]], UN_9090[["upper"]], UN_909090[["upper"]])
     def <- c("% Diagnosed","% On Treatment","% Suppressed")
-    df <- data.frame(def, res, min, max)
-    df$def <- factor(df$def, levels = c("% Diagnosed", "% On Treatment", "% Suppressed"))
-
-    UN_90_data <- DX_data / NX_data
-    UN_9090_data <- TX_data / DX_data
-    UN_909090_data <- VS_data / TX_data
-
-    defData <- c(
-        rep("% Diagnosed", length(UN_90_data)),
-        rep("% On Treatment", length(UN_9090_data)),
-        rep("% Suppressed", length(UN_909090_data))
-    )
-
-    value <- c(UN_90_data, UN_9090_data, UN_909090_data)
-    dfData <- data.frame(defData, value)
-
-    out <- list()
-    out[[1]] <- df
-    out[[2]] <- dfData
+    out <- data.frame(def, res, min, max)
+    out$def <- factor(out$def, levels = c("% Diagnosed", "% On Treatment", "% Suppressed"))
     out
 }

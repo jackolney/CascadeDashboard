@@ -89,6 +89,7 @@ gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ggSix, ggSeven, g
 # BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 500)
 
 BuildCalibrationPlot(data = CalibOut, originalData = KenyaData)
+BuildCalibrationPlotComplex(data = CalibOut, originalData = KenyaData)
 
 
 run <- 1:length(runError)
