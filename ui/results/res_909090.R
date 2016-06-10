@@ -5,7 +5,10 @@ tabItem(tabName = "_909090",
             solidHeader = TRUE,
             title = "UNAIDS 90-90-90 by 2020",
             plotOutput('plot909090', height = "500px")
-        )
+        ),
+        valueBoxOutput("vb_90",     width = 4),
+        valueBoxOutput("vb_9090",   width = 4),
+        valueBoxOutput("vb_909090", width = 4)
     ),
     column(width = 4,
         box(width = NULL,
@@ -18,9 +21,6 @@ tabItem(tabName = "_909090",
             the horizontal line in the figure. The values of each bar are also shown in the coloured
             boxes below. Click 'Next' to continue."
         ),
-        valueBoxOutput("vb_90",     width = NULL),
-        valueBoxOutput("vb_9090",   width = NULL),
-        valueBoxOutput("vb_909090", width = NULL),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "PREV_909090", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
