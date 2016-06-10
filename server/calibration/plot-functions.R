@@ -201,10 +201,10 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 1)
     ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 5.5)
     ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 5)
-    if (round(max(out$upper), digits = -4) >= round(max(OGout$value), digits = -4)) {
+    if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
         ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
     } else {
-        ggOut <- ggOut + expand_limits(y = round(max(OGout$value), digits = -4) + 1e5)
+        ggOut <- ggOut + expand_limits(y = round(max(na.omit(OGout$value)), digits = -4) + 1e5)
     }
     ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma)
     ggOut <- ggOut + mycol
@@ -223,7 +223,7 @@ BuildCalibrationPlot <- function(data, originalData) {
 BuildCalibrationPlotComplex <- function(data, originalData) {
     rIndicators <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
     # Find Minimums & Maximums & Mean of data.
-    int <- AppendMinMaxMean(data[data$source == "model",])
+    int <- AppendCI(data[data$source == "model",])
     out <- int[int$indicator %in% rIndicators,]
     out$indicator <- factor(out$indicator, levels = rIndicators)
 
@@ -241,12 +241,16 @@ BuildCalibrationPlotComplex <- function(data, originalData) {
     ggOut <- ggplot(out, aes(x = year, y = mean))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
     ggOut <- ggOut + scale_fill_manual(values = barFill)
-    ggOut <- ggOut + geom_errorbar(mapping = aes(fill = indicator, ymin = min, ymax = max), position = position_dodge(width = 0.9), stat = "identity", width = 0.2)
-    ggOut <- ggOut + expand_limits(y = round(max(out$max), digits = -5))
+    ggOut <- ggOut + geom_errorbar(mapping = aes(fill = indicator, ymin = lower, ymax = upper), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 0.3)
+    if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
+        ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
+    } else {
+        ggOut <- ggOut + expand_limits(y = round(max(na.omit(OGout$value)), digits = -4) + 1e5)
+    }
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + mycol
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + ggtitle("Calibrated Cascade", subtitle = "Error bars illustrate result ranges, points are data")
+    ggOut <- ggOut + ggtitle("Calibrated Cascade", subtitle = "Error bars illustrate 95% CI, points are data")
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
@@ -254,10 +258,9 @@ BuildCalibrationPlotComplex <- function(data, originalData) {
     ggOut <- ggOut + theme(title = element_text(size = 18))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
-    ggOut <- ggOut + geom_point(data = OGout, aes(y = value, fill = indicator, color = weight), size = 5, position = position_dodge(width = 0.9), stat = "identity")
+    ggOut <- ggOut + geom_point(data = OGout, aes(y = value, fill = indicator, color = weight), size = 3, position = position_dodge(width = 0.9), stat = "identity")
     ggOut
 }
-
 
 BuildDataReviewPlot <- function(data) {
     data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
