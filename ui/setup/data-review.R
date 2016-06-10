@@ -25,6 +25,23 @@ tabItem(tabName = "data-review",
                 click 'Calibrate' to begin model calibration."),
             bsButton(inputId = "viewData_DATA",   label = "VIEW DATA", style = "primary", size = "default", block = TRUE)
         ),
+        box(width = NULL,
+            status = "danger",
+            title = "Treatment Guidelines",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            solidHeader = TRUE,
+            uiOutput("UI_l200_tx"),
+            uiOutput("UI_l250_tx"),
+            uiOutput("UI_l350_tx"),
+            uiOutput("UI_l500_tx"),
+            uiOutput("UI_m500_tx")
+        ),
+        bsAlert(anchorId = "tx_l200_alert"),
+        bsAlert(anchorId = "tx_l250_alert"),
+        bsAlert(anchorId = "tx_l350_alert"),
+        bsAlert(anchorId = "tx_l500_alert"),
+        bsAlert(anchorId = "tx_m500_alert"),
         fluidRow(
             column(width = 6,
                 bsButton(inputId = "NEXT_data", label = "Enter Data", style = "danger",  size = "large", block = TRUE, icon = icon("database",  class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -35,3 +52,7 @@ tabItem(tabName = "data-review",
         )
     )
 )
+
+
+# selectInputs for all TX_guidelines informed by data.set
+# Obseve changes and then update accordingly.

@@ -129,15 +129,3 @@ sum(unlist(lapply(result, function(x) sum(x$N[year]))))
 
 
 # ITERATION CHECK
-CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (1 - 1),]
-MasterOut[[i]]$N[1]
-
-
-
-y <- GetInitial(
-            p = p,
-            iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (i - 1),],
-            masterCD4 = MasterCD4_2015
-            )
-
-sum(y)
