@@ -44,9 +44,58 @@ observeEvent(input$userTx_l200, {
         message("check <200:")
         print(MasterData$treatment_guidelines[["less200"]])
 
-        # What if value > ALL OTHERS!!
-        # Need to test the others too to ensure that they do not have errors.
-        # tx_l200_alert
+        # Down
+        if (input$userTx_l250 != "" & input$userTx_l200 > input$userTx_l250) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l200_alert_l250",
+                alertId = "alertId_l200_tx_l250",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <200 is higher than threshold for CD4 <250.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l200_tx_l250")
+        }
+
+        if (input$userTx_l350 != "" & input$userTx_l200 > input$userTx_l350) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l200_alert_l350",
+                alertId = "alertId_l200_tx_l350",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <200 is higher than threshold for CD4 <350.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l200_tx_l350")
+        }
+
+        if (input$userTx_l500 != "" & input$userTx_l200 > input$userTx_l500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l200_alert_l500",
+                alertId = "alertId_l200_tx_l500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <200 is higher than threshold for CD4 <500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l200_tx_l500")
+        }
+
+        if (input$userTx_m500 != "" & input$userTx_l200 > input$userTx_m500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l200_alert_m500",
+                alertId = "alertId_l200_tx_m500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <200 is higher than threshold for CD4 >500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l200_tx_m500")
+        }
 
         # Write a function to do GuidelineCheck() and return a boolean flag for button disabling.
         if (GuidelineCheck(tx_l200 = input$userTx_l200, tx_l250 = input$userTx_l250, tx_l350 = input$userTx_l350, tx_l500 = input$userTx_l500, tx_m500 = input$userTx_m500)) {
@@ -63,17 +112,58 @@ observeEvent(input$userTx_l250, {
         message("check <250:")
         print(MasterData$treatment_guidelines[["less250"]])
 
+        # Down
+        if (input$userTx_l350 != "" & input$userTx_l250 > input$userTx_l350) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l250_alert_l350",
+                alertId = "alertId_l250_tx_l350",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <250 is higher than threshold for CD4 <350.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l250_tx_l350")
+        }
+
+        if (input$userTx_l500 != "" & input$userTx_l250 > input$userTx_l500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l250_alert_l500",
+                alertId = "alertId_l250_tx_l500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <250 is higher than threshold for CD4 <500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l250_tx_l500")
+        }
+
+        if (input$userTx_m500 != "" & input$userTx_l250 > input$userTx_m500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l250_alert_m500",
+                alertId = "alertId_l250_tx_m500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <250 is higher than threshold for CD4 >500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l250_tx_m500")
+        }
+
+        # UP
         if (input$userTx_l200 != "" & input$userTx_l250 < input$userTx_l200) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l250_alert",
-                alertId = "alertId_l250_tx",
+                anchorId = "tx_l250_alert_l200",
+                alertId = "alertId_l250_tx_l200",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <250 is lower than threshold for CD4 <200.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l250_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l250_tx_l200")
         }
 
         if (GuidelineCheck(tx_l200 = input$userTx_l200, tx_l250 = input$userTx_l250, tx_l350 = input$userTx_l350, tx_l500 = input$userTx_l500, tx_m500 = input$userTx_m500)) {
@@ -90,30 +180,58 @@ observeEvent(input$userTx_l350, {
         message("check <350:")
         print(MasterData$treatment_guidelines[["less350"]])
 
+        # Down
+        if (input$userTx_l500 != "" & input$userTx_l350 > input$userTx_l500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l350_alert_l500",
+                alertId = "alertId_l350_tx_l500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <350 is higher than threshold for CD4 <500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l350_tx_l500")
+        }
+
+        if (input$userTx_m500 != "" & input$userTx_l350 > input$userTx_m500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l350_alert_m500",
+                alertId = "alertId_l350_tx_m500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <350 is higher than threshold for CD4 >500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l350_tx_m500")
+        }
+
+        # UP
         if (input$userTx_l200 != "" & input$userTx_l350 < input$userTx_l200) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l350_alert",
-                alertId = "alertId_l350_tx",
+                anchorId = "tx_l350_alert_l200",
+                alertId = "alertId_l350_tx_l200",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <350 is lower than threshold for CD4 <200.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l350_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l350_tx_l200")
         }
 
         if (input$userTx_l250 != "" & input$userTx_l350 < input$userTx_l250) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l350_alert",
-                alertId = "alertId_l350_tx",
+                anchorId = "tx_l350_alert_l250",
+                alertId = "alertId_l350_tx_l250",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <350 is lower than threshold for CD4 <250.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l350_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l350_tx_l250")
         }
 
         if (GuidelineCheck(tx_l200 = input$userTx_l200, tx_l250 = input$userTx_l250, tx_l350 = input$userTx_l350, tx_l500 = input$userTx_l500, tx_m500 = input$userTx_m500)) {
@@ -130,43 +248,71 @@ observeEvent(input$userTx_l500, {
         message("check <500:")
         print(MasterData$treatment_guidelines[["less500"]])
 
+        # Down
+        if (input$userTx_l500 != "" & input$userTx_l500 > input$userTx_l500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l500_alert_l500",
+                alertId = "alertId_l500_tx_l500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <500 is higher than threshold for CD4 <500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l500_tx_l500")
+        }
+
+        if (input$userTx_m500 != "" & input$userTx_l500 > input$userTx_m500) {
+            shinyBS::createAlert(session,
+                anchorId = "tx_l500_alert_m500",
+                alertId = "alertId_l500_tx_m500",
+                title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
+                content = "Treatment threshold for CD4 <500 is higher than threshold for CD4 >500.",
+                style = "danger",
+                dismiss = TRUE,
+                append = TRUE)
+        } else {
+            shinyBS::closeAlert(session, alertId = "alertId_l500_tx_m500")
+        }
+
+        # UP
         if (input$userTx_l200 != "" & input$userTx_l500 < input$userTx_l200) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l500_alert",
-                alertId = "alertId_l500_tx",
+                anchorId = "tx_l500_alert_l200",
+                alertId = "alertId_l500_tx_l200",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <500 is lower than threshold for CD4 <200.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l500_tx_l200")
         }
 
         if (input$userTx_l250 != "" & input$userTx_l500 < input$userTx_l250) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l500_alert",
-                alertId = "alertId_l500_tx",
+                anchorId = "tx_l500_alert_l250",
+                alertId = "alertId_l500_tx_l250",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <500 is lower than threshold for CD4 <250.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l500_tx_l250")
         }
 
         if (input$userTx_l350 != "" & input$userTx_l500 < input$userTx_l350) {
             shinyBS::createAlert(session,
-                anchorId = "tx_l500_alert",
-                alertId = "alertId_l500_tx",
+                anchorId = "tx_l500_alert_l350",
+                alertId = "alertId_l500_tx_l350",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 <500 is lower than threshold for CD4 <350.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_l500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_l500_tx_l350")
         }
 
         if (GuidelineCheck(tx_l200 = input$userTx_l200, tx_l250 = input$userTx_l250, tx_l350 = input$userTx_l350, tx_l500 = input$userTx_l500, tx_m500 = input$userTx_m500)) {
@@ -183,56 +329,57 @@ observeEvent(input$userTx_m500, {
         message("check >500:")
         print(MasterData$treatment_guidelines[["more500"]])
 
+        # UP
         if (input$userTx_l200 != "" & input$userTx_m500 < input$userTx_l200) {
             shinyBS::createAlert(session,
-                anchorId = "tx_m500_alert",
-                alertId = "alertId_m500_tx",
+                anchorId = "tx_m500_alert_l200",
+                alertId = "alertId_m500_tx_l200",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 >500 is lower than threshold for CD4 <200.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_m500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_m500_tx_l200")
         }
 
         if (input$userTx_l250 != "" & input$userTx_m500 < input$userTx_l250) {
             shinyBS::createAlert(session,
-                anchorId = "tx_m500_alert",
-                alertId = "alertId_m500_tx",
+                anchorId = "tx_m500_alert_l250",
+                alertId = "alertId_m500_tx_l250",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 >500 is lower than threshold for CD4 <250.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_m500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_m500_tx_l250")
         }
 
         if (input$userTx_l350 != "" & input$userTx_m500 < input$userTx_l350) {
             shinyBS::createAlert(session,
-                anchorId = "tx_m500_alert",
-                alertId = "alertId_m500_tx",
+                anchorId = "tx_m500_alert_l350",
+                alertId = "alertId_m500_tx_l350",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 >500 is lower than threshold for CD4 <350.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_m500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_m500_tx_l350")
         }
 
         if (input$userTx_l500 != "" & input$userTx_m500 < input$userTx_l500) {
             shinyBS::createAlert(session,
-                anchorId = "tx_m500_alert",
-                alertId = "alertId_m500_tx",
+                anchorId = "tx_m500_alert_l500",
+                alertId = "alertId_m500_tx_l500",
                 title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "WARNING"),
                 content = "Treatment threshold for CD4 >500 is lower than threshold for CD4 <500.",
                 style = "danger",
                 dismiss = TRUE,
                 append = TRUE)
         } else {
-            shinyBS::closeAlert(session, alertId = "alertId_m500_tx")
+            shinyBS::closeAlert(session, alertId = "alertId_m500_tx_l500")
         }
 
         if (GuidelineCheck(tx_l200 = input$userTx_l200, tx_l250 = input$userTx_l250, tx_l350 = input$userTx_l350, tx_l500 = input$userTx_l500, tx_m500 = input$userTx_m500)) {
