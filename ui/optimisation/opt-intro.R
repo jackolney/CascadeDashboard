@@ -65,20 +65,26 @@ tabItem(tabName = "opt-intro",
             interventions. Potential interventions that can be simulated are listed in the main panel.",
             helpText("Please hit 'Start' to begin simulating interventions.
                 Further page options are available from the sidebar."),
-            bsButton(inputId = "intDetail",
+            fluidRow(
+                column(width = 6,
+                    bsButton(inputId = "intDetail",
                         label = "Intervention Detail",
                         type = "action",
                         style = "primary",
                         size = "default",
                         block = TRUE,
-                        icon = icon("info", class = "fa-lg fa-fw", lib = "font-awesome")),
-            bsButton(inputId = "intCost",
+                        icon = icon("info", class = "fa-lg fa-fw", lib = "font-awesome"))
+                ),
+                column(width = 6,
+                    bsButton(inputId = "intCost",
                         label = "Intervention Cost",
                         type = "action",
                         style = "primary",
                         size = "default",
                         block = TRUE,
                         icon = icon("usd", class = "fa-lg fa-fw", lib = "font-awesome"))
+                )
+            )
         ),
         box(width = NULL,
             status = "danger",
