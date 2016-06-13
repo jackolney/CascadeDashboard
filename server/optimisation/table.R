@@ -176,3 +176,92 @@ output$optParTable_Omega <- renderTable({
     colnames(tbl) <- paste("p", seq(1, 4, 1), sep = '')
     return(tbl)
 }, digits = 3)
+
+output$bestFitDT <- DT::renderDataTable({
+    p <- parameters(
+        prop_preART_500    = MasterCD4_2015[1,"prop.Off.ART.500"][[1]],
+        prop_preART_350500 = MasterCD4_2015[1,"prop.Off.ART.350500"][[1]],
+        prop_preART_250350 = MasterCD4_2015[1,"prop.Off.ART.250350"][[1]],
+        prop_preART_200250 = MasterCD4_2015[1,"prop.Off.ART.200250"][[1]],
+        prop_preART_100200 = MasterCD4_2015[1,"prop.Off.ART.100200"][[1]],
+        prop_preART_50100  = MasterCD4_2015[1,"prop.Off.ART.50100"][[1]],
+        prop_preART_50     = MasterCD4_2015[1,"prop.Off.ART.50"][[1]],
+        t_1 = ConvertYear2015(MasterData[["treatment_guidelines"]][["more500"]]),
+        t_2 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less500"]]),
+        t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
+        t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
+        t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
+        Rho = CalibParamOut[minErrorRun,"rho"],
+        Epsilon = CalibParamOut[minErrorRun,"epsilon"],
+        Kappa = CalibParamOut[minErrorRun,"kappa"],
+        Gamma = CalibParamOut[minErrorRun,"gamma"],
+        Theta = CalibParamOut[minErrorRun,"theta"],
+        Omega = CalibParamOut[minErrorRun,"omega"],
+        p = CalibParamOut[minErrorRun,"p"],
+        q = CalibParamOut[minErrorRun,"q"]
+    )
+
+    parameter <- c(
+        "Rho",
+        "Epsilon",
+        "q",
+        "Kappa",
+        "Gamma",
+        "p",
+        "Theta",
+        "Omega"
+    )
+
+    description <- c(
+        "Diagnosis rate",
+        "Linkage rate",
+        "Proportion successfully linking to care",
+        "Pre-ART dropout rate",
+        "ART initiation rate for eligible individuals in care",
+        "Proportion of patients adhering to treatment at initiation",
+        "ART initiation rate for eligible individuals not currently in care",
+        "ART dropout rate"
+    )
+
+    rate <- c(
+        round(p[["Rho"]],     digits = 4),
+        round(p[["Epsilon"]], digits = 4),
+        round(p[["q"]],       digits = 4),
+        round(p[["Kappa"]],   digits = 4),
+        round(p[["Gamma"]],   digits = 4),
+        round(p[["p"]],       digits = 4),
+        round(p[["Theta"]],   digits = 4),
+        round(p[["Omega"]],   digits = 4)
+    )
+
+    time <- c(
+        round(1 / p[["Rho"]],     digits = 4),
+        round(1 / p[["Epsilon"]], digits = 4),
+        round(1 / p[["q"]],       digits = 4),
+        round(1 / p[["Kappa"]],   digits = 4),
+        round(1 / p[["Gamma"]],   digits = 4),
+        round(1 / p[["p"]],       digits = 4),
+        round(1 / p[["Theta"]],   digits = 4),
+        round(1 / p[["Omega"]],   digits = 4)
+    )
+
+    df <- data.frame(parameter, description, rate, time)
+
+    DT::datatable(df,
+        style = 'bootstrap',
+        rownames = FALSE,
+        options = list(
+            initComplete = JS(
+                "function(settings, json) {",
+                "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
+                "}"),
+            autoWidth = FALSE
+        )
+    )
+})
+
+
+
+
+
+
