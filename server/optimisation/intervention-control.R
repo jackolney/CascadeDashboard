@@ -10,7 +10,7 @@ intSwitch <- reactiveValues(
 
 observeEvent(input$intCheck_testing, {
     if (intSwitch$testing) {
-        message("Testing Intervention - OFF")
+        message("Testing Intervention           - OFF")
         intSwitch$testing <- FALSE
         updateButton(session,
             inputId = "intCheck_testing",
@@ -20,7 +20,7 @@ observeEvent(input$intCheck_testing, {
             block = TRUE,
             icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        message("Testing Intervention - ON")
+        message("Testing Intervention           - ON")
         intSwitch$testing <- TRUE
         updateButton(session,
             inputId = "intCheck_testing",
@@ -34,7 +34,7 @@ observeEvent(input$intCheck_testing, {
 
 observeEvent(input$intCheck_linkage, {
     if (intSwitch$linkage) {
-        message("Linkage Intervention - OFF")
+        message("Linkage Intervention           - OFF")
         intSwitch$linkage <- FALSE
         updateButton(session,
             inputId = "intCheck_linkage",
@@ -44,7 +44,7 @@ observeEvent(input$intCheck_linkage, {
             block = TRUE,
             icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        message("Linkage Intervention - ON")
+        message("Linkage Intervention           - ON")
         intSwitch$linkage <- TRUE
         updateButton(session,
             inputId = "intCheck_linkage",
@@ -82,7 +82,7 @@ observeEvent(input$intCheck_preRetention, {
 
 observeEvent(input$intCheck_initiation, {
     if (intSwitch$initiation) {
-        message("ART Initiation Intervention - OFF")
+        message("ART Initiation Intervention    - OFF")
         intSwitch$initiation <- FALSE
         updateButton(session,
             inputId = "intCheck_initiation",
@@ -92,7 +92,7 @@ observeEvent(input$intCheck_initiation, {
             block = TRUE,
             icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        message("ART Initiation Intervention - ON")
+        message("ART Initiation Intervention    - ON")
         intSwitch$initiation <- TRUE
         updateButton(session,
             inputId = "intCheck_initiation",
@@ -106,7 +106,7 @@ observeEvent(input$intCheck_initiation, {
 
 observeEvent(input$intCheck_adherence, {
     if (intSwitch$adherence) {
-        message("Adherence Intervention - OFF")
+        message("Adherence Intervention         - OFF")
         intSwitch$adherence <- FALSE
         updateButton(session,
             inputId = "intCheck_adherence",
@@ -116,7 +116,7 @@ observeEvent(input$intCheck_adherence, {
             block = TRUE,
             icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        message("Adherence Intervention - ON")
+        message("Adherence Intervention         - ON")
         intSwitch$adherence <- TRUE
         updateButton(session,
             inputId = "intCheck_adherence",
@@ -130,7 +130,7 @@ observeEvent(input$intCheck_adherence, {
 
 observeEvent(input$intCheck_retention, {
     if (intSwitch$retention) {
-        message("ART Retention Intervention - OFF")
+        message("ART Retention Intervention     - OFF")
         intSwitch$retention <- FALSE
         updateButton(session,
             inputId = "intCheck_retention",
@@ -140,7 +140,7 @@ observeEvent(input$intCheck_retention, {
             block = TRUE,
             icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        message("ART Retention Intervention - ON")
+        message("ART Retention Intervention     - ON")
         intSwitch$retention <- TRUE
         updateButton(session,
             inputId = "intCheck_retention",
