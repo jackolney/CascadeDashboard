@@ -31,6 +31,7 @@ dashboardPage(
             source("ui/optimisation/opt-intro.R",         local = TRUE)$value,
             source("ui/optimisation/opt-parameter.R",     local = TRUE)$value,
             source("ui/optimisation/opt-cost.R",          local = TRUE)$value,
+            source("ui/optimisation/opt-best-fit.R",      local = TRUE)$value,
             source("ui/optimisation/opt-results.R",       local = TRUE)$value,
             source("ui/optimisation/opt-909090.R",        local = TRUE)$value,
             source("ui/optimisation/opt-budget.R",        local = TRUE)$value,

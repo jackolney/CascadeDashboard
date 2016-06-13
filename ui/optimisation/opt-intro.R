@@ -84,7 +84,15 @@ tabItem(tabName = "opt-intro",
                         block = TRUE,
                         icon = icon("usd", class = "fa-lg fa-fw", lib = "font-awesome"))
                 )
-            )
+            ),
+            p(""),
+            bsButton(inputId = "intFit",
+                label = "'Best Fit' Parameter Set",
+                type = "action",
+                style = "primary",
+                size = "default",
+                block = TRUE,
+                icon = icon("area-chart", class = "fa-lg fa-fw", lib = "font-awesome"))
         ),
         box(width = NULL,
             status = "danger",

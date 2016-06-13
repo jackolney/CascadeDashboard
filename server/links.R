@@ -241,6 +241,13 @@ observeEvent(input$intCost, {
     )
 })
 
+observeEvent(input$intFit, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-best-fit"
+    )
+})
+
 # Optimisation Intervention Detail
 observeEvent(input$PREV_optParam, {
     updateTabItems(session,
@@ -251,6 +258,14 @@ observeEvent(input$PREV_optParam, {
 
 # Optimisation Intervention Cost
 observeEvent(input$PREV_optCost, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-intro"
+    )
+})
+
+# Optimisation Best Fit Calibration
+observeEvent(input$PREV_optBestFit, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "opt-intro"
