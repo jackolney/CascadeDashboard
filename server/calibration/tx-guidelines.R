@@ -39,8 +39,6 @@ output$UI_m500_tx <- renderUI({
 observeEvent(input$userTx_l200, {
     if (input$userTx_l200 != "") {
         MasterData$treatment_guidelines[["less200"]] <- input$userTx_l200
-        message("check <200:")
-        print(MasterData$treatment_guidelines[["less200"]])
 
         # Down
         if (input$userTx_l250 != "" & input$userTx_l200 > input$userTx_l250) {
@@ -107,8 +105,6 @@ observeEvent(input$userTx_l200, {
 observeEvent(input$userTx_l250, {
     if (input$userTx_l250 != "") {
         MasterData$treatment_guidelines[["less250"]] <- input$userTx_l250
-        message("check <250:")
-        print(MasterData$treatment_guidelines[["less250"]])
 
         # Down
         if (input$userTx_l350 != "" & input$userTx_l250 > input$userTx_l350) {
@@ -175,8 +171,6 @@ observeEvent(input$userTx_l250, {
 observeEvent(input$userTx_l350, {
     if (input$userTx_l350 != "") {
         MasterData$treatment_guidelines[["less350"]] <- input$userTx_l350
-        message("check <350:")
-        print(MasterData$treatment_guidelines[["less350"]])
 
         # Down
         if (input$userTx_l500 != "" & input$userTx_l350 > input$userTx_l500) {
@@ -243,8 +237,6 @@ observeEvent(input$userTx_l350, {
 observeEvent(input$userTx_l500, {
     if (input$userTx_l500 != "") {
         MasterData$treatment_guidelines[["less500"]] <- input$userTx_l500
-        message("check <500:")
-        print(MasterData$treatment_guidelines[["less500"]])
 
         # Down
         if (input$userTx_l500 != "" & input$userTx_l500 > input$userTx_l500) {
@@ -324,8 +316,6 @@ observeEvent(input$userTx_l500, {
 observeEvent(input$userTx_m500, {
     if (input$userTx_m500 != "") {
         MasterData$treatment_guidelines[["more500"]] <- input$userTx_m500
-        message("check >500:")
-        print(MasterData$treatment_guidelines[["more500"]])
 
         # UP
         if (input$userTx_l200 != "" & input$userTx_m500 < input$userTx_l200) {
