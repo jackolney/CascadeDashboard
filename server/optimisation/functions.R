@@ -1,6 +1,6 @@
 # The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
 
-GetParaMatrix <- function(cParamOut, minErrorRun) {
+GetParaMatrix <- function(cParamOut, minErrorRun, length) {
     ParRange <- expand.grid(
 
         Rho   = seq(
@@ -14,7 +14,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     cParamOut[minErrorRun, "rho"]
                 },
-            length.out = 4
+            length.out = length
         ),
 
         Q     = seq(
@@ -28,7 +28,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     cParamOut[minErrorRun, "q"]
                 },
-            length.out = 4
+            length.out = length
         ),
 
         Kappa = seq(
@@ -42,7 +42,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     cParamOut[minErrorRun, "kappa"]
                 },
-            length.out = 4
+            length.out = length
         ),
 
         Gamma = seq(
@@ -56,7 +56,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     cParamOut[minErrorRun, "gamma"]
                 },
-            length.out = 4
+            length.out = length
         ),
 
         Sigma = seq(
@@ -70,7 +70,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     0
                 },
-            length.out = 4
+            length.out = length
         ),
 
         Omega = seq(
@@ -84,7 +84,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun) {
                 } else {
                     cParamOut[minErrorRun, "omega"]
                 },
-            length.out = 4
+            length.out = length
         )
     )
     out <- unique(ParRange)

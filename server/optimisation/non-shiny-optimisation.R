@@ -22,7 +22,7 @@ RunNSOptimisation <- function() {
 
     message("Starting optimisation...")
 
-    par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
+    par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
 
     # Simulation Loop
     time <- proc.time()[[1]]

@@ -4,7 +4,7 @@ RunOptimisation <- function() {
 
         setProgress(value = 0, message = 'Starting optimisation', detail = 'creating parameter matrix')
 
-        par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
+        par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
 
         updateButton(session,
             inputId = "optimStart",

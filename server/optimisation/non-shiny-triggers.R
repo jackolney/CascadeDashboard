@@ -37,7 +37,8 @@ input$opt_omega_factor <- 10
 
 # Can we run the calibration from here?
 
-theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun)
+theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
+dim(GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2))
 
 # Testing somem functions
 
