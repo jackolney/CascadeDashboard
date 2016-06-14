@@ -10,7 +10,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
                     cParamOut[minErrorRun, "rho"]
                 },
             to = if (intSwitch$testing) {
-                    cParamOut[minErrorRun, "rho"] * input$opt_rho_factor
+                    input$opt_rho_intValue
                 } else {
                     cParamOut[minErrorRun, "rho"]
                 },
@@ -24,7 +24,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
                     cParamOut[minErrorRun, "q"]
                 },
             to = if (intSwitch$linkage) {
-                    input$opt_q_factor
+                    input$opt_q_intValue
                 } else {
                     cParamOut[minErrorRun, "q"]
                 },
@@ -33,7 +33,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
 
         Kappa = seq(
             from = if (intSwitch$preRetention) {
-                    cParamOut[minErrorRun, "kappa"] / input$opt_kappa_factor
+                    input$opt_kappa_intValue
                 } else {
                     cParamOut[minErrorRun, "kappa"]
                 },
@@ -52,7 +52,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
                     cParamOut[minErrorRun, "gamma"]
                 },
             to = if (intSwitch$initiation) {
-                    cParamOut[minErrorRun, "gamma"] * input$opt_gamma_factor
+                    input$opt_gamma_intValue
                 } else {
                     cParamOut[minErrorRun, "gamma"]
                 },
@@ -66,7 +66,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
                     0
                 },
             to = if (intSwitch$adherence) {
-                input$opt_sigma_factor
+                input$opt_sigma_intValue
                 } else {
                     0
                 },
@@ -75,7 +75,7 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
 
         Omega = seq(
             from = if (intSwitch$retention) {
-                    cParamOut[minErrorRun, "omega"] / input$opt_omega_factor
+                    input$opt_omega_intValue
                 } else {
                     cParamOut[minErrorRun, "omega"]
                 },
@@ -91,6 +91,96 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
     out
 }
 
+GetParaMatrixLimits <- function(cParamOut, minErrorRun, length) {
+    ParRange <- data.frame(
+
+        Rho   = seq(
+            from = if (intSwitch$testing) {
+                    cParamOut[minErrorRun, "rho"]
+                } else {
+                    cParamOut[minErrorRun, "rho"]
+                },
+            to = if (intSwitch$testing) {
+                    input$opt_rho_intValue
+                } else {
+                    cParamOut[minErrorRun, "rho"]
+                },
+            length.out = length
+        ),
+
+        Q     = seq(
+            from = if (intSwitch$linkage) {
+                    cParamOut[minErrorRun, "q"]
+                } else {
+                    cParamOut[minErrorRun, "q"]
+                },
+            to = if (intSwitch$linkage) {
+                    input$opt_q_intValue
+                } else {
+                    cParamOut[minErrorRun, "q"]
+                },
+            length.out = length
+        ),
+
+        Kappa = seq(
+            from = if (intSwitch$preRetention) {
+                    input$opt_kappa_intValue
+                } else {
+                    cParamOut[minErrorRun, "kappa"]
+                },
+            to = if (intSwitch$preRetention) {
+                    cParamOut[minErrorRun, "kappa"]
+                } else {
+                    cParamOut[minErrorRun, "kappa"]
+                },
+            length.out = length
+        ),
+
+        Gamma = seq(
+            from = if (intSwitch$initiation) {
+                    cParamOut[minErrorRun, "gamma"]
+                } else {
+                    cParamOut[minErrorRun, "gamma"]
+                },
+            to = if (intSwitch$initiation) {
+                    input$opt_gamma_intValue
+                } else {
+                    cParamOut[minErrorRun, "gamma"]
+                },
+            length.out = length
+        ),
+
+        Sigma = seq(
+            from = if (intSwitch$adherence) {
+                    0
+                } else {
+                    0
+                },
+            to = if (intSwitch$adherence) {
+                input$opt_sigma_intValue
+                } else {
+                    0
+                },
+            length.out = length
+        ),
+
+        Omega = seq(
+            from = if (intSwitch$retention) {
+                    input$opt_omega_intValue
+                } else {
+                    cParamOut[minErrorRun, "omega"]
+                },
+            to = if (intSwitch$retention) {
+                    cParamOut[minErrorRun, "omega"]
+                } else {
+                    cParamOut[minErrorRun, "omega"]
+                },
+            length.out = length
+        )
+    )
+    out <- unique(ParRange)
+    out
+}
 Calc_Cost <- function(out) {
     out$TotalCost[251]
 }
