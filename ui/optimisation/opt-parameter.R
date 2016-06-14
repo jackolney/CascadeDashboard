@@ -20,7 +20,7 @@ tabItem(tabName = "opt-parameter",
                 the testing rate is varied between the status quo (no intervention) and the status quo
                 multiplied by the intervention rate factor (maximum intervention).",
             p(""),
-            numericInput(inputId = "opt_rho_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            uiOutput("UI_opt_rho_MAX"),
                 "The maximum number of additional diagnoses made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_rho_max")
@@ -44,13 +44,10 @@ tabItem(tabName = "opt-parameter",
             the linkage proportion is varied between the status quo (no intervention) and value entered
             to simulate various permutations of a linkage intervention.",
             p(""),
-            numericInput(inputId = "opt_q_factor", label = "Maximum Intervention Proportion:", value = 1, min = 0, max = 1, step = 0.001, width = "100%"),
+            uiOutput("UI_opt_q_MAX"),
             "The maximum number of additional succesful linkages to care made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_q_max")
-
-            # uiOutput("UI_optP_qRange"),
-            # tableOutput("optParTable_Q")
         ),
         box(width = NULL,
             height = '100%',
@@ -70,12 +67,10 @@ tabItem(tabName = "opt-parameter",
             the pre-ART dropout rate is varied between the status quo (no intervention) and the status quo
             divided by the intervention rate factor (maximum intervention).",
             p(""),
-            numericInput(inputId = "opt_kappa_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            uiOutput("UI_opt_kappa_MAX"),
             "The total number of additional persons retained in pre-ART care between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_kappa_max")
-            # uiOutput("UI_optP_kappaRange"),
-            # tableOutput("optParTable_Kappa")
         ),
         box(width = NULL,
             height = '100%',
@@ -95,7 +90,7 @@ tabItem(tabName = "opt-parameter",
             the initiation rate is varied between the status quo (no intervention) and the status quo
             multiplied by the intervention rate factor (maximum intervention).",
             p(""),
-            numericInput(inputId = "opt_gamma_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            uiOutput("UI_opt_gamma_MAX"),
             "The total number of additional initiations made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_gamma_max")
@@ -120,12 +115,10 @@ tabItem(tabName = "opt-parameter",
             The status quo rate of transition from not adhering to adhering is zero. By adjusting the
             rate below, the number of individuals transitioning can be increased.",
             p(""),
-            numericInput(inputId = "opt_sigma_factor", label = "Intervention Rate (py^-1):", value = 10, min = 0, max = 10, step = 1, width = "100%"),
+            uiOutput("UI_opt_sigma_MAX"),
             "The total number of additional individuals adhering to ART between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_sigma_max")
-            # uiOutput("UI_optP_sigmaRange"),
-            # tableOutput("optParTable_Sigma")
         ),
         box(width = NULL,
             height = '100%',
@@ -145,12 +138,10 @@ tabItem(tabName = "opt-parameter",
             the ART dropout rate is varied between the status quo (no intervention) and the status quo
             multiplied by the intervention rate factor (maximum intervention).",
             p(""),
-            numericInput(inputId = "opt_omega_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
+            uiOutput("UI_opt_omega_MAX"),
             "The total number of additional persons retained in ART care between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_omega_max")
-            # uiOutput("UI_optP_omegaRange"),
-            # tableOutput("optParTable_Omega")
         )
     ),
     column(width = 4,

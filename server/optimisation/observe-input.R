@@ -1,132 +1,25 @@
-###################################
-# MOST OF THIS IS DECPRECATED NOW #
-###################################
+### Optimisation Input ###
 
-## Wizard Page Sliders ##
-## Currently dummies ##
-output$UI_optW_rho <- renderUI({
-    sliderInput(inputId = 'optW_rho', label = 'Diagnosis rate (diagnoses/py) (rho):',
-        min = round(ParamMaxMin["rho", "min"],        digits = 4),
-        max = round(ParamMaxMin["rho", "max"],        digits = 4),
-        value = round(CalibParamOut[minErrorRun, "rho"], digits = 4),
-        step = 0.0001,
-        sep = "",
-        width = "100%")
+output$UI_opt_rho_MAX <- renderUI({
+    numericInput(inputId = "opt_rho_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%")
 })
 
-output$UI_optW_p <- renderUI({
-    sliderInput(inputId = 'optW_p', label = 'Proportion of diagnosed individuals linking to care (p):',
-        min = round(ParamMaxMin["p", "min"],          digits = 4),
-        max = round(ParamMaxMin["p", "max"],          digits = 4),
-        value = round(CalibParamOut[minErrorRun, "p"], digits = 4),
-        step = 0.0001,
-        sep = "",
-        width = "100%")
+output$UI_opt_q_MAX <- renderUI({
+    numericInput(inputId = "opt_q_factor", label = "Maximum Intervention Proportion:", value = 1, min = 0, max = 1, step = 0.001, width = "100%")
 })
 
-output$UI_optW_kappa <- renderUI({
-    sliderInput(inputId = 'optW_kappa', label = 'Pre-ART Dropout Rate (Pre-ART dropout/py) (kappa):',
-        min = round(ParamMaxMin["kappa", "min"],      digits = 4),
-        max = round(ParamMaxMin["kappa", "max"],      digits = 4),
-        value = round(CalibParamOut[minErrorRun, "kappa"], digits = 4),
-        step = 0.0001,
-        sep = "",
-        width = "100%")
+output$UI_opt_kappa_MAX <- renderUI({
+    numericInput(inputId = "opt_kappa_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%")
 })
 
-output$UI_optW_gamma <- renderUI({
-    sliderInput(inputId = 'optW_gamma', label = 'ART initiation rate (ART initiations/py) (gamma):',
-        min = round(ParamMaxMin["gamma", "min"],      digits = 4),
-        max = round(ParamMaxMin["gamma", "max"],      digits = 4),
-        value = round(CalibParamOut[minErrorRun, "gamma"], digits = 4),
-        step = 0.0001,
-        sep = "",
-        width = "100%")
+output$UI_opt_gamma_MAX <- renderUI({
+    numericInput(inputId = "opt_gamma_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%")
 })
 
-output$UI_optW_sigma <- renderUI({
-    sliderInput(inputId = 'optW_sigma', label = 'Adherence Rate (Adherence/py) (sigma):',
-        min = 0,
-        max = 1,
-        value = 0,
-        step = 0.0001,
-        sep = "",
-        width = "100%")
+output$UI_opt_sigma_MAX <- renderUI({
+    numericInput(inputId = "opt_sigma_factor", label = "Intervention Rate (py^-1):", value = 10, min = 0, max = 10, step = 1, width = "100%")
 })
 
-output$UI_optW_omega <- renderUI({
-    sliderInput(inputId = 'optW_omega', label = 'ART dropout rate (ART dropout/py) (omega):',
-        min = round(ParamMaxMin["omega", "min"],      digits = 4),
-        max = round(ParamMaxMin["omega", "max"],      digits = 4),
-        value = round(CalibParamOut[minErrorRun, "omega"], digits = 4),
-        step = 0.0001,
-        sep = "",
-        width = "100%")
-})
-
-
-## Parameter Page Sliders ##
-
-output$UI_optP_rhoRange <- renderUI({
-    sliderInput(inputId = 'userOptRho_Range', label = 'Diagnoses per person-year:',
-        min = 0,
-        max = 50,
-        value = c(
-            round(CalibParamOut[minErrorRun, "rho"], digits = 4),
-            round(CalibParamOut[minErrorRun, "rho"], digits = 4) * 10),
-        step = 0.0001,
-        sep = "")
-})
-
-output$UI_optP_qRange <- renderUI({
-    sliderInput(inputId = 'userOptq_Range', label = 'Proportion diagnosed that link to care:',
-        min = 0,
-        max = 1,
-        value = c(
-            round(CalibParamOut[minErrorRun, "q"], digits = 4),
-            1),
-        step = 0.0001,
-        sep = "")
-})
-
-output$UI_optP_kappaRange <- renderUI({
-    sliderInput(inputId = 'userOptKappa_Range', label = 'Loss from pre-ART care, per person-year:',
-        min = 0,
-        max = 50,
-        value = c(
-            round(CalibParamOut[minErrorRun, "kappa"], digits = 4) / 10,
-            round(CalibParamOut[minErrorRun, "kappa"], digits = 4)),
-        step = 0.0001,
-        sep = "")
-})
-
-output$UI_optP_gammaRange <- renderUI({
-    sliderInput(inputId = 'userOptGamma_Range', label = 'ART initiations per person-year:',
-        min = 0,
-        max = 50,
-        value = c(
-            round(CalibParamOut[minErrorRun, "gamma"], digits = 4),
-            round(CalibParamOut[minErrorRun, "gamma"], digits = 4) * 10),
-        step = 0.0001,
-        sep = "")
-})
-
-output$UI_optP_sigmaRange <- renderUI({
-    sliderInput(inputId = 'userOptSigma_Range', label = 'Rate at which non-adherent persons begin adhering to treatment, per person-year:',
-        min = 0,
-        max = 5,
-        value = c(0, 5),
-        step = 0.0001,
-        sep = "")
-})
-
-output$UI_optP_omegaRange <- renderUI({
-    sliderInput(inputId = 'userOptOmega_Range', label = 'ART dropout per person-year:',
-        min = 0,
-        max = 0.1,
-        value = c(
-            round(CalibParamOut[minErrorRun, "omega"], digits = 4) / 10,
-            round(CalibParamOut[minErrorRun, "omega"], digits = 4)),
-        step = 0.0001,
-        sep = "")
+output$UI_opt_omega_MAX <- renderUI({
+    numericInput(inputId = "opt_omega_factor", label = "Intervention rate factor:", value = 10, min = 0, max = 100, step = 1, width = "100%"),
 })
