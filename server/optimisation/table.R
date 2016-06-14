@@ -223,7 +223,7 @@ output$bestFitDT <- DT::renderDataTable({
         "ART dropout rate"
     )
 
-    rate <- c(
+    value <- c(
         round(p[["Rho"]],     digits = 4),
         round(p[["Epsilon"]], digits = 4),
         round(p[["q"]],       digits = 4),
@@ -237,15 +237,17 @@ output$bestFitDT <- DT::renderDataTable({
     time <- c(
         round(1 / p[["Rho"]],     digits = 4),
         round(1 / p[["Epsilon"]], digits = 4),
-        round(1 / p[["q"]],       digits = 4),
+        "-",
         round(1 / p[["Kappa"]],   digits = 4),
         round(1 / p[["Gamma"]],   digits = 4),
-        round(1 / p[["p"]],       digits = 4),
+        "-",
         round(1 / p[["Theta"]],   digits = 4),
         round(1 / p[["Omega"]],   digits = 4)
     )
 
-    df <- data.frame(parameter, description, rate, time)
+    df <- data.frame(parameter, description, value, time)
+
+    colnames(df) <- c("Parameter", "Description", "Value", "Rate")
 
     DT::datatable(df,
         style = 'bootstrap',
