@@ -10,15 +10,15 @@ tabItem(tabName = "opt-parameter",
             collapsed = TRUE,
             title = "HIV-Testing",
             tags$h4("Status Quo"),
-                "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-                the total number of individuals diagnosed with HIV will be:",
+                "At current levels, between 2015 and 2020, assuming ceteris paribus (all other things equal),
+                the number of diagnoses per year will be:",
             p(""),
             uiOutput("opt_rho_baseline"),
             tags$h4("Intervention"),
                 "However, by simulating an HIV testing intervention, we can increase testing such that an
-                additional number of individuals are diagnosed by 2020. By adjusting the value below,
-                the testing rate is varied between the status quo (no intervention) and the status quo
-                multiplied by the intervention rate factor (maximum intervention).",
+                additional number of individuals are diagnosed by 2020. By adjusting the rate below, we define
+                the maximum this intervention can achieve. This is then reflected below by illustrating how many
+                additional diagnoses a year will be made:",
             p(""),
             uiOutput("UI_opt_rho_MAX"),
                 "The maximum number of additional diagnoses made between 2015 and 2015 will be:",

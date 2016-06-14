@@ -25,7 +25,7 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
     # Allows user to override these
     # Uses LHS to sample parameter space
     message("Defining parameter space")
-    parRange <- DefineParmRange()
+    parRange <<- DefineParmRange()
     lhs <- FME::Latinhyper(parRange, num = maxIterations)
 
     ## Sample Initial Compartment Values
