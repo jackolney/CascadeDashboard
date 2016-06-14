@@ -94,8 +94,6 @@ tabItem(tabName = "opt-parameter",
             "The total number of additional initiations made between 2015 and 2015 will be:",
             p(""),
             uiOutput("opt_gamma_max")
-            # uiOutput("UI_optP_gammaRange"),
-            # tableOutput("optParTable_Gamma")
         ),
         box(width = NULL,
             height = '100%',
