@@ -27,19 +27,18 @@ intSwitch <- data.frame(
     retention =    TRUE
     )
 
-input <- c()
-input$opt_rho_intValue   <- parRange["rho", "max"]
-input$opt_q_intValue     <- parRange["q", "max"]
-input$opt_kappa_intValue <- parRange["kappa", "min"]
-input$opt_gamma_intValue <- parRange["gamma", "max"]
-input$opt_sigma_intValue <- 2
-input$opt_omega_intValue <- parRange["rho", "min"]
+OptInput <- c()
+OptInput$intValue_rho   <- parRange["rho", "max"]
+OptInput$intValue_q     <- parRange["q", "max"]
+OptInput$intValue_kappa <- parRange["kappa", "min"]
+OptInput$intValue_gamma <- parRange["gamma", "max"]
+OptInput$intValue_sigma <- 2
+OptInput$intValue_omega <- parRange["rho", "min"]
 
 # Can we run the calibration from here?
 
 theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
-dim(GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2))
-GetParaMatrixLimits(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
+
 # Testing somem functions
 
 # ------------ #

@@ -2,23 +2,23 @@ RunNSOptimisation <- function() {
     # This should be triggered by the renderPlot().
 
     # CHECKLIST
-    print("opt_rho_factor =")
-    print(input$opt_rho_factor)
+    print("OptInput$intValue_rho =")
+    print(OptInput$intValue_rho)
 
-    print("opt_q_factor =")
-    print(input$opt_q_factor)
+    print("OptInput$intValue_q =")
+    print(OptInput$intValue_q)
 
-    print("opt_kappa_factor =")
-    print(input$opt_kappa_factor)
+    print("OptInput$intValue_kappa =")
+    print(OptInput$intValue_kappa)
 
-    print("opt_gamma_factor =")
-    print(input$opt_gamma_factor)
+    print("OptInput$intValue_gamma =")
+    print(OptInput$intValue_gamma)
 
-    print("opt_sigma_factor =")
-    print(input$opt_sigma_factor)
+    print("OptInput$intValue_sigma =")
+    print(OptInput$intValue_sigma)
 
-    print("opt_omega_factor =")
-    print(input$opt_omega_factor)
+    print("OptInput$intValue_omega =")
+    print(OptInput$intValue_omega)
 
     message("Starting optimisation...")
 
@@ -68,8 +68,8 @@ RunNSOptimisation <- function() {
     BaseDALY  <- Calc_DALY(BaseModel)
     BaseCost  <- Calc_Cost(BaseModel)
 
-    print(paste("BaseDALY =", BaseDALY))
-    print(paste("BaseCost =", BaseCost))
+    print(paste("BaseDALY =", scales::comma(BaseDALY)))
+    print(paste("BaseCost =", scales::comma(BaseCost)))
 
     Result90        <- c()
     Result9090      <- c()

@@ -156,6 +156,14 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
         CalibParamMaxMin$p_MAX       <- parRange["p",       "max"]
         CalibParamMaxMin$p_MIN       <- parRange["p",       "min"]
 
+        # Info for optimisation intervention setup
+        OptInput$intValue_rho   <- CalibParamMaxMin$rho_MAX
+        OptInput$intValue_q     <- CalibParamMaxMin$q_MAX
+        OptInput$intValue_kappa <- CalibParamMaxMin$kappa_MIN
+        OptInput$intValue_gamma <- CalibParamMaxMin$gamma_MAX
+        OptInput$intValue_sigma <- 2
+        OptInput$intValue_omega <- CalibParamMaxMin$omega_MAX
+
         # Plots (control passed back to shiny::renderPlot())
         setProgress(value = 1, detail = "Building figures")
     })
