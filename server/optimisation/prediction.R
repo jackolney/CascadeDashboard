@@ -130,7 +130,7 @@ output$ib_initiation_intervention <- renderValueBox({
 
     valueBox(
         value = out,
-        subtitle = "Additional ART initiation per year with intervention",
+        subtitle = "Additional ART initiations per year with intervention",
         color = "green",
         width = NULL,
         icon = icon("medkit", lib = "font-awesome")
