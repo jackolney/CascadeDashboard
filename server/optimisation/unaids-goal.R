@@ -176,13 +176,15 @@ output$vb909090_testing <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(alt$Dx)[251] - alt$Dx[1]) - (cumsum(baseline$Dx)[251] - baseline$Dx[1]), digits = 0)
+    base_answer <- baseline$CumDiag[251] / 5
+    alt_answer <- alt$CumDiag[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "Testing",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional diagnoses",
+        subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
@@ -208,13 +210,15 @@ output$vb909090_linkage <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(alt$Care)[251] - alt$Care[1] ) - (cumsum(baseline$Care)[251] - baseline$Care[1] ), digits = 0)
+    base_answer <- baseline$CumLink[251] / 5
+    alt_answer <- alt$CumLink[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "Linkage",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional linkage",
+        subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
@@ -239,13 +243,15 @@ output$vb909090_preRetention <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1]) - (cumsum(alt$PreLtfu)[251] - alt$PreLtfu[1]), digits = 0)
+    base_answer <- baseline$CumPreL[251] / 5
+    alt_answer <- alt$CumPreL[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "Pre-ART Retention",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional pre-ART retention",
+        subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
@@ -270,13 +276,15 @@ output$vb909090_initiation <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(alt$Tx)[251] - alt$Tx[1]) - (cumsum(baseline$Tx)[251] - baseline$Tx[1]), digits = 0)
+    base_answer <- baseline$CumInit[251] / 5
+    alt_answer <- alt$CumInit[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "ART Initiation",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional ART initiations",
+        subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
@@ -301,13 +309,15 @@ output$vb909090_adherence <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(alt$Vs)[251] - alt$Vs[1]) - (cumsum(baseline$Vs)[251] - baseline$Vs[1]), digits = 0)
+    base_answer <- baseline$CumAdhr[251] / 5
+    alt_answer <- alt$CumAdhr[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "Adherence",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional adherence",
+        subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
@@ -332,13 +342,15 @@ output$vb909090_retention <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    out <- round((cumsum(baseline$Ltfu)[251] - baseline$Ltfu[1]) - (cumsum(alt$Ltfu)[251] - alt$Ltfu[1]), digits = 0)
+    base_answer <- baseline$CumLoss[251] / 5
+    alt_answer <- alt$CumLoss[251] / 5
+    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
 
     infoBox(
         title = "ART Retention",
-        value = scales::comma(out),
+        value = out,
         color = "orange",
-        subtitle = "Additional ART retention",
+        subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
         icon = icon("check-square-o", lib = "font-awesome")
