@@ -32,12 +32,14 @@ OptInput$intValue_rho   <- parRange["rho", "max"]
 OptInput$intValue_q     <- parRange["q", "max"]
 OptInput$intValue_kappa <- parRange["kappa", "min"]
 OptInput$intValue_gamma <- parRange["gamma", "max"]
-OptInput$intValue_sigma <- 2
+OptInput$intValue_sigma <- 0.01
 OptInput$intValue_omega <- parRange["rho", "min"]
 
 # Can we run the calibration from here?
 
-theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
+theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
+dim(theTest)
+theTest
 
 # Testing somem functions
 
@@ -46,6 +48,8 @@ theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, l
 # ------------ #
 
 theOut <- RunNSOptimisation()
+theOut
+
 # pryr::object_size(theOut)
 # save(theOut, file = "Optimisation-Output.RData")
 # dir()

@@ -53,7 +53,6 @@ RunNSOptimisation <- function() {
         p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
         theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
-
     }
     ## END OF LOOP ##
 
