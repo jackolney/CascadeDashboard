@@ -9,21 +9,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "HIV-Testing",
-            tags$h4("Status Quo"),
-                "At current levels, between 2015 and 2020, assuming ceteris paribus (all other things equal),
-                the number of diagnoses per year will be:",
-            p(""),
-            uiOutput("opt_rho_baseline"),
-            tags$h4("Intervention"),
-                "However, by simulating an HIV testing intervention, we can increase testing such that an
-                additional number of individuals are diagnosed by 2020. By adjusting the rate below, we define
-                the maximum this intervention can achieve. This is then reflected below by illustrating how many
-                additional diagnoses a year will be made:",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                testing intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_rho_MAX"),
-                "The maximum number of additional diagnoses made between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_rho_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_testing_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_testing_intervention", width = NULL)
+                )
+            )
         ),
         box(width = NULL,
             height = '100%',
@@ -32,22 +29,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Linkage",
-            tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals who successfully link to care will be:",
-            p(""),
-            uiOutput("opt_q_baseline"),
-
-            tags$h4("Intervention"),
-            "However, by simulating a linkage intervention, we can increase linkage such that an
-            additional number of individuals are successfully linked by 2020. By adjusting the value below,
-            the linkage proportion is varied between the status quo (no intervention) and value entered
-            to simulate various permutations of a linkage intervention.",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                linkage intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_q_MAX"),
-            "The maximum number of additional succesful linkages to care made between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_q_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_linkage_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_linkage_intervention", width = NULL)
+                )
+            )
         ),
         box(width = NULL,
             height = '100%',
@@ -56,21 +49,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Pre-ART Retention",
-            tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals lost from pre-ART care will be:",
-            p(""),
-            uiOutput("opt_kappa_baseline"),
-            tags$h4("Intervention"),
-            "However, by simulating a pre-ART retentionintervention, we can reduce loss such that an
-            additional number of individuals are retained in care by 2020. By adjusting the value below,
-            the pre-ART dropout rate is varied between the status quo (no intervention) and the status quo
-            divided by the intervention rate factor (maximum intervention).",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                pre-ART retention intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_kappa_MAX"),
-            "The total number of additional persons retained in pre-ART care between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_kappa_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_preRetention_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_preRetention_intervention", width = NULL)
+                )
+            )
         ),
         box(width = NULL,
             height = '100%',
@@ -79,21 +69,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Treatment Initiation",
-            tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals initiated onto treatment will be:",
-            p(""),
-            uiOutput("opt_gamma_baseline"),
-            tags$h4("Intervention"),
-            "However, by simulating an ART initiation intervention, we can increase treatment coverage
-            such that an additional number of individuals will initiate by 2020. By adjusting the value below,
-            the initiation rate is varied between the status quo (no intervention) and the status quo
-            multiplied by the intervention rate factor (maximum intervention).",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                ART initiation intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_gamma_MAX"),
-            "The total number of additional initiations made between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_gamma_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_initiation_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_initiation_intervention", width = NULL)
+                )
+            )
         ),
         box(width = NULL,
             height = '100%',
@@ -102,21 +89,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Adherence",
-            tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals ever adhering to ART will be:",
-            p(""),
-            uiOutput("opt_sigma_baseline"),
-            tags$h4("Intervention"),
-            "However, by simulating an adherence intervention, we can increase adherence to treatment
-            such that an additional number of individuals on treatment start to adhere by 2020.
-            The status quo rate of transition from not adhering to adhering is zero. By adjusting the
-            rate below, the number of individuals transitioning can be increased.",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                adherence intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_sigma_MAX"),
-            "The total number of additional individuals adhering to ART between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_sigma_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_adherence_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_adherence_intervention", width = NULL)
+                )
+            )
         ),
         box(width = NULL,
             height = '100%',
@@ -125,21 +109,18 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "ART Retention",
-            tags$h4("Status Quo"),
-            "At current levels, the model predicts that between 2015 and 2020, assuming ceteris paribus,
-            the total number of individuals lost from ART care will be:",
-            p(""),
-            uiOutput("opt_omega_baseline"),
-            tags$h4("Intervention"),
-            "However, by simulating an ART retention intervention, we can reduce loss such that an
-            additional number of individuals are retained on treatment by 2020. By adjusting the value below,
-            the ART dropout rate is varied between the status quo (no intervention) and the status quo
-            multiplied by the intervention rate factor (maximum intervention).",
-            p(""),
+            helpText("By adjusting the rate below, we define the maximum impact that a potential
+                ART retention intervention can achieve. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_omega_MAX"),
-            "The total number of additional persons retained in ART care between 2015 and 2015 will be:",
-            p(""),
-            uiOutput("opt_omega_max")
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_retention_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_retention_intervention", width = NULL)
+                )
+            )
         )
     ),
     column(width = 4,
