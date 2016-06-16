@@ -1,3 +1,14 @@
+output$plotOptim_result <- renderPlot({
+    input$NEXT_optIntro
+    BuildOptimisationPlot(theOut = optResult)
+}, height = 400, width = 'auto', bg = 'transparent')
+
+# Best Fit Calibration Plot
+output$optCalibBestFit <- renderPlot({
+    input$NEXT_calib
+    BuildCalibrationBestFitPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun)
+}, height = 750, width = 'auto', bg = 'transparent')
+
 output$plotOptim_CostImpact <- renderPlot({
 
     input$NEXT_optIntro

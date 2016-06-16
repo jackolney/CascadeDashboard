@@ -68,7 +68,3 @@ tabItem(tabName = "data-review",
         )
     )
 )
-
-
-# selectInputs for all TX_guidelines informed by data.set
-# Obseve changes and then update accordingly.

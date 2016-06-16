@@ -195,22 +195,15 @@ GenPowersCascadePlot_Report <- function() {
 
 Gen909090Plot_Report <- function() {
     out    <- Extract909090Data()
-    df     <- out[[1]]
-    dfData <- out[[2]]
 
     red    <- rgb(red = 223, green = 74,  blue = 50, max = 255)
     yellow <- rgb(red = 245, green = 157, blue = 0,  max = 255)
     green  <- rgb(red = 0,   green = 167, blue = 87, max = 255)
     cfill  <- c(red, yellow, green)
-    cfill_violin <- c(
-        rep(red,    length(dfData[dfData$defData == "% Diagnosed",    "value"])),
-        rep(yellow, length(dfData[dfData$defData == "% On Treatment", "value"])),
-        rep(green,  length(dfData[dfData$defData == "% Suppressed",   "value"]))
-    )
 
-    vbOut1 <- round(df[df$def == "% Diagnosed",    "res"] * 100, digits = 0)
-    vbOut2 <- round(df[df$def == "% On Treatment", "res"] * 100, digits = 0)
-    vbOut3 <- round(df[df$def == "% Suppressed",   "res"] * 100, digits = 0)
+    vbOut1 <- round(out[out$def == "% Diagnosed",    "res"] * 100, digits = 0)
+    vbOut2 <- round(out[out$def == "% On Treatment", "res"] * 100, digits = 0)
+    vbOut3 <- round(out[out$def == "% Suppressed",   "res"] * 100, digits = 0)
 
     output$vb_90            <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "Diagnosed",          color = "red",    icon = icon("medkit", lib = "font-awesome")) })
     output$vb_9090          <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "On Treatment",       color = "yellow", icon = icon("medkit", lib = "font-awesome")) })
@@ -219,11 +212,9 @@ Gen909090Plot_Report <- function() {
     output$vb_9090_wizard   <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "On Treatment",       color = "yellow", icon = icon("medkit", lib = "font-awesome")) })
     output$vb_909090_wizard <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "Virally Suppressed", color = "green",  icon = icon("medkit", lib = "font-awesome")) })
 
-    ggOut <- ggplot(df, aes(x = def, y = res))
+    ggOut <- ggplot(out, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 1)
-    # ggOut <- ggOut + geom_violin(data = dfData, mapping = aes(x = defData, y = value), stat = "ydensity",
-        # position = "dodge", trim = TRUE, alpha = 1 / 2, fill = "black", size = 0, scale = "area")
     ggOut <- ggOut + scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1), labels = scales::percent, expand = c(0, 0))
     ggOut <- ggOut + scale_fill_manual(values = cfill)
     ggOut <- ggOut + geom_abline(intercept = 0.9, slope = 0)

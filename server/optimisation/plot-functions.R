@@ -1,15 +1,3 @@
-# Optimisation Test Bed
-
-observeEvent(input$NEXT_optIntro, {
-    # Run Optimsation Function
-    optResult <<- RunOptimisation()
-})
-
-output$plotOptim_result <- renderPlot({
-    input$NEXT_optIntro
-    BuildOptimisationPlot(theOut = optResult)
-}, height = 400, width = 'auto', bg = 'transparent')
-
 BuildOptimisationPlot <- function(theOut) {
 
     # Subset data using opt_VS_cutoff
@@ -73,12 +61,6 @@ BuildOptimisationPlot <- function(theOut) {
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut
 }
-
-# Best Fit Calibration Plot
-output$optCalibBestFit <- renderPlot({
-    input$NEXT_calib
-    BuildCalibrationBestFitPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun)
-}, height = 750, width = 'auto', bg = 'transparent')
 
 BuildCalibrationBestFitPlot <- function(data, originalData, limit, minErrorRun) {
 
@@ -203,4 +185,3 @@ BuildCalibrationBestFitPlot <- function(data, originalData, limit, minErrorRun) 
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
-

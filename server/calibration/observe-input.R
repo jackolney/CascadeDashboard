@@ -1,5 +1,4 @@
 ## uPLHIV ##
-
 output$UI_uPLHIV <- renderUI({
     numericInput("uPLHIV", "Number of people living with HIV:",
         value = NA,

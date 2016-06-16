@@ -26,13 +26,8 @@ tabItem(tabName = "country",
             helpText("Please click a country on the map, or select one from the drop-down menu below. Hit 'Reset Map' to reset map zoom. 'Mission Control' provides additional information on available data from each country."),
             bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default")
         ),
-        # Perhaps a collapsible 'master check' warning panel, like at mission control. Call it "mission control".
-        # It will contain a narrow and tall list of all the imported csv files, and will have deactivated buttons that will change colour depending on what gets loaded.
-        # When data loaded, the icon changes?
-        # SUPER AWESOME.
         box(width = NULL,
             status = "danger",
-            # background = "black",
             title = "Mission Control",
             collapsible = TRUE,
             collapsed = FALSE,

@@ -1,5 +1,8 @@
+# ------ #
+# GLOBAL #
+# ------ #
+
 source("server/alert.R",          local = TRUE)
-source("server/google-sheets.R",  local = TRUE)
 source("server/leaflet.R",        local = TRUE)
 source("server/links.R",          local = TRUE)
 source("server/misc-functions.R", local = TRUE)
@@ -7,13 +10,6 @@ source("server/report-fig.R",     local = TRUE)
 source("server/report.R",         local = TRUE)
 source("server/valuebox.R",       local = TRUE)
 source("ui/global-lists.R",       local = TRUE)
-
-## It appears as though no server code exists here.
-## The reality is that it is all farmed out to other places.
-## This code is tidy.
-
-# Uncomment to hide sideBar at start (still flashes up though).
-# shinyjs::addClass(selector = "body", class = "sidebar-collapse")
 
 # ----- #
 # MODEL #
@@ -47,7 +43,6 @@ source("server/calibration/observe-input.R",    local = TRUE)
 source("server/calibration/observe-output.R",   local = TRUE)
 source("server/calibration/plot-functions.R",   local = TRUE)
 source("server/calibration/plot.R",             local = TRUE)
-source("server/calibration/progress.R",         local = TRUE)
 source("server/calibration/result.R",           local = TRUE)
 source("server/calibration/tx-guidelines.R",    local = TRUE)
 source("server/calibration/update-input.R",     local = TRUE)

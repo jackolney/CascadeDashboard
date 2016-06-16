@@ -1,5 +1,4 @@
 # 'NEXT' button control
-# Rehash all these links, they are rather junky.
 
 # Introduction
 observeEvent(input$NEXT_intro, {

@@ -262,9 +262,3 @@ output$bestFitDT <- DT::renderDataTable({
         )
     )
 })
-
-
-
-
-
-

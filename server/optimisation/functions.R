@@ -1,5 +1,3 @@
-# The below parameters need to be fixed to the mean (from too, should be mean), length should be constant though!
-
 GetParaMatrix <- function(cParamOut, minErrorRun, length) {
     ParRange <- expand.grid(
 

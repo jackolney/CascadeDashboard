@@ -1,5 +1,5 @@
 # Optimisation Input Values - these are the intervention values that may or may not render in opt-parameter.R
-OptInput                <- reactiveValues()
+OptInput <- reactiveValues()
 
 # These observeEvent() update values but allow the opt-parameter.R page not to render but the same values be used by the model
 observeEvent(input$opt_rho_intValue,   { OptInput$intValue_rho   <<- input$opt_rho_intValue   })
