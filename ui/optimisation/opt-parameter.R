@@ -29,7 +29,7 @@ tabItem(tabName = "opt-parameter",
             collapsible = TRUE,
             collapsed = TRUE,
             title = "Linkage",
-            helpText("By adjusting the rate below, we define the maximum impact that a potential
+            helpText("By adjusting the slider below, we define the maximum impact that a potential
                 linkage intervention can achieve. This is shown in the box on the right hand side.
                 All values shown are averaged between 2015 and 2020."),
             uiOutput("UI_opt_q_MAX"),
