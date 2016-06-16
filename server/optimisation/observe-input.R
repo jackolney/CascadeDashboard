@@ -21,5 +21,5 @@ output$UI_opt_sigma_MAX <- renderUI({
 })
 
 output$UI_opt_omega_MAX <- renderUI({
-    numericInput(inputId = "opt_omega_intValue", label = "Intervention Rate:",                     value = CalibParamMaxMin$omega_MAX, min = 0, max = 1, step = 0.001, width = "100%")
+    numericInput(inputId = "opt_omega_intValue", label = "Intervention Rate:",                     value = CalibParamMaxMin$omega_MIN, min = 0, max = 1, step = 0.001, width = "100%")
 })
