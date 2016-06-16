@@ -9,25 +9,25 @@ output$plotOptim_CostImpact <- renderPlot({
         minErrorRun = minErrorRun)
 
     optResult <- dplyr::mutate(optResult,
-        'Testing' = scales::percent(optResult$Rho / bestPar[["Rho"]]),
-        'Linkage' = scales::percent(round(optResult$Q / bestPar[["q"]], digits = 2)),
-        'Pre-ART Retention' = scales::percent(round(bestPar[["Kappa"]] / optResult$Kappa, digits = 0)),
-        'Initiation' = scales::percent(optResult$Gamma / bestPar[["Gamma"]]),
-        'Adherence' = scales::percent(round(optResult$Sigma, digits = 0)),
-        'ART Retention' = scales::percent(round(bestPar[["Omega"]] / optResult$Omega, digits = 0))
+        'Testing'           = round(as.numeric(optResult$Rho),   digits = 4),
+        'Linkage'           = round(as.numeric(optResult$Q),     digits = 4),
+        'Pre-ART Retention' = round(as.numeric(optResult$Kappa), digits = 4),
+        'Initiation'        = round(as.numeric(optResult$Gamma), digits = 4),
+        'Adherence'         = round(as.numeric(optResult$Sigma), digits = 4),
+        'ART Retention'     = round(as.numeric(optResult$Omega), digits = 4)
     )
 
-    optResult[["Testing"]] <- factor(optResult[["Testing"]], levels = unique(optResult[["Testing"]]))
-    optResult[["Linkage"]] <- factor(optResult[["Linkage"]], levels = unique(optResult[["Linkage"]]))
+    optResult[["Testing"]]           <- factor(optResult[["Testing"]],           levels = unique(optResult[["Testing"]]))
+    optResult[["Linkage"]]           <- factor(optResult[["Linkage"]],           levels = unique(optResult[["Linkage"]]))
     optResult[["Pre-ART Retention"]] <- factor(optResult[["Pre-ART Retention"]], levels = unique(optResult[["Pre-ART Retention"]]))
-    optResult[["Initiation"]] <- factor(optResult[["Initiation"]], levels = unique(optResult[["Initiation"]]))
-    optResult[["Adherence"]] <- factor(optResult[["Adherence"]], levels = unique(optResult[["Adherence"]]))
-    optResult[["ART Retention"]] <- factor(optResult[["ART Retention"]], levels = unique(optResult[["ART Retention"]]))
+    optResult[["Initiation"]]        <- factor(optResult[["Initiation"]],        levels = unique(optResult[["Initiation"]]))
+    optResult[["Adherence"]]         <- factor(optResult[["Adherence"]],         levels = unique(optResult[["Adherence"]]))
+    optResult[["ART Retention"]]     <- factor(optResult[["ART Retention"]],     levels = unique(optResult[["ART Retention"]]))
 
     theStratPoint <<- input$userStratPoint
 
     ggOut <- ggplot(optResult, aes(x = VS, y = Cost))
-    ggOut <- ggOut + geom_point(aes(color = as.factor(get(theStratPoint))), alpha = 0.5, size = 5)
+    ggOut <- ggOut + geom_point(aes(color = as.factor(get(theStratPoint))), alpha = 0.75, size = 5)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + expand_limits(y = round(max(optResult$Cost), digits = -4))
     ggOut <- ggOut + scale_color_discrete(name = input$userStratPoint)
@@ -45,7 +45,5 @@ output$plotOptim_CostImpact <- renderPlot({
     ggOut <- ggOut + scale_x_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + coord_cartesian(xlim = plotOptimCostImpact.ranges$x, ylim = plotOptimCostImpact.ranges$y)
     ggOut
-    },
-    height = 400,
-    width = 'auto'
-)
+
+}, height = 400, width = 'auto')
