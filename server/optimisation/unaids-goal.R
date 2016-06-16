@@ -1,3 +1,4 @@
+# This function might need to measure the absolute difference here?
 CalcDifTo90 <- function(result) {
     res_list <- matrix(0, dim(result)[1], 5)
     colnames(res_list) <- c("sim", "90", "90-90", "90-90-90", "total")
@@ -62,6 +63,7 @@ Get909090 <- function(result) {
 }
 
 output$vb909090_1 <- renderValueBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -85,6 +87,7 @@ output$vb909090_1 <- renderValueBox({
   })
 
 output$vb909090_2 <- renderValueBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -108,6 +111,7 @@ output$vb909090_2 <- renderValueBox({
   })
 
 output$vb909090_3 <- renderValueBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -131,6 +135,7 @@ output$vb909090_3 <- renderValueBox({
   })
 
 output$vb909090_COST <- renderValueBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -159,6 +164,7 @@ output$vb909090_COST <- renderValueBox({
   })
 
 output$vb909090_testing <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -193,6 +199,7 @@ output$vb909090_testing <- renderInfoBox({
 
 
 output$vb909090_linkage <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -226,6 +233,7 @@ output$vb909090_linkage <- renderInfoBox({
 })
 
 output$vb909090_preRetention <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -259,6 +267,7 @@ output$vb909090_preRetention <- renderInfoBox({
 })
 
 output$vb909090_initiation <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -292,6 +301,7 @@ output$vb909090_initiation <- renderInfoBox({
 })
 
 output$vb909090_adherence <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 
@@ -325,6 +335,7 @@ output$vb909090_adherence <- renderInfoBox({
 })
 
 output$vb909090_retention <- renderInfoBox({
+    input$NEXT_optIntro
 
     res <- Get909090(optResult)
 

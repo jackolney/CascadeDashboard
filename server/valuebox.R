@@ -1,6 +1,7 @@
 output$vbOptim_909090_1 <- renderValueBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -31,6 +32,7 @@ output$vbOptim_909090_1 <- renderValueBox({
 output$vbOptim_909090_2 <- renderValueBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -61,6 +63,7 @@ output$vbOptim_909090_2 <- renderValueBox({
 output$vbOptim_909090_3 <- renderValueBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -91,6 +94,7 @@ output$vbOptim_909090_3 <- renderValueBox({
 output$vbOptim_COST <- renderValueBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -122,6 +126,7 @@ output$vbOptim_COST <- renderValueBox({
 output$vbOptim_testing <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -159,6 +164,7 @@ output$vbOptim_testing <- renderInfoBox({
 output$vbOptim_linkage <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -195,6 +201,7 @@ output$vbOptim_linkage <- renderInfoBox({
 output$vbOptim_preRetention <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -231,6 +238,7 @@ output$vbOptim_preRetention <- renderInfoBox({
 output$vbOptim_initiation <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -267,6 +275,7 @@ output$vbOptim_initiation <- renderInfoBox({
 output$vbOptim_adherence <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
@@ -303,6 +312,7 @@ output$vbOptim_adherence <- renderInfoBox({
 output$vbOptim_retention <- renderInfoBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
+    input$NEXT_opt909090
 
     # Subset data using opt_VS_cutoff
     selectedResults <- subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100))
