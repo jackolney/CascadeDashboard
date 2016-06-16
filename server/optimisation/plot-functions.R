@@ -38,14 +38,13 @@ BuildOptimisationPlot <- function(theOut) {
         "ART Retention"
     )
 
-    # The values used in uiOutput()
     Value <- c(
-        round(  (cumsum(alt$Dx)[251]           - alt$Dx[1]          ) - (cumsum(baseline$Dx)[251]   - baseline$Dx[1]    ),   digits = 0),
-        round(  (cumsum(alt$Care)[251]         - alt$Care[1]        ) - (cumsum(baseline$Care)[251] - baseline$Care[1]  ),   digits = 0),
-        round(  (cumsum(baseline$PreLtfu)[251] - baseline$PreLtfu[1]) - (cumsum(alt$PreLtfu)[251]   - alt$PreLtfu[1]    ),   digits = 0),
-        round(  (cumsum(alt$Tx)[251]           - alt$Tx[1]          ) - (cumsum(baseline$Tx)[251]   - baseline$Tx[1]    ),   digits = 0),
-        round(  (cumsum(alt$Vs)[251]           - alt$Vs[1]          ) - (cumsum(baseline$Vs)[251]   - baseline$Vs[1]    ),   digits = 0),
-        round(  (cumsum(baseline$Ltfu)[251]    - baseline$Ltfu[1]   ) - (cumsum(alt$Ltfu)[251]      - alt$Ltfu[1]       ),   digits = 0)
+        round(  (alt$CumDiag[251] / 5) - (baseline$CumDiag[251] / 5),   digits = 0),
+        round(  (alt$CumLink[251] / 5) - (baseline$CumLink[251] / 5),   digits = 0),
+        round(  (alt$CumPreL[251] / 5) - (baseline$CumPreL[251] / 5),   digits = 0),
+        round(  (alt$CumInit[251] / 5) - (baseline$CumInit[251] / 5),   digits = 0),
+        round(  (alt$CumAdhr[251] / 5) - (baseline$CumAdhr[251] / 5),   digits = 0),
+        round(  (alt$CumLoss[251] / 5) - (baseline$CumLoss[251] / 5),   digits = 0)
     )
 
     resultOut <- data.frame(Intervention, Value)
