@@ -6,6 +6,8 @@ RunOptimisation <- function() {
 
         par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
 
+        print(GetParaMatrixLimits(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4))
+
         updateButton(session,
             inputId = "optimStart",
             label = "",
@@ -61,8 +63,8 @@ RunOptimisation <- function() {
         BaseDALY  <- Calc_DALY(BaseModel)
         BaseCost  <- Calc_Cost(BaseModel)
 
-        print(paste("BaseDALY =", BaseDALY))
-        print(paste("BaseCost =", BaseCost))
+        print(paste("BaseDALY =", scales::comma(BaseDALY)))
+        print(paste("BaseCost =", scales::comma(BaseCost)))
 
         Result90        <- c()
         Result9090      <- c()
