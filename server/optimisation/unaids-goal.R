@@ -182,14 +182,23 @@ output$vb909090_testing <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumDiag[251] / 5
-    alt_answer <- alt$CumDiag[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["testing"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Testing",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "testing")],
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
@@ -217,14 +226,23 @@ output$vb909090_linkage <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumLink[251] / 5
-    alt_answer <- alt$CumLink[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["linkage"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Linkage",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "linkage")],
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
@@ -251,14 +269,23 @@ output$vb909090_preRetention <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumPreL[251] / 5
-    alt_answer <- alt$CumPreL[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["preRetention"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Pre-ART Retention",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "preRetention")],
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
@@ -285,14 +312,23 @@ output$vb909090_initiation <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumInit[251] / 5
-    alt_answer <- alt$CumInit[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["initiation"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "ART Initiation",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "initiation")],
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
@@ -319,14 +355,23 @@ output$vb909090_adherence <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumAdhr[251] / 5
-    alt_answer <- alt$CumAdhr[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["adherence"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Adherence",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "adherence")],
         subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
@@ -353,14 +398,23 @@ output$vb909090_retention <- renderInfoBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    base_answer <- baseline$CumLoss[251] / 5
-    alt_answer <- alt$CumLoss[251] / 5
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+    out <- scales::comma(round(values[["retention"]], digits = 0))
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "ART Retention",
         value = out,
-        color = "orange",
+        color = cols[which(names(values[rev(order(abs(values)))]) == "retention")],
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
