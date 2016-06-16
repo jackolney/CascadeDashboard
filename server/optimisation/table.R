@@ -103,6 +103,7 @@ output$optimDTmodal <- DT::renderDataTable({
 
 
 output$optimDT909090modal <- DT::renderDataTable({
+    # Shows the same values as optimDTmodal
     return(datatable(Result_VS,
         style = 'bootstrap',
         options = list(
