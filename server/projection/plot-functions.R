@@ -4,20 +4,60 @@ GenYourCascadePlot <- function(h) {
     c.fill <- rev(brewer.pal(9, "Blues")[3:8])
     c.fill[h] <- "red"
 
-    output$outPLHIV      <- renderUI({ tags$code(scales::comma(round(t0[t0$def == "# PLHIV", "res"], 0))) })
-    output$outPLHIV_perc <- renderUI({ tags$code(paste(scales::comma(round(t0[t0$def == "# PLHIV", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# PLHIV", "max"], 0)))) })
+    output$outPLHIV <- renderInfoBox({
+        infoBox(
+            title = "Mean number of PLHIV",
+            value = scales::comma(round(t0[t0$def == "# PLHIV", "res"], 0)),
+            subtitle = paste(scales::comma(round(t0[t0$def == "# PLHIV", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# PLHIV", "max"], 0))),
+            color = "blue",
+            fill = TRUE,
+            icon = icon("hashtag", lib = "font-awesome")
+        )
+    })
 
-    output$outDIAG       <- renderUI({ tags$code(scales::comma(round(t0[t0$def == "# Diagnosed", "res"], 0))) })
-    output$outDIAG_perc  <- renderUI({ tags$code(paste(scales::comma(round(t0[t0$def == "# Diagnosed", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Diagnosed", "max"], 0)))) })
+    output$outDIAG <- renderInfoBox({
+        infoBox(
+            title = "Mean number of PLHIV who have been diagnosed",
+            value = scales::comma(round(t0[t0$def == "# Diagnosed", "res"], 0)),
+            subtitle = paste(scales::comma(round(t0[t0$def == "# Diagnosed", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Diagnosed", "max"], 0))),
+            color = "blue",
+            fill = TRUE,
+            icon = icon("hashtag", lib = "font-awesome")
+        )
+    })
 
-    output$outCARE       <- renderUI({ tags$code(scales::comma(round(t0[t0$def == "# In Care", "res"], 0))) })
-    output$outCARE_perc  <- renderUI({ tags$code(paste(scales::comma(round(t0[t0$def == "# In Care", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# In Care", "max"], 0)))) })
+    output$outCARE <- renderInfoBox({
+        infoBox(
+            title = "Mean number of PLHIV in HIV care (including ART)",
+            value = scales::comma(round(t0[t0$def == "# In Care", "res"], 0)),
+            subtitle = paste(scales::comma(round(t0[t0$def == "# In Care", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# In Care", "max"], 0))),
+            color = "blue",
+            fill = TRUE,
+            icon = icon("hashtag", lib = "font-awesome")
+        )
+    })
 
-    output$outART        <- renderUI({ tags$code(scales::comma(round(t0[t0$def == "# Treatment", "res"], 0))) })
-    output$outART_perc   <- renderUI({ tags$code(paste(scales::comma(round(t0[t0$def == "# Treatment", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Treatment", "max"], 0)))) })
+    output$outART <- renderInfoBox({
+        infoBox(
+            title = "Mean number of PLHIV in HIV care and on ART",
+            value = scales::comma(round(t0[t0$def == "# Treatment", "res"], 0)),
+            subtitle = paste(scales::comma(round(t0[t0$def == "# Treatment", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Treatment", "max"], 0))),
+            color = "blue",
+            fill = TRUE,
+            icon = icon("hashtag", lib = "font-awesome")
+        )
+    })
 
-    output$outSUPP       <- renderUI({ tags$code(scales::comma(round(t0[t0$def == "# Suppressed", "res"], 0))) })
-    output$outSUPP_perc  <- renderUI({ tags$code(paste(scales::comma(round(t0[t0$def == "# Suppressed", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Suppressed", "max"], 0)))) })
+    output$outSUPP <- renderInfoBox({
+        infoBox(
+            title = "Mean number of PLHIV in HIV care, on ART and virally suppressed",
+            value = scales::comma(round(t0[t0$def == "# Suppressed", "res"], 0)),
+            subtitle = paste(scales::comma(round(t0[t0$def == "# Suppressed", "min"], 0)), "-", scales::comma(round(t0[t0$def == "# Suppressed", "max"], 0))),
+            color = "blue",
+            fill = TRUE,
+            icon = icon("hashtag", lib = "font-awesome")
+        )
+    })
 
     ggOut <- ggplot(t0, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
