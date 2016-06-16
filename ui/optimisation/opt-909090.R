@@ -51,12 +51,12 @@ tabItem(tabName = "opt-909090",
                     infoBoxOutput(outputId = "vb909090_retention",    width = "100%")
                 )
             ),
-            "If all three targets can be achieved or exceeded by 2020, then the cheapest route to 90-90-90
-            will be displayed above. The total additional cost of care to achieve these goals between 2015
-            and 2020 will be shown above along with the changes that must be made to care. In the event
-            that all three targets are not able to be achieved through implementing interventions, then
-            the simulation producing the closest result will be displayed, along with its cost and
-            required changes to care."
+            tags$em("If all three targets can be achieved or exceeded by 2020, then the cheapest route to 90-90-90
+                        will be displayed above. The total additional cost of care to achieve these goals between 2015
+                        and 2020 will be shown above along with the changes that must be made to care. In the event
+                        that all three targets are not able to be achieved through implementing interventions, then
+                        the simulation producing the closest result will be displayed, along with its cost and
+                        required changes to care.")
         )
     ),
     column(width = 4,

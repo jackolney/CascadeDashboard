@@ -1,3 +1,12 @@
+output$vbOptim_cutoff <- renderValueBox({
+    valueBox(
+        value = scales::percent(input$opt_VS_cutoff / 100),
+        subtitle = "Viral Suppression Achieved by 2020",
+        color = "maroon",
+        icon = icon("heartbeat", lib = "font-awesome")
+    )
+})
+
 output$vbOptim_909090_1 <- renderValueBox({
     # rely on a repeated press of NEX_optIntro button press
     input$NEXT_optIntro
