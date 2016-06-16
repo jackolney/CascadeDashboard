@@ -26,8 +26,8 @@ dashboardSidebar(
             menuSubItem("Intervention Detail",    tabName = "opt-parameter"),
             menuSubItem("Intervention Cost",      tabName = "opt-cost"),
             menuSubItem("'Best Fit'",             tabName = "opt-best-fit"),
-            menuSubItem("Results",                tabName = "opt-results"),
             menuSubItem("UNAIDS 90-90-90",        tabName = "opt-909090"),
+            menuSubItem("Results",                tabName = "opt-results"),
             menuSubItem("Budget",                 tabName = "opt-budget")
         ),
         menuItem("More", icon = icon("question", class = "fa-lg fa-fw", lib = "font-awesome"),

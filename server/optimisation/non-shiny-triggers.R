@@ -39,7 +39,6 @@ OptInput$intValue_omega <- parRange["rho", "min"]
 
 theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
 dim(theTest)
-theTest
 
 # Testing somem functions
 

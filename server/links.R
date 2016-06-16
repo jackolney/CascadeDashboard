@@ -223,7 +223,7 @@ observeEvent(input$PREV_optIntro, {
 observeEvent(input$NEXT_optIntro, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "opt-results"
+        selected = "opt-909090"
     )
 })
 
@@ -273,30 +273,30 @@ observeEvent(input$PREV_optBestFit, {
 })
 
 # Optimisation Results
-observeEvent(input$NEXT_optim, {
-    updateTabItems(session,
-        inputId = "sideBar",
-        selected = "opt-909090"
-    )
-})
-
-observeEvent(input$PREV_optim, {
+observeEvent(input$PREV_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "opt-intro"
     )
 })
 
-observeEvent(input$PREV_opt909090, {
+observeEvent(input$NEXT_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "opt-results"
     )
 })
 
-observeEvent(input$NEXT_opt909090, {
+observeEvent(input$NEXT_optim, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "report"
+    )
+})
+
+observeEvent(input$PREV_optim, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "opt-909090"
     )
 })
