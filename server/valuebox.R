@@ -25,7 +25,7 @@ output$vbOptim_909090_1 <- renderValueBox({
         value = scales::percent(out),
         subtitle = "Diagnosed by 2020",
         color = "red",
-        icon = icon("medkit", lib = "font-awesome")
+        icon = icon("check-square-o", lib = "font-awesome")
     )
   })
 
@@ -56,7 +56,7 @@ output$vbOptim_909090_2 <- renderValueBox({
         value = scales::percent(out),
         subtitle = "On Treatment by 2020",
         color = "orange",
-        icon = icon("medkit", lib = "font-awesome")
+        icon = icon("check-square-o", lib = "font-awesome")
     )
   })
 
@@ -87,7 +87,7 @@ output$vbOptim_909090_3 <- renderValueBox({
         value = scales::percent(out),
         subtitle = "Virally Suppressed by 2020",
         color = "green",
-        icon = icon("medkit", lib = "font-awesome")
+        icon = icon("check-square-o", lib = "font-awesome")
     )
   })
 
@@ -156,7 +156,7 @@ output$vbOptim_testing <- renderInfoBox({
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("user-md", lib = "font-awesome")
     )
 })
 
@@ -194,7 +194,7 @@ output$vbOptim_linkage <- renderInfoBox({
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("ambulance", lib = "font-awesome")
     )
 })
 
@@ -231,7 +231,7 @@ output$vbOptim_preRetention <- renderInfoBox({
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("hospital-o", lib = "font-awesome")
     )
 })
 
@@ -268,7 +268,7 @@ output$vbOptim_initiation <- renderInfoBox({
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("medkit", lib = "font-awesome")
     )
 })
 
@@ -305,7 +305,7 @@ output$vbOptim_adherence <- renderInfoBox({
         subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("heartbeat", lib = "font-awesome")
     )
 })
 
@@ -342,6 +342,6 @@ output$vbOptim_retention <- renderInfoBox({
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("heart-o", lib = "font-awesome")
     )
 })

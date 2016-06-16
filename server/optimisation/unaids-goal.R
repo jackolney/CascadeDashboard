@@ -193,7 +193,7 @@ output$vb909090_testing <- renderInfoBox({
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("user-md", lib = "font-awesome")
     )
 })
 
@@ -228,7 +228,7 @@ output$vb909090_linkage <- renderInfoBox({
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("ambulance", lib = "font-awesome")
     )
 })
 
@@ -262,7 +262,7 @@ output$vb909090_preRetention <- renderInfoBox({
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("hospital-o", lib = "font-awesome")
     )
 })
 
@@ -296,7 +296,7 @@ output$vb909090_initiation <- renderInfoBox({
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("medkit", lib = "font-awesome")
     )
 })
 
@@ -330,7 +330,7 @@ output$vb909090_adherence <- renderInfoBox({
         subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("heartbeat", lib = "font-awesome")
     )
 })
 
@@ -364,6 +364,6 @@ output$vb909090_retention <- renderInfoBox({
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("check-square-o", lib = "font-awesome")
+        icon = icon("heart-o", lib = "font-awesome")
     )
 })
