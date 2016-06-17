@@ -1,5 +1,49 @@
-BuildCalibrationPlots_Report <- function(data, originalData) {
+BuildCalibrationPlot_Report <- function(data, originalData) {
+    # Find Minimums & Maximums & Mean of data.
+    out <- AppendCI(data[data$source == "model",])
+    out$indicator <- factor(out$indicator, levels = c(
+        "PLHIV",
+        "PLHIV Diagnosed",
+        "PLHIV in Care",
+        "PLHIV on ART",
+        "PLHIV Suppressed"
+        )
+    )
 
+    OGout <- originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",]
+
+    # Set Colors
+    cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
+    names(cols) <- c("red", "amber", "green")
+    mycol <- scale_colour_manual(name = "weight", values = cols)
+    barFill <- rev(brewer.pal(9,"Blues")[3:8])
+
+    ggOut <- ggplot(out[out$year == 2015,][1:5,], aes(x = indicator, y = mean))
+    ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
+    ggOut <- ggOut + scale_fill_manual(values = barFill)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 3.5)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 3)
+    if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
+        ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
+    } else {
+        ggOut <- ggOut + expand_limits(y = round(max(na.omit(OGout$value)), digits = -4) + 1e5)
+    }
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma)
+    ggOut <- ggOut + mycol
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate 95% CI, points are data")
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(title = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut
+}
+
+BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     # Subset data to show only 'data'
     out <- data[data$source == "data",]
 
@@ -13,87 +57,161 @@ BuildCalibrationPlots_Report <- function(data, originalData) {
         "PLHIV Suppressed"
         )
     )
+
+    out2$weight <- 0
+
+    # 6 for six years (2010 to 2015), and 7 for seven indicators
+    out2$sim <- rep(x = 1:limit, each = 6 * 7)
+
     # Set Colors
     cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
     names(cols) <- c("red", "amber", "green")
     mycol <- scale_colour_manual(name = "weight", values = cols)
 
     # Create some pretty output plots
-    p1 <- ggplot(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
-    p1 <- p1 + geom_ribbon(data = out2[out2$indicator == "PLHIV",], aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey70")
-    p1 <- p1 + geom_line()
-    p1 <- p1 + geom_point(aes(color = weight), size = 3)
-    p1 <- p1 + mycol
-    p1 <- p1 + ggtitle("PLHIV", subtitle = "Points are data, shading shows upper and lower model estimates")
-    p1 <- p1 + theme(legend.position = "none")
-    p1 <- p1 + theme(axis.title = element_text(size = 8))
-    p1 <- p1 + theme(axis.text = element_text(size = 8))
-    p1 <- p1 + theme(title = element_text(size = 10))
-    # p1 <- p1 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"))
+    ggOne <- ggplot()
+    ggOne <- ggOne + geom_line(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
+    ggOne <- ggOne + geom_point(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 3)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
+    ggOne <- ggOne + mycol
+    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, lines represent each simulation")
+    ggOne <- ggOne + theme(legend.position = "none")
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 8))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 8))
+    ggOne <- ggOne + theme(axis.title =  element_text(size = 8))
+    ggOne <- ggOne + theme(title =       element_text(size = 8))
+    ggOne <- ggOne + theme(axis.title.y = element_blank())
+    ggOne <- ggOne + theme(axis.title.x = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    p2 <- ggplot(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
-    p2 <- p2 + geom_ribbon(data = out2[out2$indicator == "PLHIV Diagnosed",], aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey70")
-    p2 <- p2 + geom_line()
-    p2 <- p2 + geom_point(aes(color = weight), size = 3)
-    p2 <- p2 + mycol
-    p2 <- p2 + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, shading shows upper and lower model estimates")
-    p2 <- p2 + theme(legend.position = "none")
-    p2 <- p2 + theme(axis.title = element_text(size = 8))
-    p2 <- p2 + theme(axis.text = element_text(size = 8))
-    p2 <- p2 + theme(title = element_text(size = 10))
-    # p2 <- p2 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"))
+    ggTwo <- ggplot()
+    ggTwo <- ggTwo + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
+    ggTwo <- ggTwo + geom_point(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
+    ggTwo <- ggTwo + mycol
+    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, lines represent each simulation")
+    ggTwo <- ggTwo + theme(legend.position = "none")
+    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 8))
+    ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 8))
+    ggTwo <- ggTwo + theme(axis.title =  element_text(size = 8))
+    ggTwo <- ggTwo + theme(title =       element_text(size = 8))
+    ggTwo <- ggTwo + theme(axis.title.y = element_blank())
+    ggTwo <- ggTwo + theme(axis.title.x = element_blank())
+    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    p3 <- ggplot(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
-    p3 <- p3 + geom_ribbon(data = out2[out2$indicator == "PLHIV in Care",], aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey70")
-    p3 <- p3 + geom_line()
-    p3 <- p3 + geom_point(aes(color = weight), size = 3)
-    p3 <- p3 + mycol
-    p3 <- p3 + ggtitle("PLHIV in Care", subtitle = "Points are data, shading shows upper and lower model estimates")
-    p3 <- p3 + theme(legend.position = "none")
-    p3 <- p3 + theme(axis.title = element_text(size = 8))
-    p3 <- p3 + theme(axis.text = element_text(size = 8))
-    p3 <- p3 + theme(title = element_text(size = 10))
-    # p3 <- p3 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"))
+    ggThree <- ggplot()
+    ggThree <- ggThree + geom_line(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
+    ggThree <- ggThree + geom_point(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 3)
+    ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
+    ggThree <- ggThree + mycol
+    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, lines represent each simulation")
+    ggThree <- ggThree + theme(legend.position = "none")
+    ggThree <- ggThree + theme(axis.text.x = element_text(size = 8))
+    ggThree <- ggThree + theme(axis.text.y = element_text(size = 8))
+    ggThree <- ggThree + theme(axis.title =  element_text(size = 8))
+    ggThree <- ggThree + theme(title =       element_text(size = 8))
+    ggThree <- ggThree + theme(axis.title.y = element_blank())
+    ggThree <- ggThree + theme(axis.title.x = element_blank())
+    ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
+    ggThree <- ggThree + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    p4 <- ggplot(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
-    p4 <- p4 + geom_ribbon(data = out2[out2$indicator == "PLHIV on ART",], aes(x = year, ymin = min, ymax = max, group = weight), fill = "grey70")
-    p4 <- p4 + geom_line()
-    p4 <- p4 + geom_point(aes(color = weight), size = 3)
-    p4 <- p4 + mycol
-    p4 <- p4 + ggtitle("PLHIV on ART", subtitle = "Points are data, shading shows upper and lower model estimates")
-    p4 <- p4 + theme(legend.position = "none")
-    p4 <- p4 + theme(axis.title = element_text(size = 8))
-    p4 <- p4 + theme(axis.text = element_text(size = 8))
-    p4 <- p4 + theme(title = element_text(size = 10))
-    # p4 <- p4 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"))
+    ggFour <- ggplot()
+    ggFour <- ggFour + geom_line(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
+    ggFour <- ggFour + geom_point(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 3)
+    ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
+    ggFour <- ggFour + mycol
+    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, lines represent each simulation")
+    ggFour <- ggFour + theme(legend.position = "none")
+    ggFour <- ggFour + theme(axis.text.x = element_text(size = 8))
+    ggFour <- ggFour + theme(axis.text.y = element_text(size = 8))
+    ggFour <- ggFour + theme(axis.title =  element_text(size = 8))
+    ggFour <- ggFour + theme(title =       element_text(size = 8))
+    ggFour <- ggFour + theme(axis.title.y = element_blank())
+    ggFour <- ggFour + theme(axis.title.x = element_blank())
+    ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
+    ggFour <- ggFour + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    p5 <- ggplot(out2[out2$year == 2010,][1:5,], aes(x = indicator, y = mean))
-    p5 <- p5 + geom_bar(aes(fill = indicator), stat = "identity")
-    p5 <- p5 + ggtitle("Cascade in 2010")
-    p5 <- p5 + theme_classic()
-    p5 <- p5 + theme(legend.position = "none", axis.title = element_blank())
-    p5 <- p5 + theme(axis.text.y = element_text(size = 8))
-    p5 <- p5 + theme(axis.text.x = element_text(size = 5))
-    p5 <- p5 + theme(title = element_text(size = 8))
-    # p5 <- p5 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"), axis.title = element_blank())
+    ggFive <- ggplot()
+    ggFive <- ggFive + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
+    ggFive <- ggFive + geom_point(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
+    ggFive <- ggFive + mycol
+    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, lines represent each simulation")
+    ggFive <- ggFive + theme(legend.position = "none")
+    ggFive <- ggFive + theme(axis.text.x = element_text(size = 8))
+    ggFive <- ggFive + theme(axis.text.y = element_text(size = 8))
+    ggFive <- ggFive + theme(axis.title =  element_text(size = 8))
+    ggFive <- ggFive + theme(title =       element_text(size = 8))
+    ggFive <- ggFive + theme(axis.title.y = element_blank())
+    ggFive <- ggFive + theme(axis.title.x = element_blank())
+    ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
+    ggFive <- ggFive + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
-    p6 <- ggplot(out2[out2$year == 2015,][1:5,], aes(x = indicator, y = mean))
-    p6 <- p6 + geom_bar(aes(fill = indicator), stat = "identity")
-    p6 <- p6 + geom_errorbar(mapping = aes(x = indicator, ymin = min, ymax = max), width = 0.2, size = 0.5)
-    p6 <- p6 + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value), size = 2.5)
-    p6 <- p6 + geom_point(data = originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",], aes(x = indicator, y = value, color = weight), size = 2)
-    p6 <- p6 + mycol
-    p6 <- p6 + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate result ranges, points are data")
-    p6 <- p6 + theme_classic()
-    p6 <- p6 + theme(legend.position = "none", axis.title = element_blank())
-    p6 <- p6 + theme(axis.text.y = element_text(size = 8))
-    p6 <- p6 + theme(axis.text.x = element_text(size = 5))
-    p6 <- p6 + theme(title = element_text(size = 8))
-    # p6 <- p6 + theme(legend.position = "none", text = element_text(family = "OpenSans-CondensedLight"), axis.title = element_blank())
-
-    gridExtra::grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, nrow = 3)
-
+    gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
+
+
+BuildCalibrationHistogram_Report <- function(runError, maxError) {
+    # Create data.frame to hold results
+    run <- 1:length(runError)
+    theError <- data.frame(run, runError)
+
+    ggOut <- ggplot(theError, aes(runError))
+    ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 30)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + geom_vline(xintercept = as.numeric(maxError))
+    ggOut <- ggOut + scale_y_continuous(expand = c(0,0))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.title = element_text(size = 10))
+    ggOut <- ggOut + theme(legend.text = element_text(size = 8))
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + ylab("frequency")
+    ggOut <- ggOut + xlab("error")
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut
+}
+
+BuildCalibrationParameterHistGroup <- function() {
+    ggA <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "rho")
+    ggB <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "epsilon")
+    ggC <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "gamma")
+    ggD <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "theta")
+    ggE <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "kappa")
+    ggF <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "omega")
+    ggG <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "p")
+
+    gridExtra::grid.arrange(ggA, ggB, ggC, ggD, ggE, ggF, ggG, ncol = 4, nrow = 2)
+}
+
+BuildCalibrationParamHist_Report <- function(pOut, param) {
+    out <- as.data.frame(CalibParamOut)
+    ggOut <- ggplot(out, aes_string(param))
+    ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 10)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(expand = c(0,0))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.title = element_text(size = 8))
+    ggOut <- ggOut + theme(legend.text = element_text(size = 8))
+    ggOut <- ggOut + theme(legend.position = "non")
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + ylab("frequency")
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut
+}
+
 
 GenCascadePlot_Report <- function() {
     t0 <- ExtractCascadeData(1)   # t0 = 1

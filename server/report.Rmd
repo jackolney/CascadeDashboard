@@ -48,18 +48,137 @@ To ensure that HIV-mortality rates were accurate, the model uses CD4 distributio
     gridExtra::grid.table(data.frame(art, cd4, proportion))
 ```
 
-# ### CD4 Distribution Estimates from Spectrum (2015)
-# To ensure that the model retains the correct distribution of CD4 counts across both pre-ART and ART patients, we re-set the model to the 2015 CD4 distribution estimates.
-# ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-#     int <- t(MasterCD4_2015)
-#     proportion <- round(as.numeric(int[2:15,]), digits = 2)
-#     cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
-#     art <- c(rep("Off ART", 7), rep("On ART", 7))
-#     gridExtra::grid.table(data.frame(art, cd4, proportion))
-# ```
+### CD4 Distribution Estimates from Spectrum (2015)
+To ensure that the model retains the correct distribution of CD4 counts across both pre-ART and ART patients, we re-set the model to the 2015 CD4 distribution estimates.
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    int <- t(MasterCD4_2015)
+    proportion <- round(as.numeric(int[2:15,]), digits = 2)
+    cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    art <- c(rep("Off ART", 7), rep("On ART", 7))
+    gridExtra::grid.table(data.frame(art, cd4, proportion))
+```
 
 ### Country Specific Treatment Guidelines
 The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     gridExtra::grid.table(MasterData$treatment_guidelines)
 ```
+
+\newpage
+
+## Model Calibration
+
+Given all available data, including those values entered by the user, the model used approximate bayesian computation to identify `r input$minResults` parameter sets that produced a total error of less than or equal to `r input$maxError`. The resulting depiction of the cascade in 2015 is shown below:
+
+```{r, fig.width = 7, fig.height = 5, echo = FALSE}
+    BuildCalibrationPlot_Report(data = CalibOut, originalData = MasterData)
+```
+
+The cascade distribution in previous years is summarised below:
+
+```{r, fig.width = 7, fig.height = 8, echo = FALSE}
+    BuildCalibrationPlotDetail_Report(data = CalibOut, originalData = MasterData, limit = input$minResults)
+```
+
+A histogram of sampled model errors is shown below, with the maximum threshold shown as a vertical line:
+
+```{r, fig.width = 7, fig.height = 5, echo = FALSE}
+    BuildCalibrationHistogram_Report(runError = runError, maxError = input$maxError)
+```
+
+\newpage
+
+### Model Structure
+
+The model has a following structure. Note, this is a simplified view of the structure, for more detail please view the official [model document](https://drive.google.com/file/d/0B02uVauBTUwhckJ1bG1QRmdwTGM/preview).
+
+![Model Diagram](www/ModelSimple.png)
+
+### Calibrated Parameters
+
+Histograms illustrating where the majority of accepted parameter sets lie:
+
+```{r, fig.width = 7, fig.height = 8, echo = FALSE}
+    BuildCalibrationParameterHistGroup()
+```
+
+<!-- Update the below to reflect changes to parameters used in calibration (i.e. remove MU) -->
+
+Parameter | Upper                            | Lower
+----------|----------------------------------|--------------------------------
+$\rho$    | `r ParamMaxMin["rho"   , "max"]` | `r ParamMaxMin["rho"   , "min"]`
+$q$       | `r ParamMaxMin["q"     , "max"]` | `r ParamMaxMin["q"     , "min"]`
+$\gamma$  | `r ParamMaxMin["gamma" , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+$\theta$  | `r ParamMaxMin["theta" , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+$\kappa$  | `r ParamMaxMin["kappa" , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+$\omega$  | `r ParamMaxMin["omega" , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+$\mu$     | `r ParamMaxMin["mu"    , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+$p$       | `r ParamMaxMin["p"     , "max"]` | `r ParamMaxMin["gamma" , "min"]`
+
+\newpage
+
+## Cascade Results
+
+### Cascade Projection
+
+```{r, fig.width = 7, fig.height = 3, echo = FALSE}
+    GenCascadePlot_Report()
+```
+
+### Cascade Projection (discrete)
+
+```{r, fig.width = 7, fig.height = 3, echo = FALSE}
+    GenPowersCascadePlot_Report()
+```
+
+### UNAIDS 90-90-90
+
+```{r, fig.width = 7, fig.height = 3, echo = FALSE}
+    Gen909090Plot_Report()
+```
+
+### HIV Incidence
+
+```{r, fig.width = 7, fig.height = 3, echo = FALSE}
+    GenNewInfPlot_Report(wizard = FALSE)
+```
+
+### AIDS-related Deaths
+
+```{r, fig.width = 7, fig.height = 3, echo = FALSE}
+    GenAidsDeathsPlot_Report(wizard = FALSE)
+```
+
+### Best Fit Model
+
+During calibration, we simulate thousands of parameter sets to identify a subset that fit the data
+within a certain interval. As a result we are left with 100 parameter sets that could be plausibly try.
+Now, if we were to then simulate 100 thousand permutations of interventions on each of these 100
+parameter sets we would need to run 1 million simulations. As one of the aims of this model was to
+be simple to use and most importantly fast, we have decided to only run optimisation simulations on
+the best fitting parameter set; that is to say, the parameter set that produces the smallest total
+model error.
+
+The best fitting parameter set is:
+
+Parameter | Value
+----------|----------------------------------
+$\rho$    | SOMETHING
+$q$       | SOMETHING
+$\gamma$  | SOMETHING
+$\theta$  | SOMETHING
+$\kappa$  | SOMETHING
+$\omega$  | SOMETHING
+$\mu$     | SOMETHING
+$p$       | SOMETHING
+
+### Interventions
+
+We then simulate six interventions and show their results?
+
+Print plots.
+
+
+
+Check this out for more information. http://rmarkdown.rstudio.com/authoring_basics.html
+
