@@ -8,9 +8,9 @@ output$downloadReport <- downloadHandler(
         # permission to the current working directory
         # owd <- setwd(tempdir())
         # on.exit(setwd(owd))
-        file.copy(src, 'report.Rmd')
+        # file.copy(src, 'report.Rmd')
 
-        out <- render('report.Rmd', pdf_document())
+        out <- render('server/report.Rmd', pdf_document())
         file.rename(out, file)
     }
 )
