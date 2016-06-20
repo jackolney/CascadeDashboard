@@ -122,11 +122,11 @@ output$vbOptim_COST <- renderValueBox({
         Sigma = mean(selectedResults$Sigma),
         Omega = mean(selectedResults$Omega))
 
-    cost <- alt$TotalCost[251] - baseline$TotalCost[251]
+    cost <- (alt$TotalCost[251] - baseline$TotalCost[251]) / 5
 
     valueBox(
         value = scales::dollar(cost),
-        subtitle = "Additional Cost of Care between 2015 and 2020",
+        subtitle = "Additional Cost of Care per year between 2015 and 2020",
         color = "green",
         icon = icon("usd", lib = "font-awesome")
     )
@@ -500,11 +500,13 @@ output$vb909090_COST <- renderValueBox({
         Sigma = res[,"Sigma"],
         Omega = res[,"Omega"])
 
-    cost <- alt$TotalCost[251] - baseline$TotalCost[251]
+    cost <- (alt$TotalCost[251] - baseline$TotalCost[251]) / 5
+
+    report_909090_cost <<- scales::dollar(cost)
 
     valueBox(
         value = scales::dollar(cost),
-        subtitle = "Additional Cost of Care between 2015 and 2020",
+        subtitle = "Additional Cost of Care per year between 2015 and 2020",
         color = "green",
         icon = icon("usd", lib = "font-awesome")
     )
@@ -539,6 +541,8 @@ output$vb909090_testing <- renderInfoBox({
     )
 
     out <- scales::comma(round(values[["testing"]], digits = 0))
+
+    report_909090_testing <<- out
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
@@ -584,6 +588,8 @@ output$vb909090_linkage <- renderInfoBox({
 
     out <- scales::comma(round(values[["linkage"]], digits = 0))
 
+    report_909090_linkage <<- out
+
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
@@ -626,6 +632,8 @@ output$vb909090_preRetention <- renderInfoBox({
     )
 
     out <- scales::comma(round(values[["preRetention"]], digits = 0))
+
+    report_909090_preRetention <<- out
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
@@ -670,6 +678,8 @@ output$vb909090_initiation <- renderInfoBox({
 
     out <- scales::comma(round(values[["initiation"]], digits = 0))
 
+    report_909090_initiation <<- out
+
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
@@ -713,6 +723,8 @@ output$vb909090_adherence <- renderInfoBox({
 
     out <- scales::comma(round(values[["adherence"]], digits = 0))
 
+    report_909090_adherence <<- out
+
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
@@ -755,6 +767,8 @@ output$vb909090_retention <- renderInfoBox({
     )
 
     out <- scales::comma(round(values[["retention"]], digits = 0))
+
+    report_909090_retention <<- out
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
