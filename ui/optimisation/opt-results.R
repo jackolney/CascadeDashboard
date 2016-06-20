@@ -55,7 +55,10 @@ tabItem(tabName = "opt-results",
             tags$em("Please note that negative values may be shown in the boxes above. This is correct,
                         and occurs because some interventions act to reduce losses from care relative to the status quo.
                         Additionally, certain changes may result in downstream deviations from the status quo,
-                        causing reductions in future incidence, that further compound the alterations made to care.")
+                        causing reductions in future incidence, that further compound the alterations made to care.
+                        Boxes are color coded to illustrate the magnitude of changes to be made. Green boxes
+                        illustrate the the two largest absolute changes to care, orange denotes the next largest
+                        two absolute changes to care and red denotes the two smallest absolute changes to care.")
         ),
         box(width = NULL,
             status = "danger",

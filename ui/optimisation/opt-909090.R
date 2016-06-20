@@ -56,7 +56,9 @@ tabItem(tabName = "opt-909090",
                         and 2020 will be shown above along with the changes that must be made to care. In the event
                         that all three targets are not able to be achieved through implementing interventions, then
                         the simulation producing the closest result will be displayed, along with its cost and
-                        required changes to care.")
+                        required changes to care. Boxes are color coded to illustrate the magnitude of changes to be made.
+                        Green boxes illustrate the the two largest absolute changes to care, orange denotes the next
+                        largest two absolute changes to care and red denotes the two smallest absolute changes to care.")
         )
     ),
     column(width = 4,
