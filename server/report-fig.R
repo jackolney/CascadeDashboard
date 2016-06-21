@@ -176,14 +176,15 @@ BuildCalibrationHistogram_Report <- function(runError, maxError) {
 
 BuildCalibrationParameterHistGroup <- function() {
     ggA <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "rho")
-    ggB <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "epsilon")
-    ggC <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "gamma")
-    ggD <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "theta")
-    ggE <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "kappa")
-    ggF <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "omega")
-    ggG <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "p")
+    ggB <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "q")
+    ggC <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "epsilon")
+    ggD <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "kappa")
+    ggE <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "gamma")
+    ggF <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "theta")
+    ggG <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "omega")
+    ggH <- BuildCalibrationParamHist_Report(pOut = CalibParamOut, param = "p")
 
-    gridExtra::grid.arrange(ggA, ggB, ggC, ggD, ggE, ggF, ggG, ncol = 4, nrow = 2)
+    gridExtra::grid.arrange(ggA, ggB, ggC, ggD, ggE, ggF, ggG, ggH, ncol = 4, nrow = 2)
 }
 
 BuildCalibrationParamHist_Report <- function(pOut, param) {
