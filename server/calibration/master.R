@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "Kenya"
+# userCountry <- "United Republic of Tanzania"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -28,33 +28,36 @@ GetMasterDataSet <- function(userCountry) {
     # Filter out year of Marrakech data, before binding.
     # int <- rbind(countryData$calib, countryAssumptions)
 
-    # For Kenya we only believe, the following three indicators supplied by the Marrakech Team
-    mData <- marrakechData[marrakechData$indicator %in% c("PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"),]
+    if (userCountry == "Kenya") {
+        # For Kenya we only believe, the following three indicators supplied by the Marrakech Team
+        mData <- marrakechData[marrakechData$indicator %in% c("PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"),]
 
-    # This is all a bit Kenya-specific... we should really change that.
-    # Now they need combining with the baseDataSet, but they should replace, not be an addition.
-    # Extract everything that isn't 2015 data.
-    int <- countryData$calib
-    intOne <- int[int$year != 2015,]
+        # This is all a bit Kenya-specific... we should really change that.
+        # Now they need combining with the baseDataSet, but they should replace, not be an addition.
+        # Extract everything that isn't 2015 data.
+        int <- countryData$calib
+        intOne <- int[int$year != 2015,]
 
-    # Now extract the relevant bits of 2015
-    intTwo <- int[int$year == 2015 & int$indicator %in% c("PLHIV", "PLHIV Diagnosed"),]
+        # Now extract the relevant bits of 2015
+        intTwo <- int[int$year == 2015 & int$indicator %in% c("PLHIV", "PLHIV Diagnosed"),]
 
-    # Combine together
-    # MASTER DATA SET (for calibration)
-    countryMasterDataSet <- rbind(intOne, intTwo, mData)
+        # Combine together
+        # MASTER DATA SET (for calibration)
+        countryMasterDataSet <- rbind(intOne, intTwo, mData)
+    }
 
-    # ggplot(countryMasterDataSet, aes(x = year, y = value, group = indicator)) +
-    #     geom_line(aes(color = indicator)) +
-    #     geom_point(aes(color = indicator)) +
-    #     theme_classic()
+    if (userCountry == "United Republic of Tanzania") {
+        # This is usually just some blanket code that extract stuff from countryData$calib and prevents things from being overwritten in the background.
+        # Not really necessary for Tanzania (as of now).
+        countryMasterDataSet <- countryData$calib
+    }
 
     # Overwrite calib on countryData
     countryData$calib <- countryMasterDataSet[countryMasterDataSet$indicator != "PLHIV not on ART",]
 
     # Only allow certain countries to 'proceed', i.e. return 'countryData'
     # This will be removed eventually, but good for testing right now.
-    if (userCountry %in% c("Kenya")) {
+    if (userCountry %in% c("Kenya", "United Republic of Tanzania")) {
         countryData
     } else {
         stop("Country not approved for use by this model")

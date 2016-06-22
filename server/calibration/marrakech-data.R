@@ -19,7 +19,7 @@
 # Weighting is just the sum of the errors between model and data.
 # We then adjust the contribution of individual errors to total error to make them more or less important.
 
-# uCountry <- "Kenya"
+# uCountry <- "United Republic of Tanzania"
 
 GetMarrakechData <- function(uCountry) {
     # Pull out marrakech csv and fill it in (standard form),
@@ -45,28 +45,28 @@ GetMarrakechData <- function(uCountry) {
     # Check if country exists and
     if (sum(m.data$country == uCountry) > 0) {
         country.data <- dplyr::filter(m.data, country == uCountry)
+
+        # Melt
+        out <- reshape2::melt(dplyr::filter(country.data, country == uCountry),
+            id.vars = c("country", "year"),
+            variable.name = "indicator",
+            value.name = "value")
+
+        # Remove *_score (for now)
+        final <- out[grep("*_score", out$indicator, invert = TRUE),]
+
+        # Add weights to the melted data.frame
+        weights <- c()
+        for (i in 1:length(unique(final$indicator))) {
+            weights[i] <- out[grep("*_score", out$indicator, invert = FALSE),][i,"value"]
+        }
+        final$weight <- weights
+        final$value <- as.double(final$value)
+
+        final
     } else {
-        stop("Country not found in dataset.")
+        warning("Country not found in Marrakech dataset.")
     }
-
-    # Melt
-    out <- reshape2::melt(dplyr::filter(country.data, country == uCountry),
-        id.vars = c("country", "year"),
-        variable.name = "indicator",
-        value.name = "value")
-
-    # Remove *_score (for now)
-    final <- out[grep("*_score", out$indicator, invert = TRUE),]
-
-    # Add weights to the melted data.frame
-    weights <- c()
-    for (i in 1:length(unique(final$indicator))) {
-        weights[i] <- out[grep("*_score", out$indicator, invert = FALSE),][i,"value"]
-    }
-    final$weight <- weights
-    final$value <- as.double(final$value)
-
-    final
 }
 
 # What is standard form here?

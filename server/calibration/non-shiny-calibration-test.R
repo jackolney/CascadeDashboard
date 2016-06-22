@@ -41,6 +41,8 @@ devtools::test(pkg = "~/git/WhoCascade/cascade")
 
 # Run baseline model (nothing fancy)
 KenyaData <- GetMasterDataSet("Kenya")
+
+GetMasterDataSet("United Republic of Tanzania")
 # RunBaselineModel(data = KenyaData)
 
 # RUN CALIBRATION
