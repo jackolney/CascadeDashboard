@@ -41,37 +41,26 @@ AssembleComparisonDataFrame <- function(country, model, data) {
     dataOutput <- data.frame()
 
     for (i in 1:5) {
-        if (i == 1) {
-            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV",])[1] == 0) {
-                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV",]
-                dOutput$source <- "data"
-                dataOutput <- rbind(dataOutput, dOutput)
-            }
-        } else if (i == 2) {
-            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",])[1] == 0) {
-                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",]
-                dOutput$source <- "data"
-                dataOutput <- rbind(dataOutput, dOutput)
-            }
-
-        } else if (i == 3) {
-            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",])[1] == 0) {
-                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",]
-                dOutput$source <- "data"
-                dataOutput <- rbind(dataOutput, dOutput)
-            }
-        } else if (i == 4) {
-            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
-                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",]
-                dOutput$source <- "data"
-                dataOutput <- rbind(dataOutput, dOutput)
-            }
-        } else if (i == 5) {
-            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
-                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",]
-                dOutput$source <- "data"
-                dataOutput <- rbind(dataOutput, dOutput)
-            }
+        if (i == 1 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV",])[1] == 0) {
+            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV",]
+            dOutput$source <- "data"
+            dataOutput <- rbind(dataOutput, dOutput)
+        } else if (i == 2 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",])[1] == 0) {
+            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",]
+            dOutput$source <- "data"
+            dataOutput <- rbind(dataOutput, dOutput)
+        } else if (i == 3 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",])[1] == 0) {
+            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",]
+            dOutput$source <- "data"
+            dataOutput <- rbind(dataOutput, dOutput)
+        } else if (i == 4 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
+            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",]
+            dOutput$source <- "data"
+            dataOutput <- rbind(dataOutput, dOutput)
+        } else if (i == 5 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
+            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",]
+            dOutput$source <- "data"
+            dataOutput <- rbind(dataOutput, dOutput)
         }
     }
     dataOutput
@@ -80,14 +69,7 @@ AssembleComparisonDataFrame <- function(country, model, data) {
     output
 }
 
-
-x <- 1:100
-for(i in 1:10) {
-    if(x[i] < 5) {
-        next
-    } else
-    print(x[i])
-}
+# How does it get handled in SSE()???? skipped?
 
 # This will need to be able to handle ALL FOUR ERRORS and return a neat data.frame of errors in return.
 SSE <- function(df) {
