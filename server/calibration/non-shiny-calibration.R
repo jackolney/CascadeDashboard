@@ -1,4 +1,4 @@
-RunNSCalibration <- function(data, maxIterations, maxError, limit) {
+RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
     # limit = 100
     # maxIterations = 1e4
     # maxError = 2
@@ -67,7 +67,7 @@ RunNSCalibration <- function(data, maxIterations, maxError, limit) {
 
         i <- incidence(as.double(lhsIncidence[k,]))
         y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
-        iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
+        iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
         runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
         # If error <= maxError then store value of k

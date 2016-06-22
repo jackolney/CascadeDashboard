@@ -42,11 +42,12 @@ devtools::test(pkg = "~/git/WhoCascade/cascade")
 # Run baseline model (nothing fancy)
 KenyaData <- GetMasterDataSet("Kenya")
 
-GetMasterDataSet("United Republic of Tanzania")
-# RunBaselineModel(data = KenyaData)
+TanzaniaData <- GetMasterDataSet("United Republic of Tanzania")
 
 # RUN CALIBRATION
-RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
+RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
+
+RunNSCalibration(country = "United Republic of Tanzania", data = TanzaniaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
 # All elements should be present, now.
 
@@ -55,7 +56,7 @@ RunNSCalibration(data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 10
 # CalibOut might be longer than 100, then that needs k
 # else everything that is <100 in length needs v.
 
-BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 100)
+BuildCalibrationPlotDetail(data = CalibOut, originalData = TanzaniaData, limit = 100)
 
 head(CalibParamOut)
 

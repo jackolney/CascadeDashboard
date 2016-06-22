@@ -49,7 +49,18 @@ GetMasterDataSet <- function(userCountry) {
     if (userCountry == "United Republic of Tanzania") {
         # This is usually just some blanket code that extract stuff from countryData$calib and prevents things from being overwritten in the background.
         # Not really necessary for Tanzania (as of now).
-        countryMasterDataSet <- countryData$calib
+
+        # Now for some cheap hackery so that we can pick the smallest value of 'PLHIV on ART' in 2015 (from CTC) report.
+        int <- countryData$calib
+
+        intOne <- int[int$year != 2015,]
+
+        intTemp <- int[int$year == 2015 & int$indicator == "PLHIV on ART",]
+        intTwo <- intTemp[intTemp$value == min(intTemp$value),]
+
+        intThree <- int[int$year == 2015 & int$indicator != "PLHIV on ART",]
+
+        countryMasterDataSet <- rbind(intOne, intTwo, intThree)
     }
 
     # Overwrite calib on countryData

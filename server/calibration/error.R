@@ -57,7 +57,7 @@ AssembleComparisonDataFrame <- function(country, model, data) {
             dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",]
             dOutput$source <- "data"
             dataOutput <- rbind(dataOutput, dOutput)
-        } else if (i == 5 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
+        } else if (i == 5 & !dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",])[1] == 0) {
             dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",]
             dOutput$source <- "data"
             dataOutput <- rbind(dataOutput, dOutput)
@@ -68,8 +68,6 @@ AssembleComparisonDataFrame <- function(country, model, data) {
     output <- rbind(dataOutput, modelOutput)
     output
 }
-
-# How does it get handled in SSE()???? skipped?
 
 # This will need to be able to handle ALL FOUR ERRORS and return a neat data.frame of errors in return.
 SSE <- function(df) {

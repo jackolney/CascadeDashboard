@@ -1,41 +1,5 @@
 # Simple function calls for various permutations of the model
-
-RunBaselineModel <- function(data) {
-
-    # Set important parameters
-    time <- seq(0, 5, 1)
-    p <- parameters(
-        prop_preART_500    = data[["cd4"]][1,"prop.Off.ART.500"][[1]],
-        prop_preART_350500 = data[["cd4"]][1,"prop.Off.ART.350500"][[1]],
-        prop_preART_250350 = data[["cd4"]][1,"prop.Off.ART.250350"][[1]],
-        prop_preART_200250 = data[["cd4"]][1,"prop.Off.ART.200250"][[1]],
-        prop_preART_100200 = data[["cd4"]][1,"prop.Off.ART.100200"][[1]],
-        prop_preART_50100  = data[["cd4"]][1,"prop.Off.ART.50100"][[1]],
-        prop_preART_50     = data[["cd4"]][1,"prop.Off.ART.50"][[1]],
-        t_1 = ConvertYear(data[["treatment_guidelines"]][["more500"]]),
-        t_2 = ConvertYear(data[["treatment_guidelines"]][["less500"]]),
-        t_3 = ConvertYear(data[["treatment_guidelines"]][["less350"]]),
-        t_4 = ConvertYear(data[["treatment_guidelines"]][["less250"]]),
-        t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
-        )
-    y <- GetCalibInitial(p, data)
-    i <- incidence(as.double(data[["incidence"]]))
-
-    # Run C++ model
-    result <- CallCalibModel(time, y, p, i)
-
-    # Assemble output data.frame
-    df <- AssembleComparisonDataFrame(country = "Kenya", model = result, data = data)
-
-    # Calculate mean squared error between model and data
-    original <- SSE(df)
-
-    # Build Plots
-    # BuildBaselinePlots(original)
-    BuildBaselineErrorPlots(original)
-}
-
-RunCalibration <- function(data, maxIterations, maxError, limit) {
+RunCalibration <- function(country, data, maxIterations, maxError, limit) {
     # limit = 100
     # maxIterations = 1e4
     # maxError = 2
@@ -109,7 +73,7 @@ RunCalibration <- function(data, maxIterations, maxError, limit) {
 
             i <- incidence(as.double(lhsIncidence[k,]))
             y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
-            iOut <- SSE(AssembleComparisonDataFrame(country = "Kenya", model = CallCalibModel(time, y, p, i), data = data))
+            iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
             runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
             # If error <= maxError then store value of k
