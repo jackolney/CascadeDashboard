@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "United Republic of Tanzania"
+# userCountry <- "Tanzania"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -46,7 +46,7 @@ GetMasterDataSet <- function(userCountry) {
         countryMasterDataSet <- rbind(intOne, intTwo, mData)
     }
 
-    if (userCountry == "United Republic of Tanzania") {
+    if (userCountry == "Tanzania") {
         # This is usually just some blanket code that extract stuff from countryData$calib and prevents things from being overwritten in the background.
         # Not really necessary for Tanzania (as of now).
 
@@ -68,7 +68,7 @@ GetMasterDataSet <- function(userCountry) {
 
     # Only allow certain countries to 'proceed', i.e. return 'countryData'
     # This will be removed eventually, but good for testing right now.
-    if (userCountry %in% c("Kenya", "United Republic of Tanzania")) {
+    if (userCountry %in% c("Kenya", "Tanzania")) {
         countryData
     } else {
         stop("Country not approved for use by this model")

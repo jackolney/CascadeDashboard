@@ -42,12 +42,12 @@ devtools::test(pkg = "~/git/WhoCascade/cascade")
 # Run baseline model (nothing fancy)
 KenyaData <- GetMasterDataSet("Kenya")
 
-TanzaniaData <- GetMasterDataSet("United Republic of Tanzania")
+TanzaniaData <- GetMasterDataSet("Tanzania")
 
 # RUN CALIBRATION
 RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
-RunNSCalibration(country = "United Republic of Tanzania", data = TanzaniaData, maxIterations = 1e4, maxError = 2, limit = 100)
+RunNSCalibration(country = "Tanzania", data = TanzaniaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
 # All elements should be present, now.
 

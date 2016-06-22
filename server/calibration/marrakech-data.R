@@ -19,7 +19,7 @@
 # Weighting is just the sum of the errors between model and data.
 # We then adjust the contribution of individual errors to total error to make them more or less important.
 
-# uCountry <- "United Republic of Tanzania"
+# uCountry <- "Tanzania"
 
 GetMarrakechData <- function(uCountry) {
     # Pull out marrakech csv and fill it in (standard form),
