@@ -1,7 +1,7 @@
 CheckCSV_Incidence <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/incident-infections.csv", col_names = TRUE, skip = 1)
-    out <- data[[uCountry]]
-    if (is.null(out)) {
+    data <- readr::read_csv("server/data/calibration/incidence-uncertainty.csv", col_names = TRUE, skip = 1)
+    out <- data[data$country == uCountry,]
+    if (dim(out)[1] == 0) {
         return(FALSE)
     } else {
         return(TRUE)
