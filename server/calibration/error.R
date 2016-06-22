@@ -42,23 +42,51 @@ AssembleComparisonDataFrame <- function(country, model, data) {
 
     for (i in 1:5) {
         if (i == 1) {
-            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV",]
+            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV",])[1] == 0) {
+                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV",]
+                dOutput$source <- "data"
+                dataOutput <- rbind(dataOutput, dOutput)
+            }
         } else if (i == 2) {
-            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",]
+            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",])[1] == 0) {
+                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Diagnosed",]
+                dOutput$source <- "data"
+                dataOutput <- rbind(dataOutput, dOutput)
+            }
+
         } else if (i == 3) {
-            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",]
+            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",])[1] == 0) {
+                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV in Care",]
+                dOutput$source <- "data"
+                dataOutput <- rbind(dataOutput, dOutput)
+            }
         } else if (i == 4) {
-            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",]
+            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
+                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",]
+                dOutput$source <- "data"
+                dataOutput <- rbind(dataOutput, dOutput)
+            }
         } else if (i == 5) {
-            dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",]
+            if (!dim(data[["calib"]][data[["calib"]]$indicator == "PLHIV on ART",])[1] == 0) {
+                dOutput <- data[["calib"]][data[["calib"]]$indicator == "PLHIV Suppressed",]
+                dOutput$source <- "data"
+                dataOutput <- rbind(dataOutput, dOutput)
+            }
         }
-        dOutput$source <- "data"
-        dataOutput <- rbind(dataOutput, dOutput)
     }
     dataOutput
 
     output <- rbind(dataOutput, modelOutput)
     output
+}
+
+
+x <- 1:100
+for(i in 1:10) {
+    if(x[i] < 5) {
+        next
+    } else
+    print(x[i])
 }
 
 # This will need to be able to handle ALL FOUR ERRORS and return a neat data.frame of errors in return.
