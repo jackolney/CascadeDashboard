@@ -23,6 +23,7 @@ output$plotCalibHist <- renderPlot({
 
 output$plotData <- renderPlot({
     # add a dependency if we update data, like a 'review' changes.
+    input$NEXT_country
     input$PREV_plhiv
     input$NEXT_viral
     BuildDataReviewPlot(data = MasterData$calib)
