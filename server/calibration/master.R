@@ -60,12 +60,9 @@ GetMasterDataSet <- function(userCountry) {
 
         countryMasterDataSet <- rbind(intOne, intTwo, intThree)
     } else if (userCountry == "Zimbabwe") {
-
-        countryData
-
-        marrakechData
-
-        intOne <- marrakechData[marrakechData$indicator != c("PLHIV Retained", "PLHIV on ART"),]
+        # By hand, removing the indicators that get in the way of everything and cause trouble.
+        # See issue #10 on GitHub for more details about my thinking on this.
+        intOne <- marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),]
 
         int <- countryData$calib
         intTwo <- int[int$indicator != "PLHIV not on ART",]
