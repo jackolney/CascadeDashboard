@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "Tanzania"
+# userCountry <- "Zimbabwe"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -44,9 +44,7 @@ GetMasterDataSet <- function(userCountry) {
         # Combine together
         # MASTER DATA SET (for calibration)
         countryMasterDataSet <- rbind(intOne, intTwo, mData)
-    }
-
-    if (userCountry == "Tanzania") {
+    } else if (userCountry == "Tanzania") {
         # This is usually just some blanket code that extract stuff from countryData$calib and prevents things from being overwritten in the background.
         # Not really necessary for Tanzania (as of now).
 
@@ -61,6 +59,20 @@ GetMasterDataSet <- function(userCountry) {
         intThree <- int[int$year == 2015 & int$indicator != "PLHIV on ART",]
 
         countryMasterDataSet <- rbind(intOne, intTwo, intThree)
+    } else if (userCountry == "Zimbabwe") {
+
+        countryData
+
+        marrakechData
+
+        intOne <- marrakechData[marrakechData$indicator != c("PLHIV Retained", "PLHIV on ART"),]
+
+        int <- countryData$calib
+        intTwo <- int[int$indicator != "PLHIV not on ART",]
+
+        countryMasterDataSet <- rbind(intOne, intTwo)
+    } else {
+        countryMasterDataSet <- countryData$calib
     }
 
     # Overwrite calib on countryData
@@ -68,10 +80,10 @@ GetMasterDataSet <- function(userCountry) {
 
     # Only allow certain countries to 'proceed', i.e. return 'countryData'
     # This will be removed eventually, but good for testing right now.
-    if (userCountry %in% c("Kenya", "Tanzania")) {
+    if (userCountry %in% c("Kenya", "Tanzania", "Zimbabwe")) {
         countryData
     } else {
-        stop("Country not approved for use by this model")
+        stop("Country not approved for use by this model.")
     }
 }
 

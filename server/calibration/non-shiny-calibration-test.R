@@ -44,6 +44,8 @@ KenyaData <- GetMasterDataSet("Kenya")
 
 TanzaniaData <- GetMasterDataSet("Tanzania")
 
+GetMasterDataSet("Zimbabwe")
+
 # RUN CALIBRATION
 RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
 
