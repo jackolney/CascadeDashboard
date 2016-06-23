@@ -1,6 +1,7 @@
 output$plotCalibration <- renderPlot({
     # Dependency on 'REPEAT_calib' being hit
     # When 'repeat' button pressed, then we re-run calibration
+    input$CALIB_data
     input$REPEAT_calib
     RunCalibration(country = input$selectCountry, data = MasterData, maxIterations = 1e4, maxError = input$maxError, limit = input$minResults)
     BuildCalibrationPlot(data = CalibOut, originalData = MasterData)
@@ -9,6 +10,7 @@ output$plotCalibration <- renderPlot({
 output$plotCalibrationDetail <- renderPlot({
     # Dependency on 'REPEAT_calib' being hit
     # When 'repeat' button pressed, then we re-run calibration
+    input$CALIB_data
     input$REPEAT_calib
     input$maxError
     input$minResults
@@ -16,6 +18,7 @@ output$plotCalibrationDetail <- renderPlot({
 }, height = 750, width = 'auto', bg = 'transparent')
 
 output$plotCalibHist <- renderPlot({
+    input$CALIB_data
     input$REPEAT_calib
     input$minResults
     BuildCalibrationHistogram(runError = runError, maxError = input$maxError)
