@@ -289,8 +289,13 @@ Extract909090DataSingle <- function(data) {
 }
 
 GetBestCalibOut <- function(calibOut, minErrorRun) {
-    int <- calibOut[1:72 + 72 * (minErrorRun - 1),]
-    out <- int[int$year == 2015 & int$source == "model",]
+    # Firstly, filter out all the data and errors (this changes between countries), only the 'model' output stays constant
+    int <- calibOut[calibOut$source == "model",]
+    # Now we know that 6 years and 7 indicators == 42, so divide data into sections of 42 in length
+    int2 <- int[1:42 + 42 * (minErrorRun - 1),]
+    # Select only 2015 data
+    out <- int2[int2$year == 2015,]
+    # Safety check for length > 7
     if (dim(out)[1] > 7) {
         warning("out length is > 7")
         print(out)
