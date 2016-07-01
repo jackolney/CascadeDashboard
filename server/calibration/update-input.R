@@ -170,6 +170,16 @@ observeEvent(input$resetTxGuidelines, {
     updateSelectInput(session, inputId = "userTx_m500", selected = theGuidelines[["more500"]])
 })
 
+observeEvent(input$resetDATA, {
+    if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+    MasterData <<- GetMasterDataSet(input$selectCountry)
+    shinyjs::reset("plhiv_panel")
+    shinyjs::reset("diag_panel")
+    shinyjs::reset("care_panel")
+    shinyjs::reset("art_panel")
+    shinyjs::reset("viral_panel")
+})
+
 ####################
 # Update parRange for calibration
 

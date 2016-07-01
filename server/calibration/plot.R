@@ -29,6 +29,7 @@ output$plotData <- renderPlot({
     input$NEXT_country
     input$PREV_plhiv
     input$NEXT_viral
+    input$resetDATA
     BuildDataReviewPlot(data = MasterData$calib)
 }, height = 400, width = 'auto', bg = 'transparent')
 

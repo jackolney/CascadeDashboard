@@ -23,7 +23,8 @@ tabItem(tabName = "data-review",
                 to view each data point in detail. If you have additional data click 'Enter Data' to
                 begin adding new data for calibration, but if you are happy with the data presented
                 click 'Calibrate' to begin model calibration."),
-            bsButton(inputId = "viewData_DATA",   label = "VIEW DATA", style = "primary", size = "default", block = TRUE)
+            bsButton(inputId = "viewData_DATA",   label = "VIEW DATA",  style = "primary", size = "default", block = TRUE),
+            bsButton(inputId = "resetDATA",       label = "RESET",      style = "danger",  size = "default", block = TRUE)
         ),
         box(width = NULL,
             status = "danger",
