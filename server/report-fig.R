@@ -212,48 +212,28 @@ GenCascadePlot_Report <- function() {
 
     c.fill <- rev(brewer.pal(9,"Blues")[3:8])
 
-    ggOne <- ggplot(t0, aes(x = def, y = res))
-    ggOne <- ggOne + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
-    ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 1)
+    t0$year <- 2015
+    t5$year <- 2020
+    out <- rbind(t0, t5)
+
+    ggOne <- ggplot(out, aes(x = def, y = res))
+    ggOne <- ggOne + geom_bar(aes(fill = as.factor(year)), position = 'dodge', stat = 'identity')
+    ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max, fill = as.factor(year)), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 1)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
-    ggOne <- ggOne + scale_fill_manual(values = c.fill)
-    ggOne <- ggOne + ggtitle("2015")
+    ggOne <- ggOne + scale_fill_manual(values = c(c.fill[2],c.fill[5]), guide = guide_legend(title = "Year"))
     ggOne <- ggOne + theme_classic()
-    ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
-    ggOne <- ggOne + theme(title = element_text(size = 10))
+    ggOne <- ggOne + theme(title = element_text(size = 18))
     ggOne <- ggOne + theme(axis.title = element_blank())
-    ggOne <- ggOne + theme(axis.text.x = element_text(size = 5))
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 8))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 8))
-    ggOne <- ggOne + theme(legend.position = "none")
+    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(legend.title = element_text(size = 8))
+    ggOne <- ggOne + theme(legend.text = element_text(size = 7))
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
-
-    ggTwo <- ggplot(t5, aes(x = def, y = res))
-    ggTwo <- ggTwo + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
-    ggTwo <- ggTwo + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 1)
-    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
-    ggTwo <- ggTwo + scale_fill_manual(values = c.fill)
-    ggTwo <- ggTwo + ggtitle("2020")
-    ggTwo <- ggTwo + theme_classic()
-    ggTwo <- ggTwo + theme(plot.title = element_text(hjust = 0.5))
-    ggTwo <- ggTwo + theme(title = element_text(size = 10))
-    ggTwo <- ggTwo + theme(axis.title = element_blank())
-    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 5))
-    ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 8))
-    ggTwo <- ggTwo + theme(legend.position = "none")
-    ggTwo <- ggTwo + theme(plot.background = element_blank())
-    ggTwo <- ggTwo + theme(panel.background = element_blank())
-
-    # Expansion of y.axis
-    if (max(t0$max) >= max(t5$max)) {
-        ggOne <- ggOne + expand_limits(y = round(max(t0$max), digits = -4) + 1e5)
-        ggTwo <- ggTwo + expand_limits(y = round(max(t0$max), digits = -4) + 1e5)
-    } else {
-        ggOne <- ggOne + expand_limits(y = round(max(t5$max), digits = -4) + 1e5)
-        ggTwo <- ggTwo + expand_limits(y = round(max(t5$max), digits = -4) + 1e5)
-    }
-
-    grid.arrange(ggOne, ggTwo, nrow = 1, ncol = 2)
+    ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + expand_limits(y = round(max(out$max), digits = -4) + 1e5)
+    ggOne
 }
 
 GenPowersCascadePlot_Report <- function() {
