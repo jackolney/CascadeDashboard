@@ -337,7 +337,7 @@ GenNewInfPlot_Report <- function(wizard) {
     min <- c()
     max <- c()
     for (j in 1:251) {
-        dat <- Rmisc::CI(unlist(lapply(result, function(x) sum(x$NewInf[j]))), ci = 0.95)
+        dat <- Quantile_95(unlist(lapply(result, function(x) sum(x$NewInf[j]))))
         out[j] <- dat[["mean"]]
         min[j] <- dat[["lower"]]
         max[j] <- dat[["upper"]]
@@ -387,7 +387,7 @@ GenAidsDeathsPlot_Report <- function(wizard) {
     min <- c()
     max <- c()
     for (j in 1:251) {
-        dat <- Rmisc::CI(unlist(lapply(result, function(x) sum(x$HivMortality[j]))), ci = 0.95)
+        dat <- Quantile_95(unlist(lapply(result, function(x) sum(x$HivMortality[j]))))
         out[j] <- dat[["mean"]]
         min[j] <- dat[["lower"]]
         max[j] <- dat[["upper"]]

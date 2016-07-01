@@ -249,7 +249,7 @@ AppendCI <- function(data) {
 
     for (m in 1:length(uniqueIndicators)) {
         for (l in 1:length(uniqueYear)) {
-            CI <- Rmisc::CI(x = data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"value"], ci = 0.95)
+            CI <- Quantile_95(vector = data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"value"])
             data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"lower"]  <- CI[["lower"]]
             data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"upper"]  <- CI[["upper"]]
             data[data$year == uniqueYear[l] & data$indicator == uniqueIndicators[m],"mean"]   <- CI[["mean"]]

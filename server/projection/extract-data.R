@@ -9,11 +9,11 @@ ExtractCascadeData <- function(year) {
     TX_data <- unlist(lapply(result, function(x) sum(x$ART[year])))
     VS_data <- unlist(lapply(result, function(x) sum(x$Vs[year])))
 
-    NX <- Rmisc::CI(NX_data, ci = 0.95)
-    DX <- Rmisc::CI(DX_data, ci = 0.95)
-    CX <- Rmisc::CI(CX_data, ci = 0.95)
-    TX <- Rmisc::CI(TX_data, ci = 0.95)
-    VS <- Rmisc::CI(VS_data, ci = 0.95)
+    NX <- Quantile_95(NX_data)
+    DX <- Quantile_95(DX_data)
+    CX <- Quantile_95(CX_data)
+    TX <- Quantile_95(TX_data)
+    VS <- Quantile_95(VS_data)
 
     res <- c(NX[["mean"]], DX[["mean"]], CX[["mean"]], TX[["mean"]], VS[["mean"]])
     min <- c(NX[["lower"]], DX[["lower"]], CX[["lower"]], TX[["lower"]], VS[["lower"]])
@@ -77,9 +77,9 @@ Extract909090Data <- function(...) {
     TX_data <- unlist(lapply(result, function(x) sum(x$ART[year])))
     VS_data <- unlist(lapply(result, function(x) sum(x$Vs[year])))
 
-    UN_90 <- Rmisc::CI(DX_data / NX_data, ci = 0.95)
-    UN_9090 <- Rmisc::CI(TX_data / DX_data, ci = 0.95)
-    UN_909090 <- Rmisc::CI(VS_data / TX_data, ci = 0.95)
+    UN_90 <- Quantile_95(DX_data / NX_data)
+    UN_9090 <- Quantile_95(TX_data / DX_data)
+    UN_909090 <- Quantile_95(VS_data / TX_data)
 
     res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
     min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])

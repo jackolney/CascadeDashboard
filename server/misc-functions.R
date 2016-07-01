@@ -8,3 +8,10 @@ DownloadButton <- function(outputId, label = "Download", class = NULL) {
         class), href = "", target = "_blank", icon("file-pdf-o"),
         label)
 }
+
+Quantile_95 <- function(vector) {
+    m <- mean(vector)
+    p95 <- quantile(vector, 0.95)[[1]]
+    p05 <- quantile(vector, 0.05)[[1]]
+    return(c(upper = p95, mean = m, lower = p05))
+}
