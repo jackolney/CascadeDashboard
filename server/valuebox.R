@@ -256,13 +256,13 @@ output$vbOptim_preRetention <- renderInfoBox({
         retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
     )
 
-    out <- scales::comma(round(values[["preRetention"]], digits = 0))
+    out <- abs(round(values[["preRetention"]], digits = 0))
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Pre-ART Retention",
-        value = out,
+        value = scales::comma(out),
         color = cols[which(names(values[rev(order(abs(values)))]) == "preRetention")],
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
@@ -394,13 +394,13 @@ output$vbOptim_retention <- renderInfoBox({
         retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
     )
 
-    out <- scales::comma(round(values[["retention"]], digits = 0))
+    out <- abs(round(values[["retention"]], digits = 0))
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "ART Retention",
-        value = out,
+        value = scales::comma(out),
         color = cols[which(names(values[rev(order(abs(values)))]) == "retention")],
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
@@ -631,15 +631,15 @@ output$vb909090_preRetention <- renderInfoBox({
         retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
     )
 
-    out <- scales::comma(round(values[["preRetention"]], digits = 0))
+    out <- abs(round(values[["preRetention"]], digits = 0))
 
-    report_909090_preRetention <<- out
+    report_909090_preRetention <<- scales::comma(out)
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "Pre-ART Retention",
-        value = out,
+        value = scales::comma(out),
         color = cols[which(names(values[rev(order(abs(values)))]) == "preRetention")],
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
@@ -766,15 +766,15 @@ output$vb909090_retention <- renderInfoBox({
         retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
     )
 
-    out <- scales::comma(round(values[["retention"]], digits = 0))
+    out <- abs(round(values[["retention"]], digits = 0))
 
-    report_909090_retention <<- out
+    report_909090_retention <<- scales::comma(out)
 
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
         title = "ART Retention",
-        value = out,
+        value = scales::comma(out),
         color = cols[which(names(values[rev(order(abs(values)))]) == "retention")],
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
