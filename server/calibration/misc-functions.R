@@ -42,7 +42,7 @@ DefineParmRange <- function() {
             kappa   = 1,
             gamma   = 10,
             theta   = 10,
-            omega   = 0.5,
+            omega   = 0.05,
             p       = 1,
             q       = 1
         )
