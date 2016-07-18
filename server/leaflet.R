@@ -12,16 +12,18 @@ output$countryMap <- renderLeaflet({
     mapData <- LoadCountryMapData()
 
     leaflet() %>%
-    # addTiles() %>%                                # Base Map
-    # addProviderTiles("Hydda.Base") %>%            # Dark Blue with Blank Countries
-    addProviderTiles("MapQuestOpen.Aerial") %>%     # Satellite Imagery
+    addTiles(urlTemplate = "https://api.mapbox.com/styles/v1/jackolney/ciqrvfu7b000ic7nif534akgs/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamFja29sbmV5IiwiYSI6ImNpcXJ2ZjVzejAwOTFoeW1hdWRhZ3R6bngifQ.qygvtBVW6dfo0bwAjVNgvg") %>%
     setView(lng = 0, lat = 30, zoom = 2) %>%
     addPolygons(
         data = mapData,
         layerId = mapData$name,
-        weight = 3,
+        weight = 2,
         stroke = TRUE,
         color = "white",
+        opacity = 0.5,
+        fill = TRUE,
+        fillColor = "#4F8ABA",
+        fillOpacity = 0.3,
         popup = mapData$name
     )
 })
