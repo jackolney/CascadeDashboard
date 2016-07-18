@@ -66,6 +66,16 @@ tabItem(tabName = "calibration",
                 Please use the histogram of model error to visualise the distribution of error across all simulations.
                 The maximum tolerated error then adjusts the vertical bar shown on the plot below.
                 Additionally, increasing the number of simulations required will increase calibration time."),
+            tags$b("Optimise calibration for:"),
+            fluidRow(
+                column(width = 6,
+                    bsButton(inputId = "calib_speed",   label = "Speed",   style = "default",  size = "extra-small", block = TRUE)
+                ),
+                column(width = 6,
+                    bsButton(inputId = "calib_quality", label = "Quality", style = "default",  size = "extra-small", block = TRUE)
+                )
+            ),
+            p(""),
             selectInput(inputId = "maxError", label = "Maximum tolerated total absolute error per simulation:", choices = ErrorList, selected = "2"),
             numericInput(inputId = "minResults", label = "Number of simulations required under max error:", value = 100,  min = 1, max = 1e6, step = 1, width = '100%'),
             plotOutput('plotCalibHist', height = 'auto', width = 'auto')

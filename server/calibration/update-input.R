@@ -211,3 +211,15 @@ observeEvent(input$test_ARTDropRate_U,    { userParRange$omega_MAX   <<- input$t
 observeEvent(input$test_ARTDropRate_L,    { userParRange$omega_MIN   <<- input$test_ARTDropRate_L    })
 observeEvent(input$test_AdhProp_U,        { userParRange$p_MAX       <<- input$test_AdhProp_U        })
 observeEvent(input$test_AdhProp_L,        { userParRange$p_MIN       <<- input$test_AdhProp_L        })
+
+##### Calibration Settings #####
+
+observeEvent(input$calib_speed, {
+    updateNumericInput(session, inputId = "minResults", value = 100)
+    updateSelectInput(session, inputId = "maxError", selected = "3")
+})
+
+observeEvent(input$calib_quality, {
+    updateNumericInput(session, inputId = "minResults", value = 1000)
+    updateSelectInput(session, inputId = "maxError", selected = "2")
+})
