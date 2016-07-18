@@ -190,7 +190,6 @@ Gen909090Plot <- function() {
     )
 
     vbCol <- c("red", "yellow", "green")
-    vbCol[ranking][1]
 
     vbOut1 <- round(out[out$def == "% Diagnosed",    "res"] * 100, digits = 0)
     vbOut2 <- round(out[out$def == "% On Treatment", "res"] * 100, digits = 0)
