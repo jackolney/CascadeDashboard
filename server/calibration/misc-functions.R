@@ -1,29 +1,3 @@
-DefineParmRangeOLD <- function() {
-    parRange <- data.frame(
-        min = c(
-            rho     = 0.00205,
-            epsilon = 0.16949,
-            kappa   = 0.01079,
-            gamma   = 0.02556,
-            theta   = 0.01511,
-            omega   = 0.00033,
-            p       = 0.00950,
-            q       = 0.00500
-        ),
-        max = c(
-            rho     = 1.025,
-            epsilon = 84.745,
-            kappa   = 5.395,
-            gamma   = 12.780,
-            theta   = 7.555,
-            omega   = 0.165,
-            p       = 1,
-            q       = 1
-        )
-    )
-    parRange
-}
-
 DefineParmRange <- function() {
     parRange <- data.frame(
         min = c(
@@ -33,48 +7,22 @@ DefineParmRange <- function() {
             gamma   = 0,
             theta   = 0,
             omega   = 0,
-            p       = 0.1,
-            q       = 0.1
+            p       = 0.1, # Perhaps a little optimisitc but prevents basically 0% VS
+            q       = 0.1  # Optimistic, but mediated by potential long time to link
         ),
         max = c(
-            rho     = 2,
-            epsilon = 100,
-            kappa   = 1,
-            gamma   = 10,
-            theta   = 10,
-            omega   = 0.05,
-            p       = 1,
-            q       = 1
+            rho     = 1,    # 1 year
+            epsilon = 100,  # very quickly (basically ends up being instantaneous)
+            kappa   = 1,    # 1 year
+            gamma   = 2,    # 6 months
+            theta   = 2,    # 6 months
+            omega   = 0.05, # As directed by Tim
+            p       = 0.99, # No program is ever going to get 100%
+            q       = 0.99  # No program is ever going to get 100%
         )
     )
     parRange
 }
-
-# DefineParmRange <- function() {
-#     parRange <- data.frame(
-#         min = c(
-#             rho     = 0,
-#             epsilon = 0,
-#             kappa   = 0,
-#             gamma   = 0,
-#             theta   = 0,
-#             omega   = 0,
-#             p       = 0.6,
-#             q       = 0.1
-#         ),
-#         max = c(
-#             rho     = 1,
-#             epsilon = 50,
-#             kappa   = 1,
-#             gamma   = 5,
-#             theta   = 5,
-#             omega   = 0.5,
-#             p       = 1,
-#             q       = 1
-#         )
-#     )
-#     parRange
-# }
 
 DefineInitRange <- function(data, min, max) {
     # Take 2010 subset of data.
