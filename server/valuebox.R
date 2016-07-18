@@ -33,7 +33,7 @@ output$vbOptim_909090_1 <- renderValueBox({
     valueBox(
         value = scales::percent(out),
         subtitle = "Diagnosed by 2020",
-        color = "red",
+        color = "blue",
         icon = icon("check-square-o", lib = "font-awesome")
     )
   })
@@ -64,7 +64,7 @@ output$vbOptim_909090_2 <- renderValueBox({
     valueBox(
         value = scales::percent(out),
         subtitle = "On Treatment by 2020",
-        color = "orange",
+        color = "blue",
         icon = icon("check-square-o", lib = "font-awesome")
     )
   })
@@ -95,7 +95,7 @@ output$vbOptim_909090_3 <- renderValueBox({
     valueBox(
         value = scales::percent(out),
         subtitle = "Virally Suppressed by 2020",
-        color = "green",
+        color = "blue",
         icon = icon("check-square-o", lib = "font-awesome")
     )
   })
@@ -420,14 +420,14 @@ output$vb909090_1 <- renderValueBox({
         valueBox(
             value = scales::percent(out),
             subtitle = "Diagnosed",
-            color = "green",
+            color = "blue",
             icon = icon("check", lib = "font-awesome")
         )
     } else {
         valueBox(
             value = scales::percent(out),
             subtitle = "Diagnosed",
-            color = "red",
+            color = "blue",
             icon = icon("times", lib = "font-awesome")
         )
     }
@@ -444,14 +444,14 @@ output$vb909090_2 <- renderValueBox({
         valueBox(
             value = scales::percent(out),
             subtitle = "On Treatment",
-            color = "green",
+            color = "blue",
             icon = icon("check", lib = "font-awesome")
         )
     } else {
         valueBox(
             value = scales::percent(out),
             subtitle = "On Treatment",
-            color = "red",
+            color = "blue",
             icon = icon("times", lib = "font-awesome")
         )
     }
@@ -468,14 +468,14 @@ output$vb909090_3 <- renderValueBox({
         valueBox(
             value = scales::percent(out),
             subtitle = "Virally Suppressed",
-            color = "green",
+            color = "blue",
             icon = icon("check", lib = "font-awesome")
         )
     } else {
         valueBox(
             value = scales::percent(out),
             subtitle = "Virally Suppressed",
-            color = "red",
+            color = "blue",
             icon = icon("times", lib = "font-awesome")
         )
     }
