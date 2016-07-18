@@ -66,29 +66,31 @@ LeafletCountryList <- c(
 SourceList <- data.frame(
     name = c(
         "Please select source...",
-        "Case Reporting with caveats",
-        "Case Reporting",
-        "Estimate",
-        "GARPR",
-        "Mathematical Model - Nationally representative",
-        "Mathematical Model - Not Nationally representative",
-        "Nationally Representative Study",
-        "No information provided",
-        "Peer-reviewed Study",
-        "Program estimates adjusted for underreporting and mortality"
+        "Case based surveillance - nationally representative",
+        "Case based surveillance with caveats - e.g. not nationally representative",
+        "Estimate - source data not clear",
+        "GARPR  / Spectrum",
+        "Mathematical model - nationally representative",
+        "Mathematical model - non-nationally representative",
+        "Nationally representative study  - cohort / cross-sectional",
+        "Program data - adjusted (e.g. for under-reporting) and/or large geographical coverage",
+        "Program data - not adjusted and/or small geographical coverage",
+        "Sub-national study",
+        "Vital statistics"
     ),
     weight = c(
         "NULL",
-        "amber",
         "green",
+        "amber",
         "red",
         "green",
-        "green",
         "amber",
+        "red",
+        "green",
         "amber",
         "red",
         "amber",
-        "amber"
+        "green"
     )
 )
 
