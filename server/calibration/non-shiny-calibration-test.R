@@ -60,9 +60,34 @@ BuildCalibrationPlotDetail(data = CalibOut, originalData = ZimbabweData, limit =
 ### TESTING OF WEIGHTS ###
 
 KenyaData <- GetMasterDataSet("Kenya")
+
+# Basic Setup
+error = 2
+limit = 1000
+iterations = 1e4
+
 KenyaData$calib$weight <- "green"
-RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 2, limit = 100)
-BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 100)
+RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = iterations, maxError = error, limit = limit)
+BuildCalibrationTestPlot(data = CalibOut, originalData = KenyaData, limit = limit, runError = runError, maxError = error)
+quartz.save(file = "captures/weight-test/kenya-green.pdf", type = 'pdf')
+
+KenyaData$calib$weight <- "amber"
+RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = iterations, maxError = error, limit = limit)
+BuildCalibrationTestPlot(data = CalibOut, originalData = KenyaData, limit = limit, runError = runError, maxError = error)
+quartz.save(file = "captures/weight-test/kenya-amber.pdf", type = 'pdf')
+
+KenyaData$calib$weight <- "red"
+RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = iterations, maxError = error, limit = limit)
+BuildCalibrationTestPlot(data = CalibOut, originalData = KenyaData, limit = limit, runError = runError, maxError = error)
+quartz.save(file = "captures/weight-test/kenya-red.pdf", type = 'pdf')
+
+
+
+
+## I would like to see:
+# 1. Histogram of errors.
+# 2. Mean simulation error (does it decrease when all data are RED?)
+# 6. Do the above for all "RED", "AMBER" and "GREEN"
 
 
 ####################################################################################################
