@@ -3,8 +3,15 @@ dashboardSidebar(
     sidebarMenu(
         id = "sideBar",
         menuItem("Introduction", tabName = "introduction", icon = icon("home", class = "fa-lg fa-fw", lib = "font-awesome")),
-        menuItem("Setup", icon = icon("cogs", class = "fa-lg fa-fw", lib = "font-awesome"),
+        menuItem("Country", icon = icon("globe", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Country",                tabName = "country"),
+            menuSubItem("New",                    tabName = "edit-country"),
+            menuSubItem("Edit Cascade",           tabName = "edit-cascade"),
+            menuSubItem("Edit CD4",               tabName = "edit-cd4"),
+            menuSubItem("Edit Incidence",         tabName = "edit-incidence"),
+            menuSubItem("Edit Guidelines",        tabName = "edit-guidelines")
+        ),
+        menuItem("Setup", icon = icon("cogs", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Data Review",            tabName = "data-review"),
             menuSubItem("People Living with HIV", tabName = "plhiv"),
             menuSubItem("Diagnosed Individuals",  tabName = "diagnosis"),

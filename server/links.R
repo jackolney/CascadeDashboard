@@ -23,6 +23,12 @@ observeEvent(input$NEXT_country, {
     )
 })
 
+observeEvent(input$NEW_country, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "edit-country")
+})
+
 # Data-Review
 observeEvent(input$NEXT_data, {
     updateTabItems(session,
