@@ -5,7 +5,6 @@ dashboardSidebar(
         menuItem("Introduction", tabName = "introduction", icon = icon("home", class = "fa-lg fa-fw", lib = "font-awesome")),
         menuItem("Country", icon = icon("globe", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Country",                tabName = "country"),
-            menuSubItem("New",                    tabName = "edit-country"),
             menuSubItem("Edit Cascade",           tabName = "edit-cascade"),
             menuSubItem("Edit CD4",               tabName = "edit-cd4"),
             menuSubItem("Edit Incidence",         tabName = "edit-incidence"),

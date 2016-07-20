@@ -11,7 +11,6 @@ dashboardPage(
 
             # Country
             source("ui/setup/country.R",                      local = TRUE)$value,
-            source("ui/setup/edit-country/edit-country.R",    local = TRUE)$value,
             source("ui/setup/edit-country/edit-cascade.R",    local = TRUE)$value,
             source("ui/setup/edit-country/edit-cd4.R",        local = TRUE)$value,
             source("ui/setup/edit-country/edit-incidence.R",  local = TRUE)$value,
