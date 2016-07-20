@@ -15,7 +15,13 @@ tabItem(tabName = "country",
             selectInput("selectCountry",
                 label = NULL,
                 choices = CountryList,
-                selected = "Brazil")
+                selected = "Brazil"),
+            bsButton(inputId = "NEW_country",
+                label = "New Country / Region",
+                style = "success",
+                size = "small",
+                block = TRUE,
+                icon = icon("plus", class = "fa-lg fa-fw", lib = "font-awesome"))
         )
     ),
     column(width = 4,
