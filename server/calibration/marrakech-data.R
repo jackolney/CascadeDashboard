@@ -65,7 +65,7 @@ GetMarrakechData <- function(uCountry) {
 
         final
     } else {
-        warning("Country not found in Marrakech dataset.")
+        message("Country not found in Marrakech dataset.")
     }
 }
 
