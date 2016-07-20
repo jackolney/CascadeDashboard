@@ -32,7 +32,7 @@ source("server/calibration/marrakech-data.R",        local = FALSE)
 source("server/calibration/misc-functions.R",        local = FALSE)
 source("server/misc-functions.R",                    local = FALSE)
 source("server/calibration/plot-functions.R",        local = FALSE)
-source("server/calibration/non-shiny-calibration.R", local = FALSE)
+source("server/non-shiny/non-shiny-calibration.R",   local = FALSE)
 
 
 # load 'cascade' package and ensure it is the latest build.
