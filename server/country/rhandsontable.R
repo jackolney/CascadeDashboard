@@ -57,8 +57,8 @@ output$hot <- renderRHandsontable({
             hot_col(col = "value", format = '0,0') %>%
 	 		hot_col(col = "country", readOnly = TRUE) %>%
 	 		hot_col(col = "indicator", readOnly = TRUE) %>%
-	 		hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft", valign = "htMiddle") #%>%
-            # hot_col(col = "year", type = "date", format = "%Y", readOnly = TRUE)
+            hot_col(col = "year", type = "date", format = "%Y", readOnly = TRUE) %>%
+	 		hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft", valign = "htMiddle")
 })
 
 # on return, update masterData file.
