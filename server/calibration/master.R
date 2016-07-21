@@ -89,3 +89,53 @@ GetMasterDataSet <- function(userCountry) {
 # Output testing
 # test <- countryMasterDataSet[countryMasterDataSet$indicator != "PLHIV not on ART",]
 # ggplot(test, aes(x = year, y = value)) + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+
+# BLANK MASTER DATA SET
+GetBlankMasterDataSet <- function(newName) {
+    oldData <- GetMasterDataSet("Kenya")
+
+    # Incidence
+    oldData$incidence[,"country"] <- newName
+    oldData$incidence[,as.character(seq(2010,2016,1))] <- NA
+
+    # CD4
+    oldData$cd4[,"country"] <- newName
+    oldData$cd4[, c("prop.Off.ART.500",
+        "prop.Off.ART.350500",
+        "prop.Off.ART.250350",
+        "prop.Off.ART.200250",
+        "prop.Off.ART.100200",
+        "prop.Off.ART.50100",
+        "prop.Off.ART.50",
+        "prop.On.ART.500",
+        "prop.On.ART.350500",
+        "prop.On.ART.250350",
+        "prop.On.ART.200250",
+        "prop.On.ART.100200",
+        "prop.On.ART.50100",
+        "prop.On.ART.50")
+    ] <- NA
+
+    # Treatment Guidelines
+    oldData$treatment_guidelines[,"country"] <- newName
+    oldData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <- NA
+
+    # Calibration
+    country <- newName
+
+    indicator <- c(rep("PLHIV", 6),
+        rep("PLHIV Diagnosed", 6),
+        rep("PLHIV in Care", 6),
+        rep("PLHIV on ART", 6),
+        rep("PLHIV Suppressed", 6))
+
+    year <- rep(seq(2010, 2015, 1), 5)
+
+    value <- NA
+    weight <- NA
+
+    oldData$calib <- data.frame(country, indicator, year, value, weight)
+
+    # Rates (not used)
+    oldData
+}
