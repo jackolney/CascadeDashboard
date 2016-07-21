@@ -23,6 +23,62 @@ observeEvent(input$NEXT_country, {
     )
 })
 
+observeEvent(input$CASCADE_FLAG, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "edit-cascade"
+    )
+})
+
+observeEvent(input$PREV_editCascade, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "country"
+    )
+})
+
+observeEvent(input$CD4_FLAG, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "edit-cd4"
+    )
+})
+
+observeEvent(input$PREV_editCD4, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "country"
+    )
+})
+
+observeEvent(input$INCIDENCE_FLAG, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "edit-incidence"
+    )
+})
+
+observeEvent(input$PREV_editIncidence, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "country"
+    )
+})
+
+observeEvent(input$GUIDELINES_FLAG, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "edit-guidelines"
+    )
+})
+
+observeEvent(input$PREV_editGuidelines, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "country"
+    )
+})
+
 # Data-Review
 observeEvent(input$NEXT_data, {
     updateTabItems(session,

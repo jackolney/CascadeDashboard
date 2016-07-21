@@ -2,27 +2,27 @@
 observeEvent(input$selectCountry, {
 
     if (CheckCSV_PLHIV(input$selectCountry) & CheckCSV_ART(input$selectCountry)) {
-        updateButton(session, inputId = "_CASCADE_FLAG_",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        updateButton(session, inputId = "_CASCADE_FLAG_",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 
     if (CheckCSV_CD4(input$selectCountry)) {
-        updateButton(session, inputId = "_CD4_FLAG_",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        updateButton(session, inputId = "_CD4_FLAG_",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 
     if (CheckCSV_Incidence(input$selectCountry)) {
-        updateButton(session, inputId = "_Incidence_FLAG_",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        updateButton(session, inputId = "_Incidence_FLAG_",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 
     if (CheckCSV_Treatment(input$selectCountry)) {
-        updateButton(session, inputId = "_Treatment_FLAG_",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
-        updateButton(session, inputId = "_Treatment_FLAG_",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 
     # If MasterData exists then destroy it, then re-assign.

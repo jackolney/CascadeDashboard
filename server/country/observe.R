@@ -11,16 +11,16 @@ observeEvent(input$new_country_name, {
     # So when a 'name' of country is entered, all boxes should go RED and be enabled to allow data to be entered
 
 
-    # _CASCADE_FLAG_
+    # CASCADE_FLAG
     # How do we entere data for this?? (pretty much replicating the before methods)
 
-    #_CD4_FLAG_
+    #CD4_FLAG
     # Enter CD4 distribution? Sliders? range(0,1)
 
-    # _Incidence_FLAG_
+    # INCIDENCE_FLAG
     # values that update a plot?
 
-    # _Treatment_FLAG_
+    # GUIDELINES_FLAG
     # We already have this framework, just adapt for a full page
 
     # Does all this new work deprecate 'data-review'???
@@ -29,16 +29,16 @@ observeEvent(input$new_country_name, {
 
     if(input$new_country_name == "") {
         updateTextInput(session, inputId = "new_country_name", value = "")
-        updateButton(session,    inputId = "_CASCADE_FLAG_",   disabled = TRUE)
-        updateButton(session,    inputId = "_CD4_FLAG_",       disabled = TRUE)
-        updateButton(session,    inputId = "_Incidence_FLAG_", disabled = TRUE)
-        updateButton(session,    inputId = "_Treatment_FLAG_", disabled = TRUE)
+        updateButton(session,    inputId = "CASCADE_FLAG",   disabled = TRUE)
+        updateButton(session,    inputId = "CD4_FLAG",       disabled = TRUE)
+        updateButton(session,    inputId = "INCIDENCE_FLAG", disabled = TRUE)
+        updateButton(session,    inputId = "GUIDELINES_FLAG", disabled = TRUE)
     } else {
         # These actually need to be CHECK functions (as when we edit the country name, then will all go red again)
-        updateButton(session, inputId = "_CASCADE_FLAG_",    style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-        updateButton(session, inputId = "_CD4_FLAG_",        style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-        updateButton(session, inputId = "_Incidence_FLAG_",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-        updateButton(session, inputId = "_Treatment_FLAG_",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",        style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
             anchorId = "_DONOTPROCEED_",
@@ -71,27 +71,27 @@ observeEvent(input$NEW_country, {
 # Need to replicate mission-control.R
 
 # if (CheckCSV_PLHIV(input$selectCountry) & CheckCSV_ART(input$selectCountry)) {
-#     updateButton(session, inputId = "_CASCADE_FLAG_",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
 # } else {
-#     updateButton(session, inputId = "_CASCADE_FLAG_",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
 # }
 
 # if (CheckCSV_CD4(input$selectCountry)) {
-#     updateButton(session, inputId = "_CD4_FLAG_",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "CD4_FLAG",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
 # } else {
-#     updateButton(session, inputId = "_CD4_FLAG_",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "CD4_FLAG",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
 # }
 
 # if (CheckCSV_Incidence(input$selectCountry)) {
-#     updateButton(session, inputId = "_Incidence_FLAG_",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "INCIDENCE_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
 # } else {
-#     updateButton(session, inputId = "_Incidence_FLAG_",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
 # }
 
 # if (CheckCSV_Treatment(input$selectCountry)) {
-#     updateButton(session, inputId = "_Treatment_FLAG_",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "GUIDELINES_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
 # } else {
-#     updateButton(session, inputId = "_Treatment_FLAG_",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+#     updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
 # }
 
 # # If MasterData exists then destroy it, then re-assign.
