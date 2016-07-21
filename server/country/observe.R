@@ -35,9 +35,9 @@ observeEvent(input$new_country_name, {
         updateButton(session,    inputId = "GUIDELINES_FLAG", disabled = TRUE)
     } else {
         # These actually need to be CHECK functions (as when we edit the country name, then will all go red again)
-        updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-        updateButton(session, inputId = "CD4_FLAG",        style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
