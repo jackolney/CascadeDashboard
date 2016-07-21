@@ -15,7 +15,8 @@ tabItem(tabName = "edit-cascade",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go.")
+            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go."),
+            actionButton("saveBtn", "Save")
         ),
         bsButton(inputId = "PREV_editCascade", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )
