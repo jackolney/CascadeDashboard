@@ -1,6 +1,6 @@
 observeEvent(input$new_country_name, {
-    message("okay, somebody just entered some text in new_country_name")
-    print(input$new_country_name)
+    message(paste("A new country name has been entered:", input$new_country_name))
+
 
     # new we need to 'undisable' the buttons ...
     # activate links to 'edit' pages. (conditional on input$new_country_name != "")
@@ -37,5 +37,12 @@ observeEvent(input$new_country_name, {
         updateButton(session, inputId = "_CD4_FLAG_",       disabled = TRUE)
         updateButton(session, inputId = "_Incidence_FLAG_", disabled = TRUE)
         updateButton(session, inputId = "_Treatment_FLAG_", disabled = TRUE)
+    }
+})
+
+# This observe will kill any input into "new_country_name" if the 'NEW_country' button is deactivated
+observeEvent(input$NEW_country, {
+    if(input$NEW_country == FALSE) {
+        updateTextInput(session, inputId = "new_country_name", value = "")
     }
 })
