@@ -1,31 +1,31 @@
 # fname = tempfile()
 
-# # uncomment lines below if action button is used to commit changes
-# # values = list()
-# # setHot = function(x) values[["hot"]] <<- x
+# uncomment lines below if action button is used to commit changes
+# values = list()
+# setHot = function(x) values[["hot"]] <<- x
 
-# # comment lines below if action button is used to commit changes
+# comment lines below if action button is used to commit changes
 # values = reactiveValues()
 # setHot = function(x) values[["hot"]] = x
 
-# observe({
-#     input$saveBtn
+# # observe({
+# #     input$saveBtn
 
-#     if (!is.null(values[["hot"]])) {
-#         write.csv(values[["hot"]], fname)
-#         print(fname)
-#     }
-# })
+# #     if (!is.null(values[["hot"]])) {
+# #         write.csv(values[["hot"]], fname)
+# #         print(fname)
+# #     }
+# # })
 
 # output$hot = renderRHandsontable({
 #     if (!is.null(input$hot)) {
 #         DF = hot_to_r(input$hot)
 #     } else {
-#         DF = read.csv("mtcars.csv", stringsAsFactors = FALSE)
+#         DF = MasterData$calib
 #     }
 
 #     setHot(DF)
-#     rhandsontable(DF) %>%
+#     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
 #             hot_table(highlightCol = TRUE, highlightRow = TRUE)
 # })
 
@@ -39,12 +39,7 @@ data = reactive({
 	 	DF = hot_to_r(input$hot)
 	} else {
 	 	if (is.null(values[["DF"]]))
-	   		DF = data.frame(
-	   			val = 1:10,
-	   			bool = TRUE,
-	   			nm = LETTERS[1:10],
-		        dt = seq(from = Sys.Date(), by = "days", length.out = 10),
-		        stringsAsFactors = F)
+	   		DF = MasterData$calib
 	  else
 	   	DF = values[["DF"]]
 	}
