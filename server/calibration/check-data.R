@@ -62,10 +62,16 @@ Check_NewCascade <- function(theData) {
 }
 
 Check_NewCD4 <- function(theData) {
-    if (sum(theData$cd4[2:8]) == 1) {
-        if (sum(theData$cd4[9:15]) == 1) {
-            return(TRUE)
-        } else return(FALSE)
+    if (!any(is.na(theData$cd4))) {
+        if (sum(theData$cd4[2:8]) == 1) {
+            if (sum(theData$cd4[9:15]) == 1) {
+                return(TRUE)
+            } else {
+                return(FALSE)
+            }
+        } else {
+            return(FALSE)
+        }
     } else return(FALSE)
 }
 
@@ -77,4 +83,11 @@ Check_NewIncidence <- function(theData) {
     }
 }
 
-Check_NewGuidelines <- function() {}
+Check_NewGuidelines <- function(theData) {
+    test <- theData$treatment_guidelines
+    if (!any(is.na(test[,2:6]))) {
+        if (GuidelineCheck(tx_l200 = test$less200, tx_l250 = test$less250, tx_l350 = test$less350, tx_l500 = test$less500, tx_m500 = test$more500)) {
+            return(TRUE)
+        } else return(FALSE)
+    } else return(FALSE)
+}
