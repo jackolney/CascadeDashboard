@@ -136,3 +136,11 @@ observeEvent(input$PREV_editCascade, {
     }
 })
 
+observeEvent(input$PREV_editCD4, {
+    if (Check_NewCD4(MasterData)) {
+        updateButton(session, inputId = "CD4_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    } else {
+        updateButton(session, inputId = "CD4_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    }
+})
+

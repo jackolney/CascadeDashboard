@@ -3,10 +3,10 @@ tabItem(tabName = "edit-cd4",
         box(width = NULL,
             status = "primary",
             solidHeader = TRUE,
-            title = "Edit CD4",
+            title = "Edit CD4 Distribution in 2010",
             collapsible = TRUE,
             collapsed = FALSE,
-            "Some means of entering data on the cascade"
+            rHandsontableOutput("hot_cd4")
         )
     ),
     column(width = 4,
@@ -14,7 +14,9 @@ tabItem(tabName = "edit-cd4",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go.")
+            helpText("Please enter any available data on this page relating to distribution of CD4
+                counts in among infected persons in 2010. Values must be entered in every cell.
+                Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editCD4", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )

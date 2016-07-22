@@ -61,9 +61,15 @@ Check_NewCascade <- function(theData) {
     } else {return(FALSE)}
 }
 
-###
+Check_NewCD4 <- function(theData) {
+    if (sum(theData$cd4[2:8]) == 1) {
+        if (sum(theData$cd4[9:15]) == 1) {
+            return(TRUE)
+        } else return(FALSE)
+    } else return(FALSE)
+}
 
-Check_NewCD4 <- function() {}
+
 
 Check_NewIncidence <- function() {}
 
