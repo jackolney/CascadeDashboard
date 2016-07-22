@@ -10,7 +10,7 @@ observe({
     input$PREV_editCascade
 
     if (!is.null(values[["hot"]])) {
-        MasterData$calib <- values[["hot"]]
+        MasterData$calib <<- values[["hot"]]
         print(MasterData$calib)
     }
 })

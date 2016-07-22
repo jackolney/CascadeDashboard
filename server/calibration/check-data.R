@@ -47,3 +47,25 @@ CheckCSV_ART <- function(uCountry) {
         return(TRUE)
     }
 }
+
+### Custom MasterData Checks ###
+
+Check_NewCascade <- function(theData) {
+    test <- theData$calib
+    d2010 <- test[test$year == 2010,]
+    print(d2010)
+    if (any(d2010$indicator == "PLHIV") & !is.na(d2010[d2010$indicator == "PLHIV","value"]) & d2010[d2010$indicator == "PLHIV","value"] != 0) {
+        if (any(d2010$indicator == "PLHIV on ART") & !is.na(d2010[d2010$indicator == "PLHIV on ART","value"]) & d2010[d2010$indicator == "PLHIV on ART","value"] != 0) {
+            return(TRUE)
+        } else {return(FALSE)}
+    } else {return(FALSE)}
+}
+
+###
+
+Check_NewCD4 <- function() {}
+
+Check_NewIncidence <- function() {}
+
+Check_NewGuidelines <- function() {}
+

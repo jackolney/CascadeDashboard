@@ -127,3 +127,12 @@ observeEvent(input$NEW_country, {
 
 # if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
 # try(MasterData <<- GetBlankMasterDataSet(input$selectCountry), silent = FALSE)
+
+observeEvent(input$PREV_editCascade, {
+    if (Check_NewCascade(MasterData)) {
+        updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    } else {
+        updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    }
+})
+
