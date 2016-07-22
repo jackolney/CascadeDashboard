@@ -6,7 +6,7 @@ tabItem(tabName = "edit-guidelines",
             title = "Edit Guidelines",
             collapsible = TRUE,
             collapsed = FALSE,
-            "Some means of entering data on the cascade"
+            rHandsontableOutput("hot_guidelines")
         )
     ),
     column(width = 4,

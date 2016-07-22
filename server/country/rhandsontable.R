@@ -27,7 +27,8 @@ output$hot_cascade <- renderRHandsontable({
             hot_col(col = "value", format = '0,0', halign = "htLeft") %>%
             hot_col(col = "country", readOnly = TRUE) %>%
             hot_col(col = "indicator", readOnly = TRUE) %>%
-            hot_col(col = "year", type = "date", format = "%Y", readOnly = TRUE) %>%
+            hot_col(col = "year", type = "date", dateFormat = "%Y", readOnly = TRUE) %>%
+            # the 'weight' column still shows NA instead of blank, due to the presence of the renderer function.
             hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), default = as.character(NA), strict = TRUE, allowInvalid = FALSE, halign = "htLeft",
                 renderer = "function (instance, td, row, col, prop, value, cellProperties) {
                     Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -105,5 +106,36 @@ output$hot_incidence <- renderRHandsontable({
             hot_col(col = "2014", format = '0,0', halign = "htLeft") %>%
             hot_col(col = "2015", format = '0,0', halign = "htLeft") %>%
             hot_col(col = "2016", format = '0,0', halign = "htLeft") %>%
+            hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+})
+
+### GUIDELINES
+setHotGuidelines <- function(x) values[["hot_guidelines"]] = x
+
+# Observe and update data.frame on button press and also when values[["hot_guidelines"]] changes
+observe({
+    # dependency
+    input$PREV_editGuidelines
+    if (!is.null(values[["hot_guidelines"]])) {
+        MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <<- values[["hot_guidelines"]]$Year
+        message("hey jack")
+        print(MasterData$treatment_guidelines)
+    }
+})
+
+output$hot_guidelines <- renderRHandsontable({
+    if (!is.null(input$hot_guidelines)) {
+        DF = hot_to_r(input$hot_guidelines)
+        print(input$hot_guidelines)
+    } else {
+        Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
+        Year <- as.numeric(NA)
+        DF = data.frame(Threshold, Year)
+
+    }
+    setHotGuidelines(DF)
+    rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
+            hot_col(col = "Threshold", readOnly = TRUE) %>%
+            hot_col(col = "Year", type = "date", dateFormat = "YYYY") %>%
             hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 })
