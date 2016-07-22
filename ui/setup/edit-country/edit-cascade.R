@@ -6,7 +6,6 @@ tabItem(tabName = "edit-cascade",
             title = "Edit Cascade",
             collapsible = TRUE,
             collapsed = FALSE,
-            "Some means of entering data on the cascade",
             rHandsontableOutput("hot")
         )
     ),
@@ -15,8 +14,9 @@ tabItem(tabName = "edit-cascade",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go."),
-            actionButton("saveBtn", "Save")
+            helpText("Please enter any available data on this page relating to the cascade.
+                If data are missing, leave the cells blank and they will be ignored by the model.
+                Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editCascade", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )

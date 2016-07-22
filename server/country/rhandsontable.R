@@ -1,21 +1,17 @@
-# fname = tempfile()
+# rhandsontable elements
 
-# uncomment lines below if action button is used to commit changes
-# values = list()
-# setHot = function(x) values[["hot"]] <<- x
+# create some reactive elements
+values <- reactiveValues()
+setHot <- function(x) values[["hot"]] = x
 
-# comment lines below if action button is used to commit changes
-values = reactiveValues()
-setHot = function(x) values[["hot"]] = x
-
+# Observe and update data.frame on button press and also when values[["hot"]] changes
 observe({
-    input$saveBtn
+    # dependency
+    input$PREV_editCascade
 
     if (!is.null(values[["hot"]])) {
-        # write.csv(values[["hot"]], fname)
-        # print(fname)
-        print(values[["hot"]])
-        # the above just holds the ORIGINAL df.
+        MasterData$calib <- values[["hot"]]
+        print(MasterData$calib)
     }
 })
 
@@ -34,6 +30,3 @@ output$hot <- renderRHandsontable({
             hot_col(col = "year", type = "date", format = "%Y", readOnly = TRUE) %>%
             hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft")
 })
-
-# So the above works and hitting 'save' returns the correct data.frame.. which can then be used to OVERRIDE MasterData$calib
-# Why does the weight just overloaded though? THIS WORKS.
