@@ -16,7 +16,8 @@ tabItem(tabName = "edit-cascade",
             title = "Help Panel",
             helpText("Please enter any available data on this page relating to the cascade.
                 If data are missing, leave the cells blank and they will be ignored by the model.
-                Click 'Back' to return to the previous page")
+                Click 'Back' to return to the previous page"),
+            plotOutput('miniDataReview', height = 'auto', width = 'auto')
         ),
         bsButton(inputId = "PREV_editCascade", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )

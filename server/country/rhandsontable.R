@@ -15,10 +15,16 @@ observe({
     }
 })
 
+output$miniDataReview <- renderPlot({
+    input$hot_cascade
+    BuildDataReviewPlotMINI(data = values[["hot_cascade"]])
+}, height = 200, width = 'auto', bg = 'transparent')
+
 output$hot_cascade <- renderRHandsontable({
     if (!is.null(input$hot_cascade)) {
         DF = hot_to_r(input$hot_cascade)
-        print(input$hot_cascade)
+        message("HERE")
+        print(DF)
     } else {
         DF = MasterData$calib
     }
@@ -43,6 +49,32 @@ output$hot_cascade <- renderRHandsontable({
             hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 })
 
+BuildDataReviewPlotMINI <- function(data) {
+    data <- subset(data, !is.na(data$value))
+    if (dim(data)[1] != 0) {
+        data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
+        ggOut <- ggplot(data, aes(x = year, y = value))
+        ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+        ggOut <- ggOut + expand_limits(y = round(max(data$value), digits = -5))
+        ggOut <- ggOut + theme_classic()
+        ggOut <- ggOut + scale_y_continuous(
+            breaks = base::pretty(seq(0, round(max(data$value), digits = -5)), n = 5),
+            labels = scales::comma,
+            expand = c(0, 0))
+        ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+        ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+        ggOut <- ggOut + theme(axis.title = element_text(size = 10))
+        ggOut <- ggOut + theme(legend.text = element_text(size = 10))
+        ggOut <- ggOut + theme(axis.line.x = element_line())
+        ggOut <- ggOut + theme(axis.line.y = element_line())
+        ggOut <- ggOut + theme(axis.title.y = element_blank())
+        ggOut <- ggOut + theme(legend.title = element_blank())
+        ggOut <- ggOut + xlab("Year")
+        ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+        ggOut
+    }
+}
+
 ### CD4
 setHotCD4 <- function(x) values[["hot_cd4"]] = x
 
@@ -60,7 +92,7 @@ observe({
 output$hot_cd4 <- renderRHandsontable({
     if (!is.null(input$hot_cd4)) {
         DF = hot_to_r(input$hot_cd4)
-        print(input$hot_cd4)
+        print(DF)
     } else {
         ART <- c(rep("Off ART", 7), rep("On ART", 7))
         Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
@@ -91,7 +123,7 @@ observe({
 output$hot_incidence <- renderRHandsontable({
     if (!is.null(input$hot_incidence)) {
         DF = hot_to_r(input$hot_incidence)
-        print(input$hot_incidence)
+        print(DF)
     } else {
         DF = MasterData$incidence
     }
@@ -126,7 +158,7 @@ observe({
 output$hot_guidelines <- renderRHandsontable({
     if (!is.null(input$hot_guidelines)) {
         DF = hot_to_r(input$hot_guidelines)
-        print(input$hot_guidelines)
+        print(DF)
     } else {
         Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
         Year <- as.numeric(NA)
