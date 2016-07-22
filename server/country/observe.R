@@ -144,3 +144,10 @@ observeEvent(input$PREV_editCD4, {
     }
 })
 
+observeEvent(input$PREV_editIncidence, {
+    if (Check_NewIncidence(MasterData)) {
+        updateButton(session, inputId = "INCIDENCE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    } else {
+        updateButton(session, inputId = "INCIDENCE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    }
+})

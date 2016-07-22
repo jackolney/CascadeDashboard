@@ -96,7 +96,7 @@ GetBlankMasterDataSet <- function(newName) {
 
     # Incidence
     oldData$incidence[,"country"] <- newName
-    oldData$incidence[,as.character(seq(2010,2016,1))] <- NA
+    oldData$incidence[,as.character(seq(2010,2016,1))] <- as.numeric(NA)
 
     # CD4
     oldData$cd4[,"country"] <- newName
@@ -118,7 +118,7 @@ GetBlankMasterDataSet <- function(newName) {
 
     # Treatment Guidelines
     oldData$treatment_guidelines[,"country"] <- newName
-    oldData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <- NA
+    oldData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <- as.numeric(NA)
 
     # Calibration
     country <- newName

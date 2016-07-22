@@ -9,7 +9,6 @@ setHotCascade <- function(x) values[["hot_cascade"]] = x
 observe({
     # dependency
     input$PREV_editCascade
-
     if (!is.null(values[["hot_cascade"]])) {
         MasterData$calib <<- values[["hot_cascade"]]
         print(MasterData$calib)
@@ -50,14 +49,9 @@ setHotCD4 <- function(x) values[["hot_cd4"]] = x
 observe({
     # dependency
     input$PREV_editCD4
-
-    print("here")
-    print(values[["hot_cd4"]])
-
     if (!is.null(values[["hot_cd4"]])) {
         MasterData$cd4[2:15] <<- values[["hot_cd4"]]$Proportion
         MasterData$cd4[[1]] <<- input$new_country_name
-        print("hello")
         print(MasterData$cd4)
     }
 })
@@ -77,7 +71,39 @@ output$hot_cd4 <- renderRHandsontable({
             hot_col(col = "ART", readOnly = TRUE) %>%
             hot_col(col = "Category", readOnly = TRUE) %>%
             hot_col(col = "Proportion", type = "numeric", halign = "htLeft") %>%
-            hot_validate_numeric(col = "Proportion", min = 0, max = 1) %>%
-            # hot_heatmap(cols = 3, color_scale = c("#ED6D47", "#17F556")) %>%
+            hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+})
+
+### INCIDENCE
+setHotIncidence <- function(x) values[["hot_incidence"]] = x
+
+# Observe and update data.frame on button press and also when values[["hot_incidence"]] changes
+observe({
+    # dependency
+    input$PREV_editIncidence
+    if (!is.null(values[["hot_incidence"]])) {
+        MasterData$incidence <<- values[["hot_incidence"]]
+        print(MasterData$incidence)
+    }
+})
+
+output$hot_incidence <- renderRHandsontable({
+    if (!is.null(input$hot_incidence)) {
+        DF = hot_to_r(input$hot_incidence)
+        print(input$hot_incidence)
+    } else {
+        DF = MasterData$incidence
+    }
+    setHotIncidence(DF)
+    rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
+            hot_col(col = "country", readOnly = TRUE) %>%
+            hot_col(col = "type", readOnly = TRUE) %>%
+            hot_col(col = "2010", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2011", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2012", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2013", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2014", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2015", format = '0,0', halign = "htLeft") %>%
+            hot_col(col = "2016", format = '0,0', halign = "htLeft") %>%
             hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 })

@@ -69,9 +69,12 @@ Check_NewCD4 <- function(theData) {
     } else return(FALSE)
 }
 
-
-
-Check_NewIncidence <- function() {}
+Check_NewIncidence <- function(theData) {
+    if (sum(theData$incidence[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(theData$incidence[,as.character(seq(2010,2016,1))]))) {
+        return(FALSE)
+    } else {
+        return(TRUE)
+    }
+}
 
 Check_NewGuidelines <- function() {}
-

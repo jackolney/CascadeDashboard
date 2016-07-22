@@ -6,7 +6,7 @@ tabItem(tabName = "edit-incidence",
             title = "Edit Incidence",
             collapsible = TRUE,
             collapsed = FALSE,
-            "Some means of entering data on the cascade"
+            rHandsontableOutput("hot_incidence")
         )
     ),
     column(width = 4,
