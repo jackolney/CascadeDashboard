@@ -6,7 +6,7 @@ tabItem(tabName = "edit-cascade",
             title = "Edit Cascade",
             collapsible = TRUE,
             collapsed = FALSE,
-            rHandsontableOutput("hot")
+            rHandsontableOutput("hot_cascade")
         )
     ),
     column(width = 4,

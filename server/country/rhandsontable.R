@@ -2,27 +2,27 @@
 
 # create some reactive elements
 values <- reactiveValues()
-setHot <- function(x) values[["hot"]] = x
+setHotCascade <- function(x) values[["hot_cascade"]] = x
 
-# Observe and update data.frame on button press and also when values[["hot"]] changes
+# Observe and update data.frame on button press and also when values[["hot_cascade"]] changes
 observe({
     # dependency
     input$PREV_editCascade
 
-    if (!is.null(values[["hot"]])) {
-        MasterData$calib <<- values[["hot"]]
+    if (!is.null(values[["hot_cascade"]])) {
+        MasterData$calib <<- values[["hot_cascade"]]
         print(MasterData$calib)
     }
 })
 
-output$hot <- renderRHandsontable({
-    if (!is.null(input$hot)) {
-        DF = hot_to_r(input$hot)
-        print(input$hot)
+output$hot_cascade <- renderRHandsontable({
+    if (!is.null(input$hot_cascade)) {
+        DF = hot_to_r(input$hot_cascade)
+        print(input$hot_cascade)
     } else {
         DF = MasterData$calib
     }
-    setHot(DF)
+    setHotCascade(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "value", format = '0,0', halign = "htLeft") %>%
             hot_col(col = "country", readOnly = TRUE) %>%
