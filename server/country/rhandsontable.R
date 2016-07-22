@@ -29,7 +29,7 @@ output$hot_cascade <- renderRHandsontable({
             hot_col(col = "indicator", readOnly = TRUE) %>%
             hot_col(col = "year", type = "date", dateFormat = "%Y", readOnly = TRUE) %>%
             # the 'weight' column still shows NA instead of blank, due to the presence of the renderer function.
-            hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), default = as.character(NA), strict = TRUE, allowInvalid = FALSE, halign = "htLeft",
+            hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft",
                 renderer = "function (instance, td, row, col, prop, value, cellProperties) {
                     Handsontable.renderers.TextRenderer.apply(this, arguments);
                     if (value == 'green') {

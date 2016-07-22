@@ -49,16 +49,23 @@ CheckCSV_ART <- function(uCountry) {
 }
 
 ### Custom MasterData Checks ###
-
 Check_NewCascade <- function(theData) {
     test <- theData$calib
     d2010 <- test[test$year == 2010,]
-    print(d2010)
-    if (any(d2010$indicator == "PLHIV") & !is.na(d2010[d2010$indicator == "PLHIV","value"]) & d2010[d2010$indicator == "PLHIV","value"] != 0) {
-        if (any(d2010$indicator == "PLHIV on ART") & !is.na(d2010[d2010$indicator == "PLHIV on ART","value"]) & d2010[d2010$indicator == "PLHIV on ART","value"] != 0) {
-            return(TRUE)
-        } else {return(FALSE)}
-    } else {return(FALSE)}
+    subTest <- subset(test, test$value != 0 & !is.na(test$value))
+
+    PLHIV_test <- any(d2010$indicator == "PLHIV") & !is.na(d2010[d2010$indicator == "PLHIV","value"]) & d2010[d2010$indicator == "PLHIV","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV","weight"])
+    PLHIV_ART_test <- any(d2010$indicator == "PLHIV on ART") & !is.na(d2010[d2010$indicator == "PLHIV on ART","value"]) & d2010[d2010$indicator == "PLHIV on ART","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV on ART","weight"])
+
+    if (PLHIV_test) {
+        if (PLHIV_ART_test) {
+            if (dim(subTest)[1] != 0) {
+                if (!any(is.na(subTest$weight)) & !any(subTest$weight == "NA")) {
+                    return(TRUE)
+                } else return(FALSE)
+            } else return(FALSE)
+        } else return(FALSE)
+    } else return(FALSE)
 }
 
 Check_NewCD4 <- function(theData) {
@@ -75,11 +82,15 @@ Check_NewCD4 <- function(theData) {
     } else return(FALSE)
 }
 
+CheckOrder <- function(x) if (x[1] <= x[2] & x[2] <= x[3]) return(TRUE)
+
 Check_NewIncidence <- function(theData) {
     if (sum(theData$incidence[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(theData$incidence[,as.character(seq(2010,2016,1))]))) {
         return(FALSE)
     } else {
-        return(TRUE)
+        if (CheckOrder(t(test[,"2010"])) & CheckOrder(t(test[,"2011"])) & CheckOrder(t(test[,"2012"])) & CheckOrder(t(test[,"2013"])) & CheckOrder(t(test[,"2014"])) & CheckOrder(t(test[,"2015"])) & CheckOrder(t(test[,"2016"]))) {
+            return(TRUE)
+        } else return(FALSE)
     }
 }
 

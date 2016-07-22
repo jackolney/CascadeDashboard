@@ -132,7 +132,7 @@ GetBlankMasterDataSet <- function(newName) {
     year <- rep(seq(2010, 2015, 1), 5)
 
     value <- as.numeric(NA)
-    weight <- as.character(NA)
+    weight <- factor(x = NA, levels = c("red", "amber", "green"))
 
     oldData$calib <- data.frame(country, indicator, year, value, weight)
 
