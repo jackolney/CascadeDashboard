@@ -7,3 +7,8 @@ output$editCD4Plot <- renderPlot({
     input$hot_cd4
     BuildEditCD4Plot(data = values[["hot_cd4"]])
 }, height = 250, width = 'auto', bg = 'transparent')
+
+output$editIncidencePlot <- renderPlot({
+    input$hot_incidence
+    BuildEditIncidencePlot(data = values[["hot_incidence"]])
+}, height = 250, width = 'auto', bg = 'transparent')

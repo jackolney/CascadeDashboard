@@ -17,7 +17,7 @@ BuildEditCascadePlot <- function(data) {
         ggOut <- ggOut + theme(legend.position = "top")
         ggOut <- ggOut + theme(axis.line.x = element_line())
         ggOut <- ggOut + theme(axis.line.y = element_line())
-        ggOut <- ggOut + theme(axis.title.y = element_blank())
+        ggOut <- ggOut + theme(axis.title = element_blank())
         ggOut <- ggOut + theme(legend.title = element_blank())
         ggOut <- ggOut + theme(plot.background = element_blank())
         ggOut <- ggOut + theme(legend.background = element_blank())
@@ -87,4 +87,28 @@ BuildEditCD4Plot <- function(data) {
         ggOn
     }
     gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1)
+}
+
+BuildEditIncidencePlot <- function(data) {
+    if(any(!is.na(data[,3:9]))) {
+        dat <- reshape2::melt(data)
+        theData <- subset(dat, dat$type == "Median")
+        theData$lower <- subset(dat$value, dat$type == "Lower")
+        theData$upper <- subset(dat$value, dat$type == "Upper")
+        ggOut <- ggplot(data = theData, aes(x = variable, y = value, group = type))
+        ggOut <- ggOut + geom_errorbar(aes(ymin = lower, ymax = upper), col = "#4F8ABA", width = 0.2, size = 1)
+        ggOut <- ggOut + geom_point(col = "black", size = 4)
+        ggOut <- ggOut + theme_classic()
+        ggOut <- ggOut + expand_limits(y = round(max(theData$value), digits = -3))
+        ggOut <- ggOut + theme(axis.line.x = element_line())
+        ggOut <- ggOut + theme(axis.line.y = element_line())
+        ggOut <- ggOut + theme(legend.position = "none")
+        ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+        ggOut <- ggOut + theme(axis.title = element_blank())
+        ggOut <- ggOut + theme(axis.text = element_text(size = 10))
+        ggOut <- ggOut + theme(plot.background = element_blank())
+        ggOut <- ggOut + theme(legend.background = element_blank())
+        ggOut <- ggOut + theme(panel.background = element_blank())
+        ggOut
+    }
 }
