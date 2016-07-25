@@ -14,7 +14,10 @@ tabItem(tabName = "edit-incidence",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go.")
+            helpText("Please enter any available data on this page relating to new HIV infections.
+                Them model must be specified with an average value, and a lower and upper bound for all years
+                between 2010 and 2016. As values are entered, a plot will be populated on the right-hand side.
+                Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editIncidence", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome")),
         p(""),

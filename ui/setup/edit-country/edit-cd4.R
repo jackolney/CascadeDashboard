@@ -16,6 +16,8 @@ tabItem(tabName = "edit-cd4",
             title = "Help Panel",
             helpText("Please enter any available data on this page relating to distribution of CD4
                 counts in among infected persons in 2010. Values must be entered in every cell.
+                The check function on the previous page will not turn green until values for 'off' and
+                'on' ART distributions each sum to one.
                 Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editCD4", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome")),
