@@ -85,11 +85,12 @@ Check_NewCD4 <- function(theData) {
 CheckOrder <- function(x) if (x[3] <= x[2] & x[2] <= x[1]) return(TRUE) else return(FALSE)
 
 Check_NewIncidence <- function(theData) {
-    print("I get to here.")
-    if (sum(theData$incidence[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(theData$incidence[,as.character(seq(2010,2016,1))]))) {
+    test <- theData$incidence
+    if (sum(test[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(test[,as.character(seq(2010,2016,1))]))) {
         return(FALSE)
     } else {
-        if (CheckOrder(t(theData$incidence[,"2010"])) & CheckOrder(t(theData$incidence[,"2011"])) & CheckOrder(t(theData$incidence[,"2012"])) & CheckOrder(t(theData$incidence[,"2013"])) & CheckOrder(t(theData$incidence[,"2014"])) & CheckOrder(t(theData$incidence[,"2015"])) & CheckOrder(t(theData$incidence[,"2016"]))) {
+        ordered <- test[order(test$type, decreasing = TRUE),]
+        if (CheckOrder(t(ordered[,"2010"])) & CheckOrder(t(ordered[,"2011"])) & CheckOrder(t(ordered[,"2012"])) & CheckOrder(t(ordered[,"2013"])) & CheckOrder(t(ordered[,"2014"])) & CheckOrder(t(ordered[,"2015"])) & CheckOrder(t(ordered[,"2016"]))) {
             return(TRUE)
         } else return(FALSE)
     }
