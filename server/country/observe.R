@@ -29,9 +29,9 @@ observeEvent(input$new_country_name, {
 
     if(input$new_country_name == "") {
         updateTextInput(session, inputId = "new_country_name", value = "")
-        updateButton(session,    inputId = "CASCADE_FLAG",   disabled = TRUE)
-        updateButton(session,    inputId = "CD4_FLAG",       disabled = TRUE)
-        updateButton(session,    inputId = "INCIDENCE_FLAG", disabled = TRUE)
+        updateButton(session,    inputId = "CASCADE_FLAG",    disabled = TRUE)
+        updateButton(session,    inputId = "CD4_FLAG",        disabled = TRUE)
+        updateButton(session,    inputId = "INCIDENCE_FLAG",  disabled = TRUE)
         updateButton(session,    inputId = "GUIDELINES_FLAG", disabled = TRUE)
     } else {
         # These actually need to be CHECK functions (as when we edit the country name, then will all go red again)
