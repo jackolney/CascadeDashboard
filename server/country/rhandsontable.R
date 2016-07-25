@@ -15,11 +15,6 @@ observe({
     }
 })
 
-output$miniDataReview <- renderPlot({
-    input$hot_cascade
-    BuildDataReviewPlotMINI(data = values[["hot_cascade"]])
-}, height = 200, width = 'auto', bg = 'transparent')
-
 output$hot_cascade <- renderRHandsontable({
     if (!is.null(input$hot_cascade)) {
         DF = hot_to_r(input$hot_cascade)
@@ -35,45 +30,19 @@ output$hot_cascade <- renderRHandsontable({
             hot_col(col = "indicator", readOnly = TRUE) %>%
             hot_col(col = "year", type = "date", dateFormat = "%Y", readOnly = TRUE) %>%
             # the 'weight' column still shows NA instead of blank, due to the presence of the renderer function.
-            hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft",
-                renderer = "function (instance, td, row, col, prop, value, cellProperties) {
-                    Handsontable.renderers.TextRenderer.apply(this, arguments);
-                    if (value == 'green') {
-                        td.style.background = 'green';
-                    } else if (value == 'amber') {
-                        td.style.background = 'orange';
-                    } else if (value == 'red') {
-                        td.style.background = 'red';
-                    }
-                }") %>%
+            hot_col(col = "weight", type = "dropdown", source = c("green", "amber", "red"), strict = TRUE, allowInvalid = FALSE, halign = "htLeft") %>%
+                # renderer = "function (instance, td, row, col, prop, value, cellProperties) {
+                #     Handsontable.renderers.TextRenderer.apply(this, arguments);
+                #     if (value == 'green') {
+                #         td.style.background = 'green';
+                #     } else if (value == 'amber') {
+                #         td.style.background = 'orange';
+                #     } else if (value == 'red') {
+                #         td.style.background = 'red';
+                #     }
+                # }") %>%
             hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 })
-
-BuildDataReviewPlotMINI <- function(data) {
-    data <- subset(data, !is.na(data$value))
-    if (dim(data)[1] != 0) {
-        data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
-        ggOut <- ggplot(data, aes(x = year, y = value))
-        ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
-        ggOut <- ggOut + expand_limits(y = round(max(data$value), digits = -5))
-        ggOut <- ggOut + theme_classic()
-        ggOut <- ggOut + scale_y_continuous(
-            breaks = base::pretty(seq(0, round(max(data$value), digits = -5)), n = 5),
-            labels = scales::comma,
-            expand = c(0, 0))
-        ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
-        ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
-        ggOut <- ggOut + theme(axis.title = element_text(size = 10))
-        ggOut <- ggOut + theme(legend.text = element_text(size = 10))
-        ggOut <- ggOut + theme(axis.line.x = element_line())
-        ggOut <- ggOut + theme(axis.line.y = element_line())
-        ggOut <- ggOut + theme(axis.title.y = element_blank())
-        ggOut <- ggOut + theme(legend.title = element_blank())
-        ggOut <- ggOut + xlab("Year")
-        ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
-        ggOut
-    }
-}
 
 ### CD4
 setHotCD4 <- function(x) values[["hot_cd4"]] = x
