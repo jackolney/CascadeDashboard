@@ -26,3 +26,65 @@ BuildEditCascadePlot <- function(data) {
         ggOut
     }
 }
+
+BuildEditCD4Plot <- function(data) {
+    if (any(!is.na(data[1:7,"Proportion"]))) {
+        DF_Off <- data[1:7,]
+        DF_Off$pos <- cumsum(DF_Off$Proportion) - DF_Off$Proportion / 2
+        DF_Off$Category <- factor(DF_Off$Category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+        ggOff <- ggplot(DF_Off, aes(x = "", y = Proportion, fill = Category))
+        ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
+        ggOff <- ggOff + theme_classic()
+        ggOff <- ggOff + coord_polar(theta = "y")
+        ggOff <- ggOff + geom_text(aes(y = pos, label = scales::percent(Proportion), size = 3, family = "Avenir Next"))
+        ggOff <- ggOff + theme(text = element_text(family = "Avenir Next"))
+        ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+        ggOff <- ggOff + theme(legend.position = "none")
+        ggOff <- ggOff + theme(axis.title = element_blank())
+        ggOff <- ggOff + theme(legend.title = element_blank())
+        ggOff <- ggOff + theme(axis.text = element_blank())
+        ggOff <- ggOff + theme(axis.ticks = element_blank())
+        ggOff <- ggOff + theme(plot.background = element_blank())
+        ggOff <- ggOff + theme(legend.background = element_blank())
+        ggOff <- ggOff + theme(panel.background = element_blank())
+        ggOff <- ggOff + ggtitle("Off ART")
+        ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5))
+        ggOff
+    } else {
+        ggOff <- ggplot() + geom_blank()
+        ggOff <- ggOff + theme(plot.background = element_blank())
+        ggOff <- ggOff + theme(legend.background = element_blank())
+        ggOff <- ggOff + theme(panel.background = element_blank())
+        ggOff
+    }
+    if (any(!is.na(data[8:14,"Proportion"]))) {
+        DF_On <- data[8:14,]
+        DF_On$pos <- cumsum(DF_On$Proportion) - DF_On$Proportion / 2
+        DF_On$Category <- factor(DF_On$Category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+        ggOn <- ggplot(DF_On, aes(x = "", y = Proportion, fill = Category))
+        ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
+        ggOn <- ggOn + theme_classic()
+        ggOn <- ggOn + coord_polar(theta = "y")
+        ggOn <- ggOn + geom_text(aes(y = pos, label = scales::percent(Proportion), size = 3, family = "Avenir Next"))
+        ggOn <- ggOn + theme(text = element_text(family = "Avenir Next"))
+        ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+        ggOn <- ggOn + theme(legend.position = "none")
+        ggOn <- ggOn + theme(axis.title = element_blank())
+        ggOn <- ggOn + theme(legend.title = element_blank())
+        ggOn <- ggOn + theme(axis.text = element_blank())
+        ggOn <- ggOn + theme(axis.ticks = element_blank())
+        ggOn <- ggOn + theme(plot.background = element_blank())
+        ggOn <- ggOn + theme(legend.background = element_blank())
+        ggOn <- ggOn + theme(panel.background = element_blank())
+        ggOn <- ggOn + ggtitle("On ART")
+        ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5))
+        ggOn
+    } else {
+        ggOn <- ggplot() + geom_blank()
+        ggOn <- ggOn + theme(plot.background = element_blank())
+        ggOn <- ggOn + theme(legend.background = element_blank())
+        ggOn <- ggOn + theme(panel.background = element_blank())
+        ggOn
+    }
+    gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1)
+}
