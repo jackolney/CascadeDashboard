@@ -57,6 +57,7 @@ observeEvent(input$new_country_name, {
 # This observe will kill any input into "new_country_name" if the 'NEW_country' button is deactivated
 observeEvent(input$NEW_country, {
     if(input$NEW_country == FALSE) {
+        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
         updateTextInput(session, inputId = "new_country_name", value = "")
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
@@ -68,6 +69,7 @@ observeEvent(input$NEW_country, {
             dismiss = TRUE,
             append = TRUE)
     } else {
+        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
