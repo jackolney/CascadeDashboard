@@ -10,7 +10,7 @@ observe({
     # dependency
     input$PREV_editCascade
     if (!is.null(values[["hot_cascade"]])) {
-        MasterData$calib <<- values[["hot_cascade"]]
+        MasterData$calib <<- na.omit(values[["hot_cascade"]])
         print(MasterData$calib)
     }
 })
