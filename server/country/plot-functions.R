@@ -1,4 +1,4 @@
-BuildDataReviewPlotMINI <- function(data) {
+BuildEditCascadePlot <- function(data) {
     data <- subset(data, !is.na(data$value))
     if (dim(data)[1] != 0) {
         data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))

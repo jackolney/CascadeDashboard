@@ -19,6 +19,6 @@ tabItem(tabName = "edit-cascade",
                 Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editCascade", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome")),
-        plotOutput('miniDataReview', height = 'auto', width = 'auto')
+        plotOutput('editCascadePlot', height = 'auto', width = 'auto')
     )
 )

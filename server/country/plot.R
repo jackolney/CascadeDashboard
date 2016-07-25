@@ -1,4 +1,4 @@
-output$miniDataReview <- renderPlot({
+output$editCascadePlot <- renderPlot({
     input$hot_cascade
-    BuildDataReviewPlotMINI(data = values[["hot_cascade"]])
-}, height = 200, width = 'auto', bg = 'transparent')
+    BuildEditCascadePlot(data = values[["hot_cascade"]])
+}, height = 250, width = 'auto', bg = 'transparent')
