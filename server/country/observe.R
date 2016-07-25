@@ -51,6 +51,7 @@ observeEvent(input$new_country_name, {
             style = "danger",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = TRUE)
     }
 })
 
@@ -68,12 +69,23 @@ observeEvent(input$NEW_country, {
             style = "danger",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = TRUE)
     } else {
         if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
+        shinyBS::createAlert(session,
+            anchorId = "_DONOTPROCEED_",
+            alertId = "alertId_DONOTPROCEED",
+            title = paste(icon("exclamation-triangle", class = "fa-lg fa-fw", lib = "font-awesome"), "DO NOT PROCEED"),
+            content = "The model has insufficient data to quantify the cascade. Please select another country.",
+            style = "danger",
+            dismiss = TRUE,
+            append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = TRUE)
     }
 })
 
@@ -94,6 +106,7 @@ observeEvent(input$PREV_editCascade, {
             style = "success",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = FALSE)
     }
 })
 
@@ -113,6 +126,7 @@ observeEvent(input$PREV_editCD4, {
             style = "success",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = FALSE)
     }
 })
 
@@ -132,6 +146,7 @@ observeEvent(input$PREV_editIncidence, {
             style = "success",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = FALSE)
     }
 })
 
@@ -151,6 +166,7 @@ observeEvent(input$PREV_editGuidelines, {
             style = "success",
             dismiss = TRUE,
             append = TRUE)
+        updateButton(session, inputId = "NEXT_country", disabled = FALSE)
     }
 })
 
