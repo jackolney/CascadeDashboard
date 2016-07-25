@@ -14,7 +14,10 @@ tabItem(tabName = "edit-guidelines",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please make a new country. Click the below buttons to edit details of the new country or region. When they turn green, we are good to go.")
+            helpText("Please enter the dates of changes in ART guidelines for the new country / region.
+                Double clicking on a cell will bring up a calendar, but years can also be entered.
+                Values must be supplied for every cell.
+                Click 'Back' to return to the previous page")
         ),
         bsButton(inputId = "PREV_editGuidelines", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )
