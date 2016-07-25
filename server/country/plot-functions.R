@@ -99,6 +99,7 @@ BuildEditIncidencePlot <- function(data) {
         ggOut <- ggOut + geom_errorbar(aes(ymin = lower, ymax = upper), col = "#4F8ABA", width = 0.2, size = 1)
         ggOut <- ggOut + geom_point(col = "black", size = 4)
         ggOut <- ggOut + theme_classic()
+        ggOut <- ggOut + scale_y_continuous(labels = scales::comma)
         ggOut <- ggOut + expand_limits(y = round(max(theData$value), digits = -3))
         ggOut <- ggOut + theme(axis.line.x = element_line())
         ggOut <- ggOut + theme(axis.line.y = element_line())
