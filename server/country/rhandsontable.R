@@ -94,7 +94,8 @@ output$hot_incidence <- renderRHandsontable({
         DF = hot_to_r(input$hot_incidence)
         print(DF)
     } else {
-        DF = MasterData$incidence
+        theData <- MasterData$incidence
+        DF = theData[order(theData$type, decreasing = TRUE),]
     }
     setHotIncidence(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
