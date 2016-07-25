@@ -21,7 +21,13 @@ output$hot_cascade <- renderRHandsontable({
         message("HERE")
         print(DF)
     } else {
-        DF = MasterData$calib
+        if (input$new_country_name == "") {
+            # This will pad out the MasterData with NA's and update its name
+            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        } else {
+            # This will be a blank MasterData
+            DF = MasterData$calib
+        }
     }
     setHotCascade(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%

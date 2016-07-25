@@ -15,10 +15,11 @@ source("ui/global-lists.R",        local = TRUE)
 # COUNTRY #
 # ------- #
 
+source("server/country/misc-functions.R", local = TRUE)
 source("server/country/observe.R",        local = TRUE)
-source("server/country/rhandsontable.R",  local = TRUE)
-source("server/country/plot.R",           local = TRUE)
 source("server/country/plot-functions.R", local = TRUE)
+source("server/country/plot.R",           local = TRUE)
+source("server/country/rhandsontable.R",  local = TRUE)
 
 # ----- #
 # MODEL #
