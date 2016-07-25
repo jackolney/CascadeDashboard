@@ -70,8 +70,8 @@ Check_NewCascade <- function(theData) {
 
 Check_NewCD4 <- function(theData) {
     if (!any(is.na(theData$cd4))) {
-        if (sum(theData$cd4[2:8]) == 1) {
-            if (sum(theData$cd4[9:15]) == 1) {
+        if (round(sum(theData$cd4[2:8]), digits = 2) == 1) {
+            if (round(sum(theData$cd4[9:15]), digits = 2) == 1) {
                 return(TRUE)
             } else {
                 return(FALSE)
