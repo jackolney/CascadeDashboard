@@ -69,9 +69,13 @@ output$hot_cd4 <- renderRHandsontable({
         DF = hot_to_r(input$hot_cd4)
         print(DF)
     } else {
+        if (input$new_country_name == "") {
+            Proportion <- as.numeric(MasterData$cd4[2:15])
+        } else {
+            Proportion <- as.numeric(NA)
+        }
         ART <- c(rep("Off ART", 7), rep("On ART", 7))
         Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
-        Proportion <- as.numeric(NA)
         DF = data.frame(ART, Category, Proportion)
     }
     setHotCD4(DF)
@@ -136,8 +140,12 @@ output$hot_guidelines <- renderRHandsontable({
         DF = hot_to_r(input$hot_guidelines)
         print(DF)
     } else {
+        if (input$new_country_name == "") {
+            Year <- as.numeric(MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")])
+        } else {
+            Year <- as.numeric(NA)
+        }
         Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
-        Year <- as.numeric(NA)
         DF = data.frame(Threshold, Year)
 
     }

@@ -25,6 +25,12 @@ observeEvent(input$selectCountry, {
         updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 
+    # Trial placement of disable tags (we should be using the check functions instead of Check_CSV)
+    updateButton(session, inputId = "CASCADE_FLAG",     disabled = FALSE)
+    updateButton(session, inputId = "CD4_FLAG",         disabled = FALSE)
+    updateButton(session, inputId = "INCIDENCE_FLAG",   disabled = FALSE)
+    updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE)
+
     # If MasterData exists then destroy it, then re-assign.
     if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
     try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
