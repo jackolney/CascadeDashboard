@@ -67,6 +67,11 @@ observeEvent(input$NEW_country, {
             style = "danger",
             dismiss = TRUE,
             append = TRUE)
+    } else {
+        updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
 })
 

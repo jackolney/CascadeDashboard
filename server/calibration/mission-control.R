@@ -1,40 +1,60 @@
 # Observe Functions for Mission Control
 observeEvent(input$selectCountry, {
 
-    if (CheckCSV_PLHIV(input$selectCountry) & CheckCSV_ART(input$selectCountry)) {
-        updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
-    } else {
-        updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-    }
+    # if (CheckCSV_PLHIV(input$selectCountry) & CheckCSV_ART(input$selectCountry)) {
+    #     updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # } else {
+    #     updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # }
 
-    if (CheckCSV_CD4(input$selectCountry)) {
-        updateButton(session, inputId = "CD4_FLAG",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
-    } else {
-        updateButton(session, inputId = "CD4_FLAG",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-    }
+    # if (CheckCSV_CD4(input$selectCountry)) {
+    #     updateButton(session, inputId = "CD4_FLAG",        style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # } else {
+    #     updateButton(session, inputId = "CD4_FLAG",        style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # }
 
-    if (CheckCSV_Incidence(input$selectCountry)) {
-        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
-    } else {
-        updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-    }
+    # if (CheckCSV_Incidence(input$selectCountry)) {
+    #     updateButton(session, inputId = "INCIDENCE_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # } else {
+    #     updateButton(session, inputId = "INCIDENCE_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # }
 
-    if (CheckCSV_Treatment(input$selectCountry)) {
-        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
-    } else {
-        updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
-    }
-
-    # Trial placement of disable tags (we should be using the check functions instead of Check_CSV)
-    updateButton(session, inputId = "CASCADE_FLAG",     disabled = FALSE)
-    updateButton(session, inputId = "CD4_FLAG",         disabled = FALSE)
-    updateButton(session, inputId = "INCIDENCE_FLAG",   disabled = FALSE)
-    updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE)
+    # if (CheckCSV_Treatment(input$selectCountry)) {
+    #     updateButton(session, inputId = "GUIDELINES_FLAG",  style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # } else {
+    #     updateButton(session, inputId = "GUIDELINES_FLAG",  style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    # }
 
     # If MasterData exists then destroy it, then re-assign.
     if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
     try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
+
     if (exists("MasterData")) {
+
+        if (Check_NewCascade(theData = MasterData)) {
+            updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        } else {
+            updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        }
+
+        if (Check_NewCD4(theData = MasterData)) {
+            updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        } else {
+            updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        }
+
+        if (Check_NewIncidence(theData = MasterData)) {
+            updateButton(session, inputId = "INCIDENCE_FLAG",  disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        } else {
+            updateButton(session, inputId = "INCIDENCE_FLAG",  disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        }
+
+        if (Check_NewGuidelines(theData = MasterData)) {
+            updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+        } else {
+            updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        }
+
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -45,6 +65,10 @@ observeEvent(input$selectCountry, {
             dismiss = TRUE,
             append = TRUE)
     } else {
+        updateButton(session, inputId = "CASCADE_FLAG",    disabled = TRUE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "CD4_FLAG",        disabled = TRUE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "INCIDENCE_FLAG",  disabled = TRUE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+        updateButton(session, inputId = "GUIDELINES_FLAG", disabled = TRUE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
             anchorId = "_DONOTPROCEED_",
@@ -57,3 +81,8 @@ observeEvent(input$selectCountry, {
     }
 
 })
+
+
+
+
+

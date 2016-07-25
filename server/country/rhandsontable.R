@@ -16,6 +16,7 @@ observe({
 })
 
 output$hot_cascade <- renderRHandsontable({
+    input$CASCADE_FLAG
     if (!is.null(input$hot_cascade)) {
         DF = hot_to_r(input$hot_cascade)
         message("HERE")
@@ -65,6 +66,7 @@ observe({
 })
 
 output$hot_cd4 <- renderRHandsontable({
+    input$CD4_FLAG
     if (!is.null(input$hot_cd4)) {
         DF = hot_to_r(input$hot_cd4)
         print(DF)
@@ -100,6 +102,7 @@ observe({
 })
 
 output$hot_incidence <- renderRHandsontable({
+    input$INCIDENCE_FLAG
     if (!is.null(input$hot_incidence)) {
         DF = hot_to_r(input$hot_incidence)
         print(DF)
@@ -136,6 +139,7 @@ observe({
 })
 
 output$hot_guidelines <- renderRHandsontable({
+    input$GUIDELINES_FLAG
     if (!is.null(input$hot_guidelines)) {
         DF = hot_to_r(input$hot_guidelines)
         print(DF)
