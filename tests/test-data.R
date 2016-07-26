@@ -33,3 +33,5 @@ test_that("Zimbabwe", {
 test_that("Bolney", {
     expect_error(GetMasterDataSet("Bolney"), label = "Bolney is not a valid location")
 })
+
+# Keep going for ALL countries, ensure that a MasterData frame is created
