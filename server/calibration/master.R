@@ -68,6 +68,12 @@ GetMasterDataSet <- function(userCountry) {
         intTwo <- int[int$indicator != "PLHIV not on ART",]
 
         countryMasterDataSet <- rbind(intOne, intTwo)
+    } else if (userCountry == "Brazil") {
+
+        int <- countryData$calib
+        intOne <- marrakechData
+
+        countryMasterDataSet <- rbind(int, intOne)
     } else {
         countryMasterDataSet <- countryData$calib
     }
@@ -77,11 +83,12 @@ GetMasterDataSet <- function(userCountry) {
 
     # Only allow certain countries to 'proceed', i.e. return 'countryData'
     # This will be removed eventually, but good for testing right now.
-    if (userCountry %in% c("Kenya", "Tanzania", "Zimbabwe")) {
-        countryData
-    } else {
-        stop("Country not approved for use by this model.")
-    }
+    # if (userCountry %in% c("Kenya", "Tanzania", "Zimbabwe")) {
+    #     countryData
+    # } else {
+    #     stop("Country not approved for use by this model.")
+    # }
+    countryData
 }
 
 # GetMasterDataSet("Kenya")[["calib"]]

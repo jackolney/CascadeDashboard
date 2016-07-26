@@ -119,7 +119,7 @@ is.not.empty <- function(ListElement) {
 
 
 # Wrap in a function then question the data.
-# uCountry = "Zimbabwe"
+# uCountry = "Brazil"
 
 GetCountryData <- function(uCountry) {
     # Read in all relevant csv files
@@ -159,6 +159,46 @@ GetCountryData <- function(uCountry) {
         "previous_data",
         "rates"
         )
+
+    ## CD4
+    if (isReallyEmpty(calib.df$cd4)) {
+        country <- uCountry
+        "prop.Off.ART.500" <- as.numeric(NA)
+        "prop.Off.ART.350500" <- as.numeric(NA)
+        "prop.Off.ART.250350" <- as.numeric(NA)
+        "prop.Off.ART.200250" <- as.numeric(NA)
+        "prop.Off.ART.100200" <- as.numeric(NA)
+        "prop.Off.ART.50100" <- as.numeric(NA)
+        "prop.Off.ART.50" <- as.numeric(NA)
+        "prop.On.ART.500" <- as.numeric(NA)
+        "prop.On.ART.350500" <- as.numeric(NA)
+        "prop.On.ART.250350" <- as.numeric(NA)
+        "prop.On.ART.200250" <- as.numeric(NA)
+        "prop.On.ART.100200" <- as.numeric(NA)
+        "prop.On.ART.50100" <- as.numeric(NA)
+        "prop.On.ART.50" <- as.numeric(NA)
+
+        blankCD4 <- data.frame(country,
+        get("prop.Off.ART.500"),
+        get("prop.Off.ART.350500"),
+        get("prop.Off.ART.250350"),
+        get("prop.Off.ART.200250"),
+        get("prop.Off.ART.100200"),
+        get("prop.Off.ART.50100"),
+        get("prop.Off.ART.50"),
+        get("prop.On.ART.500"),
+        get("prop.On.ART.350500"),
+        get("prop.On.ART.250350"),
+        get("prop.On.ART.200250"),
+        get("prop.On.ART.100200"),
+        get("prop.On.ART.50100"),
+        get("prop.On.ART.50"))
+
+        names(blankCD4) <- c("country", "prop.Off.ART.500", "prop.Off.ART.350500", "prop.Off.ART.250350", "prop.Off.ART.200250", "prop.Off.ART.100200", "prop.Off.ART.50100", "prop.Off.ART.50", "prop.On.ART.500", "prop.On.ART.350500", "prop.On.ART.250350", "prop.On.ART.200250", "prop.On.ART.100200", "prop.On.ART.50100", "prop.On.ART.50")
+
+        calib.df$cd4 <- dplyr::tbl_df(blankCD4)
+    }
+
 
     ## All of the below goes into data[["calib"]]
     # list temp.names
@@ -254,7 +294,7 @@ GetCountryData <- function(uCountry) {
     out.list
 }
 
-# GetCountryData("Kenya")
+# test <- GetCountryData("Brazil")
 
 # master.df needs to include
 # incidence

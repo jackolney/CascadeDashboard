@@ -72,7 +72,11 @@ output$hot_cd4 <- renderRHandsontable({
         print(DF)
     } else {
         if (input$new_country_name == "") {
-            Proportion <- as.numeric(MasterData$cd4[2:15])
+            if (isReallyEmpty(MasterData$cd4)) {
+                Proportion <- as.numeric(NA)
+            } else {
+                Proportion <- as.numeric(MasterData$cd4[2:15])
+            }
         } else {
             Proportion <- as.numeric(NA)
         }

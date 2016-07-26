@@ -54,8 +54,14 @@ Check_NewCascade <- function(theData) {
     d2010 <- test[test$year == 2010,]
     subTest <- subset(test, test$value != 0 & !is.na(test$value))
 
-    PLHIV_test <- any(d2010$indicator == "PLHIV") & !is.na(d2010[d2010$indicator == "PLHIV","value"]) & d2010[d2010$indicator == "PLHIV","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV","weight"])
-    PLHIV_ART_test <- any(d2010$indicator == "PLHIV on ART") & !is.na(d2010[d2010$indicator == "PLHIV on ART","value"]) & d2010[d2010$indicator == "PLHIV on ART","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV on ART","weight"])
+    if (any(d2010$indicator == "PLHIV")) {
+        PLHIV_test <- !is.na(d2010[d2010$indicator == "PLHIV","value"]) & d2010[d2010$indicator == "PLHIV","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV","weight"])
+    } else PLHIV_test <- FALSE
+
+    if (any(d2010$indicator == "PLHIV on ART")) {
+        PLHIV_ART_test <- !is.na(d2010[d2010$indicator == "PLHIV on ART","value"]) & d2010[d2010$indicator == "PLHIV on ART","value"] != 0 & !is.na(d2010[d2010$indicator == "PLHIV on ART","weight"])
+    } else PLHIV_ART_test <- FALSE
+
 
     if (PLHIV_test) {
         if (PLHIV_ART_test) {
@@ -69,16 +75,18 @@ Check_NewCascade <- function(theData) {
 }
 
 Check_NewCD4 <- function(theData) {
-    if (!any(is.na(theData$cd4))) {
-        if (round(sum(theData$cd4[2:8]), digits = 2) == 1) {
-            if (round(sum(theData$cd4[9:15]), digits = 2) == 1) {
-                return(TRUE)
+    if (dim(theData$cd4)[1] != 0) {
+        if (!any(is.na(theData$cd4))) {
+            if (round(sum(theData$cd4[2:8]), digits = 2) == 1) {
+                if (round(sum(theData$cd4[9:15]), digits = 2) == 1) {
+                    return(TRUE)
+                } else {
+                    return(FALSE)
+                }
             } else {
                 return(FALSE)
             }
-        } else {
-            return(FALSE)
-        }
+        } else return(FALSE)
     } else return(FALSE)
 }
 
@@ -86,14 +94,16 @@ CheckOrder <- function(x) if (x[3] <= x[2] & x[2] <= x[1]) return(TRUE) else ret
 
 Check_NewIncidence <- function(theData) {
     test <- theData$incidence
-    if (sum(test[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(test[,as.character(seq(2010,2016,1))]))) {
-        return(FALSE)
-    } else {
-        ordered <- test[order(test$type, decreasing = TRUE),]
-        if (CheckOrder(t(ordered[,"2010"])) & CheckOrder(t(ordered[,"2011"])) & CheckOrder(t(ordered[,"2012"])) & CheckOrder(t(ordered[,"2013"])) & CheckOrder(t(ordered[,"2014"])) & CheckOrder(t(ordered[,"2015"])) & CheckOrder(t(ordered[,"2016"]))) {
-            return(TRUE)
-        } else return(FALSE)
-    }
+    if (dim(test)[1] != 0) {
+        if (sum(test[,as.character(seq(2010,2016,1))] <= 0) | sum(is.na(test[,as.character(seq(2010,2016,1))]))) {
+            return(FALSE)
+        } else {
+            ordered <- test[order(test$type, decreasing = TRUE),]
+            if (CheckOrder(t(ordered[,"2010"])) & CheckOrder(t(ordered[,"2011"])) & CheckOrder(t(ordered[,"2012"])) & CheckOrder(t(ordered[,"2013"])) & CheckOrder(t(ordered[,"2014"])) & CheckOrder(t(ordered[,"2015"])) & CheckOrder(t(ordered[,"2016"]))) {
+                return(TRUE)
+            } else return(FALSE)
+        }
+    } else return(FALSE)
 }
 
 Check_NewGuidelines <- function(theData) {
@@ -104,4 +114,3 @@ Check_NewGuidelines <- function(theData) {
         } else return(FALSE)
     } else return(FALSE)
 }
-
