@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "Zimbabwe"
+# userCountry <- "Vietnam"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -69,11 +69,44 @@ GetMasterDataSet <- function(userCountry) {
 
         countryMasterDataSet <- rbind(intOne, intTwo)
     } else if (userCountry == "Brazil") {
-
         int <- countryData$calib
         intOne <- marrakechData
-
         countryMasterDataSet <- rbind(int, intOne)
+    } else if (userCountry == "Cambodia") {
+        int <- countryData$calib
+        intOne <- marrakechData
+        # Override, 2013 PLHIV on ART value & pull in Marrakech data and use to overwrite
+        intTwo <- int[int$year == 2013,][2:4,]
+        countryMasterDataSet <- rbind(int[int$year != 2013 & int$year != 2014,], intTwo, intOne)
+    } else if (userCountry == "DRC") {
+        int <- countryData$calib
+        # Ignore the high PLHIV diagnosed value
+        value <- rbind(int[int$year == 2013 & int$indicator != "PLHIV Diagnosed",], int[int$year == 2013 & int$indicator == "PLHIV Diagnosed",][2,])
+        countryMasterDataSet <- rbind(int[int$year != 2013 & int$year != 2014,], value, marrakechData)
+    } else if (userCountry == "India") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int, marrakechData)
+    } else if (userCountry == "Myanmar") {
+        int <- countryData$calib
+        # Ignore the values that we pulled in from 'aidsdatahub' (we weighted all these as amber in any case)
+        intOne <- int[int$weight != "amber",]
+        countryMasterDataSet <- rbind(intOne[intOne$year != 2014,], marrakechData)
+    } else if (userCountry == "Pakistan") {
+        int <- countryData$calib
+        # Ignore the values that we pulled in from 'aidsdatahub' (we weighted all these as amber in any case)
+        intOne <- int[int$weight != "amber",]
+        # Ignoring most of the data from Pakistan as very little info was supplied on it (but will use the estimate of PLHIV in Care)
+        countryMasterDataSet <- rbind(intOne, marrakechData[marrakechData$indicator == "PLHIV in Care",])
+    } else if (userCountry == "Thailand") {
+        int <- countryData$calib
+        # Ignore the values that we pulled in from 'aidsdatahub' (we weighted all these as amber in any case)
+        intOne <- int[int$weight != "amber",]
+        countryMasterDataSet <- rbind(marrakechData, intOne[intOne$year != 2014,])
+    } else if (userCountry == "Vietnam") {
+        int <- countryData$calib
+        # Ignore some of the values that we pulled from aidshub
+        intOne <- int[int$year == 2012,][2:5,]
+        countryMasterDataSet <- rbind(int[int$year != 2012 & int$year != 2014,], intOne, marrakechData)
     } else {
         countryMasterDataSet <- countryData$calib
     }

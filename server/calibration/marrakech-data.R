@@ -64,8 +64,6 @@ GetMarrakechData <- function(uCountry) {
         final$value <- as.double(final$value)
 
         na.omit(final)
-    } else {
-        message("Country not found in Marrakech dataset.")
     }
 }
 
