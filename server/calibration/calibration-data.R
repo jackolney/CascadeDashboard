@@ -119,7 +119,7 @@ is.not.empty <- function(ListElement) {
 
 
 # Wrap in a function then question the data.
-# uCountry = "Brazil"
+# uCountry = "China"
 
 GetCountryData <- function(uCountry) {
     # Read in all relevant csv files
@@ -160,6 +160,22 @@ GetCountryData <- function(uCountry) {
         "rates"
         )
 
+    ## Incidence
+    if (isReallyEmpty(calib.df$incidence)) {
+        country <- uCountry
+        type <- c("Lower", "Median", "Upper")
+        "2010" <- as.numeric(NA)
+        "2011" <- as.numeric(NA)
+        "2012" <- as.numeric(NA)
+        "2013" <- as.numeric(NA)
+        "2014" <- as.numeric(NA)
+        "2015" <- as.numeric(NA)
+        "2016" <- as.numeric(NA)
+        blankIncidence <- data.frame(country, type, get("2010"), get("2011"), get("2012"), get("2013"), get("2014"), get("2015"), get("2016"))
+        names(blankIncidence) <- c("country", "type", as.character(seq(2010, 2016, 1)))
+        calib.df$incidence <- dplyr::tbl_df(blankIncidence)
+    }
+
     ## CD4
     if (isReallyEmpty(calib.df$cd4)) {
         country <- uCountry
@@ -193,12 +209,21 @@ GetCountryData <- function(uCountry) {
         get("prop.On.ART.100200"),
         get("prop.On.ART.50100"),
         get("prop.On.ART.50"))
-
         names(blankCD4) <- c("country", "prop.Off.ART.500", "prop.Off.ART.350500", "prop.Off.ART.250350", "prop.Off.ART.200250", "prop.Off.ART.100200", "prop.Off.ART.50100", "prop.Off.ART.50", "prop.On.ART.500", "prop.On.ART.350500", "prop.On.ART.250350", "prop.On.ART.200250", "prop.On.ART.100200", "prop.On.ART.50100", "prop.On.ART.50")
-
         calib.df$cd4 <- dplyr::tbl_df(blankCD4)
     }
 
+    ## Treatment Guidelines
+    if (isReallyEmpty(calib.df$treatment_guidelines)) {
+        country <- uCountry
+        less200 <- as.integer(NA)
+        less250 <- as.integer(NA)
+        less350 <- as.integer(NA)
+        less500 <- as.integer(NA)
+        more500 <- as.integer(NA)
+        blankGuidelines <- data.frame(country, less200, less250, less350, less500, more500)
+        calib.df$treatment_guidelines <- dplyr::tbl_df(blankGuidelines)
+    }
 
     ## All of the below goes into data[["calib"]]
     # list temp.names
@@ -273,6 +298,23 @@ GetCountryData <- function(uCountry) {
         if (exists(temp.names[i])) {
             out <- rbind(out, get(temp.names[i]))
         }
+    }
+
+    if (length(out) == 0) {
+        country <- uCountry
+
+        indicator <- c(rep("PLHIV", 6),
+            rep("PLHIV Diagnosed", 6),
+            rep("PLHIV in Care", 6),
+            rep("PLHIV on ART", 6),
+            rep("PLHIV Suppressed", 6))
+
+        year <- rep(seq(2010, 2015, 1), 5)
+
+        value <- as.numeric(NA)
+        weight <- factor(x = NA, levels = c("red", "amber", "green"))
+
+        out <- data.frame(country, indicator, year, value, weight)
     }
 
     out.list <- list(
