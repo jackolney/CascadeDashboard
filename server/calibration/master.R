@@ -107,6 +107,51 @@ GetMasterDataSet <- function(userCountry) {
         # Ignore some of the values that we pulled from aidshub
         intOne <- int[int$year == 2012,][2:5,]
         countryMasterDataSet <- rbind(int[int$year != 2012 & int$year != 2014,], intOne, marrakechData)
+    } else if (userCountry == "Cameroon") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+    } else if (userCountry == "Cote d'Ivoire") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+    } else if (userCountry == "Ethiopia") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+    } else if (userCountry == "Haiti") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),], int)
+    } else if (userCountry == "Indonesia") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+    } else if (userCountry == "Malawi") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),], int)
+    } else if (userCountry == "Morocco") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),], int)
+    } else if (userCountry == "Mozambique") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV in Care", "PLHIV Suppressed"),], int)
+    } else if (userCountry == "Nigeria") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care"),], int)
+    } else if (userCountry == "Philippines") {
+        countryMasterDataSet <- rbind(countryData$calib, marrakechData)
+    } else if (userCountry == "Russia") {
+        int <- countryData$calib
+        intOne <- int[int$year == 2015 & int$indicator %in% c("PLHIV", "PLHIV Suppressed"),]
+        countryMasterDataSet <- rbind(intOne, marrakechData, int[int$year != 2015,])
+    } else if (userCountry == "South Africa") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV Suppressed"),], int)
+    } else if (userCountry == "South Sudan") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care"),], int)
+    } else if (userCountry == "Uganda") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+    } else if (userCountry == "Ukraine") {
+        int <- countryData$calib
+        countryMasterDataSet <- rbind(int[int$year != 2015,], marrakechData)
     } else {
         countryMasterDataSet <- countryData$calib
     }

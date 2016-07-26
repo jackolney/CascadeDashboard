@@ -119,7 +119,7 @@ is.not.empty <- function(ListElement) {
 
 
 # Wrap in a function then question the data.
-# uCountry = "Myanmar"
+# uCountry = "Kenya"
 
 GetCountryData <- function(uCountry) {
     # Read in all relevant csv files
