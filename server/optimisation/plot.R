@@ -6,7 +6,7 @@ output$plotOptim_result <- renderPlot({
 # Best Fit Calibration Plot
 output$optCalibBestFit <- renderPlot({
     input$NEXT_calib
-    BuildCalibrationBestFitPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun)
+    BuildCalibrationBestFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
 }, height = 750, width = 'auto', bg = 'transparent')
 
 output$plotOptim_CostImpact <- renderPlot({
