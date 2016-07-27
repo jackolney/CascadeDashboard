@@ -303,6 +303,31 @@ GetBestCalibOut <- function(calibOut, minErrorRun) {
     out
 }
 
+GetBestTenPercentCalibOut <- function(CalibOut, runError, selectedRuns, propRuns) {
+    # subset the 'model' results (42 for each simulation, 6*7)
+    modelledRuns <- CalibOut[CalibOut$source == "model",]
+
+    # sort runs by error (lowest to highest)
+    orderedRuns <- order(runError[selectedRuns])
+
+    # identify the best _% (10% by default)
+    bestRuns <- orderedRuns[1:(length(orderedRuns) * propRuns)]
+
+    # extract values for each indicator and bind together
+    bestRunValues <- modelledRuns[1:42 + 42 * (bestRuns[1] - 1),]
+    for(i in 2:length(bestRuns)) {
+        bestRunValues <- rbind(bestRunValues, modelledRuns[1:42 + 42 * (bestRuns[i] - 1),])
+    }
+
+    out <- bestRunValues[bestRunValues$year == 2015,]
+
+    if (dim(out)[1] != 70) {
+        warning("Danger, out length is equal to all simulated indicators")
+        print(out)
+    }
+    out
+}
+
 ColorFromMiddle <- function(data, color1, color2) {
     max_val <- max(abs(data))
     JS(sprintf("isNaN(parseFloat(value)) || value < 0 ? 'linear-gradient(90deg, transparent, transparent ' + (50 + value/%s * 50) + '%%, %s ' + (50 + value/%s * 50) + '%%,%s  50%%,transparent 50%%)': 'linear-gradient(90deg, transparent, transparent 50%%, %s 50%%, %s ' + (50 + value/%s * 50) + '%%, transparent ' + (50 + value/%s * 50) + '%%)'",

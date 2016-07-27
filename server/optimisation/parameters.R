@@ -29,7 +29,38 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, minErrorRu
     p
 }
 
-GetBestPar <- function(masterCD4, data, calibParamOut, minErrorRun) {
+GetOptRunPar <- function(masterCD4, data, iterationParam, calibParamOut, runNumber) {
+    p <- parameters(
+        prop_preART_500    = masterCD4[1,"prop.Off.ART.500"][[1]],
+        prop_preART_350500 = masterCD4[1,"prop.Off.ART.350500"][[1]],
+        prop_preART_250350 = masterCD4[1,"prop.Off.ART.250350"][[1]],
+        prop_preART_200250 = masterCD4[1,"prop.Off.ART.200250"][[1]],
+        prop_preART_100200 = masterCD4[1,"prop.Off.ART.100200"][[1]],
+        prop_preART_50100  = masterCD4[1,"prop.Off.ART.50100"][[1]],
+        prop_preART_50     = masterCD4[1,"prop.Off.ART.50"][[1]],
+        t_1 = ConvertYear2015(data[["treatment_guidelines"]][["more500"]]),
+        t_2 = ConvertYear2015(data[["treatment_guidelines"]][["less500"]]),
+        t_3 = ConvertYear2015(data[["treatment_guidelines"]][["less350"]]),
+        t_4 = ConvertYear2015(data[["treatment_guidelines"]][["less250"]]),
+        t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
+
+        # These guys still need to be set by the model (but use the best fit run)
+        Theta   = calibParamOut[runNumber, "theta"],
+        p       = calibParamOut[runNumber, "p"],
+        Epsilon = calibParamOut[runNumber, "epsilon"],
+
+        # MODIFYING #
+        Rho   = iterationParam[["Rho"]],
+        Kappa = iterationParam[["Kappa"]],
+        Gamma = iterationParam[["Gamma"]],
+        Sigma = iterationParam[["Sigma"]],
+        Omega = iterationParam[["Omega"]],
+        q     = iterationParam[["Q"]]
+    )
+    p
+}
+
+GetBaselinePar <- function(masterCD4, data, calibParamOut, runNumber) {
     p <- parameters(
         prop_preART_500    = masterCD4[1,"prop.Off.ART.500"][[1]],
         prop_preART_350500 = masterCD4[1,"prop.Off.ART.350500"][[1]],
@@ -45,14 +76,14 @@ GetBestPar <- function(masterCD4, data, calibParamOut, minErrorRun) {
         t_5 = ConvertYear2015(data[["treatment_guidelines"]][["less200"]]),
 
         # Using best fit run)
-        Theta   = calibParamOut[minErrorRun, "theta"],
-        p       = calibParamOut[minErrorRun, "p"],
-        Rho     = calibParamOut[minErrorRun, "rho"],
-        Kappa   = calibParamOut[minErrorRun, "kappa"],
-        Gamma   = calibParamOut[minErrorRun, "gamma"],
-        Omega   = calibParamOut[minErrorRun, "omega"],
-        Epsilon = calibParamOut[minErrorRun, "epsilon"],
-        q       = calibParamOut[minErrorRun, "q"]
+        Theta   = calibParamOut[runNumber, "theta"],
+        p       = calibParamOut[runNumber, "p"],
+        Rho     = calibParamOut[runNumber, "rho"],
+        Kappa   = calibParamOut[runNumber, "kappa"],
+        Gamma   = calibParamOut[runNumber, "gamma"],
+        Omega   = calibParamOut[runNumber, "omega"],
+        Epsilon = calibParamOut[runNumber, "epsilon"],
+        q       = calibParamOut[runNumber, "q"]
     )
     p
 }

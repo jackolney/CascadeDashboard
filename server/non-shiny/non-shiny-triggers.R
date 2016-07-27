@@ -37,8 +37,9 @@ OptInput$intValue_omega <- parRange["rho", "min"]
 
 # Can we run the calibration from here?
 
-theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
+theTest <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
 dim(theTest)
+GetParaMatrixLimits(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
 
 # Testing somem functions
 

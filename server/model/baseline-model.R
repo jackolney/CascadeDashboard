@@ -1,22 +1,22 @@
 # Baseline Model Call
 # This now needs to take input from the calibration data set and return a formatted data.frame ready for plotting.
-CallBaselineModel <- function() {
+CallBaselineModel <- function(runNumber, initVals) {
 
     # Setup #
     time <- seq(0, 5, 0.02)
 
-    p <- GetBestPar(
+    p <- GetBaselinePar(
         masterCD4 = MasterCD4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
-        minErrorRun = minErrorRun)
+        runNumber = runNumber)
 
     y <- GetInitial(
         p = p,
-        iterationResult = bestCalibInitial,
+        iterationResult = initVals,
         masterCD4 = MasterCD4_2015)
 
-    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[runNumber,])
 
     result <- deSolve::ode(times = time, y = y, func = "derivs", parms = p, initfunc = "initmod", dllname = "cascade")
 

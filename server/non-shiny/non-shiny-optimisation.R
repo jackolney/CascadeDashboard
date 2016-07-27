@@ -22,39 +22,56 @@ RunNSOptimisation <- function() {
 
     message("Starting optimisation...")
 
-    par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 4)
+    par <- GetParaMatrix(cParamOut = CalibParamOut, minErrorRun = minErrorRun, length = 2)
 
     # Simulation Loop
     time <- proc.time()[[1]]
 
-    theList <- list()
+    jList <- list()
 
-    # Extract the initial values of the 'best' fit from calibration
-    bestCalibInitial <<- GetBestCalibOut(calibOut = CalibOut, minErrorRun = minErrorRun)
+    # Extract the initial values of the 10% of 'best' fit simulation from calibration
+    bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
-    ## THE BIG LOOP ##
-    for (i in 1:dim(par)[1]) {
+    # Identify the order of simulations ranked by error (low to high)
+    orderedRuns <- order(runError[selectedRuns])
 
-        message(paste('Run', i))
+    # because seven indicators
+    for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
 
-        p <- GetOptPar(
-            masterCD4 = MasterCD4_2015,
-            data = MasterData,
-            iterationParam = par[i,],
-            calibParamOut = CalibParamOut,
-            minErrorRun = minErrorRun)
+        message(paste('Simulation', j))
 
-        # Now we need the initials.
-        y <- GetInitial(
-            p = p,
-            iterationResult = bestCalibInitial,
-            masterCD4 = MasterCD4_2015)
+        iList <- list()
 
-        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
+        ## THE BIG LOOP ##
+        for (i in 1:dim(par)[1]) {
 
-        theList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
+            cat("#")
+
+            # This need modifying
+            p <- GetOptRunPar(
+                masterCD4 = MasterCD4_2015,
+                data = MasterData,
+                iterationParam = par[i,],
+                calibParamOut = CalibParamOut,
+                runNumber = orderedRuns[j])
+
+            # Now we need the initials.
+            y <- GetInitial(
+                p = p,
+                iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
+                masterCD4 = MasterCD4_2015)
+
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
+
+            iList[[rownames(par)[i]]] <- RunSim(y = y, p = p)
+        }
+        ## END OF i LOOP ##
+        cat("\n")
+        # Write iList to jList
+        jList[[j]] <- iList
+
     }
-    ## END OF LOOP ##
+    pryr::object_size(jList)
 
     message('Compiling results')
 
@@ -63,13 +80,12 @@ RunNSOptimisation <- function() {
     # Although, may need to reverse on this strategy tomorrow.
     # Need a sensible answer first.
     # BaseModel <- BaselineModel()
-    BaseModel <- CallBaselineModel()
-    BaseDALY  <- Calc_DALY(BaseModel)
-    BaseCost  <- Calc_Cost(BaseModel)
 
-    print(paste("BaseDALY =", scales::comma(BaseDALY)))
-    print(paste("BaseCost =", scales::comma(BaseCost)))
+    # here
+    # how do we want outputs presented.
+    # basically just ONE BIG ASS data.frame
 
+    # initial vals
     Result90        <- c()
     Result9090      <- c()
     Result909090    <- c()
@@ -82,14 +98,52 @@ RunNSOptimisation <- function() {
     ResultPar_Gamma <- c()
     ResultPar_Sigma <- c()
     ResultPar_Omega <- c()
-    for (i in 1:length(theList)) {
-        message(paste0(round((i / length(theList) * 100), digits = 0), "%"))
-        Result90[i]        <- Calc_909090_Result(theList[[i]])[1]
-        Result9090[i]      <- Calc_909090_Result(theList[[i]])[2]
-        Result909090[i]    <- Calc_909090_Result(theList[[i]])[3]
-        ResultVS[i]        <- Calc_VS(theList[[i]])
-        ResultImpact[i]    <- Calc_DALYsAverted(theList[[i]], BaseDALY)
-        ResultCost[i]      <- Calc_AdditionalCost(theList[[i]], BaseCost)
+
+    # j loop
+    for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
+        message(paste('Compiling sim', j))
+
+        # baseline calls
+        BaseModel <- CallBaselineModel(runNumber = orderedRuns[j], initVals = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),])
+        BaseDALY  <- Calc_DALY(BaseModel)
+        BaseCost  <- Calc_Cost(BaseModel)
+        message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
+
+        # i loop
+        for (i in 1:dim(par)[1]) {
+            cat("#")
+
+            Result90[i]        <- Calc_909090_Result(iList[[i]])[1]
+
+        }
+    }
+
+i = 1
+j = 1
+
+64
+
+
+iTotal = 64
+jTotal = 10
+
+# HERE ON WEDNESDAY EVENING!
+
+# Need to merge iList and jList into a single vector for results.
+
+save.image(file = "~/Desktop/saveSpace.Rdata")
+
+
+
+
+    for (i in 1:length(iList)) {
+
+        Result90[i]        <- Calc_909090_Result(iList[[i]])[1]
+        Result9090[i]      <- Calc_909090_Result(iList[[i]])[2]
+        Result909090[i]    <- Calc_909090_Result(iList[[i]])[3]
+        ResultVS[i]        <- Calc_VS(iList[[i]])
+        ResultImpact[i]    <- Calc_DALYsAverted(iList[[i]], BaseDALY)
+        ResultCost[i]      <- Calc_AdditionalCost(iList[[i]], BaseCost)
         ResultPar_Rho[i]   <- par[i,"Rho"]
         ResultPar_Q[i]     <- par[i,"Q"]
         ResultPar_Kappa[i] <- par[i,"Kappa"]
