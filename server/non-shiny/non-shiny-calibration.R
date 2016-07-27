@@ -49,7 +49,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
     # Initial Calibration
     message("Running simulations")
     v <- 0
-    selectedRuns <- c()
+    selectedRuns <<- c()
     minError <<- 1e6
     minErrorRun <<- NULL
     runError <<- c()
@@ -77,7 +77,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
                 minError <<- runError[k]
                 minErrorRun <<- v
             }
-            selectedRuns[v] <- k
+            selectedRuns[v] <<- k
             CalibOut <<- rbind(CalibOut, iOut)
             message(paste0(round((v / limit) * 100, digits = 0), "%"))
             if (v == limit) break;
