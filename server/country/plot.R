@@ -12,3 +12,6 @@ output$editIncidencePlot <- renderPlot({
     input$hot_incidence
     BuildEditIncidencePlot(data = values[["hot_incidence"]])
 }, height = 250, width = 'auto', bg = 'transparent')
+
+
+output$weightTable <- renderTable(SourceListTable, include.rownames = FALSE)

@@ -94,6 +94,35 @@ SourceList <- data.frame(
     )
 )
 
+SourceListTable <- data.frame(
+    Source = c(
+        "Case based surveillance - nationally representative",
+        "Case based surveillance with caveats - e.g. not nationally representative",
+        "Estimate - source data not clear",
+        "GARPR  / Spectrum",
+        "Mathematical model - nationally representative",
+        "Mathematical model - non-nationally representative",
+        "Nationally representative study  - cohort / cross-sectional",
+        "Program data - adjusted (e.g. for under-reporting) and/or large geographical coverage",
+        "Program data - not adjusted and/or small geographical coverage",
+        "Sub-national study",
+        "Vital statistics"
+    ),
+    Weight = c(
+        "green",
+        "amber",
+        "red",
+        "green",
+        "amber",
+        "red",
+        "green",
+        "amber",
+        "red",
+        "amber",
+        "green"
+    )
+)
+
 YearList <- seq(2010, 2015, 1)
 
 ErrorList <- as.character(seq(from = 0.1, to = 5, by = 0.1))

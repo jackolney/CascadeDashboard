@@ -3,7 +3,7 @@ tabItem(tabName = "edit-incidence",
         box(width = NULL,
             status = "primary",
             solidHeader = TRUE,
-            title = "Edit Incidence",
+            title = "Edit New Infections",
             collapsible = TRUE,
             collapsed = FALSE,
             rHandsontableOutput("hot_incidence")

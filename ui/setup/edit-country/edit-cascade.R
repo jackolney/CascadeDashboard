@@ -16,7 +16,16 @@ tabItem(tabName = "edit-cascade",
             title = "Help Panel",
             helpText("Please enter any available data on this page relating to the cascade.
                 If data are missing, leave the cells blank and they will be ignored by the model.
+                Expand and consult the table below for information regarding how to weight each data point.
                 Click 'Back' to return to the previous page")
+        ),
+        box(width = NULL,
+            status = "danger",
+            title = "Data Weight Table",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            solidHeader = TRUE,
+            tableOutput('weightTable')
         ),
         bsButton(inputId = "PREV_editCascade", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome")),
         plotOutput('editCascadePlot', height = 'auto', width = 'auto')
