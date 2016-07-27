@@ -125,7 +125,7 @@ SourceListTable <- data.frame(
 
 YearList <- seq(2010, 2015, 1)
 
-ErrorList <- as.character(seq(from = 0.1, to = 5, by = 0.1))
+ErrorList <- as.character(seq(from = 0.1, to = 10, by = 0.1))
 
 VariableNames <- c(
     "UnDx_500",

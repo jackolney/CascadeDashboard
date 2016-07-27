@@ -216,10 +216,28 @@ observeEvent(input$test_AdhProp_L,        { userParRange$p_MIN       <<- input$t
 
 observeEvent(input$calib_speed, {
     updateNumericInput(session, inputId = "minResults", value = 100)
-    updateSelectInput(session, inputId = "maxError", selected = "3")
+    if (exists("runError")) {
+        # Re-run simulations and set maxError to level that would accept 90% of previous runs
+        prop <- 0.9
+        val <- round(sort(runError)[round(length(runError) * prop, digits = 0)], digits = 1)
+        if (val < 0.1) val <- 0.1
+        if (val > 10) val <- 10
+    } else {
+        val <- 3
+    }
+    updateSelectInput(session, inputId = "maxError", selected = as.character(val))
 })
 
 observeEvent(input$calib_quality, {
     updateNumericInput(session, inputId = "minResults", value = 1000)
-    updateSelectInput(session, inputId = "maxError", selected = "2")
+    if (exists("runError")) {
+        # Re-run simulations and set maxError to level that would accept 50% of previous runs
+        prop <- 0.50
+        val <- round(sort(runError)[round(length(runError) * prop, digits = 0)], digits = 1)
+        if (val < 0.1) val <- 0.1
+        if (val > 10) val <- 10
+    } else {
+        val <- 2
+    }
+    updateSelectInput(session, inputId = "maxError", selected = as.character(val))
 })
