@@ -172,7 +172,7 @@ $\omega$  | `r CalibParamOut[minErrorRun, "omega"]`
 $p$       | `r CalibParamOut[minErrorRun, "p"]`
 
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    BuildCalibrationBestFitPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun)
+    BuildCalibrationBestFitPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
 ```
 
 ## Interventions
