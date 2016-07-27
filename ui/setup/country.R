@@ -41,7 +41,11 @@ tabItem(tabName = "country",
             status = "warning",
             solidHeader = TRUE,
             title = "Help Panel",
-            helpText("Please click a country on the map, or select one from the drop-down menu below. Hit 'Reset Map' to reset map zoom. 'Mission Control' provides additional information on available data from each country."),
+            helpText("Please click a country on the map, or select one from the drop-down menu below.
+                Hit 'Reset Map' to reset map zoom.
+                'Mission Control' provides additional information on available data from each country,
+                click on each button to enter / edit data. Click 'New Country' to begin data entry
+                for new region."),
             bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default")
         ),
         box(width = NULL,
