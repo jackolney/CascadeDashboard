@@ -19,7 +19,7 @@ tabItem(tabName = "opt-best-fit",
             solidHeader = TRUE,
             title = "Intervention Detail",
             "This page shows the calibration results of the top 10% of best-fitting parameter sets.
-            That is, the top 10% of parameter sets that produced the smallest total error. This line is highlighted
+            That is, the top 10% of parameter sets that produced the smallest totalF error. This line is highlighted
             in red and shows the optimal set of parameters that achieve the interventions.
             Click 'View Parameters' for further details of each parameter.",
             p(""),
