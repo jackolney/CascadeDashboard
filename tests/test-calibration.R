@@ -16,7 +16,7 @@ source("server/calibration/plot-functions.R",      local = FALSE)
 source("server/non-shiny/non-shiny-calibration.R", local = FALSE)
 source("server/country/misc-functions.R",          local = FALSE)
 
-require("cascade")
+require("cascade", quietly = TRUE)
 
 test_that("Get parameters", {
     data <- GetMasterDataSet("Kenya")
