@@ -1,30 +1,30 @@
-GetParaMatrix <- function(cParamOut, minErrorRun, length) {
+GetParaMatrixRun <- function(cParamOut, runNumber, length) {
     ParRange <- expand.grid(
 
         Rho   = seq(
             from = if (intSwitch$testing) {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 },
             to = if (intSwitch$testing) {
                     OptInput$intValue_rho
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 },
             length.out = length
         ),
 
         Q     = seq(
             from = if (intSwitch$linkage) {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 },
             to = if (intSwitch$linkage) {
                     OptInput$intValue_q
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 },
             length.out = length
         ),
@@ -33,26 +33,26 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
             from = if (intSwitch$preRetention) {
                     OptInput$intValue_kappa
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 },
             to = if (intSwitch$preRetention) {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 },
             length.out = length
         ),
 
         Gamma = seq(
             from = if (intSwitch$initiation) {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 },
             to = if (intSwitch$initiation) {
                     OptInput$intValue_gamma
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 },
             length.out = length
         ),
@@ -75,12 +75,12 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
             from = if (intSwitch$retention) {
                     OptInput$intValue_omega
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 },
             to = if (intSwitch$retention) {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 },
             length.out = length
         )
@@ -89,33 +89,33 @@ GetParaMatrix <- function(cParamOut, minErrorRun, length) {
     out
 }
 
-GetParaMatrixLimits <- function(cParamOut, minErrorRun, length) {
+GetParaMatrixRunLimits <- function(cParamOut, runNumber, length) {
     ParRange <- data.frame(
 
         Rho   = seq(
             from = if (intSwitch$testing) {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 },
             to = if (intSwitch$testing) {
                     OptInput$intValue_rho
                 } else {
-                    cParamOut[minErrorRun, "rho"]
+                    cParamOut[runNumber, "rho"]
                 },
             length.out = length
         ),
 
         Q     = seq(
             from = if (intSwitch$linkage) {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 },
             to = if (intSwitch$linkage) {
                     OptInput$intValue_q
                 } else {
-                    cParamOut[minErrorRun, "q"]
+                    cParamOut[runNumber, "q"]
                 },
             length.out = length
         ),
@@ -124,26 +124,26 @@ GetParaMatrixLimits <- function(cParamOut, minErrorRun, length) {
             from = if (intSwitch$preRetention) {
                     OptInput$intValue_kappa
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 },
             to = if (intSwitch$preRetention) {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 } else {
-                    cParamOut[minErrorRun, "kappa"]
+                    cParamOut[runNumber, "kappa"]
                 },
             length.out = length
         ),
 
         Gamma = seq(
             from = if (intSwitch$initiation) {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 },
             to = if (intSwitch$initiation) {
                     OptInput$intValue_gamma
                 } else {
-                    cParamOut[minErrorRun, "gamma"]
+                    cParamOut[runNumber, "gamma"]
                 },
             length.out = length
         ),
@@ -166,12 +166,12 @@ GetParaMatrixLimits <- function(cParamOut, minErrorRun, length) {
             from = if (intSwitch$retention) {
                     OptInput$intValue_omega
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 },
             to = if (intSwitch$retention) {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 } else {
-                    cParamOut[minErrorRun, "omega"]
+                    cParamOut[runNumber, "omega"]
                 },
             length.out = length
         )
@@ -321,7 +321,7 @@ GetBestTenPercentCalibOut <- function(CalibOut, runError, selectedRuns, propRuns
 
     out <- bestRunValues[bestRunValues$year == 2015,]
 
-    if (dim(out)[1] != 70) {
+    if (dim(out)[1] != (length(bestRuns) * 7)) {
         warning("Danger, out length is equal to all simulated indicators")
         print(out)
     }
