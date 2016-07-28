@@ -61,12 +61,6 @@ RunNSOptimisation <- function(propRuns) {
                 calibParamOut = CalibParamOut,
                 runNumber = orderedRuns[j])
 
-            pB <- GetBaselinePar(
-                masterCD4 = MasterCD4_2015,
-                data = MasterData,
-                calibParamOut = CalibParamOut,
-                runNumber = j)
-
             # Now we need the initials.
             y <- GetInitial(
                 p = p,

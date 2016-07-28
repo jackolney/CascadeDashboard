@@ -33,7 +33,7 @@ OptInput$intValue_rho   <- parRange["rho", "max"]
 OptInput$intValue_q     <- parRange["q", "max"]
 OptInput$intValue_kappa <- parRange["kappa", "min"]
 OptInput$intValue_gamma <- parRange["gamma", "max"]
-OptInput$intValue_sigma <- 0.01
+OptInput$intValue_sigma <- 0.1
 OptInput$intValue_omega <- parRange["rho", "min"]
 
 # ------------ #
@@ -61,3 +61,148 @@ gridExtra::grid.arrange(a, b, c, d, e, ncol = 2, nrow = 3)
 dim(theOut)
 one <- theOut[1:64,]
 ggplot(one, aes(x = VS, y = Cost)) + geom_point()
+
+
+# Approximations
+x = one$VS
+y = one$Cost
+
+approx(x = x, y = y)
+
+
+plot(x, y, main = "approx(.) and approxfun(.)")
+points(approx(x, y), col = 2, pch = "*")
+points(approx(x, y, method = "constant"), col = 4, pch = "*")
+
+
+f <- approxfun(x, y)
+curve(f(x), 0, 1, col = "green2")
+points(x, y)
+is.function(fc <- approxfun(x, y, method = "const")) # TRUE
+curve(fc(x), 0, 10, col = "darkblue", add = TRUE)
+## different extrapolation on left and right side :
+plot(approxfun(x, y, rule = 2:1), 0, 1,
+     col = "tomato", add = TRUE, lty = 3, lwd = 2)
+
+# The problem is that we need to isolate the frontier first...
+
+res <- data.frame(x = one$VS, y = one$Cost)
+
+plot(res)
+
+a <- diff(res$y) / diff(res$x)
+
+order(a)
+
+res[32,]
+plot(res)
+points(res[32,], col = 'red')
+
+# Sort by cost (y)
+res[order(res$y),]
+
+# pick cheapest (cost == 0)
+res[37,]
+
+# calculate gradient to all other points
+diff(c(res[37,], res))
+
+c <- diff(c(res[37,2], res[,2])) / diff(c(res[37,1], res[,1]))
+
+plot(c)
+
+grad <- (res[37,2] - res[,2]) / (res[37,1] - res[,1])
+
+plot(grad)
+
+min(grad, na.rm = TRUE)
+
+which(grad == min(grad, na.rm = TRUE))
+
+res[53,]
+
+
+plot(res)
+points(res[37,], col = 'green')
+points(res[53,], col = 'red')
+
+# okay, done.
+
+# Just need to repeat and place into a function
+
+FindFrontier <- function(x, y) {
+    # Create data.frame of x and y
+    df <- data.frame(x = x, y = y)
+    # Zero the index vector
+    frontierIndex <- c()
+    # Finding the cost frontier
+    rankCost <- order(df$y)
+    frontierIndex[1] <- rankCost[1]
+    for (i in 1:dim(df)[1]) {
+        # Remove rows on the frontier
+        noFront <- df[-(frontierIndex),]
+        # Only consider values with larger impact
+        remain <- noFront[noFront$x > max(df[frontierIndex,1]),]
+        # break if remain is empty
+        if (dim(remain)[1] == 0) break;
+        # calculate gradient of last point on frontier to all remaining
+        grad <- (df[frontierIndex[i],2] - remain[,2]) / (df[frontierIndex[i],1] - remain[,1])
+        # calculate gradient to all points, everywhere
+        ref <- (df[frontierIndex[i],2] - df[,2]) / (df[frontierIndex[i],1] - df[,1])
+        # find the smallest, non-zero gradient from those remaining and pin-point
+        # it's index in the whole data.frame
+        frontierIndex[i+1] <- which(ref == min(grad[grad >= 0], na.rm = TRUE))
+    }
+    frontierIndex
+}
+
+FindFrontierPlot <- function(x, y) {
+    # Create data.frame of x and y
+    df <- data.frame(x = x, y = y)
+    # Zero the index vector
+    frontierIndex <- c()
+    # Finding the cost frontier
+    rankCost <- order(df$y)
+    frontierIndex[1] <- rankCost[1]
+    for (i in 1:dim(df)[1]) {
+        # Remove rows on the frontier
+        noFront <- df[-(frontierIndex),]
+        # Only consider values with larger impact
+        remain <- noFront[noFront$x > max(df[frontierIndex,1]),]
+        # break if remain is empty
+        if (dim(remain)[1] == 0) break;
+        # calculate gradient of last point on frontier to all remaining
+        grad <- (df[frontierIndex[i],2] - remain[,2]) / (df[frontierIndex[i],1] - remain[,1])
+        # calculate gradient to all points, everywhere
+        ref <- (df[frontierIndex[i],2] - df[,2]) / (df[frontierIndex[i],1] - df[,1])
+        # find the smallest, non-zero gradient from those remaining and pin-point
+        # it's index in the whole data.frame
+        frontierIndex[i+1] <- which(ref == min(grad[grad >= 0], na.rm = TRUE))
+    }
+    ggplot(df, aes(x = x, y = y)) +
+    geom_point(alpha = 0.5) +
+    theme_minimal() +
+    geom_line(data = df[frontierIndex,], aes(x = x, y =y), col = "red", alpha = 0.5) +
+    geom_point(data = df[frontierIndex,], aes(x = x, y =y), col = "red", alpha = 0.5)
+}
+
+res <- data.frame(x = one$VS, y = one$Cost)
+FindFrontier(x = res$x, y = res$y)
+
+one <- theOut[1:64,]
+FindFrontier(x = one$VS, y = one$Cost)
+FindFrontierPlot(x = one$VS, y = one$Cost)
+
+for(m in 1:repeats) {
+    lower <- (1 + 64 * (m - 1))
+    upper <- (64 + 64 * (m - 1))
+    vals <- theOut[lower:upper,]
+    assign(letters[m],FindFrontierPlot(x = vals$VS, y = vals$Cost))
+}
+
+gridExtra::grid.arrange(a,b,c,d,e,f,g,h,i,j,ncol = 2, nrow = 5)
+
+range(one[,"90"])
+range(one[,"90-90"])
+range(one[,"90-90-90"])
+
