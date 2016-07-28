@@ -55,3 +55,6 @@ test_that("LHS incidence", {
     incRange <- DefineIncidenceRange(incidenceData = data$incidence)
     expect_silent(FME::Latinhyper(incRange, num = 1e4))
 })
+
+# Actually write a test that runs a non-shiny calibration and see if we reach
+# completion and do something...
