@@ -186,12 +186,11 @@ FindFrontierPlot <- function(x, y) {
     geom_point(data = df[frontierIndex,], aes(x = x, y =y), col = "red", alpha = 0.5)
 }
 
-res <- data.frame(x = one$VS, y = one$Cost)
-FindFrontier(x = res$x, y = res$y)
-
 one <- theOut[1:64,]
 FindFrontier(x = one$VS, y = one$Cost)
 FindFrontierPlot(x = one$VS, y = one$Cost)
+
+repeats <- dim(theOut)[1] / 64
 
 for(m in 1:repeats) {
     lower <- (1 + 64 * (m - 1))

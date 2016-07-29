@@ -38,7 +38,10 @@ source("server/country/misc-functions.R",            local = FALSE)
 
 # load 'cascade' package and ensure it is the latest build.
 devtools::load_all(pkg = "~/git/WhoCascade/cascade")
+
+# Unit tests
 devtools::test(pkg = "~/git/WhoCascade/cascade")
+testthat::test_dir("tests")
 
 ## Run baseline model (nothing fancy)
 # Kenya
