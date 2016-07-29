@@ -73,11 +73,13 @@ source("server/projection/reactive.R",         local = TRUE)
 # OPTIMISATION #
 # ------------ #
 
-source("server/optimisation/functions.R",            local = TRUE)
+source("server/optimisation/frontier.R",             local = TRUE)
+source("server/optimisation/input-functions.R",      local = TRUE)
 source("server/optimisation/intervention-control.R", local = TRUE)
 source("server/optimisation/observe-input.R",        local = TRUE)
 source("server/optimisation/observe.R",              local = TRUE)
 source("server/optimisation/optimise.R",             local = TRUE)
+source("server/optimisation/output-functions.R",     local = TRUE)
 source("server/optimisation/parameters.R",           local = TRUE)
 source("server/optimisation/plot-functions.R",       local = TRUE)
 source("server/optimisation/plot.R",                 local = TRUE)

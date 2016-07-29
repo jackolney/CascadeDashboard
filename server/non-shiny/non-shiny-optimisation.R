@@ -24,18 +24,24 @@ RunNSOptimisation <- function(propRuns) {
     iC <- 1L
 
     # output vectors
-    r90    <- c()
-    r9090  <- c()
-    r909090<- c()
-    rVS    <- c()
-    rImpact<- c()
-    rCost  <- c()
-    rRho   <- c()
-    rQ     <- c()
-    rKappa <- c()
-    rGamma <- c()
-    rSigma <- c()
-    rOmega <- c()
+    rFirst90  <- c()
+    rSecond90 <- c()
+    rThird90  <- c()
+    rVS       <- c()
+    rImpact   <- c()
+    rCost     <- c()
+    rRho      <- c()
+    rQ        <- c()
+    rKappa    <- c()
+    rGamma    <- c()
+    rSigma    <- c()
+    rOmega    <- c()
+    rTest     <- c()
+    rLink     <- c()
+    rPreR     <- c()
+    rInit     <- c()
+    rAdhr     <- c()
+    rRetn     <- c()
 
     # because seven indicators
     for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
@@ -72,12 +78,20 @@ RunNSOptimisation <- function(propRuns) {
             SimResult <- RunSim(y = y, p = p)
 
             # These guys keep going
-            r90[iC]     <- Calc_909090_Result(  SimResult )[1]
-            r9090[iC]   <- Calc_909090_Result(  SimResult )[2]
-            r909090[iC] <- Calc_909090_Result(  SimResult )[3]
-            rVS[iC]     <- Calc_VS(             SimResult )
-            rImpact[iC] <- Calc_DALYsAverted(   SimResult , BaseDALY)
-            rCost[iC]   <- Calc_AdditionalCost( SimResult , BaseCost)
+            rFirst90[iC]  <- Calc_909090_Result(  SimResult )[1]
+            rSecond90[iC] <- Calc_909090_Result(  SimResult )[2]
+            rThird90[iC]  <- Calc_909090_Result(  SimResult )[3]
+            rVS[iC]       <- Calc_VS(             SimResult )
+            rImpact[iC]   <- Calc_DALYsAverted(   SimResult , BaseDALY)
+            rCost[iC]     <- Calc_AdditionalCost( SimResult , BaseCost)
+
+            # Care Calculations
+            rTest[iC]     <- Calc_CareTesting(baseResult      = BaseModel, simResult = SimResult)
+            rLink[iC]     <- Calc_CareLinkage(baseResult      = BaseModel, simResult = SimResult)
+            rPreR[iC]     <- Calc_CarePreRetention(baseResult = BaseModel, simResult = SimResult)
+            rInit[iC]     <- Calc_CareInitiation(baseResult   = BaseModel, simResult = SimResult)
+            rAdhr[iC]     <- Calc_CareAdherence(baseResult    = BaseModel, simResult = SimResult)
+            rRetn[iC]     <- Calc_CareRetention(baseResult    = BaseModel, simResult = SimResult)
 
             # These should always just reference i in all cases (as they repeat)
             rRho[iC]    <- parSteps[i,"Rho"]
@@ -92,8 +106,8 @@ RunNSOptimisation <- function(propRuns) {
         cat("\n")
     }
 
-    optResults <<- data.frame(r90, r9090, r909090, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega)
-    colnames(optResults) <<- c("90", "90-90", "90-90-90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega")
+    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn)
+    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention")
 
     message("\nFinished")
     optResults
