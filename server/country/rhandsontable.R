@@ -6,30 +6,61 @@ values <- reactiveValues()
 setHotCascade <- function(x) values[["hot_cascade"]] = x
 
 # Observe and update data.frame on button press and also when values[["hot_cascade"]] changes
+
+# indicators
+val_cascade = NULL
+val_cascadeCountry = NULL
+
 observe({
     # dependency
     input$PREV_editCascade
     if (!is.null(values[["hot_cascade"]])) {
         MasterData$calib <<- na.omit(values[["hot_cascade"]])
-        print(MasterData$calib)
+        message("step back trigger")
+        # print(MasterData$calib)
     }
 })
 
 output$hot_cascade <- renderRHandsontable({
     input$CASCADE_FLAG
-    if (!is.null(input$hot_cascade)) {
-        DF = hot_to_r(input$hot_cascade)
-        message("HERE")
-        print(DF)
-    } else {
-        if (input$new_country_name == "") {
-            # This will pad out the MasterData with NA's and update its name
-            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-        } else {
+    # if (!is.null(input$hot_cascade)) {
+    #     DF = hot_to_r(input$hot_cascade)
+    #     message("not null trigger")
+    #     # print(DF)
+    # } else {
+    #     if (input$new_country_name == "") {
+    #         # This will pad out the MasterData with NA's and update its name
+    #         DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+    #     } else {
+    #         # This will be a blank MasterData
+    #         DF = MasterData$calib
+    #     }
+    # }
+
+    # Still a work in progress
+    # discussed here:
+    # https://github.com/jrowen/rhandsontable/issues/27
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        val_cascade <<- NULL
+        if (is.null(input$hot_cascade) || is.null(val_cascadeCountry)) {
             # This will be a blank MasterData
+            val_ <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+            val_cascadeCountry <<- 1L
             DF = MasterData$calib
+        } else if (!is.null(input$hot_cascade)) {
+            DF = hot_to_r(input$hot_cascade)
+        }
+    } else {
+        val_cascadeCountry <<- NULL
+        if (is.null(input$hot_cascade) || val_$value != MasterData$calib$value) {
+            # This will pad out the MasterData with NA's and update its name
+            val_ <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        } else if (!is.null(input$hot_cascade)) {
+            DF = hot_to_r(input$hot_cascade)
         }
     }
+
     setHotCascade(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "value", format = '0,0', halign = "htLeft") %>%
