@@ -7,54 +7,38 @@ setHotCascade <- function(x) values[["hot_cascade"]] = x
 
 # Observe and update data.frame on button press and also when values[["hot_cascade"]] changes
 
-# indicators
-val_cascade = NULL
-val_cascadeCountry = NULL
+# Indicators
+vCascade = NULL
+vCascadeCountry = NULL
 
 observe({
     # dependency
     input$PREV_editCascade
-    if (!is.null(values[["hot_cascade"]])) {
+    if (!is.null(values[["hot_cascade"]]) & exists("MasterData")) {
         MasterData$calib <<- na.omit(values[["hot_cascade"]])
-        message("step back trigger")
         # print(MasterData$calib)
     }
 })
 
 output$hot_cascade <- renderRHandsontable({
     input$CASCADE_FLAG
-    # if (!is.null(input$hot_cascade)) {
-    #     DF = hot_to_r(input$hot_cascade)
-    #     message("not null trigger")
-    #     # print(DF)
-    # } else {
-    #     if (input$new_country_name == "") {
-    #         # This will pad out the MasterData with NA's and update its name
-    #         DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-    #     } else {
-    #         # This will be a blank MasterData
-    #         DF = MasterData$calib
-    #     }
-    # }
 
-    # Still a work in progress
-    # discussed here:
-    # https://github.com/jrowen/rhandsontable/issues/27
+    # Update (01/08/16), working as it should (discussion: https://github.com/jrowen/rhandsontable/issues/27)
     if (input$NEW_country == TRUE & input$new_country_name != "") {
-        val_cascade <<- NULL
-        if (is.null(input$hot_cascade) || is.null(val_cascadeCountry)) {
+        vCascade <<- NULL
+        if (is.null(input$hot_cascade) || is.null(vCascadeCountry)) {
             # This will be a blank MasterData
-            val_ <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-            val_cascadeCountry <<- 1L
+            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+            vCascadeCountry <<- 1L
             DF = MasterData$calib
         } else if (!is.null(input$hot_cascade)) {
             DF = hot_to_r(input$hot_cascade)
         }
     } else {
-        val_cascadeCountry <<- NULL
-        if (is.null(input$hot_cascade) || val_$value != MasterData$calib$value) {
+        vCascadeCountry <<- NULL
+        if (is.null(input$hot_cascade) || is.null(vCascade) || vCascade$value != MasterData$calib$value) {
             # This will pad out the MasterData with NA's and update its name
-            val_ <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
             DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
         } else if (!is.null(input$hot_cascade)) {
             DF = hot_to_r(input$hot_cascade)
@@ -86,35 +70,53 @@ output$hot_cascade <- renderRHandsontable({
 setHotCD4 <- function(x) values[["hot_cd4"]] = x
 
 # Observe and update data.frame on button press and also when values[["hot_cd4"]] changes
+
+# Indicators
+vCD4 = NULL
+vCD4Country = NULL
+
 observe({
     # dependency
     input$PREV_editCD4
-    if (!is.null(values[["hot_cd4"]])) {
+    if (!is.null(values[["hot_cd4"]]) & exists("MasterData")) {
         MasterData$cd4[2:15] <<- values[["hot_cd4"]]$Proportion
         MasterData$cd4[[1]] <<- input$new_country_name
-        print(MasterData$cd4)
+        # print(MasterData$cd4)
     }
 })
 
 output$hot_cd4 <- renderRHandsontable({
     input$CD4_FLAG
-    if (!is.null(input$hot_cd4)) {
-        DF = hot_to_r(input$hot_cd4)
-        print(DF)
+
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        vCD4 <<- NULL
+        if (is.null(input$hot_cd4) || is.null(vCD4Country)) {
+            Proportion <- as.numeric(NA)
+            ART <- c(rep("Off ART", 7), rep("On ART", 7))
+            Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
+            DF = data.frame(ART, Category, Proportion)
+            vCD4 <<- DF
+            vCD4Country <<- 1L
+        } else if (!is.null(input$hot_cd4)) {
+            DF = hot_to_r(input$hot_cd4)
+        }
     } else {
-        if (input$new_country_name == "") {
+        vCD4Country <<- NULL
+        if (is.null(input$hot_cd4) || is.null(vCD4) || vCD4$Proportion != MasterData$cd4[2:15]) {
             if (isReallyEmpty(MasterData$cd4)) {
                 Proportion <- as.numeric(NA)
             } else {
                 Proportion <- as.numeric(MasterData$cd4[2:15])
             }
-        } else {
-            Proportion <- as.numeric(NA)
+            ART <- c(rep("Off ART", 7), rep("On ART", 7))
+            Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
+            DF = data.frame(ART, Category, Proportion)
+            vCD4 <<- DF
+        } else if (!is.null(input$hot_cd4)) {
+            DF = hot_to_r(input$hot_cd4)
         }
-        ART <- c(rep("Off ART", 7), rep("On ART", 7))
-        Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
-        DF = data.frame(ART, Category, Proportion)
     }
+
     setHotCD4(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "ART", readOnly = TRUE) %>%
@@ -127,24 +129,44 @@ output$hot_cd4 <- renderRHandsontable({
 setHotIncidence <- function(x) values[["hot_incidence"]] = x
 
 # Observe and update data.frame on button press and also when values[["hot_incidence"]] changes
+
+# Indicators
+vIncidence = NULL
+vIncidenceCountry = NULL
+
 observe({
     # dependency
     input$PREV_editIncidence
-    if (!is.null(values[["hot_incidence"]])) {
+    if (!is.null(values[["hot_incidence"]]) & exists("MasterData")) {
         MasterData$incidence <<- values[["hot_incidence"]]
-        print(MasterData$incidence)
+        # print(MasterData$incidence)
     }
 })
 
 output$hot_incidence <- renderRHandsontable({
     input$INCIDENCE_FLAG
-    if (!is.null(input$hot_incidence)) {
-        DF = hot_to_r(input$hot_incidence)
-        print(DF)
+
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        vIncidence <<- NULL
+        if (is.null(input$hot_incidence) || is.null(vIncidenceCountry)) {
+            theData <- MasterData$incidence
+            DF = theData[order(theData$type, decreasing = TRUE),]
+            vIncidence <<- DF
+            vIncidenceCountry <<- 1L
+        } else if (!is.null(input$hot_incidence)) {
+            DF = hot_to_r(input$hot_incidence)
+        }
     } else {
-        theData <- MasterData$incidence
-        DF = theData[order(theData$type, decreasing = TRUE),]
+        vIncidenceCountry <<- NULL
+        if (is.null(input$hot_incidence) || is.null(vIncidence) || vIncidence != MasterData$incidence) {
+            theData <- MasterData$incidence
+            DF = theData[order(theData$type, decreasing = TRUE),]
+            vIncidence <<- DF
+        } else if (!is.null(input$hot_incidence)) {
+            DF = hot_to_r(input$hot_incidence)
+        }
     }
+
     setHotIncidence(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "country", readOnly = TRUE) %>%
@@ -163,31 +185,46 @@ output$hot_incidence <- renderRHandsontable({
 setHotGuidelines <- function(x) values[["hot_guidelines"]] = x
 
 # Observe and update data.frame on button press and also when values[["hot_guidelines"]] changes
+
+# Indicators
+vGuidelines = NULL
+vGuidelinesCountry = NULL
+
 observe({
     # dependency
     input$PREV_editGuidelines
-    if (!is.null(values[["hot_guidelines"]])) {
+    if (!is.null(values[["hot_guidelines"]]) & exists("MasterData")) {
         MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <<- values[["hot_guidelines"]]$Year
-        message("hey jack")
-        print(MasterData$treatment_guidelines)
+        # print(MasterData$treatment_guidelines)
     }
 })
 
 output$hot_guidelines <- renderRHandsontable({
     input$GUIDELINES_FLAG
-    if (!is.null(input$hot_guidelines)) {
-        DF = hot_to_r(input$hot_guidelines)
-        print(DF)
-    } else {
-        if (input$new_country_name == "") {
-            Year <- as.numeric(MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")])
-        } else {
-            Year <- as.numeric(NA)
-        }
-        Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
-        DF = data.frame(Threshold, Year)
 
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        vGuidelines <<- NULL
+        if (is.null(input$hot_guidelines) || is.null(vGuidelinesCountry)) {
+            Year <- as.numeric(NA)
+            Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
+            DF = data.frame(Threshold, Year)
+            vGuidelines <<- DF
+            vGuidelinesCountry <<- 1L
+        } else if (!is.null(input$hot_guidelines)) {
+            DF = hot_to_r(input$hot_guidelines)
+        }
+    } else {
+        vGuidelinesCountry <<- NULL
+        if (is.null(input$hot_guidelines) || is.null(vGuidelines) || vGuidelines$Year != MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")]) {
+            Year <- as.numeric(MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")])
+            Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
+            DF = data.frame(Threshold, Year)
+            vGuidelines <<- DF
+        } else if (!is.null(input$hot_guidelines)) {
+            DF = hot_to_r(input$hot_guidelines)
+        }
     }
+
     setHotGuidelines(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "Threshold", readOnly = TRUE) %>%
