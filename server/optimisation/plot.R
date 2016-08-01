@@ -1,6 +1,6 @@
 output$plotOptim_result <- renderPlot({
     input$NEXT_optIntro
-    BuildOptimisationPlot(theOut = optResult)
+    BuildOptimisationPlot(theOut = optResults)
 }, height = 400, width = 'auto', bg = 'transparent')
 
 # Best Fit Calibration Plot
@@ -19,28 +19,28 @@ output$plotOptim_CostImpact <- renderPlot({
         calibParamOut = CalibParamOut,
         minErrorRun = minErrorRun)
 
-    optResult <- dplyr::mutate(optResult,
-        'Testing'           = round(as.numeric(optResult$Rho),   digits = 4),
-        'Linkage'           = round(as.numeric(optResult$Q),     digits = 4),
-        'Pre-ART Retention' = round(as.numeric(optResult$Kappa), digits = 4),
-        'Initiation'        = round(as.numeric(optResult$Gamma), digits = 4),
-        'Adherence'         = round(as.numeric(optResult$Sigma), digits = 4),
-        'ART Retention'     = round(as.numeric(optResult$Omega), digits = 4)
+    optResults <- dplyr::mutate(optResults,
+        'Testing'           = round(as.numeric(optResults$Rho),   digits = 4),
+        'Linkage'           = round(as.numeric(optResults$Q),     digits = 4),
+        'Pre-ART Retention' = round(as.numeric(optResults$Kappa), digits = 4),
+        'Initiation'        = round(as.numeric(optResults$Gamma), digits = 4),
+        'Adherence'         = round(as.numeric(optResults$Sigma), digits = 4),
+        'ART Retention'     = round(as.numeric(optResults$Omega), digits = 4)
     )
 
-    optResult[["Testing"]]           <- factor(optResult[["Testing"]],           levels = unique(optResult[["Testing"]]))
-    optResult[["Linkage"]]           <- factor(optResult[["Linkage"]],           levels = unique(optResult[["Linkage"]]))
-    optResult[["Pre-ART Retention"]] <- factor(optResult[["Pre-ART Retention"]], levels = unique(optResult[["Pre-ART Retention"]]))
-    optResult[["Initiation"]]        <- factor(optResult[["Initiation"]],        levels = unique(optResult[["Initiation"]]))
-    optResult[["Adherence"]]         <- factor(optResult[["Adherence"]],         levels = unique(optResult[["Adherence"]]))
-    optResult[["ART Retention"]]     <- factor(optResult[["ART Retention"]],     levels = unique(optResult[["ART Retention"]]))
+    optResults[["Testing"]]           <- factor(optResults[["Testing"]],           levels = unique(optResults[["Testing"]]))
+    optResults[["Linkage"]]           <- factor(optResults[["Linkage"]],           levels = unique(optResults[["Linkage"]]))
+    optResults[["Pre-ART Retention"]] <- factor(optResults[["Pre-ART Retention"]], levels = unique(optResults[["Pre-ART Retention"]]))
+    optResults[["Initiation"]]        <- factor(optResults[["Initiation"]],        levels = unique(optResults[["Initiation"]]))
+    optResults[["Adherence"]]         <- factor(optResults[["Adherence"]],         levels = unique(optResults[["Adherence"]]))
+    optResults[["ART Retention"]]     <- factor(optResults[["ART Retention"]],     levels = unique(optResults[["ART Retention"]]))
 
     theStratPoint <<- input$userStratPoint
 
-    ggOut <- ggplot(optResult, aes(x = VS, y = Cost))
+    ggOut <- ggplot(optResults, aes(x = VS, y = Cost))
     ggOut <- ggOut + geom_point(aes(color = as.factor(get(theStratPoint))), alpha = 0.75, size = 5)
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + expand_limits(y = round(max(optResult$Cost), digits = -4))
+    ggOut <- ggOut + expand_limits(y = round(max(optResults$Cost), digits = -4))
     ggOut <- ggOut + scale_color_discrete(name = input$userStratPoint)
     ggOut <- ggOut + theme(legend.title = element_text(size = 14))
     ggOut <- ggOut + theme(legend.text = element_text(size = 13))

@@ -68,80 +68,11 @@ gridExtra::grid.arrange(a, b, c, d, e, ncol = 2, nrow = 3)
 ##### HERE WE GO #####
 simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
 
-WhichAchieved73 <- function(simData, simLength) {
-    simRepeats <- dim(simData)[1] / simLength
-    ach73 <- c()
-    iter <- 1L
-    for(n in 1:simRepeats) {
-        lower <- (1 + simLength * (n - 1))
-        upper <- (simLength + simLength * (n - 1))
-        vals <- simData[lower:upper,]
-        if (any(vals[,"VS"] >= (0.9^3))) {
-            ach73[iter] <- n
-            iter <- iter + 1L
-        }
-    }
-    ach73
-}
-
 optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
 optRuns
 
-GetFrontiers <- function(simData, optRuns, simLength) {
-    frontierList <- list()
-    for(n in 1:length(optRuns)) {
-        lower <- (1 + simLength * (optRuns[n] - 1))
-        upper <- (simLength + simLength * (optRuns[n] - 1))
-        vals <- simData[lower:upper,]
-        frontierList[[n]] <- FindFrontier(x = vals$VS, y = vals$Cost)
-    }
-    frontierList
-}
-
 frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
 frontierList
-
-PlotInterpolation <- function(vs, indicator, target) {
-    interpolation <- approx(x = vs, y = indicator)
-    intIndex <- which.min(abs(target - interpolation$x))
-    interpolation$y[intIndex]
-    plot(x = vs, y = indicator)
-    points(interpolation$x, interpolation$y, col = "red", pch = "*")
-    abline(v = target, h = interpolation$y[intIndex])
-}
-
-
-Interpolate <- function(vs, indicator, target) {
-    interpolation <- approx(x = vs, y = indicator)
-    intIndex <- which.min(abs(target - interpolation$x))
-    interpolation$y[intIndex]
-}
-
-RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
-    iCost <- c()
-    iTest <- c()
-    iLink <- c()
-    iPreR <- c()
-    iInit <- c()
-    iAdhr <- c()
-    iRetn <- c()
-
-    for(n in 1:length(optRuns)) {
-        lower <- (1 + simLength * (optRuns[n] - 1))
-        upper <- (simLength + simLength * (optRuns[n] - 1))
-        vals <- simData[lower:upper,]
-
-        iCost[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = 0.729)
-        iTest[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = 0.729)
-        iLink[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = 0.729)
-        iPreR[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = 0.729)
-        iInit[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = 0.729)
-        iAdhr[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = 0.729)
-        iRetn[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = 0.729)
-    }
-    careOutput <- data.frame(iCost, iTest, iLink, iPreR, iInit, iAdhr, iRetn)
-    careOutput
-}
 
 test <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
@@ -152,3 +83,29 @@ mean(test[,"iPreR"])
 mean(test[,"iInit"])
 mean(test[,"iAdhr"])
 mean(test[,"iRetn"])
+
+test
+
+
+    values <- c(
+        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
+        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
+        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
+        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
+        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
+        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
+    )
+
+
+cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
+
+# values <- test
+
+cols[which(names(values[rev(order(abs(values)))]) == "linkage")],)
+
+values <- colSums(test)
+which(names(values[rev(order(abs(values)))]) == "iPreR")
+
+values <- colSums(test)
+
+values[rev(order(abs(values)))]

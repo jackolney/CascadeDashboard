@@ -48,6 +48,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
     ## For each draw, update parameter vector (p), run model, calculate error and store it.
     # Initial Calibration
     message("Running simulations")
+    pb <- txtProgressBar(min = 0, max = limit, style = 1)
     v <- 0
     selectedRuns <<- c()
     minError <<- 1e6
@@ -79,7 +80,8 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
             }
             selectedRuns[v] <<- k
             CalibOut <<- rbind(CalibOut, iOut)
-            message(paste0(round((v / limit) * 100, digits = 0), "%"))
+            # message(paste0(round((v / limit) * 100, digits = 0), "%"))
+            setTxtProgressBar(pb, v)
             if (v == limit) break;
         }
         if (k == dim(lhsInitial_Sense)[1]) warning("Hit iteration wall.")
