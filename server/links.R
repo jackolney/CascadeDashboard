@@ -80,10 +80,17 @@ observeEvent(input$PREV_editGuidelines, {
 })
 
 # Data-Review
-observeEvent(input$NEXT_data, {
+# observeEvent(input$NEXT_data, {
+#     updateTabItems(session,
+#         inputId = "sideBar",
+#         selected = "plhiv"
+#     )
+# })
+
+observeEvent(input$PREV_data, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "plhiv"
+        selected = "country"
     )
 })
 

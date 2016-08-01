@@ -18,11 +18,6 @@ dashboardPage(
 
             # Setup
             source("ui/setup/data-review.R",                  local = TRUE)$value,
-            source("ui/setup/plhiv.R",                        local = TRUE)$value,
-            source("ui/setup/diagnosis.R",                    local = TRUE)$value,
-            source("ui/setup/linkage.R",                      local = TRUE)$value,
-            source("ui/setup/treatment.R",                    local = TRUE)$value,
-            source("ui/setup/suppression.R",                  local = TRUE)$value,
             source("ui/setup/calibration.R",                  local = TRUE)$value,
             source("ui/setup/parameters.R",                   local = TRUE)$value,
 

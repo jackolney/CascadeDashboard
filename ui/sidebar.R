@@ -12,11 +12,6 @@ dashboardSidebar(
         ),
         menuItem("Setup", icon = icon("cogs", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Data Review",            tabName = "data-review"),
-            menuSubItem("People Living with HIV", tabName = "plhiv"),
-            menuSubItem("Diagnosed Individuals",  tabName = "diagnosis"),
-            menuSubItem("HIV Care Coverage",      tabName = "linkage"),
-            menuSubItem("Treatment Coverage",     tabName = "treatment"),
-            menuSubItem("Viral Suppression",      tabName = "suppression"),
             menuSubItem("Calibration",            tabName = "calibration"),
             menuSubItem("Parameters",             tabName = "parameters")
         ),

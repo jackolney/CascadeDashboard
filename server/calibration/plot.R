@@ -33,6 +33,24 @@ output$plotData <- renderPlot({
     BuildDataReviewPlot(data = MasterData$calib)
 }, height = 400, width = 'auto', bg = 'transparent')
 
+output$plotCD4 <- renderPlot({
+    # add a dependency if we update data, like a 'review' changes.
+    input$NEXT_country
+    input$PREV_plhiv
+    input$NEXT_viral
+    input$resetDATA
+    BuildCD4Plot(data = MasterData)
+}, height = 300, width = 'auto', bg = 'transparent')
+
+output$plotIncidence <- renderPlot({
+    # add a dependency if we update data, like a 'review' changes.
+    input$NEXT_country
+    input$PREV_plhiv
+    input$NEXT_viral
+    input$resetDATA
+    BuildIncidencePlot(data = MasterData)
+}, height = 300, width = 'auto', bg = 'transparent')
+
 output$plotCalibHist_rho <- renderPlot({
     input$ADJ_param
     input$PREV_plhiv

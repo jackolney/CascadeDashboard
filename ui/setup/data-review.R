@@ -4,13 +4,29 @@ tabItem(tabName = "data-review",
         box(width = NULL,
             status = "primary",
             solidHeader = TRUE,
-            title = "Calibration Data Review",
+            title = "Cascade Data Review",
             collapsible = TRUE,
             collapsed = FALSE,
             bsModal(id = "seeDataTable_DATA", title = "Data Table", trigger = "viewData_DATA", size = "large",
                 DT::dataTableOutput('dataTable_DATA', width = "100%")
             ),
             plotOutput('plotData', height = 'auto', width = 'auto')
+        ),
+        box(width = NULL,
+            status = "primary",
+            solidHeader = TRUE,
+            title = "CD4 Distribution",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            plotOutput('plotCD4', height = 'auto', width = 'auto')
+        ),
+        box(width = NULL,
+            status = "primary",
+            solidHeader = TRUE,
+            title = "New Infections",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            plotOutput('plotIncidence', height = 'auto', width = 'auto')
         )
     ),
     column(width = 4,
@@ -61,7 +77,7 @@ tabItem(tabName = "data-review",
         bsAlert(anchorId = "tx_m500_alert_m500"),
         fluidRow(
             column(width = 6,
-                bsButton(inputId = "NEXT_data", label = "Enter Data", style = "danger",  size = "large", block = TRUE, icon = icon("database",  class = "fa-lg fa-fw", lib = "font-awesome"))
+                bsButton(inputId = "PREV_data", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
             ),
             column(width = 6,
                 bsButton(inputId = "CALIB_data", label = "Calibrate", style = "success",  size = "large", block = TRUE, icon = icon("check",  class = "fa-lg fa-fw", lib = "font-awesome"))
