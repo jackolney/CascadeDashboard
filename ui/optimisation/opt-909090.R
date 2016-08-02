@@ -59,6 +59,23 @@ tabItem(tabName = "opt-909090",
                         required changes to care. Boxes are color coded to illustrate the magnitude of changes to be made.
                         Green boxes illustrate the the two largest absolute changes to care, orange denotes the next
                         largest two absolute changes to care and red denotes the two smallest absolute changes to care.")
+        ),
+        box(width = NULL,
+            status = "warning",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            title = "Cost-Effectiveness Frontier",
+            plotOutput('plotFrontier',
+                dblclick = "plotFrontier_dblclick",
+                brush = brushOpts(
+                    id = "plotFrontier_brush",
+                    clip = TRUE,
+                    resetOnNew = TRUE
+                ),
+                height = 'auto',
+                width = 'auto'
+            )
         )
     ),
     column(width = 4,

@@ -199,3 +199,96 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
+
+BuildFrontierPlot <- function(CalibParamOut, optResults) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+
+    optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
+
+    allRuns <- GetFrontiers(simData = optResults, optRuns = 1:(dim(optResults)[1] / simLength), simLength = simLength)
+
+    interpol <- list()
+    for(n in 1:(dim(optResults)[1] / simLength)) {
+        lower <- (1 + simLength * (n - 1))
+        upper <- (simLength + simLength * (n - 1))
+        vals <- optResults[lower:upper,]
+
+        interpolation <- approx(x = vals[,"VS"][allRuns[[n]]], y = vals[,"Cost"][allRuns[[n]]])
+        interpol[[n]] <- interpolation
+    }
+
+    ggPlot <- ggplot(optResults, aes(x = VS, y = Cost))
+    ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
+    ggPlot <- ggPlot + geom_point(col = '#4F8ABA', alpha = 0.2)
+    for(n in 1:(dim(optResults)[1] / simLength)) {
+        ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[n]]), mapping = aes(x = x, y = y), col = 'black', alpha = 0.2, size = 0.5)
+    }
+    for(n in 1:length(optRuns)) {
+        ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[optRuns[n]]]), mapping = aes(x = x, y = y), col = "red", alpha = 0.5, size = 0.75)
+    }
+    ggPlot <- ggPlot + theme_classic()
+    ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific)
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent)
+    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 14))
+    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 14))
+    ggPlot <- ggPlot + theme(axis.title = element_text(size = 15))
+    ggPlot <- ggPlot + theme(title = element_text(size = 15))
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + xlab("Viral Suppression")
+    ggPlot <- ggPlot + ylab("Additional Cost of Care")
+    ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
+    ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+    ggPlot <- ggPlot + coord_cartesian(xlim = plotFrontier.ranges$x, ylim = plotFrontier.ranges$y)
+    ggPlot
+}
+
+BuildOGCostImpactPlot <- function() {
+    bestPar <- GetBestPar(
+        masterCD4 = MasterCD4_2015,
+        data = MasterData,
+        calibParamOut = CalibParamOut,
+        minErrorRun = minErrorRun)
+
+    optResults <- dplyr::mutate(optResults,
+        'Testing'           = round(as.numeric(optResults$Rho),   digits = 4),
+        'Linkage'           = round(as.numeric(optResults$Q),     digits = 4),
+        'Pre-ART Retention' = round(as.numeric(optResults$Kappa), digits = 4),
+        'Initiation'        = round(as.numeric(optResults$Gamma), digits = 4),
+        'Adherence'         = round(as.numeric(optResults$Sigma), digits = 4),
+        'ART Retention'     = round(as.numeric(optResults$Omega), digits = 4)
+    )
+
+    optResults[["Testing"]]           <- factor(optResults[["Testing"]],           levels = unique(optResults[["Testing"]]))
+    optResults[["Linkage"]]           <- factor(optResults[["Linkage"]],           levels = unique(optResults[["Linkage"]]))
+    optResults[["Pre-ART Retention"]] <- factor(optResults[["Pre-ART Retention"]], levels = unique(optResults[["Pre-ART Retention"]]))
+    optResults[["Initiation"]]        <- factor(optResults[["Initiation"]],        levels = unique(optResults[["Initiation"]]))
+    optResults[["Adherence"]]         <- factor(optResults[["Adherence"]],         levels = unique(optResults[["Adherence"]]))
+    optResults[["ART Retention"]]     <- factor(optResults[["ART Retention"]],     levels = unique(optResults[["ART Retention"]]))
+
+    theStratPoint <<- input$userStratPoint
+
+    ggOut <- ggplot(optResults, aes(x = VS, y = Cost))
+    ggOut <- ggOut + geom_point(aes(color = as.factor(get(theStratPoint))), alpha = 0.75, size = 5)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + expand_limits(y = round(max(optResults$Cost), digits = -4))
+    ggOut <- ggOut + scale_color_discrete(name = input$userStratPoint)
+    ggOut <- ggOut + theme(legend.title = element_text(size = 14))
+    ggOut <- ggOut + theme(legend.text = element_text(size = 13))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 14))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 14))
+    ggOut <- ggOut + theme(axis.title = element_text(size = 15))
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + geom_vline(xintercept = input$opt_VS_cutoff / 100)
+    ggOut <- ggOut + xlab("Proportion achieving viral suppression by 2020")
+    ggOut <- ggOut + ylab("Additional cost of care (2013 USD)")
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggOut <- ggOut + scale_x_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggOut <- ggOut + coord_cartesian(xlim = plotOptimCostImpact.ranges$x, ylim = plotOptimCostImpact.ranges$y)
+    ggOut
+}

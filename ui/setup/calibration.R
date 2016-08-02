@@ -5,7 +5,7 @@ tabItem(tabName = "calibration",
             title = "Calibration Information",
             solidHeader = TRUE,
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
                 "Calibration begins as soon as the page loads, please wait until the progress bar has
                 reached 100%. The model is calibrated by adjusting seven parameters simultaneously, and
                 running thousands of simulations to identify parameter sets that best fit the available data.

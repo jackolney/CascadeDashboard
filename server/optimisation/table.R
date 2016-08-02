@@ -1,7 +1,7 @@
 # Data Table Render Functions
 
 output$optimDTmodal <- DT::renderDataTable({
-    return(datatable(Result_VS,
+    return(datatable(optResults,
         style = 'bootstrap',
         extensions = 'Buttons',
         options = list(
@@ -15,9 +15,9 @@ output$optimDTmodal <- DT::renderDataTable({
                 "}")
             )
         ) %>%
-        formatRound("90",3) %>%
-        formatRound("90-90",3) %>%
-        formatRound("90-90-90",3) %>%
+        formatRound("First 90",3) %>%
+        formatRound("Second 90",3) %>%
+        formatRound("Third 90",3) %>%
         formatRound("VS",3) %>%
         formatRound("Rho",3) %>%
         formatRound("Q",3) %>%

@@ -65,7 +65,8 @@ gridExtra::grid.arrange(a, b, c, d, e, ncol = 2, nrow = 3)
 # What if we just take one simulation
 
 
-##### HERE WE GO #####
+##### Frontier Finding #####
+
 simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
 
 optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
@@ -84,28 +85,57 @@ mean(test[,"iInit"])
 mean(test[,"iAdhr"])
 mean(test[,"iRetn"])
 
-test
+#### What Plot? ####
+
+# Average Cost / Impact Frontier?
+
+# Can we layer all combinations on top of each other?
+
+# Then a big thick, AVERAGE frontier?
+
+optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
 
 
-    values <- c(
-        testing      = (alt$CumDiag[251] - baseline$CumDiag[251]) / 5,
-        linkage      = (alt$CumLink[251] - baseline$CumLink[251]) / 5,
-        preRetention = (alt$CumPreL[251] - baseline$CumPreL[251]) / 5,
-        initiation   = (alt$CumInit[251] - baseline$CumInit[251]) / 5,
-        adherence    = (alt$CumAdhr[251] - baseline$CumAdhr[251]) / 5,
-        retention    = (alt$CumLoss[251] - baseline$CumLoss[251]) / 5
-    )
+allRuns <- GetFrontiers(simData = theOut, optRuns = 1:(dim(optResults)[1] / simLength), simLength = simLength)
 
+interpol <- list()
+for(n in 1:(dim(optResults)[1] / simLength)) {
+    lower <- (1 + simLength * (n - 1))
+    upper <- (simLength + simLength * (n - 1))
+    vals <- theOut[lower:upper,]
 
-cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
+    interpolation <- approx(x = vals[,"VS"][allRuns[[n]]], y = vals[,"Cost"][allRuns[[n]]])
+    interpol[[n]] <- interpolation
+}
 
-# values <- test
+# green = "#46A55F"
+# blue = "#4F8ABA"
 
-cols[which(names(values[rev(order(abs(values)))]) == "linkage")],)
+ggPlot <- ggplot(optResults, aes(x = VS, y = Cost))
+ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 0.5)
+ggPlot <- ggPlot + geom_point(col = '#4F8ABA', alpha = 0.2)
+for(n in 1:(dim(optResults)[1] / simLength)) {
+    ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[n]]), mapping = aes(x = x, y = y), col = 'black', alpha = 0.2, size = 0.5)
+}
+for(n in 1:length(optRuns)) {
+    ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[optRuns[n]]]), mapping = aes(x = x, y = y), col = "red", alpha = 0.5, size = 0.75)
+}
+ggPlot <- ggPlot + theme_classic()
+ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
+ggPlot <- ggPlot + scale_y_continuous(
+    breaks = base::pretty(c(0, round(max(optResults$Cost), digits = -9)), n = 5),
+    labels = scales::scientific)
+ggPlot <- ggPlot + scale_x_continuous(breaks = seq(0, 1, 0.2), labels = scales::percent(seq(0, 1, 0.2)))
+ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 10))
+ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 10))
+ggPlot <- ggPlot + theme(axis.title = element_text(size = 10))
+ggPlot <- ggPlot + theme(axis.line.x = element_line())
+ggPlot <- ggPlot + theme(axis.line.y = element_line())
+ggPlot <- ggPlot + xlab("Viral Suppression")
+ggPlot <- ggPlot + ylab("Additional Cost of Care")
+ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
+ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+ggPlot <- ggPlot + theme(panel.background = element_rect(fill = "#F0F0F0"))
+ggPlot <- ggPlot + theme(plot.background = element_rect(fill = "#F0F0F0"))
+ggPlot
 
-values <- colSums(test)
-which(names(values[rev(order(abs(values)))]) == "iPreR")
-
-values <- colSums(test)
-
-values[rev(order(abs(values)))]
