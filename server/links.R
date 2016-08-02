@@ -345,20 +345,6 @@ observeEvent(input$PREV_opt909090, {
 observeEvent(input$NEXT_opt909090, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "opt-results"
-    )
-})
-
-observeEvent(input$NEXT_optim, {
-    updateTabItems(session,
-        inputId = "sideBar",
         selected = "report"
-    )
-})
-
-observeEvent(input$PREV_optim, {
-    updateTabItems(session,
-        inputId = "sideBar",
-        selected = "opt-909090"
     )
 })
