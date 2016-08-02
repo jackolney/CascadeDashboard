@@ -89,7 +89,7 @@ BuildEditCD4Plot <- function(data) {
             ggOn <- ggOn + theme(panel.background = element_blank())
             ggOn
         }
-        gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1)
+        suppressWarnings(gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1))
     }
 }
 

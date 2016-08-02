@@ -335,7 +335,7 @@ BuildCD4Plot <- function(data) {
     ggOn <- ggOn + ggtitle("On ART")
     ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 18))
 
-    gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1)
+    suppressWarnings(gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1))
 }
 
 BuildIncidencePlot <- function(data) {
