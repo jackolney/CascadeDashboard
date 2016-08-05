@@ -4,7 +4,7 @@
 # Testing Intervention
 output$ib_testing_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumDiag[251] / 5, digits = 0))
 
     valueBox(
@@ -18,10 +18,10 @@ output$ib_testing_baseline <- renderValueBox({
 
 output$ib_testing_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumDiag[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, Rho = OptInput$intValue_rho)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Rho = OptInput$intValue_rho)
     alt_answer <- alt$CumDiag[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
@@ -38,7 +38,7 @@ output$ib_testing_intervention <- renderValueBox({
 # Linkage Intervention
 output$ib_linkage_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumLink[251] / 5, digits = 0))
 
     valueBox(
@@ -52,10 +52,10 @@ output$ib_linkage_baseline <- renderValueBox({
 
 output$ib_linkage_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumLink[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, q = OptInput$intValue_q)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, q = OptInput$intValue_q)
     alt_answer <- alt$CumLink[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
@@ -72,7 +72,7 @@ output$ib_linkage_intervention <- renderValueBox({
 # Pre-ART Retention Intervention
 output$ib_preRetention_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumPreL[251] / 5, digits = 0))
 
     valueBox(
@@ -86,10 +86,10 @@ output$ib_preRetention_baseline <- renderValueBox({
 
 output$ib_preRetention_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumPreL[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, Kappa = OptInput$intValue_kappa)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Kappa = OptInput$intValue_kappa)
     alt_answer <- alt$CumPreL[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
@@ -106,7 +106,7 @@ output$ib_preRetention_intervention <- renderValueBox({
 # ART Initiation Intervention
 output$ib_initiation_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumInit[251] / 5, digits = 0))
 
     valueBox(
@@ -120,10 +120,10 @@ output$ib_initiation_baseline <- renderValueBox({
 
 output$ib_initiation_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumInit[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, Gamma = OptInput$intValue_gamma)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Gamma = OptInput$intValue_gamma)
     alt_answer <- alt$CumInit[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
@@ -140,7 +140,7 @@ output$ib_initiation_intervention <- renderValueBox({
 # Adherence Intervention
 output$ib_adherence_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumAdhr[251] / 5, digits = 0))
 
     valueBox(
@@ -154,10 +154,10 @@ output$ib_adherence_baseline <- renderValueBox({
 
 output$ib_adherence_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumAdhr[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, Sigma = OptInput$intValue_sigma)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Sigma = OptInput$intValue_sigma)
     alt_answer <- alt$CumAdhr[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
@@ -174,7 +174,7 @@ output$ib_adherence_intervention <- renderValueBox({
 # ART Retention Intervention
 output$ib_retention_baseline <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     out <- scales::comma(round(baseline$CumLoss[251] / 5, digits = 0))
 
     valueBox(
@@ -188,10 +188,10 @@ output$ib_retention_baseline <- renderValueBox({
 
 output$ib_retention_intervention <- renderValueBox({
 
-    baseline <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun)
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
     base_answer <- baseline$CumLoss[251] / 5
 
-    alt <- CallBestModel(CalibOut = CalibOut, minErrorRun = minErrorRun, Omega = OptInput$intValue_omega)
+    alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Omega = OptInput$intValue_omega)
     alt_answer <- alt$CumLoss[251] / 5
 
     out <- scales::comma(round(alt_answer - base_answer, digits = 0))
