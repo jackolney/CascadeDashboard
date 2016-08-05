@@ -9,13 +9,13 @@ tabItem(tabName = "opt-909090",
             title = "UNAIDS 90-90-90",
             fluidRow(
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Diagnosed", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "Diagnosed", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "On Treatment", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "On Treatment", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Virally Suppressed", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "Virally Suppressed", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
                 )
             ),
             bsModal(id = "optimDT909090modalID", title = "Result Table", trigger = "optData909090", size = "large",
