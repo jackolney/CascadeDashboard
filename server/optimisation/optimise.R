@@ -80,7 +80,7 @@ RunOptimisation <- function(propRuns = 0.1) {
 
                 p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
 
-                SimResult <- RunSim(y = y, p = p)
+                SimResult <- RunSim_Prop(y = y, p = p)
 
                 # These guys keep going
                 rFirst90[iC]  <- Calc_909090_Result(  SimResult )[1]

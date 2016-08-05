@@ -48,7 +48,7 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
 
         p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
 
-        jList[[j]] <- RunSim(y = y, p = p)
+        jList[[j]] <- RunSim_Prop(y = y, p = p)
     }
     out <- apply(abind::abind(jList, along = 3), c(1,2), mean)
     as.data.frame(out)
