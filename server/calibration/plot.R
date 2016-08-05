@@ -40,7 +40,7 @@ output$plotCD4 <- renderPlot({
     input$NEXT_viral
     input$resetDATA
     BuildCD4Plot(data = MasterData)
-}, height = 300, width = 'auto', bg = 'transparent')
+}, height = 400, width = 'auto', bg = 'transparent')
 
 output$plotIncidence <- renderPlot({
     # add a dependency if we update data, like a 'review' changes.
@@ -49,7 +49,7 @@ output$plotIncidence <- renderPlot({
     input$NEXT_viral
     input$resetDATA
     BuildIncidencePlot(data = MasterData)
-}, height = 300, width = 'auto', bg = 'transparent')
+}, height = 400, width = 'auto', bg = 'transparent')
 
 output$plotCalibHist_rho <- renderPlot({
     input$ADJ_param
