@@ -1,36 +1,5 @@
 # Data Table Render Functions
 
-output$optimDTmodal <- DT::renderDataTable({
-    return(datatable(optResults,
-        style = 'bootstrap',
-        extensions = 'Buttons',
-        options = list(
-            dom = 'Bfrtip',
-            buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
-            pageLength = 25,
-            autoWidth = FALSE,
-            initComplete = JS(
-                "function(settings, json) {",
-                "$(this.api().table().header()).css({'background-color': '#4F8ABA', 'color': '#fff'});",
-                "}")
-            )
-        ) %>%
-        formatRound("First 90",3) %>%
-        formatRound("Second 90",3) %>%
-        formatRound("Third 90",3) %>%
-        formatRound("VS",3) %>%
-        formatRound("Rho",3) %>%
-        formatRound("Q",3) %>%
-        formatRound("Kappa",3) %>%
-        formatRound("Gamma",3) %>%
-        formatRound("Sigma",3) %>%
-        formatRound("Omega",3) %>%
-        formatCurrency("Cost",'$')
-        )
-    }
-)
-
-
 output$optimDT909090modal <- DT::renderDataTable({
     return(datatable(optResults,
         style = 'bootstrap',
@@ -39,6 +8,7 @@ output$optimDT909090modal <- DT::renderDataTable({
             dom = 'Bfrtip',
             buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
             pageLength = 25,
+            scrollX = TRUE,
             autoWidth = FALSE,
             initComplete = JS(
                 "function(settings, json) {",
@@ -110,80 +80,65 @@ output$optParTable_Omega <- renderTable({
 }, digits = 3)
 
 output$bestFitDT <- DT::renderDataTable({
-    p <- parameters(
-        prop_preART_500    = MasterCD4_2015[1,"prop.Off.ART.500"][[1]],
-        prop_preART_350500 = MasterCD4_2015[1,"prop.Off.ART.350500"][[1]],
-        prop_preART_250350 = MasterCD4_2015[1,"prop.Off.ART.250350"][[1]],
-        prop_preART_200250 = MasterCD4_2015[1,"prop.Off.ART.200250"][[1]],
-        prop_preART_100200 = MasterCD4_2015[1,"prop.Off.ART.100200"][[1]],
-        prop_preART_50100  = MasterCD4_2015[1,"prop.Off.ART.50100"][[1]],
-        prop_preART_50     = MasterCD4_2015[1,"prop.Off.ART.50"][[1]],
-        t_1 = ConvertYear2015(MasterData[["treatment_guidelines"]][["more500"]]),
-        t_2 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less500"]]),
-        t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
-        t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
-        t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
-        Rho = CalibParamOut[minErrorRun,"rho"],
-        Epsilon = CalibParamOut[minErrorRun,"epsilon"],
-        Kappa = CalibParamOut[minErrorRun,"kappa"],
-        Gamma = CalibParamOut[minErrorRun,"gamma"],
-        Theta = CalibParamOut[minErrorRun,"theta"],
-        Omega = CalibParamOut[minErrorRun,"omega"],
-        p = CalibParamOut[minErrorRun,"p"],
-        q = CalibParamOut[minErrorRun,"q"]
-    )
 
-    parameter <- c(
-        "Rho",
-        "Epsilon",
-        "q",
-        "Kappa",
-        "Gamma",
-        "p",
-        "Theta",
-        "Omega"
-    )
+    bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = 0.1)
 
-    description <- c(
-        "Diagnosis rate",
-        "Linkage rate",
-        "Proportion successfully linking to care",
-        "Pre-ART dropout rate",
-        "ART initiation rate for eligible individuals in care",
-        "Proportion of patients adhering to treatment at initiation",
-        "ART initiation rate for eligible individuals not currently in care",
-        "ART dropout rate"
-    )
+    orderedRuns <- order(runError[selectedRuns])
 
-    value <- c(
-        round(p[["Rho"]],     digits = 4),
-        round(p[["Epsilon"]], digits = 4),
-        round(p[["q"]],       digits = 4),
-        round(p[["Kappa"]],   digits = 4),
-        round(p[["Gamma"]],   digits = 4),
-        round(p[["p"]],       digits = 4),
-        round(p[["Theta"]],   digits = 4),
-        round(p[["Omega"]],   digits = 4)
-    )
+    pRho     <- c()
+    pEpsilon <- c()
+    pQ       <- c()
+    pKappa   <- c()
+    pGamma   <- c()
+    pP       <- c()
+    pTheta   <- c()
+    pOmega   <- c()
 
-    time <- c(
-        round(1 / p[["Rho"]],     digits = 4),
-        round(1 / p[["Epsilon"]], digits = 4),
-        "-",
-        round(1 / p[["Kappa"]],   digits = 4),
-        round(1 / p[["Gamma"]],   digits = 4),
-        "-",
-        round(1 / p[["Theta"]],   digits = 4),
-        round(1 / p[["Omega"]],   digits = 4)
-    )
+    # because seven indicators
+    for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
 
-    df <- data.frame(parameter, description, value, time)
+        p <- parameters(
+            prop_preART_500    = MasterCD4_2015[1,"prop.Off.ART.500"][[1]],
+            prop_preART_350500 = MasterCD4_2015[1,"prop.Off.ART.350500"][[1]],
+            prop_preART_250350 = MasterCD4_2015[1,"prop.Off.ART.250350"][[1]],
+            prop_preART_200250 = MasterCD4_2015[1,"prop.Off.ART.200250"][[1]],
+            prop_preART_100200 = MasterCD4_2015[1,"prop.Off.ART.100200"][[1]],
+            prop_preART_50100  = MasterCD4_2015[1,"prop.Off.ART.50100"][[1]],
+            prop_preART_50     = MasterCD4_2015[1,"prop.Off.ART.50"][[1]],
+            t_1 = ConvertYear2015(MasterData[["treatment_guidelines"]][["more500"]]),
+            t_2 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less500"]]),
+            t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
+            t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
+            t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
+            Rho = CalibParamOut[orderedRuns[j],"rho"],
+            Epsilon = CalibParamOut[orderedRuns[j],"epsilon"],
+            Kappa = CalibParamOut[orderedRuns[j],"kappa"],
+            Gamma = CalibParamOut[orderedRuns[j],"gamma"],
+            Theta = CalibParamOut[orderedRuns[j],"theta"],
+            Omega = CalibParamOut[orderedRuns[j],"omega"],
+            p = CalibParamOut[orderedRuns[j],"p"],
+            q = CalibParamOut[orderedRuns[j],"q"])
 
-    colnames(df) <- c("Parameter", "Description", "Value", "Rate")
+        pRho[j]     <- round(p[["Rho"]],     digits = 4)
+        pEpsilon[j] <- round(p[["Epsilon"]], digits = 4)
+        pQ[j]       <- round(p[["q"]],       digits = 4)
+        pKappa[j]   <- round(p[["Kappa"]],   digits = 4)
+        pGamma[j]   <- round(p[["Gamma"]],   digits = 4)
+        pP[j]       <- round(p[["p"]],       digits = 4)
+        pTheta[j]   <- round(p[["Theta"]],   digits = 4)
+        pOmega[j]   <- round(p[["Omega"]],   digits = 4)
 
-    DT::datatable(df,
+    }
+
+    pName <- c("Rho", "Epsilon", "q", "Kappa", "Gamma", "p", "Theta", "Omega")
+
+    pOut <- data.frame(pRho, pEpsilon, pQ, pKappa, pGamma, pP, pTheta, pOmega)
+
+    names(pOut) <- pName
+
+    DT::datatable(pOut,
         style = 'bootstrap',
-        rownames = FALSE,
+        rownames = TRUE,
         options = list(
             initComplete = JS(
                 "function(settings, json) {",
