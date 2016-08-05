@@ -12,6 +12,12 @@ tabItem(tabName = "country",
             status = "primary",
             solidHeader = TRUE,
             title = "Select Country",
+            p("Please select a country from the map, the drop-down menu, or
+                click 'New Country / Region' to add a new country to the database.
+                Once a country is selected, or a new name has been entered the
+                'Mission Control' indicators will change color and can be clicked.
+                Clicking on each button will take you to the relevant data entry
+                page. All indicators must be green before proceeding to calibration."),
             fluidRow(
                 column(width = 6,
                     selectInput("selectCountry",

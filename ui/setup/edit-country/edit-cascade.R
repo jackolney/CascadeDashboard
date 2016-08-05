@@ -17,7 +17,13 @@ tabItem(tabName = "edit-cascade",
             helpText("Please enter any available data on this page relating to the cascade.
                 If data are missing, leave the cells blank and they will be ignored by the model.
                 Expand and consult the table below for information regarding how to weight each data point.
-                Click 'Back' to return to the previous page")
+                Click 'Back' to return to the previous page"),
+            h5("Conditions that must be satisfied for indicator to turn green:"),
+            tags$ul(
+                tags$li("Value must be entered in 2010 for 'PLHIV'"),
+                tags$li("Value must be entered in 2010 for 'PLHIV on ART'"),
+                tags$li("All values entered must be accompanied by a weight")
+            )
         ),
         box(width = NULL,
             status = "danger",

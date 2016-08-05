@@ -51,14 +51,24 @@ tabItem(tabName = "opt-909090",
                     infoBoxOutput(outputId = "vb909090_retention",    width = "100%")
                 )
             ),
-            tags$em("If all three targets can be achieved or exceeded by 2020, then the cheapest route to 90-90-90
-                        will be displayed above. The total additional cost of care to achieve these goals between 2015
-                        and 2020 will be shown above along with the changes that must be made to care. In the event
-                        that all three targets are not able to be achieved through implementing interventions, then
-                        the simulation producing the closest result will be displayed, along with its cost and
-                        required changes to care. Boxes are color coded to illustrate the magnitude of changes to be made.
-                        Green boxes illustrate the the two largest absolute changes to care, orange denotes the next
-                        largest two absolute changes to care and red denotes the two smallest absolute changes to care.")
+            tags$em("
+                The average cost and changes to care required to achieve the
+                90-90-90 targets are displayed above. These values illustrate
+                the per year changes to care and are calculated from simulating
+                all combinations of interventions and assessing the outcomes
+                relative to a baseline scenario in the absence of any
+                interventions. We then calculate the changes in each indicator between
+                baseline and intervention scenario, repeat this calculation for
+                all best-fitting parameter sets derived from our calibration,
+                and present the average across all simulations as per year
+                values. Boxes are colour-coded to illustrate the magnitude of
+                change. Green boxes illustrate the the two largest absolute
+                changes to care, orange denotes the next largest two absolute
+                changes to care and red denotes the two smallest absolute
+                changes to care. Occasionally, a negative value is displayed on
+                the screen; this is because interventions can reduce incidence
+                meaning that an increase in one area of the cascade may result
+                in a reduction in another area, this is to be expected.")
         ),
         box(width = NULL,
             status = "warning",
@@ -75,7 +85,22 @@ tabItem(tabName = "opt-909090",
                 ),
                 height = 'auto',
                 width = 'auto'
-            )
+            ),
+            tags$em("
+                The figure above illustrates the calculations behind the values above.
+                Each blue dot represents an individual simulation in terms of its
+                impact and cost relative to a baseline scenario. By simulating
+                all possible combinations of interventions and all best-fitting
+                parameter sets we produce a 'cloud' of potential interventions
+                that will bring about improvements to patient outcomes. We select
+                the simulations that achieve 73% viral suppression by 2020 (the
+                end point of 90-90-90, 0.9^3), and calculate the cost-frontier
+                (the curve depicting maximum impact for minimum cost). We then
+                interpolate between interventions to identify the changes that
+                must be made to care to achieve the 90-90-90 targets. The
+                vertical line illustrates 73% viral suppression by 2020; the
+                lines in red illustrate frontiers that achieve 73% suppression,
+                while those in grey denote frontiers that do not.")
         )
     ),
     column(width = 4,
@@ -83,11 +108,12 @@ tabItem(tabName = "opt-909090",
             status = "warning",
             solidHeader = TRUE,
             title = "Intervention Results",
-            "This page shows the quickest route to achieving the UNAIDS 90-90-90 targets by 2020.
-            For each goal that can be achieved, the box will be green and a tick will be displayed.
-            Any goals that fail to be achieved will be denoted by a cross. Hit 'View Results' to
-            view the selected simulation and othe nearby solutions. Hitting 'Next' takes you to the
-            report generation page.",
+                "This page illustrates the changes that could be made to care that
+                may permit the achievement of the UNAIDS 90-90-90 targets by 2020.
+                We simulate a range of interventions and use interpolation across
+                multiple scenarios to calculate the average changes to care. Hit
+                'View Results' to view individual simulation results. Hitting
+                'Next' takes you to the report generation page.",
             p(""),
             bsButton(inputId = "optData909090",
                         label = "View Results",
