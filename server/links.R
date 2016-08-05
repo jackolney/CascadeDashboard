@@ -181,7 +181,7 @@ observeEvent(input$NEXT_viral, {
 observeEvent(input$NEXT_calib, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "your_cascade"
+        selected = "care_cascade"
     )
 })
 
@@ -199,12 +199,12 @@ observeEvent(input$PREV_param, {
 })
 
 # Your Cascade
-observeEvent(input$PREV_yourCascade, {
-    updateTabItems(session,
-        inputId = "sideBar",
-        selected = "calibration"
-    )
-})
+# observeEvent(input$PREV_yourCascade, {
+#     updateTabItems(session,
+#         inputId = "sideBar",
+#         selected = "calibration"
+#     )
+# })
 
 observeEvent(input$NEXT_yourCascade, {
     updateTabItems(session,
@@ -225,7 +225,7 @@ observeEvent(input$NEXT_yourCascade, {
 observeEvent(input$PREV_careCascade, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "your_cascade"
+        selected = "calibration"
     )
 })
 
