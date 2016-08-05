@@ -494,7 +494,7 @@ output$vb909090_COST <- renderValueBox({
     valueBox(
         value = scales::dollar(mean(intResult[,"iCost"])),
         subtitle = "Additional Cost of Care per year between 2015 and 2020",
-        color = "green",
+        color = "light-blue",
         icon = icon("usd", lib = "font-awesome")
     )
   })
