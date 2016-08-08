@@ -37,11 +37,9 @@ BuildEditCD4Plot <- function(data) {
             ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
             ggOff <- ggOff + theme_classic()
             ggOff <- ggOff + coord_polar(theta = "y")
-            # ggOff <- ggOff + geom_text(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
-            ggOff <- ggOff + geom_text_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
+            ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 5, family = "Avenir Next", show.legend = FALSE)
             ggOff <- ggOff + theme(text = element_text(family = "Avenir Next"))
             ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
-            ggOff <- ggOff + theme(legend.position = "none")
             ggOff <- ggOff + theme(axis.title = element_blank())
             ggOff <- ggOff + theme(legend.title = element_blank())
             ggOff <- ggOff + theme(axis.text = element_blank())
@@ -67,11 +65,9 @@ BuildEditCD4Plot <- function(data) {
             ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
             ggOn <- ggOn + theme_classic()
             ggOn <- ggOn + coord_polar(theta = "y")
-            # ggOn <- ggOn + geom_text(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
-            ggOn <- ggOn + geom_text_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
+            ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 5, family = "Avenir Next", show.legend = FALSE)
             ggOn <- ggOn + theme(text = element_text(family = "Avenir Next"))
             ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
-            ggOn <- ggOn + theme(legend.position = "none")
             ggOn <- ggOn + theme(axis.title = element_blank())
             ggOn <- ggOn + theme(legend.title = element_blank())
             ggOn <- ggOn + theme(axis.text = element_blank())
@@ -89,7 +85,7 @@ BuildEditCD4Plot <- function(data) {
             ggOn <- ggOn + theme(panel.background = element_blank())
             ggOn
         }
-        suppressWarnings(gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1))
+        suppressWarnings(GridArrangeSharedLegend(ggOff, ggOn, ncol = 2, nrow = 1, position = "right"))
     }
 }
 

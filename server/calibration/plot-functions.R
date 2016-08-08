@@ -285,6 +285,31 @@ BuildDataReviewPlot <- function(data) {
     ggOut
 }
 
+GridArrangeSharedLegend <- function(..., ncol = length(list(...)), nrow = 1, position = c("bottom", "right")) {
+
+  plots <- list(...)
+  position <- match.arg(position)
+  g <- ggplotGrob(plots[[1]] + theme(legend.position = position))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  lheight <- sum(legend$height)
+  lwidth <- sum(legend$width)
+  gl <- lapply(plots, function(x) x + theme(legend.position="none"))
+  gl <- c(gl, ncol = ncol, nrow = nrow)
+
+  combined <- switch(position,
+                     "bottom" = arrangeGrob(do.call(arrangeGrob, gl),
+                                            legend,
+                                            ncol = 1,
+                                            heights = unit.c(unit(1, "npc") - lheight, lheight)),
+                     "right" = arrangeGrob(do.call(arrangeGrob, gl),
+                                           legend,
+                                           ncol = 2,
+                                           widths = unit.c(unit(1, "npc") - lwidth, lwidth)))
+  grid.newpage()
+  grid.draw(combined)
+
+}
+
 BuildCD4Plot <- function(data) {
     Proportion <- as.numeric(data$cd4[2:15])
     ART <- c(rep("Off ART", 7), rep("On ART", 7))
@@ -298,8 +323,7 @@ BuildCD4Plot <- function(data) {
     ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
     ggOff <- ggOff + theme_classic()
     ggOff <- ggOff + coord_polar(theta = "y")
-    # ggOff <- ggOff + geom_text(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
-    ggOff <- ggOff + geom_text_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 5, family = "Avenir Next"))
+    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = "Avenir Next", show.legend = FALSE)
     ggOff <- ggOff + theme(text = element_text(family = "Avenir Next"))
     ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOff <- ggOff + theme(legend.position = "none")
@@ -310,6 +334,8 @@ BuildCD4Plot <- function(data) {
     ggOff <- ggOff + theme(plot.background = element_blank())
     ggOff <- ggOff + theme(legend.background = element_blank())
     ggOff <- ggOff + theme(panel.background = element_blank())
+    ggOff <- ggOff + theme(legend.text = element_text(size = 15))
+    ggOff <- ggOff + theme(legend.key.size = unit(1, "cm"))
     ggOff <- ggOff + ggtitle("Off ART")
     ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5, size = 18))
 
@@ -320,8 +346,7 @@ BuildCD4Plot <- function(data) {
     ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
     ggOn <- ggOn + theme_classic()
     ggOn <- ggOn + coord_polar(theta = "y")
-    # ggOn <- ggOn + geom_text(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 3, family = "Avenir Next"))
-    ggOn <- ggOn + geom_text_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2)), size = 5, family = "Avenir Next"))
+    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = "Avenir Next", show.legend = FALSE)
     ggOn <- ggOn + theme(text = element_text(family = "Avenir Next"))
     ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOn <- ggOn + theme(legend.position = "none")
@@ -335,7 +360,7 @@ BuildCD4Plot <- function(data) {
     ggOn <- ggOn + ggtitle("On ART")
     ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 18))
 
-    suppressWarnings(gridExtra::grid.arrange(ggOff, ggOn, ncol = 2, nrow = 1))
+    suppressWarnings(GridArrangeSharedLegend(ggOff, ggOn, ncol = 2, nrow = 1, position = "right"))
 }
 
 BuildIncidencePlot <- function(data) {
