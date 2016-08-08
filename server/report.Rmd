@@ -9,35 +9,22 @@ Welcome to the cascade report. This report was generated on `r Sys.time()` from 
 The intention of this report is to act as a reference for any data entered, simulations carried out and results generated. The model is still under active development so caution is advised as results are preliminary.
 
 # Data Review
-Combining available data with any additional data entered by the user, the model used the following data on for calibration:
+Combining previously collected data with anything entered by the user, the model used the following during calibration:
 
 ### Cascade Data
-The below table describes the entire cascade database used by the model for calibration. It is a tabular representation of what you would have seen on the calibration page. Calibration figures will be printed out ahead.
-
-#
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     BuildDataReviewPlot_Report(data = MasterData$calib)
 ```
 
-
-
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
+    # mytheme <- gridExtra::ttheme_default(
+    #     core = list(fg_params=list(cex = 2.0)),
+    #     colhead = list(fg_params=list(cex = 1.0)),
+    #     rowhead = list(fg_params=list(cex = 1.0)))
+    # myt <- gridExtra::tableGrob(mtcars[1:5, 1:5], theme = mytheme)
+    # grid.draw(myt)
     gridExtra::grid.table(scales::comma(MasterData$calib), rows = NULL)
-```
-
-### Incidence Estimates
-These incidence estimates were sourced from Spectrum. The model randomly sampled between the upper and lower bounds during calibration to account for uncertainty the in these incidence estimates.
-```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-    gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL)
-```
-
-### Country Specific Treatment Guidelines
-The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
-```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-    int <- MasterData$treatment_guidelines
-    names(int) <- c("Country", "<200", "<250", "<350", "<500", ">500")
-    gridExtra::grid.table(int, rows = NULL)
 ```
 
 \newpage
@@ -62,6 +49,20 @@ To ensure that the model retains the correct distribution of CD4 counts across b
     cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
     art <- c(rep("Off ART", 7), rep("On ART", 7))
     gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL)
+```
+
+### Incidence Estimates
+These incidence estimates were sourced from Spectrum. The model randomly sampled between the upper and lower bounds during calibration to account for uncertainty the in these incidence estimates.
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL)
+```
+
+### Country Specific Treatment Guidelines
+The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    int <- MasterData$treatment_guidelines
+    names(int) <- c("Country", "<200", "<250", "<350", "<500", ">500")
+    gridExtra::grid.table(int, rows = NULL)
 ```
 
 \newpage
@@ -219,4 +220,5 @@ A figure illustrating the cost-frontiers of all simulations is displayed below. 
     BuildFrontierPlot_Report(CalibParamOut = CalibParamOut, optResults = optResults)
 ```
 
+#
 **Thanks you for using the HIV Modelling Consortium Cascade Estimation App.**
