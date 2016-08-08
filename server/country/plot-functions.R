@@ -15,6 +15,7 @@ BuildEditCascadePlot <- function(data) {
         ggOut <- ggOut + theme(axis.title = element_text(size = 10))
         ggOut <- ggOut + theme(legend.text = element_text(size = 10))
         ggOut <- ggOut + theme(legend.position = "top")
+        ggOut <- ggOut + theme(axis.ticks.x = element_blank())
         ggOut <- ggOut + theme(axis.line.x = element_line())
         ggOut <- ggOut + theme(axis.line.y = element_line())
         ggOut <- ggOut + theme(axis.title = element_blank())

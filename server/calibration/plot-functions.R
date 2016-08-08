@@ -212,6 +212,7 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate 95% CI, points are data")
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
     ggOut <- ggOut + theme(title = element_text(size = 18))
@@ -272,8 +273,10 @@ BuildDataReviewPlot <- function(data) {
         breaks = base::pretty(seq(0, round(max(data$value), digits = -5)), n = 5),
         labels = scales::comma,
         expand = c(0, 0))
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2010, 2015, 1), labels = seq(2010, 2015, 1))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 14))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 14))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.title = element_text(size = 14))
     ggOut <- ggOut + theme(legend.text = element_text(size = 13))
     ggOut <- ggOut + theme(axis.line.x = element_line())

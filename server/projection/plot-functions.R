@@ -100,6 +100,7 @@ GenCascadePlot <- function() {
     ggOne <- ggOne + theme(axis.title = element_blank())
     ggOne <- ggOne + theme(axis.text.x = element_text(size = 17))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 18))
+    ggOne <- ggOne + theme(axis.ticks.x = element_blank())
     ggOne <- ggOne + theme(legend.position = "right")
     ggOne <- ggOne + theme(legend.title = element_text(size = 17))
     ggOne <- ggOne + theme(legend.text = element_text(size = 15))
@@ -212,6 +213,7 @@ Gen909090Plot <- function() {
     ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5))
     ggOut <- ggOut + theme(title = element_text(size = 20))
     ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 18))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 18))
     ggOut <- ggOut + theme(legend.position = "none")
@@ -259,6 +261,7 @@ GenNewInfPlot <- function(wizard) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
@@ -308,6 +311,7 @@ GenAidsDeathsPlot <- function(wizard) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))

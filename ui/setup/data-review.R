@@ -15,7 +15,7 @@ tabItem(tabName = "data-review",
         box(width = NULL,
             status = "primary",
             solidHeader = TRUE,
-            title = "CD4 Distribution",
+            title = "CD4 Distribution in 2010",
             collapsible = TRUE,
             collapsed = FALSE,
             plotOutput('plotCD4', height = 'auto', width = 'auto')
