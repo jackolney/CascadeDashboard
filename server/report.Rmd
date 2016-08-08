@@ -156,23 +156,13 @@ within a certain interval. As a result we are left with `r input$minResults` par
 could be plausibly true. Now, if we were to then simulate thousands permutations of interventions
 on each of these `r input$minResults` parameter sets we would need to millions of simulations, which
 what take a considerable amount of time. As one of the aims of this model was to be simple to use
-and most importantly fast, we have decided to only simulate interventions on the 'best fitting'
-parameter set. That is to say, the parameter set that produces the smallest total model error.
-
-The model identified the following parameters that produced the best fit to available data:
-
-Parameter | Value
-----------|---------------------------------------
-$\rho$    | `r CalibParamOut[minErrorRun, "rho"]`
-$q$       | `r CalibParamOut[minErrorRun, "q"]`
-$\gamma$  | `r CalibParamOut[minErrorRun, "gamma"]`
-$\theta$  | `r CalibParamOut[minErrorRun, "theta"]`
-$\kappa$  | `r CalibParamOut[minErrorRun, "kappa"]`
-$\omega$  | `r CalibParamOut[minErrorRun, "omega"]`
-$p$       | `r CalibParamOut[minErrorRun, "p"]`
+and most importantly fast, we have decided to only simulate interventions on the top 10% of
+'best fitting' parameter sets. As we accepted `r input$minResults` parameter sets, we will simulate
+interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the top 10%
+calibration runs is shown below, the 10% are coloured red.
 
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    BuildCalibrationBestFitPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
+    BuildCalibrationBestFitRunsPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
 ```
 
 ## Interventions
@@ -207,15 +197,9 @@ Upon initiating ART, a proportion ($p$) of patients adhere to treatment and beco
 Finally, we simulate an intervention that reduces loss to follow-up for persons on treatment. During calibration we derive a baseline rate at which individuals are lost from ART care, omega. We simulate an intervention by reducing this rate of loss from care. Additionally, this rate applies to both adherent and non-adherent persons on ART.
 
 
-## UNAIDS 90-90-90 Achievement
+## UNAIDS 90-90-90 Targets
 
-Goal                                          | Optimised Estimate by 2020
-----------------------------------------------|--------------------------------------------------------------------------
-90\% of PLHIV diagnosed                       | `r scales::percent(round(Get909090(optResult)[,"90"],       digits = 2))`
-90\% of diagnosed on treatment                | `r scales::percent(round(Get909090(optResult)[,"90-90"],    digits = 2))`
-90\% of those on treatment virally suppressed | `r scales::percent(round(Get909090(optResult)[,"90-90-90"], digits = 2))`
-
-If all three targets can be achieved or exceeded by 2020, then the cheapest route to 90-90-90 will be displayed. The total additional cost of care to achieve these goals between 2015 and 2020 will be shown along with the changes that must be made to care. In the event that all three targets are not able to be achieved through implementing interventions, then the simulation producing the closest result will be displayed, along with its cost and required changes to care.
+Estimates of the changes that could be made to care to facilitate the achievement of the 90-90-90 targets by 2020 are displayed below along with the average additional cost relative to a scenario with no changes to care.
 
 Change            | Description                                            | Value
 ------------------|--------------------------------------------------------|--------------------------------
@@ -229,5 +213,10 @@ ART Retention     | Reduction in losses from ART care per year             | `r 
 
 If you would like to review the full list of all simulated interventions, please return to the optimisation results tab and click 'View Results' where the tables are able to be exported as a csv file, an excel spreadsheet, a pdf or printed directly.
 
-#
+A figure illustrating the cost-frontiers of all simulations is displayed below.  Each blue dot represents an individual simulation in terms of its impact and cost relative to a baseline scenario. By simulating all possible combinations of interventions and all best-fitting parameter sets we produce a 'cloud' of potential interventions that will bring about improvements to patient outcomes. We select the simulations that achieve 73% viral suppression by 2020 (the end point of 90-90-90), and calculate the cost-frontier (the curve depicting maximum impact for minimum cost). We then interpolate between interventions to identify the changes that must be made to care to achieve the 90-90-90 targets. The vertical line illustrates 73% viral suppression by 2020; the lines in red illustrate frontiers that achieve 73% suppression, while those in grey denote frontiers that do not.
+
+```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
+    BuildFrontierPlot_Report(CalibParamOut = CalibParamOut, optResults = optResults)
+```
+
 **Thanks you for using the HIV Modelling Consortium Cascade Estimation App.**
