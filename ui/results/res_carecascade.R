@@ -14,8 +14,7 @@ tabItem(tabName = "care_cascade",
             title = "The Care Cascade between 2015 and 2020",
             "These figures illustrate how the structure of the cascade is likely to change over time
             from 2015 to 2020. This change arises from the parameter values derived during model calibration.
-            The bars illustrate the mean value across all simulations and the error bars show the maximum and minimum
-            values that arose during calibration."
+            The bars illustrate the mean value across all simulations and the error bars show 95% confidence intervals."
         ),
         fluidRow(
             column(width = 6,

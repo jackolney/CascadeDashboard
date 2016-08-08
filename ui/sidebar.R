@@ -20,7 +20,8 @@ dashboardSidebar(
             menuSubItem("Cascade Projection",     tabName = "care_cascade"),
             menuSubItem("The Power's Cascade",    tabName = "powers_cascade"),
             menuSubItem("UNAIDS 90-90-90",        tabName = "_909090"),
-            menuSubItem("Incidence & Mortality",  tabName = "incidence_mortality")
+            menuSubItem("Incidence",              tabName = "incidence"),
+            menuSubItem("Mortality",              tabName = "mortality")
         ),
         menuItem("Optimisation", icon = icon("pie-chart", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Introduction",           tabName = "opt-intro"),

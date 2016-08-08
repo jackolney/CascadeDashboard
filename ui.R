@@ -26,7 +26,8 @@ dashboardPage(
             source("ui/results/res_carecascade.R",            local = TRUE)$value,
             source("ui/results/res_powerscascade.R",          local = TRUE)$value,
             source("ui/results/res_909090.R",                 local = TRUE)$value,
-            source("ui/results/res_incidencemortality.R",     local = TRUE)$value,
+            source("ui/results/res_incidence.R",              local = TRUE)$value,
+            source("ui/results/res_mortality.R",              local = TRUE)$value,
 
             # Optimisation
             source("ui/optimisation/opt-intro.R",             local = TRUE)$value,

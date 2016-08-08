@@ -255,19 +255,33 @@ observeEvent(input$PREV_909090, {
 observeEvent(input$NEXT_909090, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "incidence_mortality"
+        selected = "incidence"
     )
 })
 
 # Incidence / Mortality
-observeEvent(input$PREV_incMort, {
+observeEvent(input$PREV_inc, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "_909090"
     )
 })
 
-observeEvent(input$NEXT_incMort, {
+observeEvent(input$NEXT_inc, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "mortality"
+    )
+})
+
+observeEvent(input$PREV_mort, {
+    updateTabItems(session,
+        inputId = "sideBar",
+        selected = "incidence"
+    )
+})
+
+observeEvent(input$NEXT_mort, {
     updateTabItems(session,
         inputId = "sideBar",
         selected = "opt-intro"
@@ -278,7 +292,7 @@ observeEvent(input$NEXT_incMort, {
 observeEvent(input$PREV_optIntro, {
     updateTabItems(session,
         inputId = "sideBar",
-        selected = "incidence_mortality"
+        selected = "mortality"
     )
 })
 
