@@ -133,19 +133,20 @@ GetCountryData <- function(uCountry) {
     calib.previous_data        <- readr::read_csv(paste0(c.file.path, "/previous-data.csv"),            col_names = TRUE, skip = 0)
     calib.rates                <- readr::read_csv(paste0(c.file.path, "/rates.csv"),                    col_names = TRUE, skip = 0)
     calib.treatment_guidelines <- readr::read_csv(paste0(c.file.path, "/treatment-guidelines-cd4.csv"), col_names = TRUE, skip = 0)
+    calib.cd4_2015             <- readr::read_csv("server/data/projection/cd4-distribution-2015.csv",   col_names = TRUE, skip = 0)
 
     # Compile data.frame
     calib.df <- list()
-    calib.df[[1]] <- dplyr::filter(calib.incidence,             country == uCountry)
-    calib.df[[2]] <- dplyr::filter(calib.cd4,                   country == uCountry)
-    calib.df[[3]] <- dplyr::filter(calib.treatment_guidelines,  country == uCountry)
-    calib.df[[4]] <- dplyr::filter(calib.art,                   country == uCountry)
-    calib.df[[5]] <- dplyr::filter(calib.hiv_awareness_unaids,  country == uCountry)
-    calib.df[[6]] <- dplyr::filter(calib.not_on_art,            country == uCountry)
-    calib.df[[7]] <- dplyr::filter(calib.plhiv,                 country == uCountry)
-    calib.df[[8]] <- dplyr::filter(calib.previous_data,         country == uCountry)
-    calib.df[[9]] <- dplyr::filter(calib.rates,                 country == uCountry)
-    calib.df[[10]] <- dplyr::filter(calib.treatment_guidelines, country == uCountry)
+    calib.df[[1]]  <- dplyr::filter(calib.incidence,             country == uCountry)
+    calib.df[[2]]  <- dplyr::filter(calib.cd4,                   country == uCountry)
+    calib.df[[3]]  <- dplyr::filter(calib.treatment_guidelines,  country == uCountry)
+    calib.df[[4]]  <- dplyr::filter(calib.art,                   country == uCountry)
+    calib.df[[5]]  <- dplyr::filter(calib.hiv_awareness_unaids,  country == uCountry)
+    calib.df[[6]]  <- dplyr::filter(calib.not_on_art,            country == uCountry)
+    calib.df[[7]]  <- dplyr::filter(calib.plhiv,                 country == uCountry)
+    calib.df[[8]]  <- dplyr::filter(calib.previous_data,         country == uCountry)
+    calib.df[[9]]  <- dplyr::filter(calib.rates,                 country == uCountry)
+    calib.df[[10]] <- dplyr::filter(calib.cd4_2015,              country == uCountry)
 
     # Create a vector of data names
     names(calib.df) <- c(
@@ -157,7 +158,8 @@ GetCountryData <- function(uCountry) {
         "not_on_art",
         "plhiv",
         "previous_data",
-        "rates"
+        "rates",
+        "cd4_2015"
         )
 
     ## Incidence
@@ -211,6 +213,43 @@ GetCountryData <- function(uCountry) {
         get("prop.On.ART.50"))
         names(blankCD4) <- c("country", "prop.Off.ART.500", "prop.Off.ART.350500", "prop.Off.ART.250350", "prop.Off.ART.200250", "prop.Off.ART.100200", "prop.Off.ART.50100", "prop.Off.ART.50", "prop.On.ART.500", "prop.On.ART.350500", "prop.On.ART.250350", "prop.On.ART.200250", "prop.On.ART.100200", "prop.On.ART.50100", "prop.On.ART.50")
         calib.df$cd4 <- dplyr::tbl_df(blankCD4)
+    }
+
+    ## CD4 2015
+    if (isReallyEmpty(calib.df$cd4_2015)) {
+        country <- uCountry
+        "prop.Off.ART.500" <- as.numeric(NA)
+        "prop.Off.ART.350500" <- as.numeric(NA)
+        "prop.Off.ART.250350" <- as.numeric(NA)
+        "prop.Off.ART.200250" <- as.numeric(NA)
+        "prop.Off.ART.100200" <- as.numeric(NA)
+        "prop.Off.ART.50100" <- as.numeric(NA)
+        "prop.Off.ART.50" <- as.numeric(NA)
+        "prop.On.ART.500" <- as.numeric(NA)
+        "prop.On.ART.350500" <- as.numeric(NA)
+        "prop.On.ART.250350" <- as.numeric(NA)
+        "prop.On.ART.200250" <- as.numeric(NA)
+        "prop.On.ART.100200" <- as.numeric(NA)
+        "prop.On.ART.50100" <- as.numeric(NA)
+        "prop.On.ART.50" <- as.numeric(NA)
+
+        blankCD4 <- data.frame(country,
+        get("prop.Off.ART.500"),
+        get("prop.Off.ART.350500"),
+        get("prop.Off.ART.250350"),
+        get("prop.Off.ART.200250"),
+        get("prop.Off.ART.100200"),
+        get("prop.Off.ART.50100"),
+        get("prop.Off.ART.50"),
+        get("prop.On.ART.500"),
+        get("prop.On.ART.350500"),
+        get("prop.On.ART.250350"),
+        get("prop.On.ART.200250"),
+        get("prop.On.ART.100200"),
+        get("prop.On.ART.50100"),
+        get("prop.On.ART.50"))
+        names(blankCD4) <- c("country", "prop.Off.ART.500", "prop.Off.ART.350500", "prop.Off.ART.250350", "prop.Off.ART.200250", "prop.Off.ART.100200", "prop.Off.ART.50100", "prop.Off.ART.50", "prop.On.ART.500", "prop.On.ART.350500", "prop.On.ART.250350", "prop.On.ART.200250", "prop.On.ART.100200", "prop.On.ART.50100", "prop.On.ART.50")
+        calib.df$cd4_2015 <- dplyr::tbl_df(blankCD4)
     }
 
     ## Treatment Guidelines
@@ -322,7 +361,8 @@ GetCountryData <- function(uCountry) {
         calib.df$cd4,
         calib.df$treatment_guidelines,
         out,
-        calib.df$rates
+        calib.df$rates,
+        calib.df$cd4_2015
         )
 
     names(out.list) <- c(
@@ -330,7 +370,8 @@ GetCountryData <- function(uCountry) {
         "cd4",
         "treatment_guidelines",
         "calib",
-        "rates"
+        "rates",
+        "cd4_2015"
         )
 
     out.list

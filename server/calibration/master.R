@@ -201,6 +201,24 @@ GetBlankMasterDataSet <- function(newName) {
         "prop.On.ART.50")
     ] <- NA
 
+    # CD4 2015
+    oldData$cd4_2015[,"country"] <- newName
+    oldData$cd4_2015[, c("prop.Off.ART.500",
+        "prop.Off.ART.350500",
+        "prop.Off.ART.250350",
+        "prop.Off.ART.200250",
+        "prop.Off.ART.100200",
+        "prop.Off.ART.50100",
+        "prop.Off.ART.50",
+        "prop.On.ART.500",
+        "prop.On.ART.350500",
+        "prop.On.ART.250350",
+        "prop.On.ART.200250",
+        "prop.On.ART.100200",
+        "prop.On.ART.50100",
+        "prop.On.ART.50")
+    ] <- NA
+
     # Treatment Guidelines
     oldData$treatment_guidelines[,"country"] <- newName
     oldData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <- as.numeric(NA)

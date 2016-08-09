@@ -18,19 +18,24 @@ Combining previously collected data with anything entered by the user, the model
 ```
 
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    # mytheme <- gridExtra::ttheme_default(
-    #     core = list(fg_params=list(cex = 2.0)),
-    #     colhead = list(fg_params=list(cex = 1.0)),
-    #     rowhead = list(fg_params=list(cex = 1.0)))
-    # myt <- gridExtra::tableGrob(mtcars[1:5, 1:5], theme = mytheme)
-    # grid.draw(myt)
-    gridExtra::grid.table(scales::comma(MasterData$calib), rows = NULL)
+    myTheme <- gridExtra::ttheme_default(
+        core =    list(fg_params = list(cex = 2.0)),
+        colhead = list(fg_params = list(cex = 1.0)),
+        rowhead = list(fg_params = list(cex = 1.0)))
+    gridExtra::grid.table(scales::comma(MasterData$calib), rows = NULL, theme = myTheme)
 ```
 
 \newpage
 
-### CD4 Distribution Estimates from Spectrum (2010)
-To ensure that HIV-mortality rates were accurate, the model uses CD4 distribution estimates from 2010 (when calibration was started)
+### CD4 Distribution
+To ensure the accuracy of HIV-mortality rates and to account for the standing-start nature of our calibration method, we allow the user to specify, or source from Spectrum, CD4 distribution estimates to seed the model prior to calibration.
+
+#### Estimates in 2010
+
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    BuildCD4Plot2010_Report(data = MasterData$cd4)
+```
+
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
     int <- t(MasterData$cd4)
     proportion <- round(as.numeric(int[2:15,]), digits = 2)
@@ -39,10 +44,13 @@ To ensure that HIV-mortality rates were accurate, the model uses CD4 distributio
     gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL)
 ```
 
-\newpage
-
-### CD4 Distribution Estimates from Spectrum (2015)
+#### Estimates in 2015
 To ensure that the model retains the correct distribution of CD4 counts across both pre-ART and ART patients, we re-set the model to the 2015 CD4 distribution estimates.
+
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    BuildCD4Plot2015_Report(data = MasterData$cd4_2015)
+```
+
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
     int <- t(MasterCD4_2015)
     proportion <- round(as.numeric(int[2:15,]), digits = 2)
@@ -53,12 +61,18 @@ To ensure that the model retains the correct distribution of CD4 counts across b
 
 ### Incidence Estimates
 These incidence estimates were sourced from Spectrum. The model randomly sampled between the upper and lower bounds during calibration to account for uncertainty the in these incidence estimates.
+
+```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+    BuildIncidencePlot_Report(data = MasterData$incidence)
+```
+
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL)
 ```
 
 ### Country Specific Treatment Guidelines
 The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
+
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     int <- MasterData$treatment_guidelines
     names(int) <- c("Country", "<200", "<250", "<350", "<500", ">500")
