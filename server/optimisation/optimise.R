@@ -66,7 +66,7 @@ RunOptimisation <- function(propRuns = 0.1) {
 
                 # This need modifying
                 p <- GetOptRunPar(
-                    masterCD4 = MasterCD4_2015,
+                    masterCD4 = MasterData$cd4_2015,
                     data = MasterData,
                     iterationParam = parSteps[i,],
                     calibParamOut = CalibParamOut,
@@ -76,7 +76,7 @@ RunOptimisation <- function(propRuns = 0.1) {
                 y <- GetInitial(
                     p = p,
                     iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
-                    masterCD4 = MasterCD4_2015)
+                    masterCD4 = MasterData$cd4_2015)
 
                 p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
 

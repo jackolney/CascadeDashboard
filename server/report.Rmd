@@ -52,7 +52,7 @@ To ensure that the model retains the correct distribution of CD4 counts across b
 ```
 
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    int <- t(MasterCD4_2015)
+    int <- t(MasterData$cd4_2015)
     proportion <- round(as.numeric(int[2:15,]), digits = 2)
     cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
     art <- c(rep("Off ART", 7), rep("On ART", 7))

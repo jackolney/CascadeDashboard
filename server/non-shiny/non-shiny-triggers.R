@@ -18,7 +18,6 @@ source("server/projection/CD4-distribution.R",         local = FALSE)
 source("server/optimisation/frontier.R",               local = FALSE)
 
 # reactive input setup
-MasterCD4_2015 <- GetCD4Distribution2015("Kenya")
 MasterData <- GetCountryData("Kenya")
 
 intSwitch <- data.frame(

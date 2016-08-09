@@ -139,14 +139,14 @@ CallMeanModel <- function() {
     meanCalibInitial <- GetAverageCalibOut(CalibOut)
 
     p <- GetMeanPar(
-        masterCD4 = MasterCD4_2015,
+        masterCD4 = MasterData$cd4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut)
 
     y <- GetInitial(
         p = p,
         iterationResult = meanCalibInitial,
-        masterCD4 = MasterCD4_2015)
+        masterCD4 = MasterData$cd4_2015)
 
     # Pass the mean incidence to GetBeta()
     p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = colMeans(CalibIncOut))

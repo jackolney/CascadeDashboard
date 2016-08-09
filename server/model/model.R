@@ -9,7 +9,7 @@ CallModel <- reactive({
     for (i in 1:dim(CalibParamOut)[1]) {
 
         p <- GetParameters(
-            masterCD4 = MasterCD4_2015,
+            masterCD4 = MasterData$cd4_2015,
             data = MasterData,
             iterationParam = CalibParamOut[i,])
 
@@ -17,7 +17,7 @@ CallModel <- reactive({
         y <- GetInitial(
             p = p,
             iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (i - 1),],
-            masterCD4 = MasterCD4_2015
+            masterCD4 = MasterData$cd4_2015
             )
 
         p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[i,])

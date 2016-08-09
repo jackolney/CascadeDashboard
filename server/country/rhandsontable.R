@@ -16,7 +16,6 @@ observe({
     input$PREV_editCascade
     if (!is.null(values[["hot_cascade"]]) & exists("MasterData")) {
         MasterData$calib <<- na.omit(values[["hot_cascade"]])
-        # print(MasterData$calib)
     }
 })
 
@@ -83,7 +82,6 @@ observe({
         if (input$new_country_name != "") {
             MasterData$cd4[[1]] <<- input$new_country_name
         }
-        # print(MasterData$cd4)
     }
 })
 
@@ -168,7 +166,6 @@ output$hot_cd4_2015 <- renderRHandsontable({
             if (isReallyEmpty(MasterData$cd4_2015)) {
                 Proportion <- as.numeric(NA)
             } else {
-                print(MasterData)
                 Proportion <- as.numeric(MasterData$cd4_2015[2:15])
             }
             ART <- c(rep("Off ART", 7), rep("On ART", 7))
@@ -202,7 +199,6 @@ observe({
     input$PREV_editIncidence
     if (!is.null(values[["hot_incidence"]]) & exists("MasterData")) {
         MasterData$incidence <<- values[["hot_incidence"]]
-        # print(MasterData$incidence)
     }
 })
 
@@ -258,7 +254,6 @@ observe({
     input$PREV_editGuidelines
     if (!is.null(values[["hot_guidelines"]]) & exists("MasterData")) {
         MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <<- values[["hot_guidelines"]]$Year
-        # print(MasterData$treatment_guidelines)
     }
 })
 

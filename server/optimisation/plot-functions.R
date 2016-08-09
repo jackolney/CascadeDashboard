@@ -185,7 +185,7 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
 
 BuildOGCostImpactPlot <- function() {
     bestPar <- GetBestPar(
-        masterCD4 = MasterCD4_2015,
+        masterCD4 = MasterData$cd4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
         minErrorRun = minErrorRun)

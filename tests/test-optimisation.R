@@ -44,14 +44,14 @@ require("cascade")
 #     message(paste("Sim", j))
 #     par <- GetParaMatrixRunLimits(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = 2)
 #     pOpt <- GetOptRunPar(
-#         masterCD4 = MasterCD4_2015,
+#         masterCD4 = MasterData$cd4_2015,
 #         data = MasterData,
 #         iterationParam = par[i,],
 #         calibParamOut = CalibParamOut,
 #         runNumber = orderedRuns[j])
 
 #     pBase <- GetBaselinePar(
-#         masterCD4 = MasterCD4_2015,
+#         masterCD4 = MasterData$cd4_2015,
 #         data = MasterData,
 #         calibParamOut = CalibParamOut,
 #         runNumber = orderedRuns[j])

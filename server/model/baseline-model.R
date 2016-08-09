@@ -3,7 +3,7 @@
 CallBaselineModel <- function(runNumber, initVals) {
     # Setup #
     p <- GetBaselinePar(
-        masterCD4 = MasterCD4_2015,
+        masterCD4 = MasterData$cd4_2015,
         data = MasterData,
         calibParamOut = CalibParamOut,
         runNumber = runNumber)
@@ -11,7 +11,7 @@ CallBaselineModel <- function(runNumber, initVals) {
     y <- GetInitial(
         p = p,
         iterationResult = initVals,
-        masterCD4 = MasterCD4_2015)
+        masterCD4 = MasterData$cd4_2015)
 
     p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[runNumber,])
 

@@ -174,13 +174,13 @@ head(test,100)
 # dim(CalibOut)
 
 p <- parameters(
-    prop_preART_500    = MasterCD4_2015[1,"prop.Off.ART.500"][[1]],
-    prop_preART_350500 = MasterCD4_2015[1,"prop.Off.ART.350500"][[1]],
-    prop_preART_250350 = MasterCD4_2015[1,"prop.Off.ART.250350"][[1]],
-    prop_preART_200250 = MasterCD4_2015[1,"prop.Off.ART.200250"][[1]],
-    prop_preART_100200 = MasterCD4_2015[1,"prop.Off.ART.100200"][[1]],
-    prop_preART_50100  = MasterCD4_2015[1,"prop.Off.ART.50100"][[1]],
-    prop_preART_50     = MasterCD4_2015[1,"prop.Off.ART.50"][[1]],
+    prop_preART_500    = MasterData$cd4_2015[1,"prop.Off.ART.500"][[1]],
+    prop_preART_350500 = MasterData$cd4_2015[1,"prop.Off.ART.350500"][[1]],
+    prop_preART_250350 = MasterData$cd4_2015[1,"prop.Off.ART.250350"][[1]],
+    prop_preART_200250 = MasterData$cd4_2015[1,"prop.Off.ART.200250"][[1]],
+    prop_preART_100200 = MasterData$cd4_2015[1,"prop.Off.ART.100200"][[1]],
+    prop_preART_50100  = MasterData$cd4_2015[1,"prop.Off.ART.50100"][[1]],
+    prop_preART_50     = MasterData$cd4_2015[1,"prop.Off.ART.50"][[1]],
     t_1 = ConvertYear2015(MasterData[["treatment_guidelines"]][["more500"]]),
     t_2 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less500"]]),
     t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
@@ -204,7 +204,7 @@ p[["Rho"]]
 # y <- GetInitial(
 #     p = p,
 #     iterationResult = GetBestCalibOut(calibOut = CalibOut, minErrorRun = minErrorRun),
-#     masterCD4 = MasterCD4_2015
+#     masterCD4 = MasterData$cd4_2015
 #     )
 
 # p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])

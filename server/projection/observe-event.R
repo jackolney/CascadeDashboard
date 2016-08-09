@@ -1,12 +1,3 @@
-observeEvent(input$NEXT_calib, {
-
-    # Upon pressing the 'next' button, read in the 2015 CD4 disitribution and run the model
-    # Produce the relevant plots.
-
-    # MasterCD4_2015 <<- GetCD4Distribution2015(input$selectCountry)
-
-})
-
 observeEvent(input$userRetArt12mths, {
     if (input$userRetArt12mths != 0 || is.na(input$userRetArt12mths)) {
         newValue <- -log(input$userRetArt12mths)

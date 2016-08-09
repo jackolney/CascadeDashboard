@@ -63,7 +63,6 @@ source("server/calibration/update-input.R",          local = TRUE)
 # PROJECTION #
 # ---------- #
 
-source("server/projection/CD4-distribution.R",       local = TRUE)
 source("server/projection/data-table.R",             local = TRUE)
 source("server/projection/extract-data.R",           local = TRUE)
 source("server/projection/observe-event.R",          local = TRUE)
