@@ -221,6 +221,7 @@ Gen909090Plot <- function() {
     ggOut <- ggOut + theme(panel.background = element_blank())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + geom_label(aes(x = def, label = scales::percent(round(out$res, digits = 2))), size = 8)
     ggOut
 }
 

@@ -21,7 +21,7 @@ BuildCalibrationPlot_Report <- function(data, originalData) {
     ggOut <- ggplot(out[out$year == 2015,][1:5,], aes(x = indicator, y = mean))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
     ggOut <- ggOut + scale_fill_manual(values = barFill)
-    ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 0.5)
     ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 3.5)
     ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 3)
     if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
@@ -37,6 +37,7 @@ BuildCalibrationPlot_Report <- function(data, originalData) {
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(title = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
@@ -218,7 +219,7 @@ GenCascadePlot_Report <- function() {
 
     ggOne <- ggplot(out, aes(x = def, y = res))
     ggOne <- ggOne + geom_bar(aes(fill = as.factor(year)), position = 'dodge', stat = 'identity')
-    ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max, fill = as.factor(year)), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 1)
+    ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max, fill = as.factor(year)), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 0.5)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOne <- ggOne + scale_fill_manual(values = c(c.fill[2],c.fill[5]), guide = guide_legend(title = "Year"))
     ggOne <- ggOne + theme_classic()
@@ -226,6 +227,7 @@ GenCascadePlot_Report <- function() {
     ggOne <- ggOne + theme(axis.title = element_blank())
     ggOne <- ggOne + theme(axis.text.x = element_text(size = 8))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 8))
+    ggOne <- ggOne + theme(axis.ticks.x = element_blank())
     ggOne <- ggOne + theme(legend.position = "right")
     ggOne <- ggOne + theme(legend.title = element_text(size = 8))
     ggOne <- ggOne + theme(legend.text = element_text(size = 7))
@@ -252,10 +254,11 @@ GenPowersCascadePlot_Report <- function() {
     ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
     ggOne <- ggOne + theme(title = element_text(size = 10))
     ggOne <- ggOne + theme(axis.title = element_blank())
-    ggOne <- ggOne + theme(axis.text.x = element_text(size = 5))
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 8))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 8))
-    ggOne <- ggOne + theme(legend.text = element_text(size = 5))
-    ggOne <- ggOne + theme(legend.title = element_text(size = 5))
+    ggOne <- ggOne + theme(axis.ticks.x = element_blank())
+    ggOne <- ggOne + theme(legend.text = element_text(size = 8))
+    ggOne <- ggOne + theme(legend.title = element_blank())
     ggOne <- ggOne + theme(legend.position = "right")
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
@@ -272,19 +275,31 @@ GenPowersCascadePlot_Report <- function() {
     ggTwo <- ggTwo + theme(plot.title = element_text(hjust = 0.5))
     ggTwo <- ggTwo + theme(title = element_text(size = 10))
     ggTwo <- ggTwo + theme(axis.title = element_blank())
-    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 5))
+    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 8))
     ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 8))
-    ggTwo <- ggTwo + theme(legend.text = element_text(size = 5))
-    ggTwo <- ggTwo + theme(legend.title = element_text(size = 5))
+    ggTwo <- ggTwo + theme(axis.ticks.x = element_blank())
+    ggTwo <- ggTwo + theme(legend.text = element_text(size = 8))
+    ggTwo <- ggTwo + theme(legend.title = element_blank())
     ggTwo <- ggTwo + theme(legend.position = "right")
     ggTwo <- ggTwo + theme(plot.background = element_blank())
     ggTwo <- ggTwo + theme(panel.background = element_blank())
 
+        # Same y-axis
+    a <- sum(t0[t0$order == "All", "res"])
+    b <- sum(t5[t5$order == "All", "res"])
+    if (a >= b) {
+        ggOne <- ggOne + expand_limits(y = round(a, digits = -4) + 1e5)
+        ggTwo <- ggTwo + expand_limits(y = round(a, digits = -4) + 1e5)
+    } else {
+        ggOne <- ggOne + expand_limits(y = round(b, digits = -4) + 1e5)
+        ggTwo <- ggTwo + expand_limits(y = round(b, digits = -4) + 1e5)
+    }
+
     my.legend <- GrabLegend(ggOne)
     l.width <- sum(my.legend$width)
 
-    grid.arrange(
-        arrangeGrob(
+    gridExtra::grid.arrange(
+        gridExtra::arrangeGrob(
             ggOne + theme(legend.position = "none"),
             ggTwo + theme(legend.position = "none"),
             ncol = 2),
@@ -319,9 +334,12 @@ Gen909090Plot_Report <- function() {
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + geom_label(aes(x = def, label = scales::percent(round(out$res, digits = 2))))
     ggOut
 }
 
@@ -355,22 +373,21 @@ GenNewInfPlot_Report <- function(wizard) {
 
     ggOut <- ggplot(df, aes(x = timeOut, NewInf))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
-    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + xlab("Year")
     ggOut <- ggOut + ylab("Cumulative New Infections / Time")
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-        ggOut <- ggOut + theme(axis.title = element_text(size  = 12))
     } else {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
-        ggOut <- ggOut + theme(axis.title = element_text(size  = 10))
     }
     ggOut
 }
@@ -413,14 +430,14 @@ GenAidsDeathsPlot_Report <- function(wizard) {
     ggOut <- ggOut + xlab("Year")
     ggOut <- ggOut + ylab("Cumulative AIDS Deaths / Time")
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-        ggOut <- ggOut + theme(axis.title = element_text(size  = 12))
     } else {
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
         ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
-        ggOut <- ggOut + theme(axis.title = element_text(size  = 10))
     }
     ggOut
 }
@@ -574,6 +591,7 @@ BuildDataReviewPlot_Report <- function(data) {
     ggOut <- ggOut + theme(legend.text = element_text(size = 8))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.title.y = element_blank())
     ggOut <- ggOut + theme(legend.title = element_blank())
     ggOut <- ggOut + xlab("Year")
@@ -613,10 +631,11 @@ BuildFrontierPlot_Report <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
     ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific)
     ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent)
-    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 14))
-    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 14))
-    ggPlot <- ggPlot + theme(axis.title = element_text(size = 15))
-    ggPlot <- ggPlot + theme(title = element_text(size = 15))
+    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.title = element_text(size = 9))
+    ggPlot <- ggPlot + theme(title = element_text(size = 10))
+    ggPlot <- ggPlot + theme(subtitle = element_text(size = 8))
     ggPlot <- ggPlot + theme(axis.line.x = element_line())
     ggPlot <- ggPlot + theme(axis.line.y = element_line())
     ggPlot <- ggPlot + xlab("Viral Suppression")
@@ -726,4 +745,27 @@ BuildCD4Plot2015_Report <- function(data) {
     ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 18))
 
     suppressWarnings(GridArrangeSharedLegend(ggOff, ggOn, ncol = 2, nrow = 1, position = "right"))
+}
+
+BuildIncidencePlot_Report <- function(data) {
+    dat <- reshape2::melt(data)
+    theData <- subset(dat, dat$type == "Median")
+    theData$lower <- subset(dat$value, dat$type == "Lower")
+    theData$upper <- subset(dat$value, dat$type == "Upper")
+    ggOut <- ggplot(data = theData, aes(x = variable, y = value, group = type))
+    ggOut <- ggOut + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.5, fill = "#4F8ABA")
+    ggOut <- ggOut + geom_point(col = "black", size = 5)
+    ggOut <- ggOut + geom_line(col = "black")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma)
+    ggOut <- ggOut + expand_limits(y = round(max(theData$value), digits = -3))
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.text = element_text(size = 14))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut
 }

@@ -8,17 +8,17 @@ source("server/model/best-fit-model.R",                local = FALSE)
 source("server/model/beta.R",                          local = FALSE)
 source("server/model/initial.R",                       local = FALSE)
 source("server/model/parameters.R",                    local = FALSE)
+source("server/model/sim-abs.R",                       local = FALSE)
+source("server/model/sim-prop.R",                      local = FALSE)
 source("server/non-shiny/non-shiny-optimisation.R",    local = FALSE)
+source("server/optimisation/frontier.R",               local = FALSE)
 source("server/optimisation/input-functions.R",        local = FALSE)
 source("server/optimisation/output-functions.R",       local = FALSE)
 source("server/optimisation/parameters.R",             local = FALSE)
 source("server/optimisation/plot-functions.R",         local = FALSE)
-source("server/optimisation/sim.R",                    local = FALSE)
-source("server/projection/CD4-distribution.R",         local = FALSE)
-source("server/optimisation/frontier.R",               local = FALSE)
 
 # reactive input setup
-MasterData <- GetCountryData("Kenya")
+MasterData <- GetMasterDataSet("Kenya")
 
 intSwitch <- data.frame(
     testing =      TRUE,
