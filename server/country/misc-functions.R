@@ -47,3 +47,45 @@ checkForClashes <- function(theData) {
         }
     }
 }
+
+GetCD4Distribution2015 <- function(uCountry) {
+    proj.CD4 <- readr::read_csv("server/data/projection/cd4-distribution-2015.csv", col_names = TRUE, skip = 0)
+    out.CD4 <- dplyr::filter(proj.CD4, country == uCountry)
+    if (isReallyEmpty(out.CD4)) {
+        country <- uCountry
+        "prop.Off.ART.500" <- as.numeric(NA)
+        "prop.Off.ART.350500" <- as.numeric(NA)
+        "prop.Off.ART.250350" <- as.numeric(NA)
+        "prop.Off.ART.200250" <- as.numeric(NA)
+        "prop.Off.ART.100200" <- as.numeric(NA)
+        "prop.Off.ART.50100" <- as.numeric(NA)
+        "prop.Off.ART.50" <- as.numeric(NA)
+        "prop.On.ART.500" <- as.numeric(NA)
+        "prop.On.ART.350500" <- as.numeric(NA)
+        "prop.On.ART.250350" <- as.numeric(NA)
+        "prop.On.ART.200250" <- as.numeric(NA)
+        "prop.On.ART.100200" <- as.numeric(NA)
+        "prop.On.ART.50100" <- as.numeric(NA)
+        "prop.On.ART.50" <- as.numeric(NA)
+
+        blankCD4 <- data.frame(country,
+        get("prop.Off.ART.500"),
+        get("prop.Off.ART.350500"),
+        get("prop.Off.ART.250350"),
+        get("prop.Off.ART.200250"),
+        get("prop.Off.ART.100200"),
+        get("prop.Off.ART.50100"),
+        get("prop.Off.ART.50"),
+        get("prop.On.ART.500"),
+        get("prop.On.ART.350500"),
+        get("prop.On.ART.250350"),
+        get("prop.On.ART.200250"),
+        get("prop.On.ART.100200"),
+        get("prop.On.ART.50100"),
+        get("prop.On.ART.50"))
+        names(blankCD4) <- c("country", "prop.Off.ART.500", "prop.Off.ART.350500", "prop.Off.ART.250350", "prop.Off.ART.200250", "prop.Off.ART.100200", "prop.Off.ART.50100", "prop.Off.ART.50", "prop.On.ART.500", "prop.On.ART.350500", "prop.On.ART.250350", "prop.On.ART.200250", "prop.On.ART.100200", "prop.On.ART.50100", "prop.On.ART.50")
+        return(dplyr::tbl_df(blankCD4))
+    } else {
+        return(out.CD4)
+    }
+}

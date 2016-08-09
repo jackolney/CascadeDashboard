@@ -147,6 +147,7 @@ observe({
 
 output$hot_cd4_2015 <- renderRHandsontable({
     input$CD4_FLAG
+    input$copy2010CD4
 
     if (input$NEW_country == TRUE & input$new_country_name != "") {
         vCD42015 <<- NULL
