@@ -13,7 +13,7 @@ observeEvent(input$selectCountry, {
             updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewCD4(theData = MasterData)) {
+        if (Check_NewCD4(theData = MasterData) & Check_NewCD42015(theData = MasterData)) {
             updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
             updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -31,7 +31,7 @@ observeEvent(input$selectCountry, {
             updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewCascade(theData = MasterData) & Check_NewCD4(theData = MasterData) & Check_NewIncidence(theData = MasterData) & Check_NewGuidelines(theData = MasterData)) {
+        if (Check_NewCascade(theData = MasterData) & Check_NewCD4(theData = MasterData) & Check_NewCD42015(theData = MasterData) & Check_NewIncidence(theData = MasterData) & Check_NewGuidelines(theData = MasterData)) {
             shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
             shinyBS::createAlert(session,
                 anchorId = "_PROCEED_",

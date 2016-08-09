@@ -5,7 +5,12 @@ output$editCascadePlot <- renderPlot({
 
 output$editCD4Plot <- renderPlot({
     input$hot_cd4
-    BuildEditCD4Plot(data = values[["hot_cd4"]])
+    BuildEditCD42010Plot(data = values[["hot_cd4"]])
+}, height = 250, width = 'auto', bg = 'transparent')
+
+output$editCD42015Plot <- renderPlot({
+    input$hot_cd4_2015
+    BuildEditCD42015Plot(data = values[["hot_cd4_2015"]])
 }, height = 250, width = 'auto', bg = 'transparent')
 
 output$editIncidencePlot <- renderPlot({

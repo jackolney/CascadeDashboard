@@ -80,7 +80,9 @@ observe({
     input$PREV_editCD4
     if (!is.null(values[["hot_cd4"]]) & exists("MasterData")) {
         MasterData$cd4[2:15] <<- values[["hot_cd4"]]$Proportion
-        MasterData$cd4[[1]] <<- input$new_country_name
+        if (input$new_country_name != "") {
+            MasterData$cd4[[1]] <<- input$new_country_name
+        }
         # print(MasterData$cd4)
     }
 })
@@ -118,6 +120,67 @@ output$hot_cd4 <- renderRHandsontable({
     }
 
     setHotCD4(DF)
+    rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
+            hot_col(col = "ART", readOnly = TRUE) %>%
+            hot_col(col = "Category", readOnly = TRUE) %>%
+            hot_col(col = "Proportion", type = "numeric", halign = "htLeft") %>%
+            hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+})
+
+### CD4 2015
+setHotCD42015 <- function(x) values[["hot_cd4_2015"]] = x
+
+# Observe and update data.frame on button press and also when values[["hot_cd4"]] changes
+
+# Indicators
+vCD42015 = NULL
+vCD42015Country = NULL
+
+observe({
+    # dependency
+    input$PREV_editCD4
+    if (!is.null(values[["hot_cd4_2015"]]) & exists("MasterData")) {
+        MasterData$cd4_2015[2:15] <<- values[["hot_cd4_2015"]]$Proportion
+        if (input$new_country_name != "") {
+            MasterData$cd4_2015[[1]] <<- input$new_country_name
+        }
+    }
+})
+
+output$hot_cd4_2015 <- renderRHandsontable({
+    input$CD4_FLAG
+
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        vCD42015 <<- NULL
+        if (is.null(input$hot_cd4_2015) || is.null(vCD42015Country)) {
+            Proportion <- as.numeric(NA)
+            ART <- c(rep("Off ART", 7), rep("On ART", 7))
+            Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
+            DF = data.frame(ART, Category, Proportion)
+            vCD42015 <<- DF
+            vCD42015Country <<- 1L
+        } else if (!is.null(input$hot_cd4_2015)) {
+            DF = hot_to_r(input$hot_cd4_2015)
+        }
+    } else {
+        vCD42015Country <<- NULL
+        if (is.null(input$hot_cd4_2015) || is.null(vCD42015) || vCD42015$Proportion != MasterData$cd4_2015[2:15]) {
+            if (isReallyEmpty(MasterData$cd4_2015)) {
+                Proportion <- as.numeric(NA)
+            } else {
+                print(MasterData)
+                Proportion <- as.numeric(MasterData$cd4_2015[2:15])
+            }
+            ART <- c(rep("Off ART", 7), rep("On ART", 7))
+            Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
+            DF = data.frame(ART, Category, Proportion)
+            vCD42015 <<- DF
+        } else if (!is.null(input$hot_cd4_2015)) {
+            DF = hot_to_r(input$hot_cd4_2015)
+        }
+    }
+
+    setHotCD42015(DF)
     rhandsontable(DF, useTypes = TRUE, stretchH = "all") %>%
             hot_col(col = "ART", readOnly = TRUE) %>%
             hot_col(col = "Category", readOnly = TRUE) %>%

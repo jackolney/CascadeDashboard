@@ -96,7 +96,7 @@ observeEvent(input$PREV_editCascade, {
     } else {
         updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -111,12 +111,12 @@ observeEvent(input$PREV_editCascade, {
 })
 
 observeEvent(input$PREV_editCD4, {
-    if (Check_NewCD4(MasterData)) {
+    if (Check_NewCD4(MasterData) & Check_NewCD42015(MasterData)) {
         updateButton(session, inputId = "CD4_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
         updateButton(session, inputId = "CD4_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -136,7 +136,7 @@ observeEvent(input$PREV_editIncidence, {
     } else {
         updateButton(session, inputId = "INCIDENCE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -156,7 +156,7 @@ observeEvent(input$PREV_editGuidelines, {
     } else {
         updateButton(session, inputId = "GUIDELINES_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",

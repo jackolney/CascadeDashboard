@@ -23,7 +23,8 @@ tabItem(tabName = "edit-cascade",
                 tags$li("Value must be entered in 2010 for 'PLHIV'"),
                 tags$li("Value must be entered in 2010 for 'PLHIV on ART'"),
                 tags$li("All values entered must be accompanied by a weight")
-            )
+            ),
+            a(href = "http://who.int/hiv/pub/guidelines/strategic-information-guidelines/en/", "WHO - Consolidated Strategic Information Guidelines for HIV in the Health Sector.", target = "_blank")
         ),
         box(width = NULL,
             status = "danger",

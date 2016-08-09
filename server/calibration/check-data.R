@@ -1,53 +1,3 @@
-CheckCSV_Incidence <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/incidence-uncertainty.csv", col_names = TRUE, skip = 1)
-    out <- data[data$country == uCountry,]
-    if (dim(out)[1] == 0) {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
-}
-
-CheckCSV_CD4 <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/cd4-distribution-2010.csv", col_names = TRUE, skip = 0)
-    out <- data[data$country == uCountry,]
-    if (dim(out)[1] == 0) {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
-}
-
-CheckCSV_Treatment <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/treatment-guidelines-cd4.csv", col_names = TRUE, skip = 0)
-    out <- data[data$country == uCountry,]
-    if (dim(out)[1] == 0) {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
-}
-
-CheckCSV_PLHIV <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/plhiv.csv", col_names = TRUE, skip = 1)
-    out <- data[data$country == uCountry,]
-    if (dim(out)[1] == 0) {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
-}
-
-CheckCSV_ART <- function(uCountry) {
-    data <- readr::read_csv("server/data/calibration/art.csv", col_names = TRUE, skip = 1)
-    out <- data[data$country == uCountry,]
-    if (dim(out)[1] == 0) {
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
-}
-
 ### Custom MasterData Checks ###
 Check_NewCascade <- function(theData) {
     test <- theData$calib
@@ -79,6 +29,22 @@ Check_NewCD4 <- function(theData) {
         if (!any(is.na(theData$cd4))) {
             if (round(sum(theData$cd4[2:8]), digits = 2) == 1) {
                 if (round(sum(theData$cd4[9:15]), digits = 2) == 1) {
+                    return(TRUE)
+                } else {
+                    return(FALSE)
+                }
+            } else {
+                return(FALSE)
+            }
+        } else return(FALSE)
+    } else return(FALSE)
+}
+
+Check_NewCD42015 <- function(theData) {
+    if (dim(theData$cd4_2015)[1] != 0) {
+        if (!any(is.na(theData$cd4_2015))) {
+            if (round(sum(theData$cd4_2015[2:8]), digits = 2) == 1) {
+                if (round(sum(theData$cd4_2015[9:15]), digits = 2) == 1) {
                     return(TRUE)
                 } else {
                     return(FALSE)
