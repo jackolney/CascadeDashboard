@@ -23,8 +23,8 @@ BuildCalibrationPlot_Report <- function(data, calibData) {
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
     ggOut <- ggOut + scale_fill_manual(values = barFill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 0.5)
-    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 5.5)
-    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 5)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 3.5)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 3)
     if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
         ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
     } else {
@@ -37,9 +37,10 @@ BuildCalibrationPlot_Report <- function(data, calibData) {
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
-    ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
-    ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
-    ggOut <- ggOut + theme(title = element_text(size = 18))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
+    ggOut <- ggOut + theme(title = element_text(size = 10))
+    ggOut <- ggOut + theme(plot.subtitle = element_text(size = 8))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
 }
@@ -255,12 +256,12 @@ GenPowersCascadePlot_Report <- function() {
     ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
     ggOne <- ggOne + theme(title = element_text(size = 10))
     ggOne <- ggOne + theme(axis.title = element_blank())
-    ggOne <- ggOne + theme(axis.text.x = element_text(size = 8))
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 7))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 8))
     ggOne <- ggOne + theme(axis.ticks.x = element_blank())
     ggOne <- ggOne + theme(legend.text = element_text(size = 8))
     ggOne <- ggOne + theme(legend.title = element_blank())
-    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(legend.position = "none")
     ggOne <- ggOne + theme(plot.background = element_blank())
     ggOne <- ggOne + theme(panel.background = element_blank())
 
@@ -276,12 +277,12 @@ GenPowersCascadePlot_Report <- function() {
     ggTwo <- ggTwo + theme(plot.title = element_text(hjust = 0.5))
     ggTwo <- ggTwo + theme(title = element_text(size = 10))
     ggTwo <- ggTwo + theme(axis.title = element_blank())
-    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 8))
+    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 7))
     ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 8))
     ggTwo <- ggTwo + theme(axis.ticks.x = element_blank())
     ggTwo <- ggTwo + theme(legend.text = element_text(size = 8))
     ggTwo <- ggTwo + theme(legend.title = element_blank())
-    ggTwo <- ggTwo + theme(legend.position = "right")
+    ggTwo <- ggTwo + theme(legend.position = "none")
     ggTwo <- ggTwo + theme(plot.background = element_blank())
     ggTwo <- ggTwo + theme(panel.background = element_blank())
 
@@ -296,17 +297,19 @@ GenPowersCascadePlot_Report <- function() {
         ggTwo <- ggTwo + expand_limits(y = round(b, digits = -4) + 1e5)
     }
 
-    my.legend <- GrabLegend(ggOne)
-    l.width <- sum(my.legend$width)
+    GridArrangeSharedLegend(ggOne, ggTwo, ncol = 2, nrow = 1, position = "bottom")
 
-    gridExtra::grid.arrange(
-        gridExtra::arrangeGrob(
-            ggOne + theme(legend.position = "none"),
-            ggTwo + theme(legend.position = "none"),
-            ncol = 2),
-        my.legend,
-        widths = grid::unit.c(unit(1, "npc") - l.width, l.width),
-        nrow = 1)
+    # my.legend <- GrabLegend(ggOne)
+    # l.width <- sum(my.legend$width)
+
+    # gridExtra::grid.arrange(
+    #     gridExtra::arrangeGrob(
+    #         ggOne + theme(legend.position = "none"),
+    #         ggTwo + theme(legend.position = "none"),
+    #         ncol = 2),
+    #     my.legend,
+    #     widths = grid::unit.c(unit(1, "npc") - l.width, l.width),
+    #     nrow = 1)
 }
 
 Gen909090Plot_Report <- function() {
@@ -325,7 +328,7 @@ Gen909090Plot_Report <- function() {
 
     ggOut <- ggplot(out, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
-    ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1), labels = scales::percent, expand = c(0, 0))
     ggOut <- ggOut + scale_fill_manual(values = cfill[ranking])
     ggOut <- ggOut + geom_abline(intercept = 0.9, slope = 0)
@@ -423,7 +426,7 @@ GenAidsDeathsPlot_Report <- function(wizard) {
 
     ggOut <- ggplot(df, aes(x = timeOut, HivMortality))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
-    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 1)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
     ggOut <- ggOut + theme(axis.line.x = element_line())
@@ -489,10 +492,10 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
 
     # Create some pretty output plots
     ggOne <- ggplot()
-    ggOne <- ggOne + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggOne <- ggOne + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
-    ggOne <- ggOne + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.5)
-    ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight),size = 3)
+    ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
     ggOne <- ggOne + mycol
     ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red line denotes best fitting simulation")
@@ -506,10 +509,10 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggOne <- ggOne + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggTwo <- ggplot()
-    ggTwo <- ggTwo + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggTwo <- ggTwo + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
-    ggTwo <- ggTwo + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.5)
-    ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight),size = 3)
+    ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
     ggTwo <- ggTwo + mycol
     ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red line denotes best fitting simulation")
@@ -523,10 +526,10 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggTwo <- ggTwo + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggThree <- ggplot()
-    ggThree <- ggThree + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV in Care",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggThree <- ggThree + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
-    ggThree <- ggThree + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV in Care",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.5)
-    ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight),size = 3)
+    ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
     ggThree <- ggThree + mycol
     ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red line denotes best fitting simulation")
@@ -540,10 +543,10 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggThree <- ggThree + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggFour <- ggplot()
-    ggFour <- ggFour + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV on ART",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFour <- ggFour + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
-    ggFour <- ggFour + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV on ART",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.5)
-    ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight),size = 3)
+    ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
     ggFour <- ggFour + mycol
     ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red line denotes best fitting simulation")
@@ -557,10 +560,10 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggFour <- ggFour + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggFive <- ggplot()
-    ggFive <- ggFive + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFive <- ggFive + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
-    ggFive <- ggFive + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.5)
-    ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight),size = 3)
+    ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
     ggFive <- ggFive + mycol
     ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red line denotes best fitting simulation")
@@ -659,7 +662,7 @@ BuildCD4Plot2010_Report <- function(data) {
     ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
     ggOff <- ggOff + theme_classic()
     ggOff <- ggOff + coord_polar(theta = "y")
-    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, show.legend = FALSE)
+    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 3, show.legend = FALSE)
     ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOff <- ggOff + theme(legend.position = "none")
     ggOff <- ggOff + theme(axis.title = element_blank())
@@ -669,10 +672,11 @@ BuildCD4Plot2010_Report <- function(data) {
     ggOff <- ggOff + theme(plot.background = element_blank())
     ggOff <- ggOff + theme(legend.background = element_blank())
     ggOff <- ggOff + theme(panel.background = element_blank())
-    ggOff <- ggOff + theme(legend.text = element_text(size = 15))
-    ggOff <- ggOff + theme(legend.key.size = unit(1, "cm"))
-    ggOff <- ggOff + ggtitle("Off ART")
-    ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOff <- ggOff + theme(legend.text = element_text(size = 8))
+    ggOff <- ggOff + theme(legend.key.size = unit(0.5, "cm"))
+    ggOff <- ggOff + ggtitle("Off ART", subtitle = "2010")
+    ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5, size = 10))
+    ggOff <- ggOff + theme(plot.subtitle = element_text(hjust = 0.5, size = 8))
 
     DF_On <- DF[8:14,]
     DF_On$pos <- cumsum(DF_On$Proportion) - DF_On$Proportion / 2
@@ -681,7 +685,7 @@ BuildCD4Plot2010_Report <- function(data) {
     ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
     ggOn <- ggOn + theme_classic()
     ggOn <- ggOn + coord_polar(theta = "y")
-    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, show.legend = FALSE)
+    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 3, show.legend = FALSE)
     ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOn <- ggOn + theme(legend.position = "none")
     ggOn <- ggOn + theme(axis.title = element_blank())
@@ -691,8 +695,9 @@ BuildCD4Plot2010_Report <- function(data) {
     ggOn <- ggOn + theme(plot.background = element_blank())
     ggOn <- ggOn + theme(legend.background = element_blank())
     ggOn <- ggOn + theme(panel.background = element_blank())
-    ggOn <- ggOn + ggtitle("On ART")
-    ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOn <- ggOn + ggtitle("On ART", subtitle = "2010")
+    ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 10))
+    ggOn <- ggOn + theme(plot.subtitle = element_text(hjust = 0.5, size = 8))
 
     suppressWarnings(GridArrangeSharedLegend(ggOff, ggOn, ncol = 2, nrow = 1, position = "right"))
 }
@@ -710,7 +715,7 @@ BuildCD4Plot2015_Report <- function(data) {
     ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
     ggOff <- ggOff + theme_classic()
     ggOff <- ggOff + coord_polar(theta = "y")
-    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, show.legend = FALSE)
+    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 3, show.legend = FALSE)
     ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOff <- ggOff + theme(legend.position = "none")
     ggOff <- ggOff + theme(axis.title = element_blank())
@@ -720,10 +725,11 @@ BuildCD4Plot2015_Report <- function(data) {
     ggOff <- ggOff + theme(plot.background = element_blank())
     ggOff <- ggOff + theme(legend.background = element_blank())
     ggOff <- ggOff + theme(panel.background = element_blank())
-    ggOff <- ggOff + theme(legend.text = element_text(size = 15))
-    ggOff <- ggOff + theme(legend.key.size = unit(1, "cm"))
-    ggOff <- ggOff + ggtitle("Off ART")
-    ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOff <- ggOff + theme(legend.text = element_text(size = 8))
+    ggOff <- ggOff + theme(legend.key.size = unit(0.5, "cm"))
+    ggOff <- ggOff + ggtitle("Off ART", subtitle = "2015")
+    ggOff <- ggOff + theme(plot.title = element_text(hjust = 0.5, size = 10))
+    ggOff <- ggOff + theme(plot.subtitle = element_text(hjust = 0.5, size = 8))
 
     DF_On <- DF[8:14,]
     DF_On$pos <- cumsum(DF_On$Proportion) - DF_On$Proportion / 2
@@ -732,7 +738,7 @@ BuildCD4Plot2015_Report <- function(data) {
     ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
     ggOn <- ggOn + theme_classic()
     ggOn <- ggOn + coord_polar(theta = "y")
-    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, show.legend = FALSE)
+    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 3, show.legend = FALSE)
     ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOn <- ggOn + theme(legend.position = "none")
     ggOn <- ggOn + theme(axis.title = element_blank())
@@ -742,8 +748,9 @@ BuildCD4Plot2015_Report <- function(data) {
     ggOn <- ggOn + theme(plot.background = element_blank())
     ggOn <- ggOn + theme(legend.background = element_blank())
     ggOn <- ggOn + theme(panel.background = element_blank())
-    ggOn <- ggOn + ggtitle("On ART")
-    ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOn <- ggOn + ggtitle("On ART", subtitle = "2015")
+    ggOn <- ggOn + theme(plot.title = element_text(hjust = 0.5, size = 10))
+    ggOn <- ggOn + theme(plot.subtitle = element_text(hjust = 0.5, size = 8))
 
     suppressWarnings(GridArrangeSharedLegend(ggOff, ggOn, ncol = 2, nrow = 1, position = "right"))
 }
@@ -764,7 +771,7 @@ BuildIncidencePlot_Report <- function(data) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
-    ggOut <- ggOut + theme(axis.text = element_text(size = 14))
+    ggOut <- ggOut + theme(axis.text = element_text(size = 8))
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(legend.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())

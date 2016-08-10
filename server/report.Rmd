@@ -11,73 +11,51 @@ The intention of this report is to act as a reference for any data entered, simu
 # Data Review
 Combining previously collected data with anything entered by the user, the model used the following during calibration:
 
-### Cascade Data
+## Cascade Data
 
-```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+```{r, fig.width = 7, fig.height = 4, fig.align = 'center', echo = FALSE}
     BuildDataReviewPlot_Report(data = MasterData$calib)
-```
-
-```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    myTheme <- gridExtra::ttheme_default(
-        core =    list(fg_params = list(cex = 0.5)),
-        colhead = list(fg_params = list(cex = 0.5)),
-        rowhead = list(fg_params = list(cex = 0.5)))
-    tablVals <- MasterData$calib
-    tablVals$value <- round(tablVals$value, digits = 0)
-    gridExtra::grid.table(scales::comma(tablVals), rows = NULL, theme = myTheme)
 ```
 
 \newpage
 
-### CD4 Distribution
+## CD4 Distribution
 To ensure the accuracy of HIV-mortality rates and to account for the standing-start nature of our calibration method, we allow the user to specify, or source from Spectrum, CD4 distribution estimates to seed the model prior to calibration.
 
-#### Estimates in 2010
+### Estimates in 2010
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     BuildCD4Plot2010_Report(data = MasterData)
 ```
 
-```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    int <- t(MasterData$cd4)
-    proportion <- round(as.numeric(int[2:15,]), digits = 2)
-    cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
-    art <- c(rep("Off ART", 7), rep("On ART", 7))
-    gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL)
-```
-
-#### Estimates in 2015
+### Estimates in 2015
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     BuildCD4Plot2015_Report(data = MasterData)
 ```
 
-```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
-    int <- t(MasterData$cd4_2015)
-    proportion <- round(as.numeric(int[2:15,]), digits = 2)
-    cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
-    art <- c(rep("Off ART", 7), rep("On ART", 7))
-    gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL)
-```
+\newpage
 
-### Incidence Estimates
-These incidence estimates were sourced from Spectrum. The model randomly sampled between the upper and lower bounds during calibration to account for uncertainty the in these incidence estimates.
+## New Infections
+Incidence in the model is driven by estimates from Spectrum or values entered by the user. The model randomly samples between the upper and lower bounds during calibration to account for uncertainty in these values.
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-    BuildIncidencePlot_Report(data = MasterData$incidence)
+    suppressMessages(BuildIncidencePlot_Report(data = MasterData$incidence))
 ```
 
-```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-    gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL)
-```
+#
 
-### Country Specific Treatment Guidelines
+## Country Specific Treatment Guidelines
 The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
 
-```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    myTheme <- gridExtra::ttheme_default(
+        core =    list(fg_params = list(cex = 0.75)),
+        colhead = list(fg_params = list(cex = 0.75)),
+        rowhead = list(fg_params = list(cex = 0.75)))
     int <- MasterData$treatment_guidelines
     names(int) <- c("Country", "<200", "<250", "<350", "<500", ">500")
-    gridExtra::grid.table(int, rows = NULL)
+    gridExtra::grid.table(int, rows = NULL, theme = myTheme)
 ```
 
 \newpage
@@ -93,6 +71,8 @@ Given all available data, including those values entered by the user, the model 
 #
 
 A histogram of sampled model errors is shown below, with the maximum threshold shown as a vertical line:
+
+#
 
 ```{r, fig.width = 5, fig.height = 2, fig.align = 'center', echo = FALSE}
     BuildCalibrationHistogram_Report(runError = runError, maxError = input$maxError)
@@ -116,6 +96,8 @@ The model has a following structure. Note, this is a simplified view of the stru
 ### Calibrated Parameters
 
 Histograms illustrating where the majority of accepted parameter sets lie:
+
+#
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
     BuildCalibrationParameterHistGroup()
@@ -147,7 +129,7 @@ Histograms illustrating where the majority of accepted parameter sets lie:
     Gen909090Plot_Report()
 ```
 
-\newpage
+#
 
 ## New Infections
 
@@ -155,7 +137,7 @@ Histograms illustrating where the majority of accepted parameter sets lie:
     GenNewInfPlot_Report(wizard = FALSE)
 ```
 
-#
+\newpage
 
 ## AIDS Deaths
 
@@ -174,7 +156,7 @@ on each of these `r input$minResults` parameter sets we would need to millions o
 what take a considerable amount of time. As one of the aims of this model was to be simple to use
 and most importantly fast, we have decided to only simulate interventions on the top 10% of
 'best fitting' parameter sets. As we accepted `r input$minResults` parameter sets, we will simulate
-interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the top 10%
+interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the top 10%
 of calibration runs is shown below, the 10% are coloured red.
 
 ```{r, fig.width = 7, fig.height = 7, fig.align = 'center', echo = FALSE}
@@ -214,7 +196,7 @@ Upon initiating ART, a proportion ($p$) of patients adhere to treatment and beco
 ##### ART Retention
 Finally, we simulate an intervention that reduces loss to follow-up for persons on treatment. During calibration we derive a baseline rate at which individuals are lost from ART care, omega. We simulate an intervention by reducing this rate of loss from care. Additionally, this rate applies to both adherent and non-adherent persons on ART.
 
-\newpage
+#
 
 ## UNAIDS 90-90-90 Targets
 
@@ -234,9 +216,52 @@ If you would like to review the full list of all simulated interventions, please
 
 A figure illustrating the cost-frontiers of all simulations is displayed below.  Each blue dot represents an individual simulation in terms of its impact and cost relative to a baseline scenario. By simulating all possible combinations of interventions and all best-fitting parameter sets we produce a 'cloud' of potential interventions that will bring about improvements to patient outcomes. We select the simulations that achieve 73% viral suppression by 2020 (the end point of 90-90-90), and calculate the cost-frontier (the curve depicting maximum impact for minimum cost). We then interpolate between interventions to identify the changes that must be made to care to achieve the 90-90-90 targets. The vertical line illustrates 73% viral suppression by 2020; the lines in red illustrate frontiers that achieve 73% suppression, while those in grey denote frontiers that do not.
 
-```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
+```{r, fig.width = 7, fig.height = 4, fig.align = 'center', echo = FALSE}
     BuildFrontierPlot_Report(CalibParamOut = CalibParamOut, optResults = optResults)
 ```
 
 #
-**Thanks you for using the HIV Modelling Consortium Cascade Estimation App.**
+**Thank you for using the HIV Modelling Consortium Cascade Estimation App.**
+
+\newpage
+
+## Supplementary Tables
+
+## Cascade Data
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    myTheme <- gridExtra::ttheme_default(
+        core =    list(fg_params = list(cex = 0.75)),
+        colhead = list(fg_params = list(cex = 0.75)),
+        rowhead = list(fg_params = list(cex = 0.75)))
+    tablVals <- MasterData$calib
+    tablVals$value <- round(tablVals$value, digits = 0)
+    gridExtra::grid.table(scales::comma(tablVals), rows = NULL, theme = myTheme)
+```
+
+## CD4 Distribution
+### CD4 Distribution in 2010
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    int <- t(MasterData$cd4)
+    proportion <- round(as.numeric(int[2:15,]), digits = 2)
+    cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    art <- c(rep("Off ART", 7), rep("On ART", 7))
+    gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL, theme = myTheme)
+```
+
+### CD4 Distribution in 2015
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    int <- t(MasterData$cd4_2015)
+    proportion <- round(as.numeric(int[2:15,]), digits = 2)
+    cd4 <- c(">500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    art <- c(rep("Off ART", 7), rep("On ART", 7))
+    gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL, theme = myTheme)
+```
+
+## Incidence
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL, theme = myTheme)
+```
