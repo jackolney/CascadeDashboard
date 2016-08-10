@@ -1,4 +1,4 @@
-BuildCalibrationPlot_Report <- function(data, originalData) {
+BuildCalibrationPlot_Report <- function(data, calibData) {
     # Find Minimums & Maximums & Mean of data.
     out <- AppendCI(data[data$source == "model",])
     out$indicator <- factor(out$indicator, levels = c(
@@ -10,7 +10,8 @@ BuildCalibrationPlot_Report <- function(data, originalData) {
         )
     )
 
-    OGout <- originalData[["calib"]][originalData[["calib"]]$year == 2015 & originalData[["calib"]]$indicator != "PLHIV Retained",]
+    OGout <- calibData[calibData$year == 2015 & calibData$indicator != "PLHIV Retained",]
+    # OGout$value <- as.numeric(OGout$value)
 
     # Set Colors
     cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
@@ -22,8 +23,8 @@ BuildCalibrationPlot_Report <- function(data, originalData) {
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity")
     ggOut <- ggOut + scale_fill_manual(values = barFill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = indicator, ymin = lower, ymax = upper), width = 0.2, size = 0.5)
-    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 3.5)
-    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 3)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value), size = 5.5)
+    ggOut <- ggOut + geom_point(data = OGout, aes(x = indicator, y = value, color = weight), size = 5)
     if (round(max(out$upper), digits = -4) >= round(max(na.omit(OGout$value)), digits = -4)) {
         ggOut <- ggOut + expand_limits(y = round(max(out$upper), digits = -4) + 1e5)
     } else {
@@ -35,10 +36,10 @@ BuildCalibrationPlot_Report <- function(data, originalData) {
     ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate 95% CI, points are data")
     ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(axis.title = element_blank())
-    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
-    ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
-    ggOut <- ggOut + theme(title = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 17))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
+    ggOut <- ggOut + theme(title = element_text(size = 18))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut
 }
@@ -635,7 +636,7 @@ BuildFrontierPlot_Report <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 8))
     ggPlot <- ggPlot + theme(axis.title = element_text(size = 9))
     ggPlot <- ggPlot + theme(title = element_text(size = 10))
-    ggPlot <- ggPlot + theme(subtitle = element_text(size = 8))
+    ggPlot <- ggPlot + theme(plot.subtitle = element_text(size = 8))
     ggPlot <- ggPlot + theme(axis.line.x = element_line())
     ggPlot <- ggPlot + theme(axis.line.y = element_line())
     ggPlot <- ggPlot + xlab("Viral Suppression")

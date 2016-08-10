@@ -19,11 +19,12 @@ Combining previously collected data with anything entered by the user, the model
 
 ```{r, fig.width = 7, fig.height = 5, fig.align = 'center', echo = FALSE}
     myTheme <- gridExtra::ttheme_default(
-        core =    list(fg_params = list(cex = 2.0)),
-        colhead = list(fg_params = list(cex = 1.0)),
-        rowhead = list(fg_params = list(cex = 1.0)))
-    MasterData$calib$value <- formatC(as.numeric(MasterData$calib$value), digits = 0)
-    gridExtra::grid.table(scales::comma(MasterData$calib), rows = NULL, theme = myTheme)
+        core =    list(fg_params = list(cex = 0.5)),
+        colhead = list(fg_params = list(cex = 0.5)),
+        rowhead = list(fg_params = list(cex = 0.5)))
+    tablVals <- MasterData$calib
+    tablVals$value <- round(tablVals$value, digits = 0)
+    gridExtra::grid.table(scales::comma(tablVals), rows = NULL, theme = myTheme)
 ```
 
 \newpage
@@ -86,7 +87,7 @@ The impact of country-specific treatment guideline updates must be accounted by 
 Given all available data, including those values entered by the user, the model used approximate bayesian computation to identify `r input$minResults` parameter sets that produced a total error of less than or equal to `r input$maxError`. The resulting depiction of the cascade in 2015 is shown below:
 
 ```{r, fig.width = 7, fig.height = 3, fig.align = 'center', echo = FALSE}
-    BuildCalibrationPlot_Report(data = CalibOut, originalData = MasterData)
+    BuildCalibrationPlot_Report(data = CalibOut, calibData = MasterData$calib)
 ```
 
 #
