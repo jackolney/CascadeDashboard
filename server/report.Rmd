@@ -92,7 +92,7 @@ The cascade distribution in previous years is summarised below:
 
 The model has a following structure. Note, this is a simplified view of the structure, for more detail please view the official [model document](https://drive.google.com/file/d/0B02uVauBTUwhckJ1bG1QRmdwTGM/preview).
 
-![Model Diagram](../www/ModelSimple.png)
+![Model Diagram](ModelSimple.png)
 
 ### Calibrated Parameters
 
