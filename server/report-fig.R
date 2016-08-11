@@ -30,7 +30,7 @@ BuildCalibrationPlot_Report <- function(data, calibData) {
     } else {
         ggOut <- ggOut + expand_limits(y = round(max(na.omit(OGout$value)), digits = -4) + 1e5)
     }
-    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma)
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + mycol
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ggtitle("Cascade in 2015", subtitle = "Error bars illustrate 95% CI, points are data")
@@ -75,7 +75,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggOne <- ggOne + geom_line(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
     ggOne <- ggOne + geom_line(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
     ggOne <- ggOne + geom_point(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + mycol
     ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, lines represent each simulation")
     ggOne <- ggOne + theme(legend.position = "none")
@@ -91,7 +91,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggTwo <- ggTwo + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
     ggTwo <- ggTwo + geom_line(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_point(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggTwo <- ggTwo + mycol
     ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, lines represent each simulation")
     ggTwo <- ggTwo + theme(legend.position = "none")
@@ -107,7 +107,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggThree <- ggThree + geom_line(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
     ggThree <- ggThree + geom_line(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_point(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
+    ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggThree <- ggThree + mycol
     ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, lines represent each simulation")
     ggThree <- ggThree + theme(legend.position = "none")
@@ -123,7 +123,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggFour <- ggFour + geom_line(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
     ggFour <- ggFour + geom_line(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_point(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
+    ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFour <- ggFour + mycol
     ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, lines represent each simulation")
     ggFour <- ggFour + theme(legend.position = "none")
@@ -139,7 +139,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggFive <- ggFive + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
     ggFive <- ggFive + geom_line(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
     ggFive <- ggFive + geom_point(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFive <- ggFive + mycol
     ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, lines represent each simulation")
     ggFive <- ggFive + theme(legend.position = "none")
@@ -164,7 +164,7 @@ BuildCalibrationHistogram_Report <- function(runError, maxError) {
     ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 30)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + geom_vline(xintercept = as.numeric(maxError))
-    ggOut <- ggOut + scale_y_continuous(expand = c(0,0))
+    ggOut <- ggOut + scale_y_continuous(expand = c(0,0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
     ggOut <- ggOut + theme(axis.title = element_text(size = 10))
@@ -195,7 +195,7 @@ BuildCalibrationParamHist_Report <- function(pOut, param) {
     ggOut <- ggplot(out, aes_string(param))
     ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 10)
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + scale_y_continuous(expand = c(0,0))
+    ggOut <- ggOut + scale_y_continuous(expand = c(0,0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
     ggOut <- ggOut + theme(axis.title = element_text(size = 8))
@@ -222,7 +222,7 @@ GenCascadePlot_Report <- function() {
     ggOne <- ggplot(out, aes(x = def, y = res))
     ggOne <- ggOne + geom_bar(aes(fill = as.factor(year)), position = 'dodge', stat = 'identity')
     ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max, fill = as.factor(year)), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 0.5)
-    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + scale_fill_manual(values = c(c.fill[2],c.fill[5]), guide = guide_legend(title = "Year"))
     ggOne <- ggOne + theme_classic()
     ggOne <- ggOne + theme(title = element_text(size = 18))
@@ -249,7 +249,7 @@ GenPowersCascadePlot_Report <- function() {
 
     ggOne <- ggplot(t0, aes(x = order, y = res, fill = state))
     ggOne <- ggOne + geom_bar(stat = 'identity')
-    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + scale_fill_manual(values = p.col)
     ggOne <- ggOne + ggtitle("2015")
     ggOne <- ggOne + theme_classic()
@@ -270,7 +270,7 @@ GenPowersCascadePlot_Report <- function() {
 
     ggTwo <- ggplot(t5, aes(x = order, y = res, fill = state))
     ggTwo <- ggTwo + geom_bar(stat = 'identity')
-    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggTwo <- ggTwo + scale_fill_manual(values = p.col)
     ggTwo <- ggTwo + ggtitle("2020")
     ggTwo <- ggTwo + theme_classic()
@@ -379,7 +379,7 @@ GenNewInfPlot_Report <- function(wizard) {
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + ylab("Cumulative New Infections / Time")
@@ -428,7 +428,7 @@ GenAidsDeathsPlot_Report <- function(wizard) {
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + xlab("Year")
@@ -496,7 +496,7 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggOne <- ggOne + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggOne <- ggOne + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
     ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + mycol
     ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red line denotes best fitting simulation")
     ggOne <- ggOne + theme(legend.position = "none")
@@ -513,7 +513,7 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggTwo <- ggTwo + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggTwo <- ggTwo + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggTwo <- ggTwo + mycol
     ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red line denotes best fitting simulation")
     ggTwo <- ggTwo + theme(legend.position = "none")
@@ -530,7 +530,7 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggThree <- ggThree + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV in Care",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggThree <- ggThree + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
+    ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggThree <- ggThree + mycol
     ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red line denotes best fitting simulation")
     ggThree <- ggThree + theme(legend.position = "none")
@@ -547,7 +547,7 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggFour <- ggFour + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV on ART",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFour <- ggFour + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
+    ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFour <- ggFour + mycol
     ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red line denotes best fitting simulation")
     ggFour <- ggFour + theme(legend.position = "none")
@@ -564,7 +564,7 @@ BuildCalibrationBestFitRunsPlot_Report <- function(data, originalData, limit, mi
     ggFive <- ggFive + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFive <- ggFive + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
     ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
-    ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFive <- ggFive + mycol
     ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red line denotes best fitting simulation")
     ggFive <- ggFive + theme(legend.position = "none")
@@ -586,7 +586,7 @@ BuildDataReviewPlot_Report <- function(data) {
     ggOut <- ggOut + expand_limits(y = round(max(data$value), digits = -5))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(
-        breaks = base::pretty(seq(0, round(max(data$value), digits = -5)), n = 5),
+        breaks = scales::pretty_breaks(n = 5),
         labels = scales::comma,
         expand = c(0, 0))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
@@ -633,8 +633,8 @@ BuildFrontierPlot_Report <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
     ggPlot <- ggPlot + theme_classic()
     ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
-    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific)
-    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent)
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 5))
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent, breaks = scales::pretty_breaks(n = 5))
     ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 8))
     ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 8))
     ggPlot <- ggPlot + theme(axis.title = element_text(size = 9))
@@ -765,7 +765,7 @@ BuildIncidencePlot_Report <- function(data) {
     ggOut <- ggOut + geom_point(col = "black", size = 5)
     ggOut <- ggOut + geom_line(col = "black")
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma)
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + expand_limits(y = round(max(theData$value), digits = -3))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())

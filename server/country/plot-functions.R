@@ -8,6 +8,7 @@ BuildEditCascadePlot <- function(data) {
         ggOut <- ggOut + theme_classic()
         ggOut <- ggOut + scale_y_continuous(
             labels = scales::comma,
+            breaks = scales::pretty_breaks(n = 5),
             expand = c(0, 0))
         ggOut <- ggOut + scale_x_continuous(breaks = seq(2010, 2015, 1), labels = seq(2010, 2015, 1))
         ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
@@ -167,7 +168,7 @@ BuildEditIncidencePlot <- function(data) {
         ggOut <- ggOut + geom_point(col = "black", size = 5)
         ggOut <- ggOut + geom_line(col = "black")
         ggOut <- ggOut + theme_classic()
-        ggOut <- ggOut + scale_y_continuous(labels = scales::comma)
+        ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
         ggOut <- ggOut + expand_limits(y = round(max(theData$value), digits = -3))
         ggOut <- ggOut + theme(axis.line.x = element_line())
         ggOut <- ggOut + theme(axis.line.y = element_line())

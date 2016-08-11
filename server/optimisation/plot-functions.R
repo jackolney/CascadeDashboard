@@ -48,7 +48,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggOne <- ggOne + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggOne <- ggOne + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
     ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 5)
-    ggOne <- ggOne + scale_y_continuous(labels = scales::comma)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + mycol
     ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red line denotes best fitting simulation")
     ggOne <- ggOne + theme(legend.position = "none")
@@ -66,7 +66,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggTwo <- ggTwo + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggTwo <- ggTwo + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
-    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma)
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggTwo <- ggTwo + mycol
     ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red line denotes best fitting simulation")
     ggTwo <- ggTwo + theme(legend.position = "none")
@@ -84,7 +84,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggThree <- ggThree + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV in Care",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggThree <- ggThree + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 5)
-    ggThree <- ggThree + scale_y_continuous(labels = scales::comma)
+    ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggThree <- ggThree + mycol
     ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red line denotes best fitting simulation")
     ggThree <- ggThree + theme(legend.position = "none")
@@ -102,7 +102,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFour <- ggFour + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV on ART",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFour <- ggFour + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 5)
-    ggFour <- ggFour + scale_y_continuous(labels = scales::comma)
+    ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFour <- ggFour + mycol
     ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red line denotes best fitting simulation")
     ggFour <- ggFour + theme(legend.position = "none")
@@ -120,7 +120,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFive <- ggFive + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
     ggFive <- ggFive + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
     ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
-    ggFive <- ggFive + scale_y_continuous(labels = scales::comma)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFive <- ggFive + mycol
     ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red line denotes best fitting simulation")
     ggFive <- ggFive + theme(legend.position = "none")
@@ -167,8 +167,8 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
     ggPlot <- ggPlot + theme_classic()
     ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
-    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific)
-    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent)
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 5))
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent, breaks = scales::pretty_breaks(n = 5))
     ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 14))
     ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 14))
     ggPlot <- ggPlot + theme(axis.title = element_text(size = 15))
