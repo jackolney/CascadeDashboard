@@ -15,7 +15,7 @@ source("server/calibration/plot-functions.R",      local = FALSE)
 source("server/country/misc-functions.R",          local = FALSE)
 source("server/misc-functions.R",                  local = FALSE)
 source("server/non-shiny/non-shiny-calibration.R", local = FALSE)
-source("ui/global-lists.R",                        local = FALSE)
+source("ui/global-lists.R",                        local = FALSE)
 
 test_that("Kenya", {
     testData <- GetMasterDataSet("Kenya")
