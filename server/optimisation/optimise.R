@@ -58,7 +58,7 @@ RunOptimisation <- function(propRuns = 0.1) {
             parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = 2)
 
             for (i in 1:dim(parSteps)[1]) {
-                cat("#")
+                cat("=")
 
                 setProgress(
                     value = iC / ((dim(bestTenPercentCalibInitial)[1] / 7) * dim(parSteps)[1]),

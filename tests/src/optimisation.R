@@ -10,6 +10,7 @@ RunNSOptimisation <- function(propRuns) {
     message(paste("OptInput$intValue_omega =", OptInput$intValue_omega))
 
     message("\nStarting optimisation...\n")
+    cat("\n")
 
     # Simulation Loop
     time <- proc.time()[[1]]
@@ -47,6 +48,7 @@ RunNSOptimisation <- function(propRuns) {
     for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
 
         message(paste('Simulation', j))
+        cat(paste('Simulation', j, '\n'))
 
         # Run Baseline simulation
         BaseModel <- CallBaselineModel(runNumber = orderedRuns[j], initVals = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),])

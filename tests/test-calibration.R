@@ -13,8 +13,8 @@ source("server/calibration/marrakech-data.R",      local = FALSE)
 source("server/calibration/misc-functions.R",      local = FALSE)
 source("server/misc-functions.R",                  local = FALSE)
 source("server/calibration/plot-functions.R",      local = FALSE)
-source("server/non-shiny/non-shiny-calibration.R", local = FALSE)
 source("server/country/misc-functions.R",          local = FALSE)
+source("tests/src/calibration.R",                  local = FALSE)
 
 require("cascade", quietly = TRUE)
 
@@ -56,5 +56,10 @@ test_that("LHS incidence", {
     expect_silent(FME::Latinhyper(incRange, num = 1e4))
 })
 
-# Actually write a test that runs a non-shiny calibration and see if we reach
-# completion and do something...
+test_that("Full calibration test", {
+    data <- GetMasterDataSet("Kenya")
+    limit = 100
+    maxError = 3
+    RunNSCalibration(country = "Kenya", data = data, maxIterations = 1e4, maxError = 3, limit = 100)
+    expect_true(sum(runError <= maxError) == limit, label = "Calibration overstepping limit")
+})
