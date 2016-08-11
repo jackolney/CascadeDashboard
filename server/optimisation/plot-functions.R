@@ -157,7 +157,6 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
     }
 
     ggPlot <- ggplot(optResults, aes(x = VS, y = Cost))
-    ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
     ggPlot <- ggPlot + geom_point(col = '#4F8ABA', alpha = 0.2)
     for(n in 1:(dim(optResults)[1] / simLength)) {
         ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[n]]), mapping = aes(x = x, y = y), col = 'black', alpha = 0.2, size = 0.5)
@@ -165,6 +164,7 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
     for(n in 1:length(optRuns)) {
         ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[optRuns[n]]]), mapping = aes(x = x, y = y), col = "red", alpha = 0.5, size = 0.75)
     }
+    ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
     ggPlot <- ggPlot + theme_classic()
     ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
     ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific)

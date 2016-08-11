@@ -46,7 +46,8 @@ Incidence in the model is driven by estimates from Spectrum or values entered by
 #
 
 ## Country Specific Treatment Guidelines
-The impact of country-specific treatment guideline updates must be accounted by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
+
+The impact of country-specific treatment guideline updates must be accounted for by the model. We do not describe WHO Stage conditions so CD4 thresholds must be updated to reflect changing guidelines. Guidelines can be changed prior to calibration, and the values used during calibration are shown below.
 
 ```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
     myTheme <- gridExtra::ttheme_default(
@@ -151,13 +152,13 @@ Histograms illustrating where the majority of accepted parameter sets lie:
 
 During calibration, we simulate thousands of parameter sets to identify a subset that fit the data
 within a certain interval. As a result we are left with `r input$minResults` parameter sets that
-could be plausibly true. Now, if we were to then simulate thousands permutations of interventions
-on each of these `r input$minResults` parameter sets we would need to millions of simulations, which
-what take a considerable amount of time. As one of the aims of this model was to be simple to use
-and most importantly fast, we have decided to only simulate interventions on the top 10% of
+could be plausibly correct. Now, if we were to then simulate thousands of permutations of interventions
+on each of these `r input$minResults` parameter sets we would need to run millions of simulations.
+This would take a considerable amount of time. As one of the aims of this model was to be simple
+and most importantly fast, we have decided to only simulate interventions using the top 10% of
 'best fitting' parameter sets. As we accepted `r input$minResults` parameter sets, we will simulate
 interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the top 10%
-of calibration runs is shown below, the 10% are coloured red.
+of calibration runs is shown below with the top 10% coloured red.
 
 ```{r, fig.width = 7, fig.height = 7, fig.align = 'center', echo = FALSE}
     BuildCalibrationBestFitRunsPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
