@@ -33,6 +33,7 @@ dashboardSidebar(
         menuItem("More", icon = icon("question", class = "fa-lg fa-fw", lib = "font-awesome"),
             menuSubItem("Create Report",          tabName = "report"),
             menuSubItem("Model Document",         tabName = "model_document"),
+            menuSubItem("Diagnostics",            tabName = "session"),
             menuSubItem("Single Plot",            tabName = "single_plot"),
             menuSubItem("All Plots",              tabName = "all_plots")
         )

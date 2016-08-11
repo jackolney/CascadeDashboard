@@ -39,6 +39,7 @@ dashboardPage(
             # More
             source("ui/more/more_report.R",                   local = TRUE)$value,
             source("ui/more/more_modeldocument.R",            local = TRUE)$value,
+            source("ui/more/session.R",                       local = TRUE)$value,
             source("ui/more/more_singleplot.R",               local = TRUE)$value,
             source("ui/more/more_allplot.R",                  local = TRUE)$value
         )
