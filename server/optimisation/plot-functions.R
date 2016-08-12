@@ -58,7 +58,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggOne <- ggOne + theme(title =       element_text(size = 15))
     ggOne <- ggOne + theme(axis.title.y = element_blank())
     ggOne <- ggOne + theme(axis.title.x = element_blank())
-    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
     ggOne <- ggOne + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggTwo <- ggplot()
@@ -76,7 +76,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
     ggTwo <- ggTwo + theme(axis.title.x = element_blank())
-    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + theme(text = element_text(family = figFont))
     ggTwo <- ggTwo + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggThree <- ggplot()
@@ -94,7 +94,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggThree <- ggThree + theme(title =       element_text(size = 15))
     ggThree <- ggThree + theme(axis.title.y = element_blank())
     ggThree <- ggThree + theme(axis.title.x = element_blank())
-    ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
+    ggThree <- ggThree + theme(text = element_text(family = figFont))
     ggThree <- ggThree + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggFour <- ggplot()
@@ -112,7 +112,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFour <- ggFour + theme(title =       element_text(size = 15))
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
-    ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
+    ggFour <- ggFour + theme(text = element_text(family = figFont))
     ggFour <- ggFour + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     ggFive <- ggplot()
@@ -130,7 +130,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFive <- ggFive + theme(title =       element_text(size = 15))
     ggFive <- ggFive + theme(axis.title.y = element_blank())
     ggFive <- ggFive + theme(axis.title.x = element_blank())
-    ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
+    ggFive <- ggFive + theme(text = element_text(family = figFont))
     ggFive <- ggFive + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
@@ -178,7 +178,7 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + xlab("Viral Suppression")
     ggPlot <- ggPlot + ylab("Additional Cost of Care")
     ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
-    ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+    ggPlot <- ggPlot + theme(text = element_text(family = figFont))
     ggPlot <- ggPlot + coord_cartesian(xlim = plotFrontier.ranges$x, ylim = plotFrontier.ranges$y)
     ggPlot
 }

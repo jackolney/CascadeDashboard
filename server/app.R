@@ -4,6 +4,7 @@
 
 source("server/alert.R",                             local = TRUE)
 source("server/diagnostics.R",                       local = TRUE)
+source("server/font.R",                              local = TRUE)
 source("server/leaflet.R",                           local = TRUE)
 source("server/links.R",                             local = TRUE)
 source("server/misc-functions.R",                    local = TRUE)

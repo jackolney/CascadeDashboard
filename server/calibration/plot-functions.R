@@ -101,7 +101,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggOne <- ggOne + theme(title =       element_text(size = 15))
     ggOne <- ggOne + theme(axis.title.y = element_blank())
     ggOne <- ggOne + theme(axis.title.x = element_blank())
-    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
     ggOne <- ggOne + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggTwo <- ggplot()
@@ -118,7 +118,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
     ggTwo <- ggTwo + theme(axis.title.x = element_blank())
-    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + theme(text = element_text(family = figFont))
     ggTwo <- ggTwo + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggThree <- ggplot()
@@ -135,7 +135,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggThree <- ggThree + theme(title =       element_text(size = 15))
     ggThree <- ggThree + theme(axis.title.y = element_blank())
     ggThree <- ggThree + theme(axis.title.x = element_blank())
-    ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
+    ggThree <- ggThree + theme(text = element_text(family = figFont))
     ggThree <- ggThree + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFour <- ggplot()
@@ -152,7 +152,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggFour <- ggFour + theme(title =       element_text(size = 15))
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
-    ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
+    ggFour <- ggFour + theme(text = element_text(family = figFont))
     ggFour <- ggFour + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFive <- ggplot()
@@ -169,7 +169,7 @@ BuildCalibrationPlotDetail <- function(data, originalData, limit) {
     ggFive <- ggFive + theme(title =       element_text(size = 15))
     ggFive <- ggFive + theme(axis.title.y = element_blank())
     ggFive <- ggFive + theme(axis.title.x = element_blank())
-    ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
+    ggFive <- ggFive + theme(text = element_text(family = figFont))
     ggFive <- ggFive + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
@@ -217,7 +217,7 @@ BuildCalibrationPlot <- function(data, originalData) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
     ggOut <- ggOut + theme(title = element_text(size = 18))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut
 }
 
@@ -258,7 +258,7 @@ BuildCalibrationPlotComplex <- function(data, originalData) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 17))
     ggOut <- ggOut + theme(title = element_text(size = 18))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut <- ggOut + geom_point(data = OGout, aes(y = value, fill = indicator, color = weight), size = 3, position = position_dodge(width = 0.9), stat = "identity")
     ggOut
 }
@@ -284,7 +284,7 @@ BuildDataReviewPlot <- function(data) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(legend.title = element_blank())
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut
 }
 
@@ -325,8 +325,8 @@ BuildCD4Plot <- function(data) {
     ggOff <- ggOff + geom_bar(width = 1, stat = "identity")
     ggOff <- ggOff + theme_classic()
     ggOff <- ggOff + coord_polar(theta = "y")
-    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = "Avenir Next", show.legend = FALSE)
-    ggOff <- ggOff + theme(text = element_text(family = "Avenir Next"))
+    ggOff <- ggOff + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+    ggOff <- ggOff + theme(text = element_text(family = figFont))
     ggOff <- ggOff + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOff <- ggOff + theme(legend.position = "none")
     ggOff <- ggOff + theme(axis.title = element_blank())
@@ -348,8 +348,8 @@ BuildCD4Plot <- function(data) {
     ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
     ggOn <- ggOn + theme_classic()
     ggOn <- ggOn + coord_polar(theta = "y")
-    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = "Avenir Next", show.legend = FALSE)
-    ggOn <- ggOn + theme(text = element_text(family = "Avenir Next"))
+    ggOn <- ggOn + geom_label_repel(aes(y = pos, label = scales::percent(round(Proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+    ggOn <- ggOn + theme(text = element_text(family = figFont))
     ggOn <- ggOn + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
     ggOn <- ggOn + theme(legend.position = "none")
     ggOn <- ggOn + theme(axis.title = element_blank())
@@ -380,7 +380,7 @@ BuildIncidencePlot <- function(data) {
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(legend.position = "none")
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.text = element_text(size = 14))
     ggOut <- ggOut + theme(plot.background = element_blank())
@@ -408,7 +408,7 @@ BuildCalibrationHistogram <- function(runError, maxError) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + ylab("frequency")
     ggOut <- ggOut + xlab("error")
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut
 }
 
@@ -427,7 +427,7 @@ BuildCalibrationParamHist <- function(pOut, param) {
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + ylab("frequency")
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut
 }
 
@@ -471,7 +471,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggOne <- ggOne + theme(title =       element_text(size = 15))
     ggOne <- ggOne + theme(axis.title.y = element_blank())
     ggOne <- ggOne + theme(axis.title.x = element_blank())
-    ggOne <- ggOne + theme(text = element_text(family = "Avenir Next"))
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
     ggOne <- ggOne + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggTwo <- ggplot()
@@ -488,7 +488,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggTwo <- ggTwo + theme(title =       element_text(size = 15))
     ggTwo <- ggTwo + theme(axis.title.y = element_blank())
     ggTwo <- ggTwo + theme(axis.title.x = element_blank())
-    ggTwo <- ggTwo + theme(text = element_text(family = "Avenir Next"))
+    ggTwo <- ggTwo + theme(text = element_text(family = figFont))
     ggTwo <- ggTwo + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggThree <- ggplot()
@@ -505,7 +505,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggThree <- ggThree + theme(title =       element_text(size = 15))
     ggThree <- ggThree + theme(axis.title.y = element_blank())
     ggThree <- ggThree + theme(axis.title.x = element_blank())
-    ggThree <- ggThree + theme(text = element_text(family = "Avenir Next"))
+    ggThree <- ggThree + theme(text = element_text(family = figFont))
     ggThree <- ggThree + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFour <- ggplot()
@@ -522,7 +522,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggFour <- ggFour + theme(title =       element_text(size = 15))
     ggFour <- ggFour + theme(axis.title.y = element_blank())
     ggFour <- ggFour + theme(axis.title.x = element_blank())
-    ggFour <- ggFour + theme(text = element_text(family = "Avenir Next"))
+    ggFour <- ggFour + theme(text = element_text(family = figFont))
     ggFour <- ggFour + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFive <- ggplot()
@@ -539,7 +539,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggFive <- ggFive + theme(title =       element_text(size = 15))
     ggFive <- ggFive + theme(axis.title.y = element_blank())
     ggFive <- ggFive + theme(axis.title.x = element_blank())
-    ggFive <- ggFive + theme(text = element_text(family = "Avenir Next"))
+    ggFive <- ggFive + theme(text = element_text(family = figFont))
     ggFive <- ggFive + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ## ggSix data histogram
@@ -561,7 +561,7 @@ BuildCalibrationTestPlot <- function(data, originalData, limit, runError, maxErr
     ggOut <- ggOut + ggtitle("Simulation Error", subtitle = paste("Mean error =", round(mean(runError), digits = 2)))
     ggOut <- ggOut + ylab("frequency")
     ggOut <- ggOut + xlab("error")
-    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
 
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ggOut, ncol = 2, nrow = 3)
 }

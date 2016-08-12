@@ -133,7 +133,7 @@ ggPlot <- ggPlot + theme(axis.line.y = element_line())
 ggPlot <- ggPlot + xlab("Viral Suppression")
 ggPlot <- ggPlot + ylab("Additional Cost of Care")
 ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
-ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+ggPlot <- ggPlot + theme(text = element_text(family = figFont))
 ggPlot <- ggPlot + theme(panel.background = element_rect(fill = "#F0F0F0"))
 ggPlot <- ggPlot + theme(plot.background = element_rect(fill = "#F0F0F0"))
 ggPlot
