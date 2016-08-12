@@ -29,7 +29,7 @@ DefineInitRange <- function(data, min, max) {
     i2010 <- data[["calib"]][data[["calib"]]$year == 2010,]
 
     # List all possible indicators
-    allIndicators <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART")
+    allIndicators <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
 
     # Check if all values are present?
     indicatorPresence <- match(x = i2010$indicator, table = allIndicators)
