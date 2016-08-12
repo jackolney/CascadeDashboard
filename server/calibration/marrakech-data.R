@@ -63,6 +63,9 @@ GetMarrakechData <- function(uCountry) {
         final$weight <- weights
         final$value <- as.double(final$value)
 
+        # Add a source column
+        final$source <- "Marrakech Meeting"
+
         na.omit(final)
     }
 }

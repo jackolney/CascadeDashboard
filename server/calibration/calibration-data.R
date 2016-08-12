@@ -288,6 +288,7 @@ GetCountryData <- function(uCountry) {
             variable.name = "year",
             value.name = "value")
         temp.art$weight <- "green"
+        temp.art$source <- "Spectrum"
     }
 
     # calib.not_on_art
@@ -297,6 +298,7 @@ GetCountryData <- function(uCountry) {
             variable.name = "year",
             value.name = "value")
         temp.not_on_art$weight <- "green"
+        temp.not_on_art$source <- "Spectrum"
     }
 
     # calib.plhiv
@@ -306,12 +308,13 @@ GetCountryData <- function(uCountry) {
             variable.name = "year",
             value.name = "value")
         temp.plhiv$weight <- "green"
+        temp.plhiv$source <- "Spectrum"
     }
 
     # calib.hiv_awareness_unaids (remember this is a proportion of PLHIV)
     # Needs to be matched to PLHIV from the SAME YEAR.
     if (is.not.empty(calib.df$hiv_awareness_unaids)) {
-        temp.hiv_awareness_unaids <- calib.df$hiv_awareness_unaids[c("country","indicator","year","value")]
+        temp.hiv_awareness_unaids <- calib.df$hiv_awareness_unaids[c("country","indicator","year","value","source")]
 
         # Need to match PLHIV, if it doesn't exist for a particular year then we delete the value
         if (exists("temp.plhiv") & exists("temp.hiv_awareness_unaids")) {
@@ -327,7 +330,7 @@ GetCountryData <- function(uCountry) {
 
     # calib.previous_data
     if (is.not.empty(calib.df$previous_data)) {
-        temp.previous_data <- dplyr::filter(calib.df$previous_data[c("country","indicator","year","value","weight")], year >= 2010)
+        temp.previous_data <- dplyr::filter(calib.df$previous_data[c("country","indicator","year","value","weight","source")], year >= 2010)
     }
 
     # Assemble master.data.frame
@@ -352,8 +355,9 @@ GetCountryData <- function(uCountry) {
 
         value <- as.numeric(NA)
         weight <- factor(x = NA, levels = c("red", "amber", "green"))
+        source <- as.character(NA)
 
-        out <- data.frame(country, indicator, year, value, weight)
+        out <- data.frame(country, indicator, year, value, weight, source, stringsAsFactors = FALSE)
     }
 
     out.list <- list(

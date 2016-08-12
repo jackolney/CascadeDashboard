@@ -236,8 +236,9 @@ GetBlankMasterDataSet <- function(newName) {
 
     value <- as.numeric(NA)
     weight <- factor(x = NA, levels = c("red", "amber", "green"))
+    source <- as.character(NA)
 
-    oldData$calib <- data.frame(country, indicator, year, value, weight)
+    oldData$calib <- data.frame(country, indicator, year, value, weight, source, stringsAsFactors = FALSE)
 
     # Rates (not used)
     oldData

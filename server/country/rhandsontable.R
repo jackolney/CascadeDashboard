@@ -62,6 +62,8 @@ output$hot_cascade <- renderRHandsontable({
                 #         td.style.background = 'red';
                 #     }
                 # }") %>%
+            hot_col(col = "source", type = "autocomplete", strict = FALSE, allowInvalid = TRUE, halign = "htLeft") %>%
+            hot_cols(colWidths = c(10,10,5,10,5,20)) %>%
             hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
 })
 

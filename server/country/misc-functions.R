@@ -29,6 +29,11 @@ AddNAToMasterData <- function(theBlank, theData) {
                         theBlank[theBlank$indicator      == uInd[i] & theBlank$year == uYr[j], "weight"] <- theData[theData$indicator == uInd[i] & theData$year == uYr[j], "weight"]
                     }
                 }
+                if (isReallyEmpty(theData[theData$indicator    == uInd[i] & theData$year  == uYr[j], "source"])) next else {
+                    if (!is.na(theData[theData$indicator == uInd[i] & theData$year  == uYr[j], "source"]) & theData[theData$indicator == uInd[i] & theData$year == uYr[j], "source"] != 0) {
+                        theBlank[theBlank$indicator      == uInd[i] & theBlank$year == uYr[j], "source"] <- theData[theData$indicator == uInd[i] & theData$year == uYr[j], "source"]
+                    }
+                }
             }
         }
     }
