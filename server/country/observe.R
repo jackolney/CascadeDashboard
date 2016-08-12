@@ -171,7 +171,6 @@ observeEvent(input$PREV_editGuidelines, {
 })
 
 # CD4 CheckBox
-
 observeEvent(input$copy2010CD4, {
     if (exists("MasterData")) {
         if (input$copy2010CD4 == TRUE) {
@@ -183,5 +182,20 @@ observeEvent(input$copy2010CD4, {
                 MasterData$cd4_2015 <<- GetCD4Distribution2015(input$selectCountry)
             }
         }
+    }
+})
+
+# Country Name update variable for report
+observe({
+    input$selectCountry
+    input$NEW_country
+    input$new_country_name
+
+    if (input$NEW_country == TRUE & input$new_country_name != "") {
+        countryReportName <<- input$new_country_name
+        message(paste("\n\n", countryReportName))
+    } else {
+        countryReportName <<- input$selectCountry
+        message(paste("\n\n", countryReportName))
     }
 })

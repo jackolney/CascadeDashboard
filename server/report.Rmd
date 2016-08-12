@@ -1,5 +1,5 @@
 ---
-title: "Cascade Report for `r input$selectCountry`"
+title: "Cascade Report for `r countryReportName`"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: pdf_document
 ---
