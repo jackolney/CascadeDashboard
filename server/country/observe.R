@@ -193,9 +193,7 @@ observe({
 
     if (input$NEW_country == TRUE & input$new_country_name != "") {
         countryReportName <<- input$new_country_name
-        message(paste("\n\n", countryReportName))
     } else {
         countryReportName <<- input$selectCountry
-        message(paste("\n\n", countryReportName))
     }
 })
