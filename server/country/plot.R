@@ -10,6 +10,7 @@ output$editCD4Plot <- renderPlot({
 
 output$editCD42015Plot <- renderPlot({
     input$hot_cd4_2015
+    input$copy2010CD4
     BuildEditCD42015Plot(data = values[["hot_cd4_2015"]])
 }, height = 250, width = 'auto', bg = 'transparent')
 

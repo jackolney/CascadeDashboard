@@ -152,7 +152,11 @@ output$hot_cd4_2015 <- renderRHandsontable({
     if (input$NEW_country == TRUE & input$new_country_name != "") {
         vCD42015 <<- NULL
         if (is.null(input$hot_cd4_2015) || is.null(vCD42015Country)) {
-            Proportion <- as.numeric(NA)
+            if (input$copy2010CD4 == TRUE) {
+                Proportion <- as.numeric(MasterData$cd4[2:15])
+            } else {
+                Proportion <- as.numeric(NA)
+            }
             ART <- c(rep("Off ART", 7), rep("On ART", 7))
             Category <- rep(c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"), 2)
             DF = data.frame(ART, Category, Proportion)
