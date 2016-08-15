@@ -155,10 +155,10 @@ within a certain interval. As a result we are left with `r input$minResults` par
 could be plausibly correct. Now, if we were to then simulate thousands of permutations of interventions
 on each of these `r input$minResults` parameter sets we would need to run millions of simulations.
 This would take a considerable amount of time. As one of the aims of this model was to be simple
-and most importantly fast, we have decided to only simulate interventions using the top 10% of
-'best fitting' parameter sets. As we accepted `r input$minResults` parameter sets, we will simulate
-interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the top 10%
-of calibration runs is shown below with the top 10% coloured red.
+and most importantly fast, we have decided to only simulate interventions using the best 10% of
+accepted parameter sets. As we accepted `r input$minResults` parameter sets, we will simulate
+interventions on `r input$minResults * 0.1` parameter sets. A figure illustrating the fit of the best 10%
+of calibration runs is shown below with all runs coloured blue and the best 10% coloured red.
 
 ```{r, fig.width = 7, fig.height = 7, fig.align = 'center', echo = FALSE}
     BuildCalibrationBestFitRunsPlot_Report(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
