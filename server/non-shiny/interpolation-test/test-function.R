@@ -21,24 +21,3 @@ CheckInterpolation <- function(propRuns, intLength) {
     )
     results
 }
-
-Two <- CheckInterpolation(propRuns = 0.1, intLength = 2)
-Three <- CheckInterpolation(propRuns = 0.1, intLength = 3)
-Four <- CheckInterpolation(propRuns = 0.1, intLength = 4)
-
-test <- reshape2::melt(cbind(Two, Three))
-test2 <- test[test$Var1 != "Cost",]
-
-ggplot(test2, aes(x = Var1, y = value, group = Var2)) + geom_point(aes(col = Var2))
-
-# Make plot then deploy on the cluster for simulation.
-graphics.off()
-quartz.options(w = 8, h = 5)
-
-test2$value <- abs(test2$value)
-
-ggplot(test2, aes(x = Var1, y = value, group = Var2)) +
-geom_point(aes(col = Var2), size = 3, alpha = 0.5) +
-theme_minimal() +
-theme(axis.line.y = element_line()) +
-theme(axis.line.x = element_line())
