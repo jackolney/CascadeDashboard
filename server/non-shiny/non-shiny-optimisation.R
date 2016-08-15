@@ -1,4 +1,4 @@
-RunNSOptimisation <- function(propRuns) {
+RunNSOptimisation <- function(propRuns, intLength) {
     # This should be triggered by the renderPlot().
 
     # CHECKLIST
@@ -54,7 +54,7 @@ RunNSOptimisation <- function(propRuns) {
         BaseCost  <- Calc_Cost(BaseModel)
         message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
 
-        parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = 2)
+        parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = intLength)
 
         for (i in 1:dim(parSteps)[1]) {
             cat("=")

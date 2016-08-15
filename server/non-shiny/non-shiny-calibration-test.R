@@ -8,6 +8,7 @@ setwd("~/git/WhoCascade/CascadeDashboard")
 # dir()
 graphics.off()
 quartz.options(w = 10, h = 8)
+figFont <- "Avenir Next"
 
 # -------- #
 # WORKFLOW #
@@ -46,7 +47,7 @@ testthat::test_dir("tests")
 ## Run baseline model (nothing fancy)
 # Kenya
 KenyaData <- GetMasterDataSet("Kenya")
-RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 3, limit = 100)
+RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = 1e4, maxError = 3, limit = 1000)
 BuildCalibrationPlotDetail(data = CalibOut, originalData = KenyaData, limit = 1000)
 
 # Tanzania
