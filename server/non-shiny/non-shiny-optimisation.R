@@ -43,6 +43,10 @@ RunNSOptimisation <- function(propRuns, intLength) {
     rAdhr     <- c()
     rRetn     <- c()
 
+    # additional cost vectors
+    rCostOrg <- c()
+    rCostTot  <- c()
+
     # because seven indicators
     for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
 
@@ -52,6 +56,7 @@ RunNSOptimisation <- function(propRuns, intLength) {
         BaseModel <- CallBaselineModel(runNumber = orderedRuns[j], initVals = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),])
         BaseDALY  <- Calc_DALY(BaseModel)
         BaseCost  <- Calc_Cost(BaseModel)
+        rCostOrg[j] <- BaseCost
         message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
 
         parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = intLength)
@@ -84,6 +89,7 @@ RunNSOptimisation <- function(propRuns, intLength) {
             rVS[iC]       <- Calc_VS(             SimResult )
             rImpact[iC]   <- Calc_DALYsAverted(   SimResult , BaseDALY)
             rCost[iC]     <- Calc_AdditionalCost( SimResult , BaseCost)
+            rCostTot[iC]  <- Calc_Cost(SimResult)
 
             # Care Calculations
             rTest[iC]     <- Calc_CareTesting(baseResult      = BaseModel, simResult = SimResult)
@@ -106,8 +112,10 @@ RunNSOptimisation <- function(propRuns, intLength) {
         cat("\n")
     }
 
-    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn)
-    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention")
+    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
+    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
+
+    BaselineCost <<- rCostOrg
 
     message("\nFinished")
     optResults

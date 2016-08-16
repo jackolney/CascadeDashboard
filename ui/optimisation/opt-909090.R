@@ -28,7 +28,15 @@ tabItem(tabName = "opt-909090",
             collapsible = TRUE,
             collapsed = FALSE,
             title = "How to get there?",
-            tags$div(valueBoxOutput(outputId = "vb909090_COST", width = "100%"), style = "width: 45%; margin: auto;"),
+            # tags$div(valueBoxOutput(outputId = "vb909090_COST", width = "100%"), style = "width: 45%; margin: auto;"),
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "vb909090_COST_OG", width = "100%")
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "vb909090_COST_NEW", width = "100%")
+                )
+            ),
             fluidRow(
                 column(width = 4,
                     infoBoxOutput(outputId = "vb909090_testing",      width = "100%")
