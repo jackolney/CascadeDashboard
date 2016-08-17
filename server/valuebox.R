@@ -6,11 +6,47 @@ output$vb909090_COST <- renderValueBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    report_909090_cost <<- scales::dollar(mean(intResult[,"iCost"]))
+    val <- mean(intResult[,"iCost"]) / 5
+
+    report_909090_cost <<- scales::dollar(val)
 
     valueBox(
-        value = scales::dollar(mean(intResult[,"iCost"])),
-        subtitle = "Additional Cost of Care per year between 2015 and 2020",
+        value = scales::dollar(val),
+        subtitle = "Additional cost of care per year between 2015 and 2020",
+        color = "gray",
+        icon = icon("usd", lib = "font-awesome")
+    )
+  })
+
+output$vb909090_COST_OG <- renderValueBox({
+    input$NEXT_optIntro
+
+    # The cost at 'baseline' regardless of what VS was achieved.
+    val <- mean(BaselineCost) / 5
+
+    valueBox(
+        value = scales::dollar(val),
+        subtitle = "Baseline cost of care per year between 2015 and 2020",
+        color = "gray",
+        icon = icon("usd", lib = "font-awesome")
+    )
+  })
+
+output$vb909090_COST_NEW <- renderValueBox({
+    input$NEXT_optIntro
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+
+    val <- mean(intResult[,"iCost"]) / 5
+
+    report_909090_cost <<- scales::dollar(val)
+
+    valueBox(
+        value = scales::dollar(val),
+        subtitle = "Additional cost of care per year between 2015 and 2020",
         color = "gray",
         icon = icon("usd", lib = "font-awesome")
     )
@@ -24,9 +60,11 @@ output$vb909090_testing <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(round(values["iTest"], digits = 0))
+    val <- values["iTest"] / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_testing <<- out
 
@@ -52,9 +90,11 @@ output$vb909090_linkage <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(round(values["iLink"], digits = 0))
+    val <- values["iLink"] / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_linkage <<- out
 
@@ -79,9 +119,11 @@ output$vb909090_preRetention <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(abs(round(values["iPreR"], digits = 0)))
+    val <- abs(values["iPreR"]) / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_preRetention <<- out
 
@@ -106,9 +148,11 @@ output$vb909090_initiation <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(round(values["iInit"], digits = 0))
+    val <- values["iInit"] / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_initiation <<- out
 
@@ -133,9 +177,11 @@ output$vb909090_adherence <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(round(values[["iAdhr"]], digits = 0))
+    val <- values["iAdhr"] / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_adherence <<- out
 
@@ -160,9 +206,11 @@ output$vb909090_retention <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    values <- colMeans(intResult[,names(intResult) != "iCost"])
+    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
-    out <- scales::comma(abs(round(values["iRetn"], digits = 0)))
+    val <- abs(values["iRetn"]) / 5
+
+    out <- scales::comma(round(val, digits = 0))
 
     report_909090_retention <<- out
 
