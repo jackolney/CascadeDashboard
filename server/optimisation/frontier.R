@@ -48,6 +48,7 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
     iInit <- c()
     iAdhr <- c()
     iRetn <- c()
+    iTCst <- c()
 
     for(n in 1:length(optRuns)) {
         lower <- (1 + simLength * (optRuns[n] - 1))
@@ -61,8 +62,9 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
         iInit[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = 0.729)
         iAdhr[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = 0.729)
         iRetn[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = 0.729)
+        iTCst[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Total Cost"][frontierList[[n]]],        target = 0.729)
     }
-    careOutput <- data.frame(iCost, iTest, iLink, iPreR, iInit, iAdhr, iRetn)
+    careOutput <- data.frame(iCost, iTest, iLink, iPreR, iInit, iAdhr, iRetn, iTCst)
     careOutput
 }
 
