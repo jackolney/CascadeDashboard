@@ -168,7 +168,7 @@ BuildCalibrationHistogram_Report <- function(runError, maxError) {
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 8))
     ggOut <- ggOut + theme(axis.title = element_text(size = 10))
-    ggOut <- ggOut + theme(legend.text = element_text(size = 8))
+    ggOut <- ggOut + theme(legend.position = "none")
     ggOut <- ggOut + theme(legend.title = element_blank())
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
