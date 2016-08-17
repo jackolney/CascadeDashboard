@@ -82,3 +82,28 @@ mean(test[,"iPreR"])
 mean(test[,"iInit"])
 mean(test[,"iAdhr"])
 mean(test[,"iRetn"])
+mean(test[,"iTCst"])
+
+
+
+names(optResults)
+
+length(optResults[,"Total Cost"])
+
+length(BaselineCost)
+
+scales::dollar(mean(BaselineCost) / 5)
+scales::dollar(mean(optResults[,"Total Cost"]) / 5)
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+
+hi <- theOut
+names(hi)[18] <- "TotalCost"
+
+a = ggplot(hi, aes(x = VS, y = Cost)) + geom_point(aes(col = Rho), alpha = 0.2) + theme_minimal()
+b = ggplot(hi, aes(x = VS, y = TotalCost)) + geom_point(aes(col = Rho), alpha = 0.2) + theme_minimal()
+
+gridExtra::grid.arrange(a, b, ncol = 2, nrow = 1)
