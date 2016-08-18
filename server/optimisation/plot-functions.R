@@ -50,7 +50,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggOne <- ggOne + mycol
-    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red line denotes best fitting simulation")
+    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red lines denote best fitting simulations")
     ggOne <- ggOne + theme(legend.position = "none")
     ggOne <- ggOne + theme(axis.text.x = element_text(size = 14))
     ggOne <- ggOne + theme(axis.text.y = element_text(size = 14))
@@ -68,7 +68,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggTwo <- ggTwo + mycol
-    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red line denotes best fitting simulation")
+    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red lines denote best fitting simulations")
     ggTwo <- ggTwo + theme(legend.position = "none")
     ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 14))
     ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 14))
@@ -86,7 +86,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggThree <- ggThree + mycol
-    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red line denotes best fitting simulation")
+    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red lines denote best fitting simulations")
     ggThree <- ggThree + theme(legend.position = "none")
     ggThree <- ggThree + theme(axis.text.x = element_text(size = 14))
     ggThree <- ggThree + theme(axis.text.y = element_text(size = 14))
@@ -104,7 +104,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFour <- ggFour + mycol
-    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red line denotes best fitting simulation")
+    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red lines denote best fitting simulations")
     ggFour <- ggFour + theme(legend.position = "none")
     ggFour <- ggFour + theme(axis.text.x = element_text(size = 14))
     ggFour <- ggFour + theme(axis.text.y = element_text(size = 14))
@@ -122,7 +122,7 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
     ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
     ggFive <- ggFive + mycol
-    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red line denotes best fitting simulation")
+    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red lines denote best fitting simulations")
     ggFive <- ggFive + theme(legend.position = "none")
     ggFive <- ggFive + theme(axis.text.x = element_text(size = 14))
     ggFive <- ggFive + theme(axis.text.y = element_text(size = 14))
