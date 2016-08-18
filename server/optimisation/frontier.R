@@ -29,9 +29,34 @@ PlotInterpolation <- function(vs, indicator, target) {
     interpolation <- approx(x = vs, y = indicator)
     intIndex <- which.min(abs(target - interpolation$x))
     interpolation$y[intIndex]
-    plot(x = vs, y = indicator)
-    points(interpolation$x, interpolation$y, col = "red", pch = "*")
-    abline(v = target, h = interpolation$y[intIndex])
+
+    dat <- data.frame(vs, indicator)
+    inter <- as.data.frame(interpolation)
+
+    ggPlot <- ggplot(dat, aes(x = vs, y = indicator))
+    ggPlot <- ggPlot + geom_line(data = inter, mapping = aes(x = x, y = y), alpha = 0.5, col = 'red')
+    ggPlot <- ggPlot + geom_point(alpha = 0.2)
+    ggPlot <- ggPlot + geom_point(alpha = 0.5, col = 'red')
+    ggPlot <- ggPlot + geom_vline(xintercept = interpolation$x[intIndex], alpha = 0.5)
+    ggPlot <- ggPlot + geom_hline(yintercept = interpolation$y[intIndex], alpha = 0.5)
+    ggPlot <- ggPlot + theme_classic()
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + expand_limits(y = round(max(indicator), digits = -9))
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks())
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent, breaks = scales::pretty_breaks())
+    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.title = element_text(size = 9))
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + theme(legend.title = element_text(size = 9))
+    ggPlot <- ggPlot + theme(legend.text = element_text(size = 8))
+    ggPlot <- ggPlot + xlab("Viral Suppression")
+    ggPlot <- ggPlot + ylab("Additional Cost of Care")
+    ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+    ggPlot <- ggPlot + annotate(geom = "text", x = 0.62, y = round(interpolation$y[intIndex], -8), label = paste("73% viral suppression\nat a cost of", scales::dollar(interpolation$y[intIndex])), family = "Avenir Next")
+    ggPlot
 }
 
 Interpolate <- function(vs, indicator, target) {
@@ -117,9 +142,25 @@ FindFrontierPlot <- function(x, y) {
         # it's index in the whole data.frame
         frontierIndex[i+1] <- which(ref == min(grad[grad >= 0], na.rm = TRUE))
     }
-    ggplot(df, aes(x = x, y = y)) +
-    geom_point(alpha = 0.5) +
-    theme_minimal() +
-    geom_line(data = df[frontierIndex,], aes(x = x, y =y), col = "red", alpha = 0.5) +
-    geom_point(data = df[frontierIndex,], aes(x = x, y =y), col = "red", alpha = 0.5)
+    ggPlot <- ggplot(df, aes(x = x, y = y))
+    ggPlot <- ggPlot + geom_point(alpha = 0.2)
+    ggPlot <- ggPlot + geom_line(data = df[frontierIndex,], aes(x = x, y = y), col = "red", alpha = 0.5)
+    ggPlot <- ggPlot + geom_point(data = df[frontierIndex,], aes(x = x, y = y), col = "red", alpha = 0.5)
+    ggPlot <- ggPlot + theme_classic()
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + expand_limits(y = round(max(y), digits = -9))
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks())
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent, breaks = scales::pretty_breaks())
+    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 8))
+    ggPlot <- ggPlot + theme(axis.title = element_text(size = 9))
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + theme(legend.title = element_text(size = 9))
+    ggPlot <- ggPlot + theme(legend.text = element_text(size = 8))
+    ggPlot <- ggPlot + xlab("Viral Suppression")
+    ggPlot <- ggPlot + ylab("Additional Cost of Care")
+    ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
+    ggPlot
 }
