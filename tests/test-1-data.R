@@ -19,19 +19,19 @@ source("ui/global-lists.R",                        local = FALSE)
 
 test_that("Kenya", {
     testData <- GetMasterDataSet("Kenya")
-    expect_true(is.list(testData), label = "Kenya dataset failed to load")
+    testthat::expect_true(is.list(testData), label = "Kenya dataset", info = "failed to load")
 })
 
 test_that("Tanzania", {
     testData <- GetMasterDataSet("Tanzania")
-    expect_true(is.list(testData), label = "Tanzania dataset failed to load")
+    testthat::expect_true(is.list(testData), label = "Tanzania dataset", info = "failed to load")
 })
 
 test_that("Zimbabwe", {
     testData <- GetMasterDataSet("Zimbabwe")
-    expect_true(is.list(testData), label = "Zimbabwe dataset failed to load")
+    testthat::expect_true(is.list(testData), label = "Zimbabwe dataset", info = "failed to load")
 })
 
 test_that("Clashing data", {
-    expect_silent(for(i in 1:length(CountryList)) checkForClashes(GetMasterDataSet(CountryList[i])))
+    testthat::expect_silent(for(i in 1:length(CountryList)) checkForClashes(GetMasterDataSet(CountryList[i])))
 })
