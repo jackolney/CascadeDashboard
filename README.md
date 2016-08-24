@@ -13,7 +13,7 @@ However, some users may like to store a version locally on their machine. This c
 ### Method 1
 Cloning the _master_ branch of this git repository and running the app natively through R as follows:
 
-```R
+```bash
 git clone https://github.com/jackolney/CascadeDashboard
 git checkout master
 Rscript -e 'shiny::runApp()'
