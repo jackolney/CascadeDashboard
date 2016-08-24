@@ -33,5 +33,8 @@ test_that("Zimbabwe", {
 })
 
 test_that("Clashing data", {
-    testthat::expect_silent(for(i in 1:length(CountryList)) checkForClashes(GetMasterDataSet(CountryList[i])))
+    for(i in 1:length(CountryList)) {
+        paste("Testing", CountryList[i])
+        testthat::expect_warning(checkForClashes(GetMasterDataSet(CountryList[i])), regexp = NA)
+    }
 })
