@@ -106,3 +106,8 @@ input[type=checkbox] {
     border: 1px solid #cacaca;
     border-style: inset;
 }
+
+/* File Upload */
+input[type="file"] {
+    display: none;
+}
