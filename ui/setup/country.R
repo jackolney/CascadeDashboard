@@ -52,7 +52,8 @@ tabItem(tabName = "country",
                 'Mission Control' provides additional information on available data from each country,
                 click on each button to enter / edit data. Click 'New Country' to begin data entry
                 for new region."),
-            bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default")
+            bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default"),
+            downloadButton(outputId = 'downloadMasterDataSet', label = 'DOWNLOAD DATA', class = "btn btn-success btn-block")
         ),
         box(width = NULL,
             status = "danger",
