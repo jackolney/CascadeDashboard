@@ -106,15 +106,15 @@ frontierIndex
 
 test <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-mean(test[,"iCost"])
-mean(test[,"iTest"])
-mean(test[,"iLink"])
-mean(test[,"iPreR"])
-mean(test[,"iInit"])
-mean(test[,"iAdhr"])
-mean(test[,"iRetn"])
-mean(test[,"iTCst"])
-
+NonZeroVectorCheck(test)
+Quantile_95(test[,"iCost"])
+Quantile_95(test[,"iTest"])
+Quantile_95(test[,"iLink"])
+Quantile_95(test[,"iPreR"])
+Quantile_95(test[,"iInit"])
+Quantile_95(test[,"iAdhr"])
+Quantile_95(test[,"iRetn"])
+Quantile_95(test[,"iTCst"])
 
 
 names(optResults)

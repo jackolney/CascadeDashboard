@@ -15,3 +15,12 @@ Quantile_95 <- function(vector) {
     p05 <- quantile(vector, 0.05)[[1]]
     return(c(upper = p95, mean = m, lower = p05))
 }
+
+NonZeroCheck <- function(x) if (x < 0) 0 else x
+
+NonZeroVectorCheck <- function(x) {
+    for (i in 1:length(x)) {
+        x[i] <- NonZeroCheck(x[[i]])
+    }
+    x
+}

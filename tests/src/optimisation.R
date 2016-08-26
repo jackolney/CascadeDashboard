@@ -18,9 +18,6 @@ RunNSOptimisation <- function(propRuns) {
     # Extract the initial values of a random 10% of simulations from calibration
     bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
-    # Identify the order of simulations ranked by error (low to high)
-    orderedRuns <- order(runError[selectedRuns])
-
     # index counter
     iC <- 1L
 
@@ -51,12 +48,12 @@ RunNSOptimisation <- function(propRuns) {
         cat(paste('Simulation', j, '\n'))
 
         # Run Baseline simulation
-        BaseModel <- CallBaselineModel(runNumber = orderedRuns[j], initVals = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),])
+        BaseModel <- CallBaselineModel(runNumber = shuffledRuns[j], initVals = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),])
         BaseDALY  <- Calc_DALY(BaseModel)
         BaseCost  <- Calc_Cost(BaseModel)
         message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
 
-        parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = orderedRuns[j], length = 2)
+        parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = shuffledRuns[j], length = 2)
 
         for (i in 1:dim(parSteps)[1]) {
             cat("=")
@@ -67,7 +64,7 @@ RunNSOptimisation <- function(propRuns) {
                 data = MasterData,
                 iterationParam = parSteps[i,],
                 calibParamOut = CalibParamOut,
-                runNumber = orderedRuns[j])
+                runNumber = shuffledRuns[j])
 
             # Now we need the initials.
             y <- GetInitial(
@@ -75,7 +72,7 @@ RunNSOptimisation <- function(propRuns) {
                 iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
                 masterCD4 = MasterData$cd4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],])
 
             SimResult <- RunSim_Prop(y = y, p = p)
 

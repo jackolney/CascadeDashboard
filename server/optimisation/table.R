@@ -83,8 +83,6 @@ output$bestFitDT <- DT::renderDataTable({
 
     bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = 0.1)
 
-    orderedRuns <- order(runError[selectedRuns])
-
     pRho     <- c()
     pEpsilon <- c()
     pQ       <- c()
@@ -110,14 +108,14 @@ output$bestFitDT <- DT::renderDataTable({
             t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
             t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
             t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
-            Rho = CalibParamOut[orderedRuns[j],"rho"],
-            Epsilon = CalibParamOut[orderedRuns[j],"epsilon"],
-            Kappa = CalibParamOut[orderedRuns[j],"kappa"],
-            Gamma = CalibParamOut[orderedRuns[j],"gamma"],
-            Theta = CalibParamOut[orderedRuns[j],"theta"],
-            Omega = CalibParamOut[orderedRuns[j],"omega"],
-            p = CalibParamOut[orderedRuns[j],"p"],
-            q = CalibParamOut[orderedRuns[j],"q"])
+            Rho = CalibParamOut[shuffledRuns[j],"rho"],
+            Epsilon = CalibParamOut[shuffledRuns[j],"epsilon"],
+            Kappa = CalibParamOut[shuffledRuns[j],"kappa"],
+            Gamma = CalibParamOut[shuffledRuns[j],"gamma"],
+            Theta = CalibParamOut[shuffledRuns[j],"theta"],
+            Omega = CalibParamOut[shuffledRuns[j],"omega"],
+            p = CalibParamOut[shuffledRuns[j],"p"],
+            q = CalibParamOut[shuffledRuns[j],"q"])
 
         pRho[j]     <- round(p[["Rho"]],     digits = 4)
         pEpsilon[j] <- round(p[["Epsilon"]], digits = 4)

@@ -61,14 +61,20 @@ output$vb909090_testing <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- values["iTest"] / 5
+    values <- round(Quantile_95(intResult[["iTest"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_testing <<- out
 
@@ -77,7 +83,7 @@ output$vb909090_testing <- renderInfoBox({
     infoBox(
         title = "Testing",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iTest")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iTest")],
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
@@ -93,14 +99,20 @@ output$vb909090_linkage <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- values["iLink"] / 5
+    values <- round(Quantile_95(intResult[["iLink"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_linkage <<- out
 
@@ -109,7 +121,7 @@ output$vb909090_linkage <- renderInfoBox({
     infoBox(
         title = "Linkage",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iLink")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iLink")],
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
@@ -124,14 +136,20 @@ output$vb909090_preRetention <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- abs(values["iPreR"]) / 5
+    values <- round(Quantile_95(intResult[["iPreR"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_preRetention <<- out
 
@@ -140,7 +158,7 @@ output$vb909090_preRetention <- renderInfoBox({
     infoBox(
         title = "Pre-ART Retention",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iPreR")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iPreR")],
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
@@ -155,14 +173,20 @@ output$vb909090_initiation <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- values["iInit"] / 5
+    values <- round(Quantile_95(intResult[["iInit"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_initiation <<- out
 
@@ -171,7 +195,7 @@ output$vb909090_initiation <- renderInfoBox({
     infoBox(
         title = "ART Initiation",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iInit")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iInit")],
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
@@ -186,14 +210,20 @@ output$vb909090_adherence <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- values["iAdhr"] / 5
+    values <- round(Quantile_95(intResult[["iAdhr"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_adherence <<- out
 
@@ -202,7 +232,7 @@ output$vb909090_adherence <- renderInfoBox({
     infoBox(
         title = "Adherence",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iAdhr")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iAdhr")],
         subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
@@ -217,14 +247,20 @@ output$vb909090_retention <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
 
-    values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
-    val <- abs(values["iRetn"]) / 5
+    values <- round(Quantile_95(intResult[["iRetn"]]) / 5, digit = 0)
 
-    if (val < 0) val <- 0
+    values[['mean']] <- NonZeroCheck(values[['mean']])
+    values[['upper']] <- NonZeroCheck(values[['upper']])
+    values[['lower']] <- NonZeroCheck(values[['lower']])
 
-    out <- scales::comma(round(val, digits = 0))
+    values <- scales::comma(values)
+
+    out <- paste0(values[['mean']], " [", values[['lower']], " to ", values[['upper']], "]")
 
     report_909090_retention <<- out
 
@@ -233,7 +269,7 @@ output$vb909090_retention <- renderInfoBox({
     infoBox(
         title = "ART Retention",
         value = out,
-        color = cols[which(names(values[rev(order(abs(values)))]) == "iRetn")],
+        color = cols[which(names(colValues[order(abs(colValues))]) == "iRetn")],
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,

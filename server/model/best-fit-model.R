@@ -5,8 +5,6 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
 
     bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
-    orderedRuns <- order(runError[selectedRuns])
-
     # We are going to use RimSim (as per optimise.R)
 
     # The difference here is that we need to average across all simulations
@@ -29,14 +27,14 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
             t_3 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less350"]]),
             t_4 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less250"]]),
             t_5 = ConvertYear2015(MasterData[["treatment_guidelines"]][["less200"]]),
-            Rho = CalibParamOut[orderedRuns[j],"rho"],
-            Epsilon = CalibParamOut[orderedRuns[j],"epsilon"],
-            Kappa = CalibParamOut[orderedRuns[j],"kappa"],
-            Gamma = CalibParamOut[orderedRuns[j],"gamma"],
-            Theta = CalibParamOut[orderedRuns[j],"theta"],
-            Omega = CalibParamOut[orderedRuns[j],"omega"],
-            p = CalibParamOut[orderedRuns[j],"p"],
-            q = CalibParamOut[orderedRuns[j],"q"],
+            Rho = CalibParamOut[shuffledRuns[j],"rho"],
+            Epsilon = CalibParamOut[shuffledRuns[j],"epsilon"],
+            Kappa = CalibParamOut[shuffledRuns[j],"kappa"],
+            Gamma = CalibParamOut[shuffledRuns[j],"gamma"],
+            Theta = CalibParamOut[shuffledRuns[j],"theta"],
+            Omega = CalibParamOut[shuffledRuns[j],"omega"],
+            p = CalibParamOut[shuffledRuns[j],"p"],
+            q = CalibParamOut[shuffledRuns[j],"q"],
             ...
         )
 
@@ -46,7 +44,7 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
             iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
             masterCD4 = MasterData$cd4_2015)
 
-        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[orderedRuns[j],])
+        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],])
 
         jList[[j]] <- RunSim_Prop(y = y, p = p)
     }

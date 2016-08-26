@@ -70,13 +70,11 @@ tabItem(tabName = "opt-909090",
                 all best-fitting parameter sets derived from our calibration,
                 and present the average across all simulations as per year
                 values. Boxes are colour-coded to illustrate the magnitude of
-                change. Green boxes illustrate the the two largest absolute
+                change. Red boxes illustrate the the two largest absolute
                 changes to care, orange denotes the next largest two absolute
-                changes to care and red denotes the two smallest absolute
-                changes to care. Occasionally, a negative value is displayed on
-                the screen; this is because interventions can reduce incidence
-                meaning that an increase in one area of the cascade may result
-                in a reduction in another area, this is to be expected.")
+                changes to care and green denotes the two smallest absolute
+                changes to care. If a box displays zero, then no changes are
+                required to achieve 90-90-90.")
         ),
         box(width = NULL,
             status = "warning",
