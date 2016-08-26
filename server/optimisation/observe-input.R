@@ -2,7 +2,7 @@
 
 output$UI_opt_rho_MAX <- renderUI({
     numericInput(inputId = "opt_rho_intValue",
-        label = "Intervention Rate:",
+        label = "Maximum Intervention Rate (py^-1):",
         value = CalibParamMaxMin$rho_MAX,
         min = 0,
         max = 10,
@@ -22,7 +22,7 @@ output$UI_opt_q_MAX <- renderUI({
 
 output$UI_opt_kappa_MAX <- renderUI({
     numericInput(inputId = "opt_kappa_intValue",
-        label = "Intervention Rate (smaller is better):",
+        label = "Minimum Intervention Rate (smaller is better) (py^-1):",
         value = CalibParamMaxMin$kappa_MIN,
         min = 0,
         max = 1,
@@ -32,7 +32,7 @@ output$UI_opt_kappa_MAX <- renderUI({
 
 output$UI_opt_gamma_MAX <- renderUI({
     numericInput(inputId = "opt_gamma_intValue",
-        label = "Intervention Rate:",
+        label = "Maximum Intervention Rate (py^-1):",
         value = CalibParamMaxMin$gamma_MAX,
         min = 0,
         max = 10,
@@ -42,7 +42,7 @@ output$UI_opt_gamma_MAX <- renderUI({
 
 output$UI_opt_sigma_MAX <- renderUI({
     numericInput(inputId = "opt_sigma_intValue",
-        label = "Intervention Rate (py^-1):",
+        label = "Maximum Intervention Rate (py^-1):",
         value = 0.5,
         min = 0,
         max = 0.5,
@@ -52,7 +52,7 @@ output$UI_opt_sigma_MAX <- renderUI({
 
 output$UI_opt_omega_MAX <- renderUI({
     numericInput(inputId = "opt_omega_intValue",
-        label = "Intervention Rate:",
+        label = "Minimum Intervention Rate (smaller is better) (py^-1):",
         value = CalibParamMaxMin$omega_MIN,
         min = 0,
         max = 1,
