@@ -84,8 +84,8 @@ Extract909090Data <- function(...) {
     res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
     min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])
     max <- c(UN_90[["upper"]], UN_9090[["upper"]], UN_909090[["upper"]])
-    def <- c("% Diagnosed","% On Treatment","% Suppressed")
+    def <- c("% of PLHIV Diagnosed","% of Diagnosed On Treatment","% of On Treatment Suppressed")
     out <- data.frame(def, res, min, max)
-    out$def <- factor(out$def, levels = c("% Diagnosed", "% On Treatment", "% Suppressed"))
+    out$def <- factor(out$def, levels = c("% of PLHIV Diagnosed","% of Diagnosed On Treatment","% of On Treatment Suppressed"))
     out
 }
