@@ -42,6 +42,8 @@ output$vb909090_COST_NEW <- renderValueBox({
 
     val <- mean(intResult[,"iCost"]) / 5
 
+    if (val < 0) val <- 0
+
     report_909090_cost <<- scales::dollar(val)
 
     valueBox(
@@ -63,6 +65,8 @@ output$vb909090_testing <- renderInfoBox({
     values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
     val <- values["iTest"] / 5
+
+    if (val < 0) val <- 0
 
     out <- scales::comma(round(val, digits = 0))
 
@@ -94,6 +98,8 @@ output$vb909090_linkage <- renderInfoBox({
 
     val <- values["iLink"] / 5
 
+    if (val < 0) val <- 0
+
     out <- scales::comma(round(val, digits = 0))
 
     report_909090_linkage <<- out
@@ -122,6 +128,8 @@ output$vb909090_preRetention <- renderInfoBox({
     values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
     val <- abs(values["iPreR"]) / 5
+
+    if (val < 0) val <- 0
 
     out <- scales::comma(round(val, digits = 0))
 
@@ -152,6 +160,8 @@ output$vb909090_initiation <- renderInfoBox({
 
     val <- values["iInit"] / 5
 
+    if (val < 0) val <- 0
+
     out <- scales::comma(round(val, digits = 0))
 
     report_909090_initiation <<- out
@@ -181,6 +191,8 @@ output$vb909090_adherence <- renderInfoBox({
 
     val <- values["iAdhr"] / 5
 
+    if (val < 0) val <- 0
+
     out <- scales::comma(round(val, digits = 0))
 
     report_909090_adherence <<- out
@@ -209,6 +221,8 @@ output$vb909090_retention <- renderInfoBox({
     values <- colMeans(intResult[,names(intResult) != c("iCost", "iTCst")])
 
     val <- abs(values["iRetn"]) / 5
+
+    if (val < 0) val <- 0
 
     out <- scales::comma(round(val, digits = 0))
 
