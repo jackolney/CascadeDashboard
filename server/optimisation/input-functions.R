@@ -220,6 +220,36 @@ GetBestTenPercentCalibOut <- function(CalibOut, runError, selectedRuns, propRuns
     out
 }
 
+GetRandomTenPercentCalibOut <- function(CalibOut, runError, selectedRuns, propRuns) {
+    # subset the 'model' results (42 for each simulation, 6*7)
+    modelledRuns <- CalibOut[CalibOut$source == "model",]
+
+    # sort runs by error (lowest to highest)
+    orderedRuns <- order(runError[selectedRuns])
+
+    # randomly shuffle the ordered runs
+    if (!exists("shuffledRuns")) {
+        shuffledRuns <<- sample(orderedRuns)
+    }
+
+    # take 10% of runs
+    bestRuns <- shuffledRuns[1:(length(shuffledRuns) * propRuns)]
+
+    # extract values for each indicator and bind together
+    bestRunValues <- modelledRuns[1:42 + 42 * (bestRuns[1] - 1),]
+    for(i in 2:length(bestRuns)) {
+        bestRunValues <- rbind(bestRunValues, modelledRuns[1:42 + 42 * (bestRuns[i] - 1),])
+    }
+
+    out <- bestRunValues[bestRunValues$year == 2015,]
+
+    if (dim(out)[1] != (length(bestRuns) * 7)) {
+        warning("Danger, out length is equal to all simulated indicators")
+        print(out)
+    }
+    out
+}
+
 # This function uses the parRange base values for interventions
 GetParaMatrixExperimental <- function(cParamOut, runNumber, length, parRange) {
     ParRange <- expand.grid(

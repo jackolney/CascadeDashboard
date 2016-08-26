@@ -42,6 +42,7 @@ OptInput$intValue_omega <- parRange["rho", "min"]
 # ------------ #
 
 BuildCalibrationBestFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = 1000, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
+BuildCalibrationRandomFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = 1000, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
 
 intLength = 2
 

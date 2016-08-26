@@ -7,8 +7,8 @@ RunOptimisation <- function(propRuns = 0.1) {
 
         setProgress(value = 0, message = 'Starting optimisation', detail = 'creating parameter matrix')
 
-        # Extract the initial values of the 10% of 'best' fit simulation from calibration
-        bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
+        # Extract the initial values of a random 10% of simulations from calibration
+        bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
         # Identify the order of simulations ranked by error (low to high)
         orderedRuns <- order(runError[selectedRuns])

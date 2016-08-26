@@ -81,7 +81,7 @@ output$optParTable_Omega <- renderTable({
 
 output$bestFitDT <- DT::renderDataTable({
 
-    bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = 0.1)
+    bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = 0.1)
 
     orderedRuns <- order(runError[selectedRuns])
 

@@ -136,6 +136,150 @@ BuildCalibrationBestFitRunsPlot <- function(data, originalData, limit, minErrorR
     gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
 }
 
+BuildCalibrationRandomFitRunsPlot <- function(data, originalData, limit, minErrorRun, selectedRuns, propRuns) {
+    # subset the 'model' results (42 for each simulation, 6*7)
+    modelledRuns <- data[data$source == "model",]
+
+    dataPoints <- data[data$source == "data",]
+
+    # sort runs by error (lowest to highest)
+    orderedRuns <- order(runError[selectedRuns])
+
+    # sort runs by error (lowest to highest)
+    if (!exists("shuffledRuns")) {
+        shuffledRuns <<- sample(orderedRuns)
+    }
+
+    # identify the best _% (10% by default)
+    bestRuns <- shuffledRuns[1:(length(shuffledRuns) * propRuns)]
+
+    # extract values for each indicator and bind together
+    bestRunValues <- modelledRuns[1:42 + 42 * (bestRuns[1] - 1),]
+    for(i in 2:length(bestRuns)) {
+        bestRunValues <- rbind(bestRunValues, modelledRuns[1:42 + 42 * (bestRuns[i] - 1),])
+    }
+
+    # Find max / min (for y-limit of plots)
+    modelledRuns <- AppendMinMaxMean(data[data$source == "model",])
+
+    # re-factor indicators
+    modelledRuns$indicator <- factor(modelledRuns$indicator, levels = c(
+        "PLHIV",
+        "PLHIV Diagnosed",
+        "PLHIV in Care",
+        "PLHIV on ART",
+        "PLHIV Suppressed"
+        )
+    )
+
+    # ZERO all weights
+    modelledRuns$weight <- 0
+
+    # Create 'sim' column for grouping runs
+    # Six years by seven indicators
+    modelledRuns$sim <- rep(x = 1:limit, each = 6 * 7)
+    bestRunValues$sim <- rep(x = 1:(limit * 0.1), each = 6 * 7)
+
+    # Set weight colors
+    cols <- c(ggColorHue(10)[1],ggColorHue(10)[2],ggColorHue(10)[4])
+    names(cols) <- c("red", "amber", "green")
+    mycol <- scale_colour_manual(name = "weight", values = cols)
+
+    # Create some pretty output plots
+    ggOne <- ggplot()
+    ggOne <- ggOne + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
+    ggOne <- ggOne + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
+    ggOne <- ggOne + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 5)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggOne <- ggOne + mycol
+    ggOne <- ggOne + ggtitle("PLHIV", subtitle = "Points are data, red lines denote best fitting simulations")
+    ggOne <- ggOne + theme(legend.position = "none")
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 14))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 14))
+    ggOne <- ggOne + theme(axis.title =  element_text(size = 15))
+    ggOne <- ggOne + theme(title =       element_text(size = 15))
+    ggOne <- ggOne + theme(axis.title.y = element_blank())
+    ggOne <- ggOne + theme(axis.title.x = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
+    ggOne <- ggOne + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
+
+    ggTwo <- ggplot()
+    ggTwo <- ggTwo + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
+    ggTwo <- ggTwo + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
+    ggTwo <- ggTwo + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
+    ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggTwo <- ggTwo + mycol
+    ggTwo <- ggTwo + ggtitle("PLHIV Diagnosed", subtitle = "Points are data, red lines denote best fitting simulations")
+    ggTwo <- ggTwo + theme(legend.position = "none")
+    ggTwo <- ggTwo + theme(axis.text.x = element_text(size = 14))
+    ggTwo <- ggTwo + theme(axis.text.y = element_text(size = 14))
+    ggTwo <- ggTwo + theme(axis.title =  element_text(size = 15))
+    ggTwo <- ggTwo + theme(title =       element_text(size = 15))
+    ggTwo <- ggTwo + theme(axis.title.y = element_blank())
+    ggTwo <- ggTwo + theme(axis.title.x = element_blank())
+    ggTwo <- ggTwo + theme(text = element_text(family = figFont))
+    ggTwo <- ggTwo + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
+
+    ggThree <- ggplot()
+    ggThree <- ggThree + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV in Care",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
+    ggThree <- ggThree + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
+    ggThree <- ggThree + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 5)
+    ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggThree <- ggThree + mycol
+    ggThree <- ggThree + ggtitle("PLHIV in Care", subtitle = "Points are data, red lines denote best fitting simulations")
+    ggThree <- ggThree + theme(legend.position = "none")
+    ggThree <- ggThree + theme(axis.text.x = element_text(size = 14))
+    ggThree <- ggThree + theme(axis.text.y = element_text(size = 14))
+    ggThree <- ggThree + theme(axis.title =  element_text(size = 15))
+    ggThree <- ggThree + theme(title =       element_text(size = 15))
+    ggThree <- ggThree + theme(axis.title.y = element_blank())
+    ggThree <- ggThree + theme(axis.title.x = element_blank())
+    ggThree <- ggThree + theme(text = element_text(family = figFont))
+    ggThree <- ggThree + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
+
+    ggFour <- ggplot()
+    ggFour <- ggFour + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV on ART",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
+    ggFour <- ggFour + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
+    ggFour <- ggFour + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 5)
+    ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggFour <- ggFour + mycol
+    ggFour <- ggFour + ggtitle("PLHIV on ART", subtitle = "Points are data, red lines denote best fitting simulations")
+    ggFour <- ggFour + theme(legend.position = "none")
+    ggFour <- ggFour + theme(axis.text.x = element_text(size = 14))
+    ggFour <- ggFour + theme(axis.text.y = element_text(size = 14))
+    ggFour <- ggFour + theme(axis.title =  element_text(size = 15))
+    ggFour <- ggFour + theme(title =       element_text(size = 15))
+    ggFour <- ggFour + theme(axis.title.y = element_blank())
+    ggFour <- ggFour + theme(axis.title.x = element_blank())
+    ggFour <- ggFour + theme(text = element_text(family = figFont))
+    ggFour <- ggFour + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
+
+    ggFive <- ggplot()
+    ggFive <- ggFive + geom_line(data = na.omit(modelledRuns[modelledRuns$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = bestRunValues[bestRunValues$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = sim), col = "red", size = 1, alpha = 0.2)
+    ggFive <- ggFive + geom_line(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
+    ggFive <- ggFive + geom_point(data = dataPoints[dataPoints$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 5)
+    ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
+    ggFive <- ggFive + mycol
+    ggFive <- ggFive + ggtitle("PLHIV Suppressed", subtitle = "Points are data, red lines denote best fitting simulations")
+    ggFive <- ggFive + theme(legend.position = "none")
+    ggFive <- ggFive + theme(axis.text.x = element_text(size = 14))
+    ggFive <- ggFive + theme(axis.text.y = element_text(size = 14))
+    ggFive <- ggFive + theme(axis.title =  element_text(size = 15))
+    ggFive <- ggFive + theme(title =       element_text(size = 15))
+    ggFive <- ggFive + theme(axis.title.y = element_blank())
+    ggFive <- ggFive + theme(axis.title.x = element_blank())
+    ggFive <- ggFive + theme(text = element_text(family = figFont))
+    ggFive <- ggFive + expand_limits(y = c(0, round(max(modelledRuns$max), digits = -4)))
+
+    gridExtra::grid.arrange(ggOne, ggTwo, ggThree, ggFour, ggFive, ncol = 2, nrow = 3)
+}
+
+
 BuildFrontierPlot <- function(CalibParamOut, optResults) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]

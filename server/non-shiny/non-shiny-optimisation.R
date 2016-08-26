@@ -14,8 +14,8 @@ RunNSOptimisation <- function(propRuns, intLength) {
     # Simulation Loop
     time <- proc.time()[[1]]
 
-    # Extract the initial values of the 10% of 'best' fit simulation from calibration
-    bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
+    # Extract the initial values of a random 10% of simulations from calibration
+    bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
     # Identify the order of simulations ranked by error (low to high)
     orderedRuns <- order(runError[selectedRuns])

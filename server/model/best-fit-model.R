@@ -3,7 +3,7 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
     # Setup #
     # The idea of this model is that it will simulate all parameter sets that will be used during optimisation to provide an accurate reading of the changes that will be made to care.
 
-    bestTenPercentCalibInitial <<- GetBestTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
+    bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
     orderedRuns <- order(runError[selectedRuns])
 

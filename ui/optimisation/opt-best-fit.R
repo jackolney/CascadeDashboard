@@ -6,7 +6,7 @@ tabItem(tabName = "opt-best-fit",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = FALSE,
-            title = "'Best Fitting' Parameter Sets",
+            title = "Randomly shuffled 10% of Parameter Sets",
             bsModal(id = "seeDataTable_BestFit", title = "Best Fit Calibration Parameters", trigger = "viewData_BESTFIT", size = "large",
                 DT::dataTableOutput('bestFitDT', width = "100%")
             ),
@@ -18,9 +18,9 @@ tabItem(tabName = "opt-best-fit",
             status = "warning",
             solidHeader = TRUE,
             title = "Intervention Detail",
-            "This page shows the calibration results of the best 10% of accepted parameter sets.
-            That is, the top 10% of parameter sets that produced the smallest total error. This line is highlighted
-            in red and shows the optimal set of parameters that achieve the interventions.
+            "This page shows the calibration results of a randomly sampled 10% of accepted parameter sets.
+            That is, a random 10% of parameter sets that produced the smallest total error. These results are highlighted
+            in red with all other parameter sets coloured blue.
             Click 'View Parameters' for further details of each parameter.",
             p(""),
             bsButton(inputId = "viewData_BESTFIT",   label = "VIEW PARAMETERS", style = "primary", size = "default", block = TRUE)

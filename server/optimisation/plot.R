@@ -3,10 +3,10 @@ output$plotOptim_result <- renderPlot({
     BuildOptimisationPlot(theOut = optResults)
 }, height = 400, width = 'auto', bg = 'transparent')
 
-# Best Fit Calibration Plot
+# Random 10% selection of runs
 output$optCalibBestFit <- renderPlot({
     input$NEXT_calib
-    BuildCalibrationBestFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
+    BuildCalibrationRandomFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = input$minResults, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
 }, height = 750, width = 'auto', bg = 'transparent')
 
 output$plotFrontier <- renderPlot({
