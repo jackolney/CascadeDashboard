@@ -69,8 +69,9 @@ tabItem(tabName = "opt-909090",
                 baseline and intervention scenario, repeat this calculation for
                 all best-fitting parameter sets derived from our calibration,
                 and present the average across all simulations as per year
-                values. Boxes are colour-coded to illustrate the magnitude of
-                change. Red boxes illustrate the the two largest absolute
+                values together with 95% confidence intervals. Boxes are
+                colour-coded to illustrate the magnitude of change.
+                Red boxes illustrate the the two largest absolute
                 changes to care, orange denotes the next largest two absolute
                 changes to care and green denotes the two smallest absolute
                 changes to care. If a box displays zero, then no changes are

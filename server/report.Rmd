@@ -203,7 +203,7 @@ Finally, we simulate an intervention that reduces loss to follow-up for persons 
 
 Estimates of the changes that could be made to care to facilitate the achievement of the 90-90-90 targets by 2020 are displayed below along with the average additional cost relative to a scenario with no changes to care.
 
-Change            | Description                                            | Value
+Change            | Description                                            | Value (95% CI)
 ------------------|--------------------------------------------------------|--------------------------------
 Cost              | Additional cost of care per year between 2015 and 2015 | `r report_909090_cost`
 Testing           | Additional diagnoses per year                          | `r report_909090_testing`
