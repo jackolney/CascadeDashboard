@@ -14,6 +14,14 @@ WhichAchieved73 <- function(simData, simLength) {
     ach73
 }
 
+FrontierAchieveAboveBelow73 <- function(x) {
+    if (any(x >= 0.9^3) & any(x < 0.9^3)) {
+        return(TRUE)
+    } else {
+        return(FALSE)
+    }
+}
+
 GetFrontiers <- function(simData, optRuns, simLength) {
     frontierList <- list()
     for(n in 1:length(optRuns)) {
@@ -26,19 +34,17 @@ GetFrontiers <- function(simData, optRuns, simLength) {
 }
 
 PlotInterpolation <- function(vs, indicator, target) {
-    interpolation <- approx(x = vs, y = indicator)
-    intIndex <- which.min(abs(target - interpolation$x))
-    interpolation$y[intIndex]
+
+    intResult <- Interpolate(vs = vs, indicator = indicator, target = target)
 
     dat <- data.frame(vs, indicator)
-    inter <- as.data.frame(interpolation)
 
     ggPlot <- ggplot(dat, aes(x = vs, y = indicator))
-    ggPlot <- ggPlot + geom_line(data = inter, mapping = aes(x = x, y = y), alpha = 0.5, col = 'red')
+    ggPlot <- ggPlot + geom_line(alpha = 0.5, col = 'red')
     ggPlot <- ggPlot + geom_point(alpha = 0.2)
     ggPlot <- ggPlot + geom_point(alpha = 0.5, col = 'red')
-    ggPlot <- ggPlot + geom_vline(xintercept = interpolation$x[intIndex], alpha = 0.5)
-    ggPlot <- ggPlot + geom_hline(yintercept = interpolation$y[intIndex], alpha = 0.5)
+    ggPlot <- ggPlot + geom_vline(xintercept = target, alpha = 0.5)
+    ggPlot <- ggPlot + geom_hline(yintercept = intResult, alpha = 0.5)
     ggPlot <- ggPlot + theme_classic()
     ggPlot <- ggPlot + theme(axis.line.y = element_line())
     ggPlot <- ggPlot + theme(axis.line.x = element_line())
@@ -55,14 +61,42 @@ PlotInterpolation <- function(vs, indicator, target) {
     ggPlot <- ggPlot + xlab("Viral Suppression")
     ggPlot <- ggPlot + ylab("Additional Cost of Care")
     ggPlot <- ggPlot + theme(text = element_text(family = "Avenir Next"))
-    ggPlot <- ggPlot + annotate(geom = "text", x = 0.62, y = round(interpolation$y[intIndex], -8), label = paste("73% viral suppression\nat a cost of", scales::dollar(interpolation$y[intIndex])), family = "Avenir Next")
+    ggPlot <- ggPlot + annotate(geom = "text", x = 0.65, y = round(intResult, -8), label = paste("73% viral suppression\nat a cost of", scales::dollar(intResult)), family = "Avenir Next")
     ggPlot
 }
 
 Interpolate <- function(vs, indicator, target) {
-    interpolation <- approx(x = vs, y = indicator)
-    intIndex <- which.min(abs(target - interpolation$x))
-    interpolation$y[intIndex]
+    # Find values lower than target
+    lowerVals <- vs[which(vs < target)]
+
+    # identify which is closest, but below target
+    lowerV <- lowerVals[which(abs(lowerVals - target) == min(abs(lowerVals - target)))]
+
+    # Find values above target
+    upperVals <- vs[which(vs >= target)]
+
+    # identify which is closest, but above target
+    upperV <- upperVals[which(abs(upperVals - target) == min(abs(upperVals - target)))]
+
+    # calculate total distance between upper and lower values
+    dist <- upperV - lowerV
+
+    # upperWeight is the proportional distance of upperV to target out of total dist
+    upperWeight <- abs(upperV - target) / dist
+
+    # lowerWeight is the proportional distance of lowerV to target out of total dist
+    lowerWeight <- abs(lowerV - target) / dist
+
+    # upperIndex is index of data.frame corresponding to upperV
+    upperIndex <- which(upperV == vs)
+
+    # lowerIndex is index of data.frame corresponding to lowerV
+    lowerIndex <- which(lowerV == vs)
+
+    # Interpolation in terms of y is a weighted sum of upper and lower points.
+    # These points are weighted by 1-their poportional distance to the target
+    out <- (indicator[upperIndex] * (1 - upperWeight)) + (indicator[lowerIndex] * (1 - lowerWeight))
+    out
 }
 
 RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
@@ -75,19 +109,24 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
     iRetn <- c()
     iTCst <- c()
 
+    iter <- 0L
+
     for(n in 1:length(optRuns)) {
         lower <- (1 + simLength * (optRuns[n] - 1))
         upper <- (simLength + simLength * (optRuns[n] - 1))
         vals <- simData[lower:upper,]
 
-        iCost[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = 0.729)
-        iTest[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = 0.729)
-        iLink[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = 0.729)
-        iPreR[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = 0.729)
-        iInit[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = 0.729)
-        iAdhr[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = 0.729)
-        iRetn[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = 0.729)
-        iTCst[n] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Total Cost"][frontierList[[n]]],        target = 0.729)
+        if (FrontierAchieveAboveBelow73(x = vals[,"VS"][frontierList[[n]]])) {
+            iCost[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = 0.729)
+            iTest[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = 0.729)
+            iLink[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = 0.729)
+            iPreR[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = 0.729)
+            iInit[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = 0.729)
+            iAdhr[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = 0.729)
+            iRetn[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = 0.729)
+            iTCst[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Total Cost"][frontierList[[n]]],        target = 0.729)
+            iter <- iter + 1
+        }
     }
     careOutput <- data.frame(iCost, iTest, iLink, iPreR, iInit, iAdhr, iRetn, iTCst)
     careOutput
