@@ -44,10 +44,11 @@ checkForClashes <- function(theData) {
     test <- theData$calib
     uYr <- unique(test$year)
     uInd <- unique(test$indicator)
+    country <- unique(test$country)
     for(i in 1:length(uInd)) {
         for(j in 1:length(uYr)) {
             if (dim(test[test$indicator == uInd[i] & test$year == uYr[j],])[1] > 1) {
-                warning(paste("Data clash on", uInd[i], "in", uYr[j]))
+                warning(paste("Data clash on", uInd[i], "in", uYr[j], "for", country))
             }
         }
     }

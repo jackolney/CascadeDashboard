@@ -69,9 +69,22 @@ GetMasterDataSet <- function(userCountry) {
 
         countryMasterDataSet <- rbind(intOne, intTwo)
     } else if (userCountry == "Brazil") {
+        # copy in the countryData
         int <- countryData$calib
+        # Remove stuff from Jaun's thesis (superceded by latest Spectrum)
+        noDST <- int[int$source != "Data from Department of DST",]
+        # Remove other UNAIDS data
+        noOther <- noDST[noDST$source != "http://www.unaids.org/sites/default/files/en/dataanalysis/knowyourresponse/countryprogressreports/2014countries/BRA_narrative_report_2014.pdf",]
+        # Ignore Spectrum stuff in 2013
+        not2013 <- noOther[noOther$year != 2013,]
+        # Get the 2013 Spectrum PLHIV estimate
+        plhiv_2013 <- noOther[noOther$year == 2013 & noOther$indicator == "PLHIV",]
+        # Pull in MarrakechData
         intOne <- marrakechData
-        countryMasterDataSet <- rbind(int, intOne)
+        # Use all except the PLHIV estimate
+        intTwo <- intOne[intOne$indicator != "PLHIV",]
+        # Bind together
+        countryMasterDataSet <- rbind(not2013, intTwo, plhiv_2013)
     } else if (userCountry == "Cambodia") {
         int <- countryData$calib
         intOne <- marrakechData
@@ -103,10 +116,16 @@ GetMasterDataSet <- function(userCountry) {
         intOne <- int[int$weight != "amber",]
         countryMasterDataSet <- rbind(marrakechData, intOne[intOne$year != 2014,])
     } else if (userCountry == "Vietnam") {
+        # Pull in countryData
         int <- countryData$calib
-        # Ignore some of the values that we pulled from aidshub
-        intOne <- int[int$year == 2012,][2:5,]
-        countryMasterDataSet <- rbind(int[int$year != 2012 & int$year != 2014,], intOne, marrakechData)
+        # Ignore some of the values that we pulled from other sources
+        plhiv <- int[int$indicator == "PLHIV" & int$source == "Spectrum",]
+        diag <- int[int$indicator == "PLHIV Diagnosed",]
+        care <- int[int$indicator == "PLHIV In Care",]
+        art <- int[int$indicator == "PLHIV on ART" & int$source == "Spectrum",]
+        data <- rbind(plhiv, diag, care, art)
+        # merge and ignore 2014 data as we rely on Marrakech estimates for that.
+        countryMasterDataSet <- rbind(data[data$year != 2014,], marrakechData)
     } else if (userCountry == "Cameroon") {
         int <- countryData$calib
         countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
@@ -120,8 +139,12 @@ GetMasterDataSet <- function(userCountry) {
         int <- countryData$calib
         countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),], int)
     } else if (userCountry == "Indonesia") {
+        # Pull in countryData
         int <- countryData$calib
-        countryMasterDataSet <- rbind(int[int$year != 2014,], marrakechData)
+        # Ignore anything that came from AIDS datahub
+        intOne <- int[int$source != "http://www.aidsdatahub.org/Country-Profiles/Indonesia",]
+        # marrakechData is just for 2014 and covers all the indicators
+        countryMasterDataSet <- rbind(rbind(intOne[intOne$year != 2014,], marrakechData))
     } else if (userCountry == "Malawi") {
         int <- countryData$calib
         countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),], int)
@@ -135,7 +158,12 @@ GetMasterDataSet <- function(userCountry) {
         int <- countryData$calib
         countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care"),], int)
     } else if (userCountry == "Philippines") {
-        countryMasterDataSet <- rbind(countryData$calib, marrakechData)
+        # Pull in countryData
+        int <- countryData$calib
+        # Ignore anything that came from AIDS datahub
+        intOne <- int[int$source != "http://www.aidsdatahub.org/Country-Profiles/Philippines",]
+        # marrakechData is just for 2015 and covers all the indicators
+        countryMasterDataSet <- rbind(rbind(intOne[intOne$year != 2015,], marrakechData))
     } else if (userCountry == "Russia") {
         int <- countryData$calib
         intOne <- int[int$year == 2015 & int$indicator %in% c("PLHIV", "PLHIV Suppressed"),]

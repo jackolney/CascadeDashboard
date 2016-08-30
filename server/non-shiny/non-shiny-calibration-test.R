@@ -4,7 +4,7 @@
 # Ideally, will just be a case of drag and drop of functions.
 # Create all functions external to this script.
 rm(list=ls())
-setwd("~/git/WhoCascade/CascadeDashboard")
+setwd("~/git/CascadeDashboard")
 # dir()
 graphics.off()
 quartz.options(w = 10, h = 8)
@@ -38,10 +38,10 @@ source("server/country/misc-functions.R",            local = FALSE)
 
 
 # load 'cascade' package and ensure it is the latest build.
-devtools::load_all(pkg = "~/git/WhoCascade/cascade")
+devtools::load_all(pkg = "~/git/cascade")
 
 # Unit tests
-devtools::test(pkg = "~/git/WhoCascade/cascade")
+devtools::test(pkg = "~/git/cascade")
 testthat::test_dir("tests")
 
 ## Run baseline model (nothing fancy)
@@ -85,7 +85,6 @@ KenyaData$calib$weight <- "red"
 RunNSCalibration(country = "Kenya", data = KenyaData, maxIterations = iterations, maxError = error, limit = limit)
 BuildCalibrationTestPlot(data = CalibOut, originalData = KenyaData, limit = limit, runError = runError, maxError = error)
 quartz.save(file = "captures/weight-test/kenya-red.pdf", type = 'pdf')
-
 
 
 

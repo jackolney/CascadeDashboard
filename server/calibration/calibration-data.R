@@ -119,7 +119,7 @@ is.not.empty <- function(ListElement) {
 
 
 # Wrap in a function then question the data.
-# uCountry = "Kenya"
+# uCountry = "Brazil"
 
 GetCountryData <- function(uCountry) {
     # Read in all relevant csv files
@@ -276,7 +276,7 @@ GetCountryData <- function(uCountry) {
 
     for (i in 1:length(temp.names)) {
         if (exists(temp.names[i])) {
-            rm(list = temp.names[i])
+            rm(list = temp.names[i], pos = ".GlobalEnv")
         }
     }
 
