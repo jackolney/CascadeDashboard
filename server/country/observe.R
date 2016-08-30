@@ -191,6 +191,12 @@ observe({
     input$NEW_country
     input$new_country_name
 
+    vIncidence <<- NULL
+    vGuidelines <<- NULL
+    vCD42015 <<- NULL
+    vCD4 <<- NULL
+    vCascade <<- NULL
+
     if (input$NEW_country == TRUE & input$new_country_name != "") {
         countryReportName <<- input$new_country_name
     } else {

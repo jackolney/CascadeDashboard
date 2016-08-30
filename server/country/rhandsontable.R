@@ -35,7 +35,7 @@ output$hot_cascade <- renderRHandsontable({
         }
     } else {
         vCascadeCountry <<- NULL
-        if (is.null(input$hot_cascade) || is.null(vCascade) || vCascade$value != MasterData$calib$value) {
+        if (is.null(input$hot_cascade) || is.null(vCascade)) {
             # This will pad out the MasterData with NA's and update its name
             vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
             DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
@@ -104,7 +104,7 @@ output$hot_cd4 <- renderRHandsontable({
         }
     } else {
         vCD4Country <<- NULL
-        if (is.null(input$hot_cd4) || is.null(vCD4) || vCD4$Proportion != MasterData$cd4[2:15]) {
+        if (is.null(input$hot_cd4) || is.null(vCD4)) {
             if (isReallyEmpty(MasterData$cd4)) {
                 Proportion <- as.numeric(NA)
             } else {
@@ -169,7 +169,7 @@ output$hot_cd4_2015 <- renderRHandsontable({
         }
     } else {
         vCD42015Country <<- NULL
-        if (is.null(input$hot_cd4_2015) || is.null(vCD42015) || vCD42015$Proportion != MasterData$cd4_2015[2:15]) {
+        if (is.null(input$hot_cd4_2015) || is.null(vCD42015)) {
             if (isReallyEmpty(MasterData$cd4_2015)) {
                 Proportion <- as.numeric(NA)
             } else {
@@ -224,7 +224,7 @@ output$hot_incidence <- renderRHandsontable({
         }
     } else {
         vIncidenceCountry <<- NULL
-        if (is.null(input$hot_incidence) || is.null(vIncidence) || vIncidence != MasterData$incidence) {
+        if (is.null(input$hot_incidence) || is.null(vIncidence)) {
             theData <- MasterData$incidence
             DF = theData[order(theData$type, decreasing = TRUE),]
             vIncidence <<- DF
@@ -280,7 +280,7 @@ output$hot_guidelines <- renderRHandsontable({
         }
     } else {
         vGuidelinesCountry <<- NULL
-        if (is.null(input$hot_guidelines) || is.null(vGuidelines) || vGuidelines$Year != MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")]) {
+        if (is.null(input$hot_guidelines) || is.null(vGuidelines)) {
             Year <- as.numeric(MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")])
             Threshold <- c("CD4 <200", "CD4 <250", "CD4 <350", "CD4 <500", "CD4 >500")
             DF = data.frame(Threshold, Year)
