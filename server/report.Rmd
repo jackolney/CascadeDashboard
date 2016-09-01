@@ -261,7 +261,7 @@ A figure illustrating the cost-frontiers of all simulations is displayed below. 
     gridExtra::grid.table(data.frame(art, cd4, proportion), rows = NULL, theme = myTheme)
 ```
 
-## Incidence
+## New Infections
 
 ```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
     gridExtra::grid.table(scales::comma(MasterData$incidence), rows = NULL, theme = myTheme)
