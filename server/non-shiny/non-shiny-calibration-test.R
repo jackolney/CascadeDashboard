@@ -35,6 +35,7 @@ source("server/misc-functions.R",                    local = FALSE)
 source("server/calibration/plot-functions.R",        local = FALSE)
 source("server/non-shiny/non-shiny-calibration.R",   local = FALSE)
 source("server/country/misc-functions.R",            local = FALSE)
+source("server/non-shiny/thesis/thesis-figures.R",   local = FALSE)
 
 
 # load 'cascade' package and ensure it is the latest build.
@@ -59,6 +60,54 @@ BuildCalibrationPlotDetail(data = CalibOut, originalData = TanzaniaData, limit =
 ZimbabweData <- GetMasterDataSet("Zimbabwe")
 RunNSCalibration(country = "Zimbabwe", data = ZimbabweData, maxIterations = 1e4, maxError = 2, limit = 100)
 BuildCalibrationPlotDetail(data = CalibOut, originalData = ZimbabweData, limit = 100)
+
+####################################################################################################
+####################################################################################################
+## Thesis figures
+
+# Make sure that you set the seed nice and early.
+set.seed(100)
+ZimbabweData <- GetMasterDataSet("Zimbabwe")
+RunNSCalibration(country = "Zimbabwe", data = ZimbabweData, maxIterations = 1e4, maxError = 0.4, limit = 1000)
+
+graphics.off()
+quartz.options(w = 10, h = 4)
+BuildCalibPlot_Thesis(data = CalibOut, originalData = ZimbabweData, limit = 1000)
+
+graphics.off()
+quartz.options(w = 10, h = 8)
+BuildCalibDetailPlot_Thesis(data = CalibOut, originalData = ZimbabweData, limit = 1000)
+
+graphics.off()
+quartz.options(w = 6, h = 3)
+BuildCalibrationHistogram_Thesis(runError, maxError = 0.4)
+
+graphics.off()
+quartz.options(w = 10, h = 4)
+BuildCalibrationParameterHistGroup_Thesis()
+
+round(colMeans(CalibParamOut), 4)
+
+DefineParmRange()
+
+a <- paste0(round(Quantile_95(CalibParamOut[["rho"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["rho"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["rho"]])[["upper"]], 4), "]")
+b <- paste0(round(Quantile_95(CalibParamOut[["q"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["q"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["q"]])[["upper"]], 4), "]")
+c <- paste0(round(Quantile_95(CalibParamOut[["epsilon"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["epsilon"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["epsilon"]])[["upper"]], 4), "]")
+d <- paste0(round(Quantile_95(CalibParamOut[["kappa"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["kappa"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["kappa"]])[["upper"]], 4), "]")
+e <- paste0(round(Quantile_95(CalibParamOut[["gamma"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["gamma"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["gamma"]])[["upper"]], 4), "]")
+f <- paste0(round(Quantile_95(CalibParamOut[["theta"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["theta"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["theta"]])[["upper"]], 4), "]")
+g <- paste0(round(Quantile_95(CalibParamOut[["p"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["p"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["p"]])[["upper"]], 4), "]")
+h <- paste0(round(Quantile_95(CalibParamOut[["omega"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["omega"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["omega"]])[["upper"]], 4), "]")
+
+list(a,b,c,d,e,f,g,h)
+
+Quantile_95(CalibParamOut[["q"]])
+Quantile_95(CalibParamOut[["epsilon"]])
+Quantile_95(CalibParamOut[["kappa"]])
+Quantile_95(CalibParamOut[["gamma"]])
+Quantile_95(CalibParamOut[["theta"]])
+Quantile_95(CalibParamOut[["p"]])
+Quantile_95(CalibParamOut[["omega"]])
 
 ####################################################################################################
 ####################################################################################################
