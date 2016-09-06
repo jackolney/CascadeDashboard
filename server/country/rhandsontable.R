@@ -41,7 +41,7 @@ output$hot_cascade <- renderRHandsontable({
         # look at cascade data, don't edit and come out of it, and then click to edit
         # it again, it reverts to the previous country.
         # Maybe we need a flag that ignores input$hot_cascade if the country is incorrect
-        # Maybe for the others we need a country FLAG variable that gets updated.
+        # A 'vCascadeName' flag does not work, as when entering data MasterData overwrites it.
 
         # print("testing:")
         # if (!is.null(input$hot_cascade)) {
@@ -56,30 +56,31 @@ output$hot_cascade <- renderRHandsontable({
 
         # Attempted fix.
         # Will the same hold for other values.
-        if (is.null(vCascade)) {
-            # This will pad out the MasterData with NA's and update its name
-            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-        } else if (is.null(input$hot_cascade)) {
-            # This will pad out the MasterData with NA's and update its name
-            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-        } else if (hot_to_r(input$hot_cascade)$country[1] != countryReportName) {
-            # This will pad out the MasterData with NA's and update its name
-            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-        } else {
-            DF = hot_to_r(input$hot_cascade)
-        }
-
-        # ORIGINAL
-        # if (is.null(input$hot_cascade) || is.null(vCascade)) {
+        # if (is.null(vCascade)) {
         #     # This will pad out the MasterData with NA's and update its name
         #     vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
         #     DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
-        # } else if (!is.null(input$hot_cascade)) {
+        # } else if (is.null(input$hot_cascade)) {
+        #     # This will pad out the MasterData with NA's and update its name
+        #     vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        #     DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        # } else if (hot_to_r(input$hot_cascade)$country[1] != countryReportName) {
+        #     # This will pad out the MasterData with NA's and update its name
+        #     vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        #     DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        # } else {
         #     DF = hot_to_r(input$hot_cascade)
         # }
+
+        # ORIGINAL - CURRENTLY IN USE
+        # 06/09/16 - Reverting to the original as rhandsontable updates are too slow with the bugfix (will leave commented out in case we need to return to it)
+        if (is.null(input$hot_cascade) || is.null(vCascade)) {
+            # This will pad out the MasterData with NA's and update its name
+            vCascade <<- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+            DF = AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = MasterData$calib)
+        } else if (!is.null(input$hot_cascade)) {
+            DF = hot_to_r(input$hot_cascade)
+        }
     }
 
     setHotCascade(DF)
