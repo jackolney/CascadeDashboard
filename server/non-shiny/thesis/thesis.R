@@ -332,5 +332,26 @@ ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut <- ggOut + geom_errorbar(data = mRes, aes(x = variable, y = mean, ymax = mean, ymin = mean), alpha = 0.1)
 ggOut <- ggOut + geom_text(data = mRes, aes(x = variable, y = mean, label = scales::comma(round(mean, 0))), vjust = -0.5)
-# ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = mean, label = mean), vjust = -0.5)
 ggOut
+
+
+# MBA Testing
+ggOut <- ggplot(mRes, aes(x = variable, y = value, group = run))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity", fill = brewer.pal(9, "Set1")[2])
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Change to Care")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5)
+ggOut
+
+
+# Frontier Plot
+BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)
