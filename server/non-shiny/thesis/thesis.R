@@ -175,4 +175,162 @@ graphics.off()
 quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
 
+####################################################################################################
+####################################################################################################
+## Optimisation
 
+# intervention switches
+intSwitch <- data.frame(
+    testing =      TRUE,
+    linkage =      TRUE,
+    preRetention = TRUE,
+    initiation =   TRUE,
+    adherence =    TRUE,
+    retention =    TRUE
+    )
+
+# configure interventions
+OptInput <- c()
+OptInput$intValue_rho   <- parRange["rho", "max"]
+OptInput$intValue_q     <- parRange["q", "max"]
+OptInput$intValue_kappa <- parRange["kappa", "min"]
+OptInput$intValue_gamma <- parRange["gamma", "max"]
+OptInput$intValue_sigma <- 0.5
+OptInput$intValue_omega <- parRange["omega", "min"]
+
+# Test plot
+# BuildCalibrationRandomFitRunsPlot(data = CalibOut, originalData = KenyaData, limit = 1000, minErrorRun = minErrorRun, selectedRuns = selectedRuns, propRuns = 0.1)
+
+intLength = 2
+
+theOut <- RunNSOptimisation(propRuns = 0.1, intLength = intLength)
+
+simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = intLength))[1]
+
+optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
+optRuns
+
+frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
+frontierList
+
+intRes <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+colMeans(intRes)
+
+# remember to format retention interventions correctly...
+
+results <- intRes[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+results$iPreR <- abs(results$iPreR)
+results$iRetn <- abs(results$iRetn)
+results$run <- 1:dim(results)[1]
+
+melted <- reshape2::melt(results, id = "run")
+
+ggplot(melted, aes(x = variable, y = value)) + geom_raster() +  facet_wrap(~ run)
+
+# I think what we need, is just one plot for a single run
+
+test <- melted[melted$run == 1,]
+
+# test
+
+# ggplot(test, aes(x = variable, y = value, fill = run)) + geom_raster()
+
+# ggplot(test, aes(x = variable, y = "")) + stat_density(aes(fill = value), geom = "raster", position = "identity")
+
+# ggplot(melted, aes(x = variable, y = as.factor(value))) + stat_density(aes(fill = ..density..), geom = "raster", position = "identity")  +  facet_wrap(~ run)
+
+
+mRes <- melted
+
+head(mRes)
+
+mRes[mRes$value < 0, "value"] <- 0
+
+
+# RENAME VARIABLES
+mRes$variable <- as.character(mRes$variable)
+mRes[mRes$variable == "iTest", "variable"] <- "Testing"
+mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
+mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
+mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
+mRes[mRes$variable == "iAdhr", "variable"] <- "Adherence"
+mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
+
+mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention"))
+
+graphics.off()
+quartz.options(w = 6, h = 10)
+ggOut <- ggplot(mRes, aes(x = variable, y = ""))
+ggOut <- ggOut + stat_density(aes(fill = value), geom = "raster", position = "identity")
+ggOut <- ggOut + facet_grid(run ~ ., switch = 'y')
+ggOut <- ggOut + scale_fill_gradient(low = "grey97")
+ggOut <- ggOut + theme_minimal()
+ggOut <- ggOut + theme(axis.title.y = element_blank())
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.ticks = element_blank())
+ggOut <- ggOut + theme(axis.ticks.length = unit(0, "lines"))
+ggOut <- ggOut + theme(strip.text.y = element_text(size = 8, colour = "black", angle = 180))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut
+
+
+# save image somewhere
+save.image("thesis.RData")
+
+# What about a figure that stacks bars on top of each other.
+# changes on y, variable on x.
+# ALPHA = 0.1
+# brewer.pal(9, "Set1")[2]
+graphics.off()
+quartz.options(w = 7, h = 4)
+ggOut <- ggplot(mRes, aes(x = variable, y = value, group = run))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity", fill = brewer.pal(9, "Set1")[2])
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Change to Care")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut
+
+mRes$mean <- c(
+    rep(mean(mRes[mRes$variable == "Testing","value"]), 27),
+    rep(mean(mRes[mRes$variable == "Linkage","value"]), 27),
+    rep(mean(mRes[mRes$variable == "Pre-ART\nRetention","value"]), 27),
+    rep(mean(mRes[mRes$variable == "ART\nInitiation","value"]), 27),
+    rep(mean(mRes[mRes$variable == "Adherence","value"]), 27),
+    rep(mean(mRes[mRes$variable == "ART\nRetention","value"]), 27)
+)
+
+names <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention")
+means <- c(
+    mean(mRes[mRes$variable == "Testing","value"]),
+    mean(mRes[mRes$variable == "Linkage","value"]),
+    mean(mRes[mRes$variable == "Pre-ART\nRetention","value"]),
+    mean(mRes[mRes$variable == "ART\nInitiation","value"]),
+    mean(mRes[mRes$variable == "Adherence","value"]),
+    mean(mRes[mRes$variable == "ART\nRetention","value"])
+    )
+
+labels <- data.frame(names, means)
+
+# Can we add a line for the mean here?
+ggOut <- ggplot(mRes, aes(x = variable, y = value, group = run))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity", fill = brewer.pal(9, "Set1")[2])
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Change to Care")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + geom_errorbar(data = mRes, aes(x = variable, y = mean, ymax = mean, ymin = mean), alpha = 0.1)
+ggOut <- ggOut + geom_text(data = mRes, aes(x = variable, y = mean, label = scales::comma(round(mean, 0))), vjust = -0.5)
+# ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = mean, label = mean), vjust = -0.5)
+ggOut

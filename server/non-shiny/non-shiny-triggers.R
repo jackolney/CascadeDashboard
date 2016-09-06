@@ -35,8 +35,8 @@ OptInput$intValue_rho   <- parRange["rho", "max"]
 OptInput$intValue_q     <- parRange["q", "max"]
 OptInput$intValue_kappa <- parRange["kappa", "min"]
 OptInput$intValue_gamma <- parRange["gamma", "max"]
-OptInput$intValue_sigma <- 0.1
-OptInput$intValue_omega <- parRange["rho", "min"]
+OptInput$intValue_sigma <- 0.5
+OptInput$intValue_omega <- parRange["omega", "min"]
 
 # ------------ #
 # OPTIMISATION #
