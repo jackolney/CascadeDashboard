@@ -363,6 +363,9 @@ Get909090Data <- function() {
 }
 
 GenPowersCascadePlot_Thesis <- function() {
+    t0 <- GetPowersCascadeData(1)
+    t5 <- GetPowersCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
+
     cols <- brewer.pal(9,"Set1")
     p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
 
@@ -560,5 +563,145 @@ GenAidsDeathsPlot_Thesis <- function(wizard) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
     ggOut <- ggOut + theme(axis.title =  element_blank())
     ggOut <- ggOut + expand_limits(y = 7e4)
+    ggOut
+}
+
+GenPieChartComparison_Thesis <- function() {
+    t0 <- GetPowersCascadeData(1)
+    t5 <- GetPowersCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
+
+    t2015 <- t0[t0$order == "All",]
+    t2020 <- t5[t5$order == "All",]
+
+    cols <- brewer.pal(9,"Set1")
+    p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
+
+    # Calculate proportion
+    t2015$prop <- t2015$res / sum(t2015$res)
+    t2020$prop <- t2020$res / sum(t2020$res)
+
+    # Position
+    t2015$pos <- 1-(cumsum(t2015$prop) - t2015$prop / 2)
+    t2020$pos <- 1-(cumsum(t2020$prop) - t2020$prop / 2)
+
+    gg2015 <- ggplot(t2015, aes(x = "", y = prop, fill = state))
+    gg2015 <- gg2015 + geom_bar(width = 1, stat = "identity")
+    gg2015 <- gg2015 + theme_classic()
+    gg2015 <- gg2015 + coord_polar(theta = "y")
+    gg2015 <- gg2015 + geom_label_repel(aes(y = pos, label = scales::percent(round(prop, digits = 2))), size = 5, family = figFont, show.legend = FALSE)
+    gg2015 <- gg2015 + theme(text = element_text(family = figFont))
+    gg2015 <- gg2015 + scale_fill_manual(values = p.col)
+    gg2015 <- gg2015 + theme(legend.position = "right")
+    gg2015 <- gg2015 + theme(axis.title = element_blank())
+    gg2015 <- gg2015 + theme(legend.title = element_blank())
+    gg2015 <- gg2015 + theme(axis.text = element_blank())
+    gg2015 <- gg2015 + theme(axis.line.x = element_blank())
+    gg2015 <- gg2015 + theme(axis.line.y = element_blank())
+    gg2015 <- gg2015 + theme(axis.ticks = element_blank())
+    gg2015 <- gg2015 + theme(plot.background = element_blank())
+    gg2015 <- gg2015 + theme(legend.background = element_blank())
+    gg2015 <- gg2015 + theme(panel.background = element_blank())
+    gg2015 <- gg2015 + theme(legend.text = element_text(size = 12))
+    gg2015 <- gg2015 + theme(legend.key.size = unit(1, "cm"))
+    gg2015 <- gg2015 + ggtitle("2015")
+    gg2015 <- gg2015 + theme(plot.title = element_text(hjust = 0.5, size = 13))
+
+    gg2020 <- ggplot(t2020, aes(x = "", y = prop, fill = state))
+    gg2020 <- gg2020 + geom_bar(width = 1, stat = "identity")
+    gg2020 <- gg2020 + theme_classic()
+    gg2020 <- gg2020 + coord_polar(theta = "y")
+    gg2020 <- gg2020 + geom_label_repel(aes(y = pos, label = scales::percent(round(prop, digits = 2))), size = 5, family = figFont, show.legend = FALSE)
+    gg2020 <- gg2020 + theme(text = element_text(family = figFont))
+    gg2020 <- gg2020 + scale_fill_manual(values = p.col)
+    gg2020 <- gg2020 + theme(legend.position = "none")
+    gg2020 <- gg2020 + theme(axis.title = element_blank())
+    gg2020 <- gg2020 + theme(legend.title = element_blank())
+    gg2020 <- gg2020 + theme(axis.text = element_blank())
+    gg2020 <- gg2020 + theme(axis.line.x = element_blank())
+    gg2020 <- gg2020 + theme(axis.line.y = element_blank())
+    gg2020 <- gg2020 + theme(axis.ticks = element_blank())
+    gg2020 <- gg2020 + theme(plot.background = element_blank())
+    gg2020 <- gg2020 + theme(legend.background = element_blank())
+    gg2020 <- gg2020 + theme(panel.background = element_blank())
+    gg2020 <- gg2020 + theme(legend.text = element_text(size = 12))
+    gg2020 <- gg2020 + theme(legend.key.size = unit(1, "cm"))
+    gg2020 <- gg2020 + ggtitle("2020")
+    gg2020 <- gg2020 + theme(plot.title = element_text(hjust = 0.5, size = 13))
+
+    gridExtra::grid.arrange(gg2015, gg2020, ncol = 2, nrow = 1)
+
+    my.legend <- GrabLegend(gg2015)
+    l.width <- sum(my.legend$width)
+
+    gridExtra::grid.arrange(
+        gridExtra::arrangeGrob(
+            gg2015 + theme(legend.position = "none"),
+            gg2020 + theme(legend.position = "none"),
+            ncol = 2),
+        my.legend,
+        widths = grid::unit.c(unit(1, "npc") - l.width, l.width),
+        nrow = 1)
+}
+
+GenDiscreteCascade_Thesis <- function() {
+    t0 <- GetPowersCascadeData(1)
+    t5 <- GetPowersCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
+
+    t2015 <- t0[t0$order == "All",]
+    t2020 <- t5[t5$order == "All",]
+
+    cols <- brewer.pal(9,"Set1")
+    p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
+
+    # Calculate proportion
+    t2015$prop <- t2015$res / sum(t2015$res)
+    t2020$prop <- t2020$res / sum(t2020$res)
+
+    # Position
+    t2015$pos <- 1-(cumsum(t2015$prop) - t2015$prop / 2)
+    t2020$pos <- 1-(cumsum(t2020$prop) - t2020$prop / 2)
+
+    tcomp <- reshape2::melt(t2015, t2020)
+
+    # states <- c(as.character(t2015$state), as.character(t2020$state))
+    state <- c(
+        "On ART\n virally suppressed",
+        "On ART\n (non-adherent)",
+        "In care,\nnot on ART",
+        "Diagnosed,\nnot in care",
+        "Undiagnosed",
+        "Diagnosed,\nLTFU pre-ART",
+        "Diagnosed,\nLTFU post-ART"
+    )
+    states <- rep(state, 2)
+    proportion <- c(t2015$prop, t2020$prop)
+    year <- c(rep(2015, 7), rep(2020, 7))
+
+    out <- data.frame(states, year, proportion)
+
+    out$states <- factor(out$states, levels = c(
+        "Undiagnosed",
+        "Diagnosed,\nnot in care",
+        "In care,\nnot on ART",
+        "Diagnosed,\nLTFU pre-ART",
+        "On ART\n virally suppressed",
+        "On ART\n (non-adherent)",
+        "Diagnosed,\nLTFU post-ART"
+    ))
+
+    ggOut <- ggplot(out, aes(x = states, y = proportion, group = year))
+    ggOut <- ggOut + geom_bar(aes(fill = as.factor(year)), stat = "identity", position = "dodge")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9, "Set1"))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::percent, limits = c(0, 0.5))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + ylab("Proportion of PLHIV")
+    ggOut <- ggOut + geom_text(aes(x = states, label = scales::percent(round(proportion, 2))), position = position_dodge(0.9), vjust = -0.25)
     ggOut
 }

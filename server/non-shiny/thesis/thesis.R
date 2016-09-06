@@ -126,6 +126,35 @@ graphics.off()
 quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
 
+# PLHIV Estimate in 2015
+scales::comma(round(t0$res[1], -3))
+1.295e+6
+scales::comma(round(t5$res[1], -3))
+1.378e+6
+
+scales::comma(round(t0$res[2], -3))
+scales::comma(round(t5$res[2], -3))
+
+round(t5$res[2], -3) / round(t0$res[2], -3)
+7.6\% (1.183M to 1.273M)
+
+scales::comma(round(t0$res[4], -3))
+scales::comma(round(t5$res[4], -3))
+
+round(t5$res[4], -3) / round(t0$res[4], -3)
+13\% (0.860M to 0.972M)
+
+scales::comma(round(t0$res[5], -3))
+scales::comma(round(t5$res[5], -3))
+round(t5$res[5], -3) / round(t0$res[5], -3)
+21.4\% (0.542M to 0.658M)
+
+t0
+
+t0$res[5]/t0$res[1]
+t5$res[5]/t5$res[1]
+
+
 graphics.off()
 quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
@@ -141,5 +170,9 @@ GenNewInfPlot_Thesis()
 graphics.off()
 quartz.options(w = 6, h = 4)
 GenAidsDeathsPlot_Thesis()
+
+graphics.off()
+quartz.options(w = 10, h = 4)
+GenDiscreteCascade_Thesis()
 
 
