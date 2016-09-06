@@ -28,3 +28,6 @@ library(shinyjs)
 library(showtext)
 library(testthat)
 library(V8)
+
+# Options
+options(readr.num_columns = 0)
