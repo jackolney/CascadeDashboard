@@ -61,16 +61,17 @@ output$vb909090_testing <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iTest"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 
@@ -99,16 +100,17 @@ output$vb909090_linkage <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iLink"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 
@@ -136,16 +138,17 @@ output$vb909090_preRetention <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iPreR"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 
@@ -173,16 +176,17 @@ output$vb909090_initiation <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iInit"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 
@@ -210,16 +214,17 @@ output$vb909090_adherence <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iAdhr"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 
@@ -247,16 +252,17 @@ output$vb909090_retention <- renderInfoBox({
     optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    # Result Formatting
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
 
     colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
 
     values <- round(Quantile_95(intResult[["iRetn"]]) / 5, digit = 0)
-
-    values[['mean']] <- NonZeroCheck(values[['mean']])
-    values[['upper']] <- NonZeroCheck(values[['upper']])
-    values[['lower']] <- NonZeroCheck(values[['lower']])
 
     values <- scales::comma(values)
 

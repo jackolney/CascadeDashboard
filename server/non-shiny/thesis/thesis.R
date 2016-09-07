@@ -221,6 +221,10 @@ colMeans(intRes)
 results <- intRes[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
 results$iPreR <- abs(results$iPreR)
 results$iRetn <- abs(results$iRetn)
+results[results$iTest < 0, "iTest"] <- 0
+results[results$iLink < 0, "iLink"] <- 0
+results[results$iInit < 0, "iInit"] <- 0
+results[results$iAdhr < 0, "iAdhr"] <- 0
 results$run <- 1:dim(results)[1]
 
 melted <- reshape2::melt(results, id = "run")
@@ -249,14 +253,15 @@ resTable[resTable$iAdhr < 0, "iAdhr"] <- 0
 
 colMeans(resTable)
 
+# DIVIDE BY FIVE!!!!!!! (because we are displaying the PER YEAR change)
 
-i1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"]), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"]), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"]), "]")
-i2 <- paste0("iTest = ", scales::comma(round(Quantile_95(resTable[,"iTest"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iTest"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iTest"])["upper"], 0)), "]")
-i3 <- paste0("iLink = ", scales::comma(round(Quantile_95(resTable[,"iLink"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iLink"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iLink"])["upper"], 0)), "]")
-i4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iPreR"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["upper"], 0)), "]")
-i5 <- paste0("iInit = ", scales::comma(round(Quantile_95(resTable[,"iInit"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iInit"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iInit"])["upper"], 0)), "]")
-i6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["upper"], 0)), "]")
-i7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iRetn"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["upper"], 0)), "]")
+i1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"] / 5), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"] / 5), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"] / 5), "]")
+i2 <- paste0("iTest = ", scales::comma(round(Quantile_95(resTable[,"iTest"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iTest"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iTest"])["upper"] / 5, 0)), "]")
+i3 <- paste0("iLink = ", scales::comma(round(Quantile_95(resTable[,"iLink"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iLink"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iLink"])["upper"] / 5, 0)), "]")
+i4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iPreR"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["upper"] / 5, 0)), "]")
+i5 <- paste0("iInit = ", scales::comma(round(Quantile_95(resTable[,"iInit"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iInit"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iInit"])["upper"] / 5, 0)), "]")
+i6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["upper"] / 5, 0)), "]")
+i7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iRetn"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["upper"] / 5, 0)), "]")
 
 i1
 i2
@@ -267,21 +272,18 @@ i6
 i7
 
 
-Quantile_95(resTable[,"iTest"])
-Quantile_95(resTable[,"iLink"])
-Quantile_95(resTable[,"iPreR"])
-Quantile_95(resTable[,"iInit"])
-Quantile_95(resTable[,"iAdhr"])
-Quantile_95(resTable[,"iRetn"])
-Quantile_95(intRes[,"iTCst"])
-
-
+Quantile_95(resTable[,"iTest"]) / 5
+Quantile_95(resTable[,"iLink"]) / 5
+Quantile_95(resTable[,"iPreR"]) / 5
+Quantile_95(resTable[,"iInit"]) / 5
+Quantile_95(resTable[,"iAdhr"]) / 5
+Quantile_95(resTable[,"iRetn"]) / 5
+Quantile_95(intRes[,"iTCst"]) / 5
 
 mRes <- melted
 
-head(mRes)
-
-mRes[mRes$value < 0, "value"] <- 0
+# DIVIDE ALL VALUES BY FIVE
+mRes$value <- mRes$value / 5
 
 
 # RENAME VARIABLES
@@ -331,9 +333,10 @@ ggOut <- ggOut + theme(axis.title.x = element_blank())
 ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
 ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
 ggOut <- ggOut + theme(axis.line.y = element_line())
-ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 16e3), breaks = seq(0, 16e3, 2e3), labels = scales::comma, expand = c(0, 0))
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut
+
 
 mRes$mean <- c(
     rep(mean(mRes[mRes$variable == "Testing","value"]), 27),
@@ -360,13 +363,13 @@ labels <- data.frame(names, means)
 ggOut <- ggplot(mRes, aes(x = variable, y = value, group = run))
 ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity", fill = brewer.pal(9, "Set1")[2])
 ggOut <- ggOut + theme_classic()
-ggOut <- ggOut + ylab("Change to Care")
+ggOut <- ggOut + ylab("Changes to Care Per Year")
 ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
 ggOut <- ggOut + theme(axis.title.x = element_blank())
 ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
 ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
 ggOut <- ggOut + theme(axis.line.y = element_line())
-ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 16e3), breaks = seq(0, 16e3, 2e3), labels = scales::comma, expand = c(0, 0))
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut <- ggOut + geom_errorbar(data = mRes, aes(x = variable, y = mean, ymax = mean, ymin = mean), alpha = 0.1)
 ggOut <- ggOut + geom_text(data = mRes, aes(x = variable, y = mean, label = scales::comma(round(mean, 0))), vjust = -0.5)
@@ -377,14 +380,14 @@ ggOut
 ggOut <- ggplot(mRes, aes(x = variable, y = value, group = run))
 ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity", fill = brewer.pal(9, "Set1")[2])
 ggOut <- ggOut + theme_classic()
-ggOut <- ggOut + ylab("Change to Care")
+ggOut <- ggOut + ylab("Changes to Care Per Year")
 ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
 ggOut <- ggOut + theme(axis.title.x = element_blank())
 ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
 ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
 ggOut <- ggOut + theme(axis.line.y = element_line())
 ggOut <- ggOut + theme(axis.line.x = element_blank())
-ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 16e3), breaks = seq(0, 16e3, 2e3), labels = scales::comma, expand = c(0, 0))
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
 ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5, family = "Avenir Next")
