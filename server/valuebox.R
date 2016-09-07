@@ -6,12 +6,22 @@ output$vb909090_COST <- renderValueBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    val <- mean(intResult[,"iCost"]) / 5
+    val <- Quantile_95(intResult[,"iCost"] / 5)
 
-    report_909090_cost <<- scales::dollar(val)
+    if (val[['upper']] < 0) val <- 0
+    if (val[['mean']]  < 0) val <- 0
+    if (val[['lower']] < 0) val <- 0
+
+    vLower <- paste0("$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
+    vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
+    vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
+
+    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+
+    report_909090_cost <<- out
 
     valueBox(
-        value = scales::dollar(val),
+        value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
         color = "gray",
         icon = icon("usd", lib = "font-awesome")
@@ -22,10 +32,20 @@ output$vb909090_COST_OG <- renderValueBox({
     input$NEXT_optIntro
 
     # The cost at 'baseline' regardless of what VS was achieved.
-    val <- mean(BaselineCost) / 5
+    val <- Quantile_95(BaselineCost) / 5
+
+    if (val[['upper']] < 0) val <- 0
+    if (val[['mean']]  < 0) val <- 0
+    if (val[['lower']] < 0) val <- 0
+
+    vLower <- paste0("$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
+    vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
+    vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
+
+    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
 
     valueBox(
-        value = scales::dollar(val),
+        value = out,
         subtitle = "Baseline cost of care per year between 2015 and 2020",
         color = "gray",
         icon = icon("usd", lib = "font-awesome")
@@ -40,14 +60,22 @@ output$vb909090_COST_NEW <- renderValueBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
 
-    val <- mean(intResult[,"iCost"]) / 5
+    val <- Quantile_95(intResult[,"iCost"] / 5)
 
-    if (val < 0) val <- 0
+    if (val[['upper']] < 0) val <- 0
+    if (val[['mean']]  < 0) val <- 0
+    if (val[['lower']] < 0) val <- 0
 
-    report_909090_cost <<- scales::dollar(val)
+    vLower <- paste0("$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
+    vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
+    vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
+
+    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+
+    report_909090_cost <<- out
 
     valueBox(
-        value = scales::dollar(val),
+        value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
         color = "gray",
         icon = icon("usd", lib = "font-awesome")
