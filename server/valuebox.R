@@ -16,7 +16,8 @@ output$vb909090_COST <- renderValueBox({
     vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
     vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
 
-    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    out <- vMean
 
     report_909090_cost <<- out
 
@@ -42,7 +43,8 @@ output$vb909090_COST_OG <- renderValueBox({
     vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
     vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
 
-    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    out <- vMean
 
     valueBox(
         value = out,
@@ -70,7 +72,8 @@ output$vb909090_COST_NEW <- renderValueBox({
     vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
     vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
 
-    out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
+    out <- vMean
 
     report_909090_cost <<- out
 
