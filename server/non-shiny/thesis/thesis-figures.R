@@ -742,13 +742,10 @@ BuildFrontierPlot_Thesis <- function(CalibParamOut, optResults) {
     ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 10))
     ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 10))
     ggPlot <- ggPlot + theme(axis.title = element_text(size = 11))
-    ggPlot <- ggPlot + theme(plot.title = element_text(size = 12))
-    ggPlot <- ggPlot + theme(plot.subtitle = element_text(size = 10))
     ggPlot <- ggPlot + theme(axis.line.x = element_line())
     ggPlot <- ggPlot + theme(axis.line.y = element_line())
     ggPlot <- ggPlot + xlab("Viral Suppression")
     ggPlot <- ggPlot + ylab("Additional Cost of Care")
-    ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
     ggPlot <- ggPlot + theme(text = element_text(family = figFont))
     ggPlot
 }
