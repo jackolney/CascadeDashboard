@@ -239,6 +239,43 @@ test <- melted[melted$run == 1,]
 
 # ggplot(melted, aes(x = variable, y = as.factor(value))) + stat_density(aes(fill = ..density..), geom = "raster", position = "identity")  +  facet_wrap(~ run)
 
+# TABULATE RESULTS #
+resTable <- results
+
+resTable[resTable$iTest < 0, "iTest"] <- 0
+resTable[resTable$iLink < 0, "iLink"] <- 0
+resTable[resTable$iInit < 0, "iInit"] <- 0
+resTable[resTable$iAdhr < 0, "iAdhr"] <- 0
+
+colMeans(resTable)
+
+
+i1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"]), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"]), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"]), "]")
+i2 <- paste0("iTest = ", scales::comma(round(Quantile_95(resTable[,"iTest"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iTest"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iTest"])["upper"], 0)), "]")
+i3 <- paste0("iLink = ", scales::comma(round(Quantile_95(resTable[,"iLink"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iLink"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iLink"])["upper"], 0)), "]")
+i4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iPreR"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["upper"], 0)), "]")
+i5 <- paste0("iInit = ", scales::comma(round(Quantile_95(resTable[,"iInit"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iInit"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iInit"])["upper"], 0)), "]")
+i6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["upper"], 0)), "]")
+i7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["mean"], 0)), " [", scales::comma(round(Quantile_95(resTable[,"iRetn"])["lower"], 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["upper"], 0)), "]")
+
+i1
+i2
+i3
+i4
+i5
+i6
+i7
+
+
+Quantile_95(resTable[,"iTest"])
+Quantile_95(resTable[,"iLink"])
+Quantile_95(resTable[,"iPreR"])
+Quantile_95(resTable[,"iInit"])
+Quantile_95(resTable[,"iAdhr"])
+Quantile_95(resTable[,"iRetn"])
+Quantile_95(intRes[,"iTCst"])
+
+
 
 mRes <- melted
 
@@ -276,7 +313,8 @@ ggOut
 
 
 # save image somewhere
-save.image("thesis.RData")
+# save.image("thesis.RData")
+# load("thesis.RData")
 
 # What about a figure that stacks bars on top of each other.
 # changes on y, variable on x.
@@ -349,7 +387,7 @@ ggOut <- ggOut + theme(axis.line.x = element_blank())
 ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), breaks = seq(0, 8e4, 1e4), labels = scales::comma, expand = c(0, 0))
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
-ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5)
+ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5, family = "Avenir Next")
 ggOut
 
 
