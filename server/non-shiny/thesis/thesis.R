@@ -387,12 +387,18 @@ ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
 ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
 ggOut <- ggOut + theme(axis.line.y = element_line())
 ggOut <- ggOut + theme(axis.line.x = element_blank())
-ggOut <- ggOut + scale_y_continuous(limits = c(0, 16e3), breaks = seq(0, 16e3, 2e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 80e3), breaks = seq(0, 80e3, 10e3), labels = scales::comma, expand = c(0, 0))
 ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
 ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
 ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5, family = "Avenir Next")
 ggOut
 
+save.image("thesis2.RData")
 
 # Frontier Plot
 BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)
+
+
+# 26/09/16 - We need a new figure
+# Baseline bars and then ON TOP (stacked) we have the additional changes required.
+# We just need the averages, then we take the AVERAGE and plot that.

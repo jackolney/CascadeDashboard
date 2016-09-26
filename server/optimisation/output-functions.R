@@ -105,43 +105,43 @@ ColorFromMiddle <- function(data, color1, color2) {
 }
 
 Calc_CareTesting <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumDiag[251] / 5
-    simAnswer <- simResult$CumDiag[251] / 5
+    baseAnswer <- baseResult$CumDiag[251]
+    simAnswer <- simResult$CumDiag[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }
 
 Calc_CareLinkage <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumLink[251] / 5
-    simAnswer <- simResult$CumLink[251] / 5
+    baseAnswer <- baseResult$CumLink[251]
+    simAnswer <- simResult$CumLink[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }
 
 Calc_CarePreRetention <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumPreL[251] / 5
-    simAnswer <- simResult$CumPreL[251] / 5
+    baseAnswer <- baseResult$CumPreL[251]
+    simAnswer <- simResult$CumPreL[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }
 
 Calc_CareInitiation <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumInit[251] / 5
-    simAnswer <- simResult$CumInit[251] / 5
+    baseAnswer <- baseResult$CumInit[251]
+    simAnswer <- simResult$CumInit[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }
 
 Calc_CareAdherence <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumAdhr[251] / 5
-    simAnswer <- simResult$CumAdhr[251] / 5
+    baseAnswer <- baseResult$CumAdhr[251]
+    simAnswer <- simResult$CumAdhr[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }
 
 Calc_CareRetention <- function(baseResult, simResult) {
-    baseAnswer <- baseResult$CumLoss[251] / 5
-    simAnswer <- simResult$CumLoss[251] / 5
+    baseAnswer <- baseResult$CumLoss[251]
+    simAnswer <- simResult$CumLoss[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
     out
 }

@@ -41,8 +41,16 @@ RunNSOptimisation <- function(propRuns, intLength) {
     rRetn     <- c()
 
     # additional cost vectors
-    rCostOrg <- c()
+    rCostOrg  <- c()
     rCostTot  <- c()
+
+    # baseline trackers
+    bTest     <- c()
+    bLink     <- c()
+    bPreR     <- c()
+    bInit     <- c()
+    bAdhr     <- c()
+    bRetn     <- c()
 
     # because seven indicators
     for (j in 1:(dim(bestTenPercentCalibInitial)[1] / 7)) {
@@ -55,6 +63,14 @@ RunNSOptimisation <- function(propRuns, intLength) {
         BaseCost  <- Calc_Cost(BaseModel)
         rCostOrg[j] <- BaseCost
         message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
+
+        # Need some functions to calculate the BASELINE changes to care.
+        bTest[j]     <- c()
+        bLink[j]     <- c()
+        bPreR[j]     <- c()
+        bInit[j]     <- c()
+        bAdhr[j]     <- c()
+        bRetn[j]     <- c()
 
         parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = shuffledRuns[j], length = intLength)
 
