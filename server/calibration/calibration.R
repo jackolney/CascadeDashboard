@@ -125,7 +125,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         OptInput$intValue_q     <- CalibParamMaxMin$q_MAX
         OptInput$intValue_kappa <- CalibParamMaxMin$kappa_MIN
         OptInput$intValue_gamma <- CalibParamMaxMin$gamma_MAX
-        OptInput$intValue_sigma <- 0.5
+        OptInput$intValue_sigma <- 0.1
         OptInput$intValue_omega <- CalibParamMaxMin$omega_MIN
 
         # Plots (control passed back to shiny::renderPlot())

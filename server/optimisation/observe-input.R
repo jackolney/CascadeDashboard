@@ -43,7 +43,7 @@ output$UI_opt_gamma_MAX <- renderUI({
 output$UI_opt_sigma_MAX <- renderUI({
     numericInput(inputId = "opt_sigma_intValue",
         label = "Maximum Intervention Rate (py^-1):",
-        value = 0.5,
+        value = 0.1,
         min = 0,
         max = 0.5,
         step = 0.001,
