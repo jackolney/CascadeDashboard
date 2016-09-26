@@ -393,7 +393,7 @@ ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = m
 ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scales::comma(round(means, 0))), vjust = -0.5, family = "Avenir Next")
 ggOut
 
-save.image("thesis2.RData")
+# save.image("thesis2.RData")
 
 # Frontier Plot
 BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)
@@ -402,3 +402,79 @@ BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)
 # 26/09/16 - We need a new figure
 # Baseline bars and then ON TOP (stacked) we have the additional changes required.
 # We just need the averages, then we take the AVERAGE and plot that.
+
+head(mRes)
+mean(BaselineTest)
+mean(BaselineLink)
+mean(BaselinePreR)
+mean(BaselineInit)
+mean(BaselineAdhr)
+mean(BaselineRetn)
+
+
+# new column of 'strategy'
+
+test <- mRes
+
+test$strategy <- c("Intervention")
+
+## BIG BASELINE FIGURE
+# BASELINE VALUES
+
+test <- rbind(test,
+    data.frame(run = 1:max(test$run), variable = "Testing",            value = mean(BaselineTest) / 5, mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+    data.frame(run = 1:max(test$run), variable = "Linkage",            value = mean(BaselineLink) / 5, mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+    data.frame(run = 1:max(test$run), variable = "Pre-ART\nRetention", value = mean(BaselinePreR) / 5, mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+    data.frame(run = 1:max(test$run), variable = "ART\nInitiation",    value = mean(BaselineInit) / 5, mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+    data.frame(run = 1:max(test$run), variable = "Adherence",          value = mean(BaselineAdhr) / 5, mean = mean(BaselineAdhr) / 5, strategy = "Baseline"),
+    data.frame(run = 1:max(test$run), variable = "ART\nRetention",     value = mean(BaselineRetn) / 5, mean = mean(BaselineRetn) / 5, strategy = "Baseline")
+)
+
+# Add the mean to the data
+test[test$variable == "Testing"            & test$strategy == "Intervention", "value"] <- test[test$variable == "Testing"            & test$strategy == "Intervention", "value"] + (mean(BaselineTest) / 5)
+test[test$variable == "Linkage"            & test$strategy == "Intervention", "value"] <- test[test$variable == "Linkage"            & test$strategy == "Intervention", "value"] + (mean(BaselineLink) / 5)
+test[test$variable == "Pre-ART\nRetention" & test$strategy == "Intervention", "value"] <- test[test$variable == "Pre-ART\nRetention" & test$strategy == "Intervention", "value"] + (mean(BaselinePreR) / 5)
+test[test$variable == "ART\nInitiation"    & test$strategy == "Intervention", "value"] <- test[test$variable == "ART\nInitiation"    & test$strategy == "Intervention", "value"] + (mean(BaselineInit) / 5)
+test[test$variable == "Adherence"          & test$strategy == "Intervention", "value"] <- test[test$variable == "Adherence"          & test$strategy == "Intervention", "value"] + (mean(BaselineAdhr) / 5)
+test[test$variable == "ART\nRetention"     & test$strategy == "Intervention", "value"] <- test[test$variable == "ART\nRetention"     & test$strategy == "Intervention", "value"] + (mean(BaselineRetn) / 5)
+
+
+labels2 <- labels
+labels2$strategy <- "Intervention"
+labels2$values <- labels2$means
+
+labels2$means[1] <- labels2$means[1] + (mean(BaselineTest) / 5)
+labels2$means[2] <- labels2$means[2] + (mean(BaselineLink) / 5)
+labels2$means[3] <- labels2$means[3] + (mean(BaselinePreR) / 5)
+labels2$means[4] <- labels2$means[4] + (mean(BaselineInit) / 5)
+labels2$means[5] <- labels2$means[5] + (mean(BaselineAdhr) / 5)
+labels2$means[6] <- labels2$means[6] + (mean(BaselineRetn) / 5)
+
+levels(test$strategy)
+
+test$strategy <- factor(test$strategy, levels = c("Intervention", "Baseline"))
+
+
+graphics.off()
+quartz.options(w = 7.5, h = 4)
+ggOut <- ggplot(test, aes(x = variable, y = value, fill = strategy))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity")
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + scale_fill_manual(values = c(brewer.pal(9, "Set1")[2], brewer.pal(9, "Set1")[1]))
+ggOut <- ggOut + ylab("Changes to Care Per Year")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 100e3), breaks = seq(0, 100e3, 10e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + geom_errorbar(data = labels2, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + geom_text(data = labels2, aes(x = names, y = means, label = paste0("+", scales::comma(round(values, 0)))), vjust = -0.5, family = "Avenir Next")
+ggOut <- ggOut + theme(legend.position = 'right')
+ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+ggOut
+
+# Need a better baseline tracker of ADHERENCE. i.e. VIRAL SUPPRESSION.

@@ -65,12 +65,12 @@ RunNSOptimisation <- function(propRuns, intLength) {
         message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
 
         # Need some functions to calculate the BASELINE changes to care.
-        bTest[j]     <- c()
-        bLink[j]     <- c()
-        bPreR[j]     <- c()
-        bInit[j]     <- c()
-        bAdhr[j]     <- c()
-        bRetn[j]     <- c()
+        bTest[j] <- BaseModel$CumDiag[251]
+        bLink[j] <- BaseModel$CumLink[251]
+        bPreR[j] <- BaseModel$CumPreL[251]
+        bInit[j] <- BaseModel$CumInit[251]
+        bAdhr[j] <- BaseModel$Vs[251] - BaseModel$Vs[1]
+        bRetn[j] <- BaseModel$CumLoss[251]
 
         parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = shuffledRuns[j], length = intLength)
 
@@ -128,7 +128,14 @@ RunNSOptimisation <- function(propRuns, intLength) {
     optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
     colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
 
+    # Make all the baseline stuff global
     BaselineCost <<- rCostOrg
+    BaselineTest <<- bTest
+    BaselineLink <<- bLink
+    BaselinePreR <<- bPreR
+    BaselineInit <<- bInit
+    BaselineAdhr <<- bAdhr
+    BaselineRetn <<- bRetn
 
     message("\nFinished")
     optResults
