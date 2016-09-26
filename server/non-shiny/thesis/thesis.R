@@ -394,6 +394,7 @@ ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = scal
 ggOut
 
 # save.image("thesis2.RData")
+# load("thesis2.RData")
 
 # Frontier Plot
 BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)

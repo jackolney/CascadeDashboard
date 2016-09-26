@@ -11,6 +11,7 @@ source("server/misc-functions.R",                    local = TRUE)
 source("server/report-fig.R",                        local = TRUE)
 source("server/report.R",                            local = TRUE)
 source("server/valuebox.R",                          local = TRUE)
+source("server/valuebox-baseline.R",                 local = TRUE)
 source("server/file-io.R",                           local = TRUE)
 source("ui/global-lists.R",                          local = TRUE)
 

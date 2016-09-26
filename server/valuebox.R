@@ -24,35 +24,10 @@ output$vb909090_COST <- renderValueBox({
     valueBox(
         value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
-        color = "gray",
+        color = "green",
         icon = icon("usd", lib = "font-awesome")
     )
-  })
-
-output$vb909090_COST_OG <- renderValueBox({
-    input$NEXT_optIntro
-
-    # The cost at 'baseline' regardless of what VS was achieved.
-    val <- Quantile_95(BaselineCost) / 5
-
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
-
-    vLower <- paste0("$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
-    vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
-    vUpper <- paste0("$", format(round(val['upper'] / 1e6, 2), trim = TRUE), "M")
-
-    # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
-    out <- vMean
-
-    valueBox(
-        value = out,
-        subtitle = "Baseline cost of care per year between 2015 and 2020",
-        color = "gray",
-        icon = icon("usd", lib = "font-awesome")
-    )
-  })
+})
 
 output$vb909090_COST_NEW <- renderValueBox({
     input$NEXT_optIntro
@@ -80,10 +55,10 @@ output$vb909090_COST_NEW <- renderValueBox({
     valueBox(
         value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
-        color = "gray",
+        color = "green",
         icon = icon("usd", lib = "font-awesome")
     )
-  })
+})
 
 output$vb909090_testing <- renderInfoBox({
     input$NEXT_optIntro
@@ -115,11 +90,11 @@ output$vb909090_testing <- renderInfoBox({
     infoBox(
         title = "Testing",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iTest")],
+        color = "green",
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("user-md", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })
 
@@ -154,11 +129,11 @@ output$vb909090_linkage <- renderInfoBox({
     infoBox(
         title = "Linkage",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iLink")],
+        color = "green",
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("ambulance", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })
 
@@ -192,11 +167,11 @@ output$vb909090_preRetention <- renderInfoBox({
     infoBox(
         title = "Pre-ART Retention",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iPreR")],
+        color = "green",
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("hospital-o", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })
 
@@ -230,11 +205,11 @@ output$vb909090_initiation <- renderInfoBox({
     infoBox(
         title = "ART Initiation",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iInit")],
+        color = "green",
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("medkit", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })
 
@@ -268,11 +243,11 @@ output$vb909090_adherence <- renderInfoBox({
     infoBox(
         title = "Adherence",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iAdhr")],
+        color = "green",
         subtitle = "Additional non-adherence transitions per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("heartbeat", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })
 
@@ -306,10 +281,10 @@ output$vb909090_retention <- renderInfoBox({
     infoBox(
         title = "ART Retention",
         value = out,
-        color = cols[which(names(colValues[order(abs(colValues))]) == "iRetn")],
+        color = "green",
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
-        icon = icon("heart-o", lib = "font-awesome")
+        icon = icon("check", lib = "font-awesome")
     )
 })

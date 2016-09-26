@@ -9,13 +9,13 @@ tabItem(tabName = "opt-909090",
             title = "UNAIDS 90-90-90",
             fluidRow(
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Diagnosed", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "Diagnosed", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "On Treatment", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "On Treatment", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Virally Suppressed", color = "gray", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBox(value = scales::percent(0.9), subtitle = "Virally Suppressed", color = "light-blue", width = NULL, icon = icon("check", lib = "font-awesome"))
                 )
             ),
             bsModal(id = "optimDT909090modalID", title = "Result Table", trigger = "optData909090", size = "large",
@@ -29,53 +29,91 @@ tabItem(tabName = "opt-909090",
             collapsed = FALSE,
             title = "How to get there?",
             # tags$div(valueBoxOutput(outputId = "vb909090_COST", width = "100%"), style = "width: 45%; margin: auto;"),
+            # COST
             fluidRow(
                 column(width = 6,
-                    valueBoxOutput(outputId = "vb909090_COST_OG", width = "100%")
+                    valueBoxOutput(outputId = "vb909090_COST_BASE",        width = "100%" )
                 ),
                 column(width = 6,
-                    valueBoxOutput(outputId = "vb909090_COST_NEW", width = "100%")
+                    valueBoxOutput(outputId = "vb909090_COST_NEW",         width = "100%" )
                 )
             ),
+
+            # TEST
             fluidRow(
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_testing",      width = "100%")
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_testing_BASE",      width = "100%" )
                 ),
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_linkage",      width = "100%")
-                ),
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_preRetention", width = "100%")
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_testing",           width = "100%" )
                 )
             ),
+
+            # LINK
             fluidRow(
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_initiation",   width = "100%")
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_linkage_BASE",      width = "100%" )
                 ),
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_adherence",    width = "100%")
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_linkage",           width = "100%" )
+                )
+            ),
+
+            # PRE-RETENTION
+            fluidRow(
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_preRetention_BASE", width = "100%" )
                 ),
-                column(width = 4,
-                    infoBoxOutput(outputId = "vb909090_retention",    width = "100%")
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_preRetention",      width = "100%" )
+                )
+            ),
+
+            # INITIATION
+            fluidRow(
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_initiation_BASE",   width = "100%" )
+                ),
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_initiation",        width = "100%" )
+                )
+            ),
+
+            # ADHERENCE
+            fluidRow(
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_adherence_BASE",    width = "100%" )
+                ),
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_adherence",         width = "100%" )
+                )
+            ),
+
+            # RETENTION
+            fluidRow(
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_retention_BASE",    width = "100%" )
+                ),
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_retention",         width = "100%" )
                 )
             ),
             tags$em("
                 The average cost and changes to care required to achieve the
-                90-90-90 targets are displayed above. These values illustrate
-                the per year changes to care and are calculated from simulating
-                all combinations of interventions and assessing the outcomes
-                relative to a baseline scenario in the absence of any
+                90-90-90 targets are displayed above.
+                On the left - in red - illustrates that changes that would happen
+                to care in the absence of any interventions i.e. the 'baseline'.
+                On the right - in green - illustrates the additional changes
+                required to achieve 90-90-90 through implementing interventions.
+                These values illustrate the per year changes to care and are
+                calculated from simulating all combinations of interventions and
+                assessing the outcomes relative to a baseline scenario in the absence of any
                 interventions. We then calculate the changes in each indicator between
                 baseline and intervention scenario, repeat this calculation for
                 all best-fitting parameter sets derived from our calibration,
                 and present the average across all simulations as per year
-                values together with 95% confidence intervals. Boxes are
-                colour-coded to illustrate the magnitude of change.
-                Red boxes illustrate the the two largest absolute
-                changes to care, orange denotes the next largest two absolute
-                changes to care and green denotes the two smallest absolute
-                changes to care. If a box displays zero, then no changes are
-                required to achieve 90-90-90.")
+                values together with 95% confidence intervals. If a box displays
+                zero, then no changes are required to achieve 90-90-90.")
         ),
         box(width = NULL,
             status = "warning",
