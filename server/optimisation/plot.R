@@ -13,3 +13,8 @@ output$plotFrontier <- renderPlot({
     input$NEXT_optIntro
     BuildFrontierPlot(CalibParamOut = CalibParamOut, optResults = optResults)
 }, height = 500, width = 'auto')
+
+output$plotChanges <- renderPlot({
+    input$NEXT_optIntro
+    BuildChangesPlot(CalibParamOut = CalibParamOut, optResults = optResults)
+}, height = 400, width = 'auto', bg = 'transparent')

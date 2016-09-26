@@ -19,7 +19,7 @@ output$vb909090_COST <- renderValueBox({
     # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
     out <- vMean
 
-    report_909090_cost <<- out
+    report_909090_cost <<- paste0(vMean, " [", vLower, " to ", vUpper, "]")
 
     valueBox(
         value = out,
@@ -50,7 +50,7 @@ output$vb909090_COST_NEW <- renderValueBox({
     # out <- paste0(vMean, " [", vLower, " to ", vUpper, "]")
     out <- vMean
 
-    report_909090_cost <<- out
+    report_909090_cost <<- paste0(vMean, " [", vLower, " to ", vUpper, "]")
 
     valueBox(
         value = out,

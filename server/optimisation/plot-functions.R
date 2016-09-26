@@ -372,3 +372,129 @@ BuildOGCostImpactPlot <- function() {
     ggOut <- ggOut + coord_cartesian(xlim = plotOptimCostImpact.ranges$x, ylim = plotOptimCostImpact.ranges$y)
     ggOut
 }
+
+BuildChangesPlot <- function(CalibParamOut, optResults) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+
+    # Result Formatting
+    intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
+
+
+    # Assign a 'run' number to simulations
+    intResult$run <- 1:dim(intResult)[1]
+
+    # Melt them
+    mRes <- reshape2::melt(intResult, id = "run")
+
+    ## DIVIDE ALL VALUES BY FIVE
+    # Conversion from 5 year values to single years
+    mRes$value <- mRes$value / 5
+
+
+    # RENAME VARIABLES
+    mRes$variable <- as.character(mRes$variable)
+    mRes[mRes$variable == "iTest", "variable"] <- "Testing"
+    mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
+    mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
+    mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Adherence"
+    mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
+
+    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention"))
+
+    # Calculate means
+    mRes$mean <- c(
+        rep(mean(mRes[mRes$variable == "Testing","value"]), max(mRes$run)),
+        rep(mean(mRes[mRes$variable == "Linkage","value"]), max(mRes$run)),
+        rep(mean(mRes[mRes$variable == "Pre-ART\nRetention","value"]), max(mRes$run)),
+        rep(mean(mRes[mRes$variable == "ART\nInitiation","value"]), max(mRes$run)),
+        rep(mean(mRes[mRes$variable == "Adherence","value"]), max(mRes$run)),
+        rep(mean(mRes[mRes$variable == "ART\nRetention","value"]), max(mRes$run))
+    )
+
+    names <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention")
+    means <- c(
+        mean(mRes[mRes$variable == "Testing","value"]),
+        mean(mRes[mRes$variable == "Linkage","value"]),
+        mean(mRes[mRes$variable == "Pre-ART\nRetention","value"]),
+        mean(mRes[mRes$variable == "ART\nInitiation","value"]),
+        mean(mRes[mRes$variable == "Adherence","value"]),
+        mean(mRes[mRes$variable == "ART\nRetention","value"])
+        )
+
+    # Create labels df
+    labels <- data.frame(names, means)
+
+    # Assign as 'interventions'
+    labels$strategy <- "Intervention"
+
+    # Save mean values for text-output
+    labels$values <- labels$means
+
+    # Add baseline to values for stack-bar
+    labels$means[1] <- labels$means[1] + (mean(BaselineTest) / 5)
+    labels$means[2] <- labels$means[2] + (mean(BaselineLink) / 5)
+    labels$means[3] <- labels$means[3] + (mean(BaselinePreR) / 5)
+    labels$means[4] <- labels$means[4] + (mean(BaselineInit) / 5)
+    labels$means[5] <- labels$means[5] + (mean(BaselineAdhr) / 5)
+    labels$means[6] <- labels$means[6] + (mean(BaselineRetn) / 5)
+
+    # Assign as 'interventions'
+    mRes$strategy <- c("Intervention")
+
+
+    # BIND IN THE MEAN BASELINE VALUES
+    mRes <- rbind(mRes,
+        data.frame(run = 1:max(mRes$run), variable = "Testing",            value = mean(BaselineTest) / 5, mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+        data.frame(run = 1:max(mRes$run), variable = "Linkage",            value = mean(BaselineLink) / 5, mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+        data.frame(run = 1:max(mRes$run), variable = "Pre-ART\nRetention", value = mean(BaselinePreR) / 5, mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+        data.frame(run = 1:max(mRes$run), variable = "ART\nInitiation",    value = mean(BaselineInit) / 5, mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+        data.frame(run = 1:max(mRes$run), variable = "Adherence",          value = mean(BaselineAdhr) / 5, mean = mean(BaselineAdhr) / 5, strategy = "Baseline"),
+        data.frame(run = 1:max(mRes$run), variable = "ART\nRetention",     value = mean(BaselineRetn) / 5, mean = mean(BaselineRetn) / 5, strategy = "Baseline")
+    )
+
+    # Add the mean to the data
+    mRes[mRes$variable == "Testing"            & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "Testing"            & mRes$strategy == "Intervention", "value"] + (mean(BaselineTest) / 5)
+    mRes[mRes$variable == "Linkage"            & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "Linkage"            & mRes$strategy == "Intervention", "value"] + (mean(BaselineLink) / 5)
+    mRes[mRes$variable == "Pre-ART\nRetention" & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "Pre-ART\nRetention" & mRes$strategy == "Intervention", "value"] + (mean(BaselinePreR) / 5)
+    mRes[mRes$variable == "ART\nInitiation"    & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "ART\nInitiation"    & mRes$strategy == "Intervention", "value"] + (mean(BaselineInit) / 5)
+    mRes[mRes$variable == "Adherence"          & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "Adherence"          & mRes$strategy == "Intervention", "value"] + (mean(BaselineAdhr) / 5)
+    mRes[mRes$variable == "ART\nRetention"     & mRes$strategy == "Intervention", "value"] <- mRes[mRes$variable == "ART\nRetention"     & mRes$strategy == "Intervention", "value"] + (mean(BaselineRetn) / 5)
+
+    # Set levels
+    mRes$strategy <- factor(mRes$strategy, levels = c("Intervention", "Baseline"))
+
+    ggOut <- ggplot(mRes, aes(x = variable, y = value, fill = strategy))
+    ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_fill_manual(values = c(brewer.pal(9, "Set1")[2], brewer.pal(9, "Set1")[1]))
+    ggOut <- ggOut + ylab("Changes to Care Per Year")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + expand_limits(y = c(0, round(max(mRes$value), digits = -4)))
+    ggOut <- ggOut + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 5), expand = c(0, 0))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + geom_errorbar(data = labels, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+    ggOut <- ggOut + geom_text(data = labels, aes(x = names, y = means, label = paste0("+", scales::comma(round(values, 0)))), vjust = -0.5, family = "Avenir Next")
+    ggOut <- ggOut + theme(legend.position = 'bottom')
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut
+}

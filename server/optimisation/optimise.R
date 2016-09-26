@@ -1,6 +1,6 @@
 RunOptimisation <- function(propRuns = 0.1) {
     # This should be triggered by the renderPlot().
-    withProgress(min = 0, max = 1, {
+    withProgress(min = 0, max = 1, style = 'old', {
 
         # Simulation Loop
         time <- proc.time()[[1]]

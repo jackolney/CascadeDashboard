@@ -85,7 +85,7 @@ tabItem(tabName = "introduction",
             h5("Contributors"),
             tags$i("Jack J Olney, Jeffrey W Eaton, Ellen McRobie & Timothy B Hallett")
         ),
-        bsAlert(anchorId = "startAlert"),
+        # bsAlert(anchorId = "startAlert"),
         bsButton(inputId = "NEXT_intro", label = "Start Wizard", style = "success", size = "large", block = TRUE, icon = icon("magic", class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )

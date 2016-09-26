@@ -7,7 +7,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
     # maxError entered as a string so must be converted
     maxError <- as.numeric(maxError)
 
-    withProgress(message = 'Running Calibration:', value = 0, {
+    withProgress(message = 'Running Calibration:', value = 0, style = 'old', {
 
         # Set Global Variables
         time <- seq(0, 5, 1)

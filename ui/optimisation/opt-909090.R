@@ -176,6 +176,8 @@ tabItem(tabName = "opt-909090",
             column(width = 6,
                 HTML('<button id="NEXT_opt909090" type="button" class="btn action-button btn-success btn-lg btn-block"> Next <i class="fa fa-arrow-right fa-lg fa-fw"></i> </button>')
             )
-        )
+        ),
+        p(""),
+        plotOutput('plotChanges')
     )
 )
