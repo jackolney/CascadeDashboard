@@ -482,13 +482,13 @@ ggOut
 BuildChangesPlot(CalibParamOut, optResults)
 
 
-b1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"] / 5), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"] / 5), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"] / 5), "]")
-b2 <- paste0("iTest = ", scales::comma(round(Quantile_95(resTable[,"iTest"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iTest"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iTest"])["upper"] / 5, 0)), "]")
-b3 <- paste0("iLink = ", scales::comma(round(Quantile_95(resTable[,"iLink"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iLink"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iLink"])["upper"] / 5, 0)), "]")
-b4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iPreR"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iPreR"])["upper"] / 5, 0)), "]")
-b5 <- paste0("iInit = ", scales::comma(round(Quantile_95(resTable[,"iInit"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iInit"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iInit"])["upper"] / 5, 0)), "]")
-b6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iAdhr"])["upper"] / 5, 0)), "]")
-b7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iRetn"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iRetn"])["upper"] / 5, 0)), "]")
+b1 <- paste0("iCost = ", scales::dollar(Quantile_95(BaselineCost)["mean"] / 5), " [", scales::dollar(Quantile_95(BaselineCost)["lower"] / 5), " to ", scales::dollar(Quantile_95(BaselineCost)["upper"] / 5), "]")
+b2 <- paste0("iTest = ", scales::comma(round(Quantile_95(BaselineTest)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineTest)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineTest)["upper"] / 5, 0)), "]")
+b3 <- paste0("iLink = ", scales::comma(round(Quantile_95(BaselineLink)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineLink)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineLink)["upper"] / 5, 0)), "]")
+b4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(BaselinePreR)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselinePreR)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselinePreR)["upper"] / 5, 0)), "]")
+b5 <- paste0("iInit = ", scales::comma(round(Quantile_95(BaselineInit)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineInit)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineInit)["upper"] / 5, 0)), "]")
+b6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(BaselineAdhr)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineAdhr)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineAdhr)["upper"] / 5, 0)), "]")
+b7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(BaselineRetn)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineRetn)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineRetn)["upper"] / 5, 0)), "]")
 
 b1
 b2
@@ -497,3 +497,144 @@ b4
 b5
 b6
 b7
+
+
+################################################################################
+
+theBase <-  rbind(
+    data.frame(variable = "Testing",            value = mean(BaselineTest) / 5, mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+    data.frame(variable = "Linkage",            value = mean(BaselineLink) / 5, mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+    data.frame(variable = "Pre-ART\nRetention", value = mean(BaselinePreR) / 5, mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+    data.frame(variable = "ART\nInitiation",    value = mean(BaselineInit) / 5, mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+    data.frame(variable = "Adherence",          value = mean(BaselineAdhr) / 5, mean = mean(BaselineAdhr) / 5, strategy = "Baseline"),
+    data.frame(variable = "ART\nRetention",     value = mean(BaselineRetn) / 5, mean = mean(BaselineRetn) / 5, strategy = "Baseline")
+    )
+
+
+ggOut <- ggplot(theBase, aes(x = variable, y = value, fill = strategy))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1, position = "identity")
+ggOut
+
+
+mRes
+
+ggOut <- ggplot(mRes, aes(x = variable, y = value))
+geom_errorbar(data = labels2, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + geom_boxplot(aes(middle = mean), outlier.size = 0, coef = 0, outlier.color = NA, alpha = 0.5)
+ggOut
+
+alpha
+colour
+fill
+linetype
+shape
+size
+weight
+
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.1, position = "identity")
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + scale_fill_manual(values = c(brewer.pal(9, "Set1")[2], brewer.pal(9, "Set1")[1]))
+ggOut <- ggOut + ylab("Changes to Care Per Year")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 100e3), breaks = seq(0, 100e3, 10e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + geom_errorbar(data = labels2, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + geom_text(data = labels2, aes(x = names, y = means, label = paste0("+", scales::comma(round(values, 0)))), vjust = -0.5, family = "Avenir Next")
+ggOut <- ggOut + theme(legend.position = 'right')
+ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+ggOut
+
+
+
+# SOMETHING NEW ################################################################
+
+variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention")
+
+mean <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]]
+)
+
+upper <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]]
+)
+
+lower <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]]
+)
+
+strategy <- "Intervention"
+
+outData <- data.frame(variable, mean, lower, upper, strategy)
+
+ggplot(outData, aes(x = variable)) + geom_crossbar(aes(y = mean, ymax = upper, ymin = lower), fill = "black", alpha = 0.5)
+
+# Putting results on top of baseline
+outData$mean  <- outData$mean  + theBase$mean
+outData$upper <- outData$upper + theBase$mean
+outData$lower <- outData$lower + theBase$mean
+
+ggOut <- ggplot(theBase, aes(x = variable, y = value, group = strategy))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.75, position = "identity", fill = brewer.pal(9, "Set1")[1])
+ggOut <- ggOut + geom_crossbar(data = outData, aes(x = variable, y = mean, ymax = upper, ymin = lower), fill = brewer.pal(9, "Set1")[2], alpha = 0.3, linetype = "blank")
+ggOut <- ggOut + geom_errorbar(data = labels2, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + geom_text(data = labels2, aes(x = names, y = means, label = paste0("+", scales::comma(round(values, 0)))), vjust = -0.5, family = "Avenir Next")
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Changes to Care Per Year")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 70e3), breaks = seq(0, 70e3, 10e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+# ggOut <- ggOut + theme(legend.position = 'right')
+# ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+ggOut <- ggOut + scale_fill_identity(name = "hello", guide = 'legend', labels = c('bar'))
+ggOut
+
+## DONE ##
+
+ggOut <- ggplot(theBase, aes(x = variable, y = value, fill = strategy))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 0.75, position = "identity")
+ggOut <- ggOut + geom_crossbar(data = outData, aes(x = variable, y = mean, ymax = upper, ymin = lower, fill = strategy), alpha = 0.3, linetype = "blank")
+ggOut <- ggOut + geom_errorbar(data = labels2, aes(x = names, y = means, ymax = means, ymin = means), alpha = 1)
+ggOut <- ggOut + scale_fill_manual(values = c(brewer.pal(9, "Set1")[1],brewer.pal(9, "Set1")[2]), labels = c("Baseline", "Intervention"), guide = "legend")
+ggOut <- ggOut + geom_text(data = labels2, aes(x = names, y = means, label = paste0("+", scales::comma(round(values, 0)))), vjust = -0.5, family = "Avenir Next")
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Changes to Care Per Year")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 70e3), breaks = seq(0, 70e3, 10e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + theme(legend.position = 'right')
+ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+ggOut
