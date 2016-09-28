@@ -638,3 +638,15 @@ ggOut <- ggOut + theme(legend.title = element_blank())
 ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
 ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
 ggOut
+
+# Do we take it any further?
+
+Quantile_50 <- function(vector) {
+    m <- mean(vector)
+    p95 <- quantile(vector, 0.5)[[1]]
+    p05 <- quantile(vector, 0.5)[[1]]
+    return(c(upper = p95, mean = m, lower = p05))
+}
+
+Quantile_50(BaselineTest)
+quantile(BaselineTest, 0.70)
