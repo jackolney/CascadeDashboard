@@ -20,7 +20,7 @@ output$vb909090_COST_BASE <- renderValueBox({
     valueBox(
         value = out,
         subtitle = "Baseline cost of care per year between 2015 and 2020",
-        color = "red",
+        color = "light-blue",
         icon = icon("usd", lib = "font-awesome")
     )
 })
@@ -44,11 +44,11 @@ output$vb909090_testing_BASE <- renderInfoBox({
     infoBox(
         title = "Testing",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "Diagnoses per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
 
@@ -72,11 +72,11 @@ output$vb909090_linkage_BASE <- renderInfoBox({
     infoBox(
         title = "Linkage",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "Linkages per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
 
@@ -99,11 +99,11 @@ output$vb909090_preRetention_BASE <- renderInfoBox({
     infoBox(
         title = "Pre-ART Retention",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "Losses from pre-ART care per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
 
@@ -126,11 +126,11 @@ output$vb909090_initiation_BASE <- renderInfoBox({
     infoBox(
         title = "ART Initiation",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "ART initiations per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
 
@@ -153,11 +153,11 @@ output$vb909090_adherence_BASE <- renderInfoBox({
     infoBox(
         title = "Adherence",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "Viral suppressions per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
 
@@ -180,10 +180,10 @@ output$vb909090_retention_BASE <- renderInfoBox({
     infoBox(
         title = "ART Retention",
         value = out,
-        color = "red",
+        color = "light-blue",
         subtitle = "Losses from ART care per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("close", lib = "font-awesome")
+        icon = icon("line-chart", lib = "font-awesome")
     )
 })
