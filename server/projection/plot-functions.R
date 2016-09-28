@@ -193,15 +193,15 @@ Gen909090Plot <- function() {
     vbCol <- c("red", "yellow", "green")
 
     vbOut1 <- round(out[out$def == "% of PLHIV Diagnosed",    "res"] * 100, digits = 0)
-    vbOut2 <- round(out[out$def == "% of Diagnosed On Treatment", "res"] * 100, digits = 0)
-    vbOut3 <- round(out[out$def == "% of On Treatment Suppressed",   "res"] * 100, digits = 0)
+    vbOut2 <- round(out[out$def == "% of Diagnosed on Treatment", "res"] * 100, digits = 0)
+    vbOut3 <- round(out[out$def == "% of on Treatment Suppressed",   "res"] * 100, digits = 0)
 
     output$vb_90            <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "% of PLHIV Diagnosed",          color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_9090          <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed On Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_909090        <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of On Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_9090          <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed on Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_909090        <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of on Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
     output$vb_90_wizard     <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "% of PLHIV Diagnosed",          color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_9090_wizard   <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed On Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_909090_wizard <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of On Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_9090_wizard   <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed on Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_909090_wizard <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of on Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
 
     ggOut <- ggplot(out, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
