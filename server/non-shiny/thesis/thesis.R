@@ -641,12 +641,94 @@ ggOut
 
 # Do we take it any further?
 
-Quantile_50 <- function(vector) {
-    m <- mean(vector)
-    p95 <- quantile(vector, 0.5)[[1]]
-    p05 <- quantile(vector, 0.5)[[1]]
-    return(c(upper = p95, mean = m, lower = p05))
-}
+# Quantile_50 <- function(vector) {
+#     m <- mean(vector)
+#     p95 <- quantile(vector, 0.5)[[1]]
+#     p05 <- quantile(vector, 0.5)[[1]]
+#     return(c(upper = p95, mean = m, lower = p05))
+# }
 
-Quantile_50(BaselineTest)
-quantile(BaselineTest, 0.70)
+# Quantile_50(BaselineTest)
+# quantile(BaselineTest, 0.70)
+
+################################################################################
+## With errorbars? ##
+# 28/09/16
+
+variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention")
+
+mean <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["mean"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]]
+)
+
+upper <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["upper"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]]
+)
+
+lower <- c(
+    Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["lower"]],
+    Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]]
+)
+
+strategy <- "Intervention"
+
+outData <- data.frame(variable, mean, lower, upper, strategy)
+
+theBase <-  rbind(
+    data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+    data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+    data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+    data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+    data.frame(variable = "Adherence",          mean = mean(BaselineAdhr) / 5, strategy = "Baseline"),
+    data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline")
+    )
+
+theBase$upper <- NA
+theBase$lower <- NA
+
+final <- rbind(theBase, outData)
+final$strategy <- factor(final$strategy, levels = c("Intervention", "Baseline"))
+
+# Now we need the error_bar data.frame
+value <- mean
+mean <- mean + theBase$mean
+upper <- upper + theBase$mean
+lower <- lower + theBase$mean
+theLabel <- data.frame(variable, value, mean, upper, lower)
+
+
+ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
+ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
+ggOut <- ggOut + geom_errorbar(data = theLabel, aes(x = variable, y = mean, ymax = upper, ymin = lower), alpha = 1, width = 0.25, size = 0.5)
+ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+", scales::comma(round(value, 0)))), vjust = +0.5, family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#C8462B"))
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + ylab("Changes to Care Per Year")
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 9))
+ggOut <- ggOut + theme(axis.title.x = element_blank())
+ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 9))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + scale_y_continuous(limits = c(0, 70e3), breaks = seq(0, 70e3, 10e3), labels = scales::comma, expand = c(0, 0))
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + theme(legend.position = 'right')
+ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+ggOut
+
