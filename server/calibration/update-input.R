@@ -157,7 +157,23 @@ observeEvent(input$resetParam, {
     updateNumericInput(session, "test_ARTDropRate_L",    value = parRange["omega", "min"])
     updateNumericInput(session, "test_AdhProp_U",        value = parRange["p", "max"])
     updateNumericInput(session, "test_AdhProp_L",        value = parRange["p", "min"])
+    # Reseting user-defined values too.
+    updateNumericInput(session, "uCalib_rho",     value = NULL)
+    updateNumericInput(session, "uCalib_q",       value = NULL)
+    updateNumericInput(session, "uCalib_epsilon", value = NULL)
+    updateNumericInput(session, "uCalib_gamma",   value = NULL)
+    updateNumericInput(session, "uCalib_theta",   value = NULL)
+    updateNumericInput(session, "uCalib_kappa",   value = NULL)
+    updateNumericInput(session, "uCalib_omega",   value = NULL)
+    updateNumericInput(session, "uCalib_p",       value = NULL)
 })
+
+observeEvent(input$resetOverRide, {
+    # Reset 'over-ride' advanced calibration features
+    updateSliderInput(session, inputId = "uNaturalMortality_OverRide", value = 0.005)
+    updateSliderInput(session, inputId = "uHIVMortality_OverRide",     value = 1)
+})
+
 
 observeEvent(input$resetTxGuidelines, {
 

@@ -102,3 +102,12 @@ output$calib_p_min <- renderUI({
 output$UI_calib_p <- renderUI({
     numericInput("uCalib_p","Specify exact proportion:", value = NULL,                         min = 0, max = 1,   step = 1e-3, width = '100%')
 })
+
+# Mortality OverRide
+output$UI_NaturalMortalityOverRide <- renderUI({
+    sliderInput(inputId = "uNaturalMortality_OverRide", label = "Natural Mortality Rate", min = 0, max = 1, value = 0.005, step = 0.001, round = FALSE, ticks = TRUE, sep = ",", post = "py^-1")
+})
+
+output$UI_HIVMortalityOverRide <- renderUI({
+    sliderInput(inputId = "uHIVMortality_OverRide", label = "HIV-related Mortality Modifier", min = 0, max = 10, value = 1, step = 0.1, round = FALSE, ticks = TRUE, sep = ",")
+})
