@@ -24,7 +24,24 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, minErrorRu
         Gamma = iterationParam[["Gamma"]],
         Sigma = iterationParam[["Sigma"]],
         Omega = iterationParam[["Omega"]],
-        q     = iterationParam[["Q"]]
+        q     = iterationParam[["Q"]],
+
+        # Advanced Calibration Tools (mortality)
+        Alpha_1 = 0.004110 * AdvCalib$HIVMort,
+        Alpha_2 = 0.011670 * AdvCalib$HIVMort,
+        Alpha_3 = 0.009385 * AdvCalib$HIVMort,
+        Alpha_4 = 0.016394 * AdvCalib$HIVMort,
+        Alpha_5 = 0.027656 * AdvCalib$HIVMort,
+        Alpha_6 = 0.047877 * AdvCalib$HIVMort,
+        Alpha_7 = 1.081964 * AdvCalib$HIVMort,
+        Tau_1 = 0.003905 * AdvCalib$HIVMort,
+        Tau_2 = 0.011087 * AdvCalib$HIVMort,
+        Tau_3 = 0.008916 * AdvCalib$HIVMort,
+        Tau_4 = 0.015574 * AdvCalib$HIVMort,
+        Tau_5 = 0.026273 * AdvCalib$HIVMort,
+        Tau_6 = 0.045482 * AdvCalib$HIVMort,
+        Tau_7 = 1.02785 * AdvCalib$HIVMort,
+        Mu = AdvCalib$NatMort
     )
     p
 }
@@ -55,7 +72,24 @@ GetOptRunPar <- function(masterCD4, data, iterationParam, calibParamOut, runNumb
         Gamma = iterationParam[["Gamma"]],
         Sigma = iterationParam[["Sigma"]],
         Omega = iterationParam[["Omega"]],
-        q     = iterationParam[["Q"]]
+        q     = iterationParam[["Q"]],
+
+        # Advanced Calibration Tools (mortality)
+        Alpha_1 = 0.004110 * AdvCalib$HIVMort,
+        Alpha_2 = 0.011670 * AdvCalib$HIVMort,
+        Alpha_3 = 0.009385 * AdvCalib$HIVMort,
+        Alpha_4 = 0.016394 * AdvCalib$HIVMort,
+        Alpha_5 = 0.027656 * AdvCalib$HIVMort,
+        Alpha_6 = 0.047877 * AdvCalib$HIVMort,
+        Alpha_7 = 1.081964 * AdvCalib$HIVMort,
+        Tau_1 = 0.003905 * AdvCalib$HIVMort,
+        Tau_2 = 0.011087 * AdvCalib$HIVMort,
+        Tau_3 = 0.008916 * AdvCalib$HIVMort,
+        Tau_4 = 0.015574 * AdvCalib$HIVMort,
+        Tau_5 = 0.026273 * AdvCalib$HIVMort,
+        Tau_6 = 0.045482 * AdvCalib$HIVMort,
+        Tau_7 = 1.02785 * AdvCalib$HIVMort,
+        Mu = AdvCalib$NatMort
     )
     p
 }
@@ -83,7 +117,24 @@ GetBaselinePar <- function(masterCD4, data, calibParamOut, runNumber) {
         Gamma   = calibParamOut[runNumber, "gamma"],
         Omega   = calibParamOut[runNumber, "omega"],
         Epsilon = calibParamOut[runNumber, "epsilon"],
-        q       = calibParamOut[runNumber, "q"]
+        q       = calibParamOut[runNumber, "q"],
+
+        # Advanced Calibration Tools (mortality)
+        Alpha_1 = 0.004110 * AdvCalib$HIVMort,
+        Alpha_2 = 0.011670 * AdvCalib$HIVMort,
+        Alpha_3 = 0.009385 * AdvCalib$HIVMort,
+        Alpha_4 = 0.016394 * AdvCalib$HIVMort,
+        Alpha_5 = 0.027656 * AdvCalib$HIVMort,
+        Alpha_6 = 0.047877 * AdvCalib$HIVMort,
+        Alpha_7 = 1.081964 * AdvCalib$HIVMort,
+        Tau_1 = 0.003905 * AdvCalib$HIVMort,
+        Tau_2 = 0.011087 * AdvCalib$HIVMort,
+        Tau_3 = 0.008916 * AdvCalib$HIVMort,
+        Tau_4 = 0.015574 * AdvCalib$HIVMort,
+        Tau_5 = 0.026273 * AdvCalib$HIVMort,
+        Tau_6 = 0.045482 * AdvCalib$HIVMort,
+        Tau_7 = 1.02785 * AdvCalib$HIVMort,
+        Mu = AdvCalib$NatMort
     )
     p
 }
@@ -110,7 +161,24 @@ GetMeanPar <- function(masterCD4, data, calibParamOut) {
         Kappa = round(lapply(calibParamOut, function(x) {return(mean(x))})[["kappa"]], digits = 4),
         Gamma = round(lapply(calibParamOut, function(x) {return(mean(x))})[["gamma"]], digits = 4),
         Omega = round(lapply(calibParamOut, function(x) {return(mean(x))})[["omega"]], digits = 4),
-        q     = round(lapply(calibParamOut, function(x) {return(mean(x))})[["q"]],     digits = 4)
+        q     = round(lapply(calibParamOut, function(x) {return(mean(x))})[["q"]],     digits = 4),
+
+        # Advanced Calibration Tools (mortality)
+        Alpha_1 = 0.004110 * AdvCalib$HIVMort,
+        Alpha_2 = 0.011670 * AdvCalib$HIVMort,
+        Alpha_3 = 0.009385 * AdvCalib$HIVMort,
+        Alpha_4 = 0.016394 * AdvCalib$HIVMort,
+        Alpha_5 = 0.027656 * AdvCalib$HIVMort,
+        Alpha_6 = 0.047877 * AdvCalib$HIVMort,
+        Alpha_7 = 1.081964 * AdvCalib$HIVMort,
+        Tau_1 = 0.003905 * AdvCalib$HIVMort,
+        Tau_2 = 0.011087 * AdvCalib$HIVMort,
+        Tau_3 = 0.008916 * AdvCalib$HIVMort,
+        Tau_4 = 0.015574 * AdvCalib$HIVMort,
+        Tau_5 = 0.026273 * AdvCalib$HIVMort,
+        Tau_6 = 0.045482 * AdvCalib$HIVMort,
+        Tau_7 = 1.02785 * AdvCalib$HIVMort,
+        Mu = AdvCalib$NatMort
     )
     p
 }

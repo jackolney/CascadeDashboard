@@ -35,6 +35,22 @@ CallBestFitModel <- function(CalibOut, propRuns, ...) {
             Omega = CalibParamOut[shuffledRuns[j],"omega"],
             p = CalibParamOut[shuffledRuns[j],"p"],
             q = CalibParamOut[shuffledRuns[j],"q"],
+            # Advanced Calibration Tools (mortality)
+            Alpha_1 = 0.004110 * AdvCalib$HIVMort,
+            Alpha_2 = 0.011670 * AdvCalib$HIVMort,
+            Alpha_3 = 0.009385 * AdvCalib$HIVMort,
+            Alpha_4 = 0.016394 * AdvCalib$HIVMort,
+            Alpha_5 = 0.027656 * AdvCalib$HIVMort,
+            Alpha_6 = 0.047877 * AdvCalib$HIVMort,
+            Alpha_7 = 1.081964 * AdvCalib$HIVMort,
+            Tau_1 = 0.003905 * AdvCalib$HIVMort,
+            Tau_2 = 0.011087 * AdvCalib$HIVMort,
+            Tau_3 = 0.008916 * AdvCalib$HIVMort,
+            Tau_4 = 0.015574 * AdvCalib$HIVMort,
+            Tau_5 = 0.026273 * AdvCalib$HIVMort,
+            Tau_6 = 0.045482 * AdvCalib$HIVMort,
+            Tau_7 = 1.02785 * AdvCalib$HIVMort,
+            Mu = AdvCalib$NatMort,
             ...
         )
 
