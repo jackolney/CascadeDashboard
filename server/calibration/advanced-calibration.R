@@ -2,12 +2,12 @@
 
 # Mortality over-ride
 output$UI_NaturalMortalityOverRide <- renderUI({
-    sliderInput(inputId = "uNaturalMortality_OverRide", label = "Natural Mortality Rate", min = 0, max = 1, value = 0.005, step = 0.001, round = FALSE, ticks = TRUE, sep = ",", post = "py^-1")
+    sliderInput(inputId = "uNaturalMortality_OverRide", label = "Natural Mortality Rate", min = 0, max = 0.5, value = 0.005, step = 0.001, round = FALSE, ticks = TRUE, sep = ",", post = "py^-1")
 })
 
 # HIV-related mortality over-ride
 output$UI_HIVMortalityOverRide <- renderUI({
-    sliderInput(inputId = "uHIVMortality_OverRide", label = "HIV-related Mortality Modifier", min = 0, max = 10, value = 1, step = 0.1, round = FALSE, ticks = TRUE, sep = ",")
+    sliderInput(inputId = "uHIVMortality_OverRide", label = "HIV-related Mortality Modifier", min = 0, max = 5, value = 1, step = 0.1, round = FALSE, ticks = TRUE, sep = ",")
 })
 
 # Reactives - set initial values
