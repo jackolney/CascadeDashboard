@@ -120,6 +120,17 @@ tabItem(tabName = "parameters",
                 will run the calibration again but keeping the user-defined parameter constant."),
             bsButton(inputId = "resetParam",     label = "RESET",     style = "danger",  size = "default", block = TRUE)
         ),
+        box(width = NULL,
+            status = "danger",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
+            title = "Advanced",
+            helpText("For advanced calibration hacking only. Use with caution!"),
+            uiOutput("UI_NaturalMortalityOverRide"),
+            uiOutput("UI_HIVMortalityOverRide"),
+            bsButton(inputId = "resetOverRide", label = "RESET", style = "danger", size = "small", block = TRUE)
+        ),
         bsButton(inputId = "PREV_param", label = "Return", style = "primary", size = "large", block = TRUE, icon = icon("backward", class = "fa-lg fa-fw", lib = "font-awesome"))
     )
 )
