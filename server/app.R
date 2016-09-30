@@ -42,6 +42,7 @@ source("server/model/sim-prop.R",                    local = TRUE)
 # CALBRATION #
 # ---------- #
 
+source("server/calibration/advanced-calibration.R",  local = TRUE)
 source("server/calibration/assumptions.R",           local = TRUE)
 source("server/calibration/calibration-data.R",      local = TRUE)
 source("server/calibration/calibration.R",           local = TRUE)

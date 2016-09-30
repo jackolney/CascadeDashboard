@@ -168,13 +168,6 @@ observeEvent(input$resetParam, {
     updateNumericInput(session, "uCalib_p",       value = NULL)
 })
 
-observeEvent(input$resetOverRide, {
-    # Reset 'over-ride' advanced calibration features
-    updateSliderInput(session, inputId = "uNaturalMortality_OverRide", value = 0.005)
-    updateSliderInput(session, inputId = "uHIVMortality_OverRide",     value = 1)
-})
-
-
 observeEvent(input$resetTxGuidelines, {
 
     theGuidelines <- GetTreatmentGuidelines(uCountry = input$selectCountry)
