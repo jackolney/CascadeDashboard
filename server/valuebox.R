@@ -8,9 +8,9 @@ output$vb909090_COST <- renderValueBox({
 
     val <- Quantile_95(intResult[,"iCost"] / 5)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     vLower <- paste0("+$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
     vMean  <- paste0("+$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
@@ -39,9 +39,9 @@ output$vb909090_COST_NEW <- renderValueBox({
 
     val <- Quantile_95(intResult[,"iCost"] / 5)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     vLower <- paste0("+$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
     vMean  <- paste0("+$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")

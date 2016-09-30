@@ -4,9 +4,9 @@ output$vb909090_COST_BASE <- renderValueBox({
     # Baseline cost
     val <- Quantile_95(BaselineCost) / 5
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     vLower <- paste0("$", format(round(val['lower'] / 1e6, 2), trim = TRUE), "M")
     vMean  <- paste0("$", format(round(val['mean']  / 1e6, 2), trim = TRUE), "M")
@@ -31,9 +31,9 @@ output$vb909090_testing_BASE <- renderInfoBox({
     # Baseline diagnoses
     val <- round(Quantile_95(BaselineTest) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
@@ -59,9 +59,9 @@ output$vb909090_linkage_BASE <- renderInfoBox({
     # Baseline linkage
     val <- round(Quantile_95(BaselineLink) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
@@ -86,9 +86,9 @@ output$vb909090_preRetention_BASE <- renderInfoBox({
     # Baseline pre-ART retention
     val <- round(Quantile_95(BaselinePreR) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
@@ -113,9 +113,9 @@ output$vb909090_initiation_BASE <- renderInfoBox({
     # Baseline initiation
     val <- round(Quantile_95(BaselineInit) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
@@ -140,9 +140,9 @@ output$vb909090_adherence_BASE <- renderInfoBox({
     # Baseline adherence
     val <- round(Quantile_95(BaselineAdhr) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
@@ -167,9 +167,9 @@ output$vb909090_retention_BASE <- renderInfoBox({
     # Baseline retention
     val <- round(Quantile_95(BaselineRetn) / 5, digits = 0)
 
-    if (val[['upper']] < 0) val <- 0
-    if (val[['mean']]  < 0) val <- 0
-    if (val[['lower']] < 0) val <- 0
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
 
     val <- scales::comma(val)
 
