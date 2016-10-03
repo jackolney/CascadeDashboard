@@ -482,7 +482,7 @@ BuildChangesPlot <- function(CalibParamOut, optResults) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + scale_y_continuous(limits = c(0, 70e3), breaks = seq(0, 70e3, 10e3), labels = scales::comma, expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'bottom')
     ggOut <- ggOut + theme(legend.title = element_blank())
