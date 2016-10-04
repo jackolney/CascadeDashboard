@@ -264,6 +264,7 @@ BuildCalibrationPlotComplex <- function(data, originalData) {
 }
 
 BuildDataReviewPlot <- function(data) {
+    data <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = data)
     data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
     data$year <- as.numeric(as.character(data$year))
     ggOut <- ggplot(data, aes(x = year, y = value))

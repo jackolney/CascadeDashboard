@@ -1,6 +1,7 @@
 BuildEditCascadePlot <- function(data) {
     data <- subset(data, !is.na(data$value))
     if (dim(data)[1] != 0) {
+        data <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = data)
         data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
         ggOut <- ggplot(data, aes(x = year, y = value))
         ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
