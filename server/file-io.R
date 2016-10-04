@@ -8,6 +8,27 @@ output$downloadMasterDataSet <- downloadHandler(
     }
 )
 
+output$downloadExcel <- downloadHandler(
+    filename = 'MasterData.xlsx',
+    content = function(file) {
+        message("trying to save data.")
+        if (exists("MasterData")) {
+            wb <- openxlsx::createWorkbook()
+            openxlsx::addWorksheet(wb = wb, sheetName = "cascade", gridLines = FALSE)
+            openxlsx::writeDataTable(wb = wb, sheet = 1, x = MasterData$calib)
+            openxlsx::addWorksheet(wb = wb, sheetName = "new infections", gridLines = FALSE)
+            openxlsx::writeDataTable(wb = wb, sheet = 2, x = MasterData$incidence)
+            openxlsx::addWorksheet(wb = wb, sheetName = "guidelines", gridLines = FALSE)
+            openxlsx::writeDataTable(wb = wb, sheet = 3, x = MasterData$treatment_guidelines)
+            openxlsx::addWorksheet(wb = wb, sheetName = "CD4 2010", gridLines = FALSE)
+            openxlsx::writeDataTable(wb = wb, sheet = 4, x = MasterData$cd4)
+            openxlsx::addWorksheet(wb = wb, sheetName = "CD4 2015", gridLines = FALSE)
+            openxlsx::writeDataTable(wb = wb, sheet = 5, x = MasterData$cd4_2015)
+            openxlsx::saveWorkbook(wb = wb, file = file, overwrite = TRUE)
+        }
+    }
+)
+
 observeEvent(input$uploadMasterDataSet, {
     # input$uploadMasterDataSet will be NULL initially.
     # After the user selects and uploads a file, it will be a

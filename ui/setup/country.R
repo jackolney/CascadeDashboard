@@ -53,7 +53,8 @@ tabItem(tabName = "country",
                 click on each button to enter / edit data. Click 'New Country' to begin data entry
                 for new region."),
             bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default"),
-            downloadButton(outputId = 'downloadMasterDataSet', label = 'DOWNLOAD DATA', class = "btn btn-success btn-block"),
+            downloadButton(outputId = 'downloadExcel',         label = 'DOWNLOAD EXCEL', class = "btn btn-success btn-block"),
+            downloadButton(outputId = 'downloadMasterDataSet', label = 'DOWNLOAD DATA',  class = "btn btn-success btn-block"),
             HTML('
                 <label for="uploadMasterDataSet" class="btn action-button btn-primary btn-block">
                     <i class="fa fa-upload"></i> UPLOAD DATA
