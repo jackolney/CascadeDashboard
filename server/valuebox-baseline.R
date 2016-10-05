@@ -42,7 +42,7 @@ output$vb909090_testing_BASE <- renderInfoBox({
     report_909090_testing_BASE <<- out
 
     infoBox(
-        title = "Testing",
+        title = "Diagnoses",
         value = out,
         color = "light-blue",
         subtitle = "Diagnoses per year at baseline",
@@ -151,7 +151,7 @@ output$vb909090_adherence_BASE <- renderInfoBox({
     report_909090_adherence_BASE <<- out
 
     infoBox(
-        title = "Adherence",
+        title = "Viral Suppression",
         value = out,
         color = "light-blue",
         subtitle = "Viral suppressions per year at baseline",

@@ -76,7 +76,7 @@ tabItem(tabName = "calibration",
                 )
             ),
             p(""),
-            selectInput(inputId = "maxError", label = "Maximum tolerated total absolute error per simulation:", choices = ErrorList, selected = "2"),
+            selectInput(inputId = "maxError", label = "Maximum tolerated total absolute error per simulation:", choices = ErrorList, selected = "4"),
             numericInput(inputId = "minResults", label = "Number of simulations required under max error:", value = 100,  min = 1, max = 1e6, step = 1, width = '100%'),
             plotOutput('plotCalibHist', height = 'auto', width = 'auto')
         ),

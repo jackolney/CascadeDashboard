@@ -88,7 +88,7 @@ output$vb909090_testing <- renderInfoBox({
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
-        title = "Testing",
+        title = "Diagnoses",
         value = out,
         color = "light-blue",
         subtitle = "Additional diagnoses per year",
@@ -241,10 +241,10 @@ output$vb909090_adherence <- renderInfoBox({
     cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
 
     infoBox(
-        title = "Adherence",
+        title = "Viral Suppression",
         value = out,
         color = "light-blue",
-        subtitle = "Additional non-adherence transitions per year",
+        subtitle = "Additional viral suppressions per year",
         width = NULL,
         fill = TRUE,
         icon = icon("plus", lib = "font-awesome")

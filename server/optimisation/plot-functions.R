@@ -407,21 +407,21 @@ BuildChangesPlot <- function(CalibParamOut, optResults) {
     mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
     mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
     mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
-    mRes[mRes$variable == "iAdhr", "variable"] <- "Adherence"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Viral\nSuppression"
     mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
 
-    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention"))
+    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
 
     # EDITS FROM HERE
-    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "Adherence", "ART\nRetention")
+    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
 
     mean <- c(
         Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]]
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["mean"]]
     )
 
     upper <- c(
@@ -429,8 +429,8 @@ BuildChangesPlot <- function(CalibParamOut, optResults) {
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
         Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]]
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["upper"]]
     )
 
     lower <- c(
@@ -438,8 +438,8 @@ BuildChangesPlot <- function(CalibParamOut, optResults) {
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
         Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "Adherence", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]]
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["lower"]]
     )
 
     strategy <- "Intervention"
@@ -451,8 +451,8 @@ BuildChangesPlot <- function(CalibParamOut, optResults) {
         data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
         data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
         data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
-        data.frame(variable = "Adherence",          mean = mean(BaselineAdhr) / 5, strategy = "Baseline"),
-        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline")
+        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline"),
+        data.frame(variable = "Viral\nSuppression", mean = mean(BaselineAdhr) / 5, strategy = "Baseline")
         )
 
     theBase$upper <- NA
