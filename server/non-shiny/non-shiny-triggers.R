@@ -38,6 +38,21 @@ OptInput$intValue_gamma <- parRange["gamma", "max"]
 OptInput$intValue_sigma <- 0.5
 OptInput$intValue_omega <- parRange["omega", "min"]
 
+reactiveCost <- c(
+    test = 10,
+    link = 40,
+    care = 40,
+    art = 367
+)
+
+# This is used by the function 'AdjustHIVTetsCost'
+SafeReactiveCost <- c(
+    test = 10,
+    link = 40,
+    care = 40,
+    art = 367
+)
+
 # ------------ #
 # OPTIMISATION #
 # ------------ #

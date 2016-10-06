@@ -17,6 +17,9 @@ RunNSOptimisation <- function(propRuns, intLength) {
     # Extract the initial values of a random 10% of simulations from calibration
     bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
+    # Account for testing HIV-negatives
+    AdjustHIVTestCost()
+
     # index counter
     iC <- 1L
 

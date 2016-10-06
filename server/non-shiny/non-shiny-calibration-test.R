@@ -37,7 +37,6 @@ source("server/non-shiny/non-shiny-calibration.R",   local = FALSE)
 source("server/country/misc-functions.R",            local = FALSE)
 source("server/non-shiny/thesis/thesis-figures.R",   local = FALSE)
 
-
 # load 'cascade' package and ensure it is the latest build.
 devtools::load_all(pkg = "~/git/cascade")
 

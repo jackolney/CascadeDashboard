@@ -251,6 +251,10 @@ GetBlankMasterDataSet <- function(newName) {
     oldData$treatment_guidelines[,"country"] <- newName
     oldData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <- as.numeric(NA)
 
+    # Population
+    oldData$pop[,"country"] <- newName
+    oldData$pop[,"value"] <- as.numeric(NA)
+
     # Calibration
     country <- newName
 

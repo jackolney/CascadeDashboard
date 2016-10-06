@@ -134,6 +134,7 @@ GetCountryData <- function(uCountry) {
     calib.rates                <- readr::read_csv(paste0(c.file.path, "/rates.csv"),                    col_names = TRUE, skip = 0)
     calib.treatment_guidelines <- readr::read_csv(paste0(c.file.path, "/treatment-guidelines-cd4.csv"), col_names = TRUE, skip = 0)
     calib.cd4_2015             <- readr::read_csv("server/data/projection/cd4-distribution-2015.csv",   col_names = TRUE, skip = 0)
+    calib.pop                  <- readr::read_csv("server/data/projection/population.csv",              col_names = TRUE, skip = 1)
 
     # Compile data.frame
     calib.df <- list()
@@ -147,6 +148,7 @@ GetCountryData <- function(uCountry) {
     calib.df[[8]]  <- dplyr::filter(calib.previous_data,         country == uCountry)
     calib.df[[9]]  <- dplyr::filter(calib.rates,                 country == uCountry)
     calib.df[[10]] <- dplyr::filter(calib.cd4_2015,              country == uCountry)
+    calib.df[[11]] <- dplyr::filter(calib.pop,                   country == uCountry)
 
     # Create a vector of data names
     names(calib.df) <- c(
@@ -159,7 +161,8 @@ GetCountryData <- function(uCountry) {
         "plhiv",
         "previous_data",
         "rates",
-        "cd4_2015"
+        "cd4_2015",
+        "pop"
         )
 
     ## Incidence
@@ -264,6 +267,15 @@ GetCountryData <- function(uCountry) {
         calib.df$treatment_guidelines <- dplyr::tbl_df(blankGuidelines)
     }
 
+    ## Population
+    if (isReallyEmpty(calib.df$pop)) {
+        country <- uCountry
+        indicator <- "Population aged 15-49 in 2015"
+        value <- as.integer(NA)
+        blankPop <- data.frame(country, indicator, value)
+        calib.df$pop <- dplyr::tbl_df(blankPop)
+    }
+
     ## All of the below goes into data[["calib"]]
     # list temp.names
     temp.names <- c(
@@ -366,7 +378,8 @@ GetCountryData <- function(uCountry) {
         calib.df$treatment_guidelines,
         out,
         calib.df$rates,
-        calib.df$cd4_2015
+        calib.df$cd4_2015,
+        calib.df$pop
         )
 
     names(out.list) <- c(
@@ -375,7 +388,8 @@ GetCountryData <- function(uCountry) {
         "treatment_guidelines",
         "calib",
         "rates",
-        "cd4_2015"
+        "cd4_2015",
+        "pop"
         )
 
     out.list
