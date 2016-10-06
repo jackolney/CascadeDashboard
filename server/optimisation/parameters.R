@@ -26,6 +26,12 @@ GetOptPar <- function(masterCD4, data, iterationParam, calibParamOut, minErrorRu
         Omega = iterationParam[["Omega"]],
         q     = iterationParam[["Q"]],
 
+        # COST
+        Dx_unitCost          = reactiveCost$test,
+        Linkage_unitCost     = reactiveCost$link,
+        Annual_Care_unitCost = reactiveCost$care,
+        Annual_ART_unitCost  = reactiveCost$art,
+
         # Advanced Calibration Tools (mortality)
         Alpha_1 = 0.004110 * AdvCalib$HIVMort,
         Alpha_2 = 0.011670 * AdvCalib$HIVMort,
@@ -74,6 +80,12 @@ GetOptRunPar <- function(masterCD4, data, iterationParam, calibParamOut, runNumb
         Omega = iterationParam[["Omega"]],
         q     = iterationParam[["Q"]],
 
+        # COST
+        Dx_unitCost          = reactiveCost$test,
+        Linkage_unitCost     = reactiveCost$link,
+        Annual_Care_unitCost = reactiveCost$care,
+        Annual_ART_unitCost  = reactiveCost$art,
+
         # Advanced Calibration Tools (mortality)
         Alpha_1 = 0.004110 * AdvCalib$HIVMort,
         Alpha_2 = 0.011670 * AdvCalib$HIVMort,
@@ -119,6 +131,12 @@ GetBaselinePar <- function(masterCD4, data, calibParamOut, runNumber) {
         Epsilon = calibParamOut[runNumber, "epsilon"],
         q       = calibParamOut[runNumber, "q"],
 
+        # COST
+        Dx_unitCost          = reactiveCost$test,
+        Linkage_unitCost     = reactiveCost$link,
+        Annual_Care_unitCost = reactiveCost$care,
+        Annual_ART_unitCost  = reactiveCost$art,
+
         # Advanced Calibration Tools (mortality)
         Alpha_1 = 0.004110 * AdvCalib$HIVMort,
         Alpha_2 = 0.011670 * AdvCalib$HIVMort,
@@ -162,6 +180,12 @@ GetMeanPar <- function(masterCD4, data, calibParamOut) {
         Gamma = round(lapply(calibParamOut, function(x) {return(mean(x))})[["gamma"]], digits = 4),
         Omega = round(lapply(calibParamOut, function(x) {return(mean(x))})[["omega"]], digits = 4),
         q     = round(lapply(calibParamOut, function(x) {return(mean(x))})[["q"]],     digits = 4),
+
+        # COST
+        Dx_unitCost          = reactiveCost$test,
+        Linkage_unitCost     = reactiveCost$link,
+        Annual_Care_unitCost = reactiveCost$care,
+        Annual_ART_unitCost  = reactiveCost$art,
 
         # Advanced Calibration Tools (mortality)
         Alpha_1 = 0.004110 * AdvCalib$HIVMort,

@@ -9,10 +9,10 @@ tabItem(tabName = "opt-cost",
             title = "Cost",
             collapsible = TRUE,
             collapsed = FALSE,
-            sliderInput(inputId = 'userDxUnitCost',        label = 'Unit cost of diagnosing a patient (USD):',                min = 0, max = 100, value = 10,  step = 1),
-            sliderInput(inputId = 'userLinkageUnitCost',   label = 'Unit cost of linking a patient to care (USD):',           min = 0, max = 100, value = 40,  step = 1),
-            sliderInput(inputId = 'userAnnualCareUnit',    label = 'Annual cost of keeping a patient in pre-ART care (USD):', min = 0, max = 100, value = 40,  step = 1),
-            sliderInput(inputId = 'userAnnualARTUnitCost', label = 'Annual cost of ART (USD):',                               min = 0, max = 500, value = 367, step = 1)
+            uiOutput("UI_DxUnitCost"),
+            uiOutput("UI_LinkageUnitCost"),
+            uiOutput("UI_AnnualCareCost"),
+            uiOutput("UI_AnnualARTCost")
         )
     ),
     column(width = 4,
