@@ -31,6 +31,7 @@ tabItem(tabName = "opt-cost",
                 If a spectrum estimate is not available, the unit cost will be scaled by 5.
             "),
             p(""),
+            checkboxInput(inputId = "adjustCost", label = "Scale HIV-test cost to account for undiagnosed", value = TRUE, width = NULL),
             bsButton("resetCost", label = "RESET COST", block = TRUE, style = "danger", size = "default")
         ),
         bsButton(inputId = "PREV_optCost", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))

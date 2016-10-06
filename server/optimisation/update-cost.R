@@ -61,55 +61,75 @@ observeEvent(input$userAnnualARTUnitCost, {
 
 # Include elements of MasterData$pop else DEFAULT of 50USD?
 # Write a function to call at the beginning of optimisation?
+
+# Adjust cost switch
+# print(paste("Check input$adjustCost =", input$adjustCost))
+reactiveAdjustCost <- reactiveValues(switch = TRUE)
+
+observeEvent(input$adjustCost, {
+    # print(paste("input$adjustCost =", input$adjustCost))
+    if (input$adjustCost == FALSE) {
+        reactiveAdjustCost$switch <<- FALSE
+    } else {
+        reactiveAdjustCost$switch <<- TRUE
+    }
+    # print(paste("reactiveAdjustCost$switch =", reactiveAdjustCost$switch))
+})
+
+
 AdjustHIVTestCost <- function() {
+    if (reactiveAdjustCost$switch == TRUE) {
+        message("AdjustCost == TRUE")
+        if (exists("CalibOut")) {
+            if (exists("MasterData")) {
+                if (!is.na(MasterData$pop$value)) {
+                    # pop value is not NA
 
-    if (exists("CalibOut")) {
-        if (exists("MasterData")) {
-            if (!is.na(MasterData$pop$value)) {
-                # pop value is not NA
+                    # From calibration (CalibOut), calculate mean # 'PLHIV' in 2015
+                    meanPLHIV <- mean(CalibOut[CalibOut$indicator == "PLHIV" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
+                    # From calibration (CalibOut), calculate mean # 'PLHIV in Care' in 2015
+                    meanCARE <- mean(CalibOut[CalibOut$indicator == "PLHIV in Care" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
+                    # Calculate those persons Not In Care
+                    NotInCare <- meanPLHIV - meanCARE
+                    # Calculate the HIV-negative population size
+                    Negative <- MasterData$pop$value - meanPLHIV
 
-                # From calibration (CalibOut), calculate mean # 'PLHIV' in 2015
-                meanPLHIV <- mean(CalibOut[CalibOut$indicator == "PLHIV" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
-                # From calibration (CalibOut), calculate mean # 'PLHIV in Care' in 2015
-                meanCARE <- mean(CalibOut[CalibOut$indicator == "PLHIV in Care" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
-                # Calculate those persons Not In Care
-                NotInCare <- meanPLHIV - meanCARE
-                # Calculate the HIV-negative population size
-                Negative <- MasterData$pop$value - meanPLHIV
+                    # Jeff's assumption
+                    # HIV-negative persons are 0.75 times as likely to test as HIV-positive in general population
+                    # Lancet GH Cost-Effectiveness Paper (suppl info page 10)
+                    jeff <- 0.65
 
-                # Jeff's assumption
-                # HIV-negative persons are 0.75 times as likely to test as HIV-positive in general population
-                # Lancet GH Cost-Effectiveness Paper (suppl info page 10)
-                jeff <- 0.65
+                    # Using the assumption that persons are tested randomly
+                    CostFactor <- ((jeff * Negative) + NotInCare) / NotInCare
+                    # print(paste("CostFactor =", CostFactor))
+                    # Another way of thinking about this is as the:
+                    # probability of testing a positive individual
+                    # given the size of the undiagnosed (not in care) population
+                    # 1/(NotInCare / ((jeff * Negative) + NotInCare))
 
-                # Using the assumption that persons are tested randomly
-                CostFactor <- ((jeff * Negative) + NotInCare) / NotInCare
-                # print(paste("CostFactor =", CostFactor))
-                # Another way of thinking about this is as the:
-                # probability of testing a positive individual
-                # given the size of the undiagnosed (not in care) population
-                # 1/(NotInCare / ((jeff * Negative) + NotInCare))
+                    # CAREFUL
+                    # print(paste("OLD reactiveCost$test =", reactiveCost$test))
+                    reactiveCost$test <<- CostFactor * SafeReactiveCost$test
+                    # print(paste("NEW reactiveCost$test =", reactiveCost$test))
 
-                # CAREFUL
-                # print(paste("OLD reactiveCost$test =", reactiveCost$test))
-                reactiveCost$test <<- CostFactor * SafeReactiveCost$test
-                # print(paste("NEW reactiveCost$test =", reactiveCost$test))
+                } else {
+                    # pop value is NA
+                    # DEFAULT of FIVE
+                    CostFactor <- 5
+                    # print("DEFAULT")
+                    # print(paste("OLD reactiveCost$test =", reactiveCost$test))
+                    reactiveCost$test <<- CostFactor * SafeReactiveCost$test
+                    # print(paste("NEW reactiveCost$test =", reactiveCost$test))
+
+                }
 
             } else {
-                # pop value is NA
-                # DEFAULT of FIVE
-                CostFactor <- 5
-                # print("DEFAULT")
-                # print(paste("OLD reactiveCost$test =", reactiveCost$test))
-                reactiveCost$test <<- CostFactor * SafeReactiveCost$test
-                # print(paste("NEW reactiveCost$test =", reactiveCost$test))
-
+                warning("MasterData does not exist")
             }
-
         } else {
-            warning("MasterData does not exist")
+            warning("CalibOut is does not exist")
         }
     } else {
-        warning("CalibOut is does not exist")
+        message("AdjustCost == FALSE")
     }
 }

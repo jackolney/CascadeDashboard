@@ -10,6 +10,7 @@ RunOptimisation <- function(propRuns = 0.1) {
         # Extract the initial values of a random 10% of simulations from calibration
         bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
+        print("reactiveAdjustCost$switch =", reactiveAdjustCost$switch)
         # Account for testing HIV-negatives
         AdjustHIVTestCost()
 
