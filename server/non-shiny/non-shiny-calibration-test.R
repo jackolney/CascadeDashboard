@@ -256,3 +256,6 @@ p[["Rho"]]
 #     )
 
 # p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
+
+mean(CalibOut[CalibOut$indicator == "PLHIV" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
+mean(CalibOut[CalibOut$indicator == "PLHIV on ART" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
