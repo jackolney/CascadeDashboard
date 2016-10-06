@@ -19,6 +19,32 @@ Combining previously collected data with anything entered by the user, the model
 
 \newpage
 
+## Data Quality
+
+The use of high quality data in the model will improve modelled estimates of the cascade, and enhance our ability to prioritise strategies to achieve 90-90-90. Below is a list of potential data sources and their corresponding colours as described in our "Traffic Light System". Red data sources are of low quality, Amber are of average quality, and Green are of good quality.
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    myTheme <- gridExtra::ttheme_default(
+        core =    list(fg_params = list(cex = 0.75)),
+        colhead = list(fg_params = list(cex = 0.75)),
+        rowhead = list(fg_params = list(cex = 0.75)))
+    gridExtra::grid.table(SourceListTable, rows = NULL, theme = myTheme)
+```
+
+## Cascade Data Table
+
+```{r, fig.width = 7, fig.align = 'center', echo = FALSE}
+    myTheme <- gridExtra::ttheme_default(
+        core =    list(fg_params = list(cex = 0.75)),
+        colhead = list(fg_params = list(cex = 0.75)),
+        rowhead = list(fg_params = list(cex = 0.75)))
+    tablVals <- MasterData$calib
+    tablVals$value <- round(tablVals$value, digits = 0)
+    gridExtra::grid.table(scales::comma(tablVals), rows = NULL, theme = myTheme)
+```
+
+\newpage
+
 ## CD4 Distribution
 To ensure the accuracy of HIV-mortality rates and to account for the standing-start nature of our calibration method, we allow the user to specify, or source from Spectrum, CD4 distribution estimates to seed the model prior to calibration.
 
