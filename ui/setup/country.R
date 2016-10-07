@@ -53,13 +53,27 @@ tabItem(tabName = "country",
                 click on each button to enter / edit data. Click 'New Country' to begin data entry
                 for new region."),
             bsButton("resetMap", label = "RESET MAP", style = "danger", block = TRUE, size = "default"),
-            downloadButton(outputId = 'downloadExcel',         label = 'DOWNLOAD EXCEL', class = "btn btn-success btn-block"),
-            downloadButton(outputId = 'downloadMasterDataSet', label = 'DOWNLOAD DATA',  class = "btn btn-success btn-block"),
+            downloadButton(outputId = 'downloadMasterDataSet', label = 'DOWNLOAD DATA', class = "btn btn-success btn-block"),
             HTML('
                 <label for="uploadMasterDataSet" class="btn action-button btn-primary btn-block">
                     <i class="fa fa-upload"></i> UPLOAD DATA
                 </label>
                 <input id="uploadMasterDataSet" type="file"/>
+            ')
+        ),
+        box(width = NULL,
+            status = "primary",
+            solidHeader = TRUE,
+            title = "Global HIV Cascade Workshop",
+            collapsible = TRUE,
+            collapsed = TRUE,
+            helpText("Select a country and then click 'UPLOAD' to upload 2015 Cascade estimates."),
+            downloadButton(outputId = 'downloadExcel', label = 'DOWNLOAD EXCEL', class = "btn btn-success btn-block"),
+            HTML('
+                <label for="uploadCascade" class="btn action-button btn-primary btn-block">
+                    <i class="fa fa-upload"></i> UPLOAD 2015 EXCEL
+                </label>
+                <input id="uploadCascade" type="file"/>
             ')
         ),
         box(width = NULL,

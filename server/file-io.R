@@ -102,3 +102,43 @@ observeEvent(input$uploadMasterDataSet, {
         }
     }
 })
+
+observeEvent(input$uploadCascade, {
+    # input$uploadCascade will be NULL initially.
+    # After the user selects and uploads a file, it will be a
+    # data frame with 'name', # 'size', 'type', and 'datapath' columns.
+    # The 'datapath' column will contain the local filenames where the
+    # data can be found.
+    inFile <- input$uploadCascade
+
+    if (!is.null(inFile)) {
+        # Create filename shortcut
+        fileName <- inFile$datapath
+        # Read the file
+        country <- openxlsx::read.xlsx(xlsxFile = fileName, sheet = 1, startRow = 3, cols = 1:2, colNames = FALSE)[1,2]
+        # Check MasterData exists
+        if (exists("MasterData")) {
+            # Check name matches MasterData country name.
+            if (MasterData$calib$country[1] == country) {
+                # Read in inputValues
+                inputValues <- openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 4, colNames = TRUE, rows = 4:9)
+                # Start creating variables for data.frame
+                indicator <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
+                year <- 2015
+                value <- as.numeric(inputValues$Absolute.number)
+                weight <- factor(x = "red", levels = c("red", "amber", "green"))
+                source <- as.character(openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 13, colNames = TRUE, rows = 13:18)[,2])
+                source[is.na(source)] <- ""
+                # Create data.frame
+                new <- data.frame(country, indicator, year, value, weight, source, stringsAsFactors = FALSE)
+                old <- MasterData$calib
+                # Merge with MasterData
+                MasterData$calib <<- rbind(old[old$year != 2015, ], new)
+            } else {
+                warning("Imported country name does not match MasterData")
+            }
+        } else {
+            warning("MasterData does not exist")
+        }
+    }
+})
