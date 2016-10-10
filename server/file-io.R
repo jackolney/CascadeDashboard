@@ -121,13 +121,13 @@ observeEvent(input$uploadCascade, {
             # Check name matches MasterData country name.
             if (MasterData$calib$country[1] == country) {
                 # Read in inputValues
-                inputValues <- openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 4, colNames = TRUE, rows = 4:9)
+                inputValues <- openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 31, colNames = TRUE, rows = 31:36)
                 # Start creating variables for data.frame
                 indicator <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
                 year <- 2015
                 value <- as.numeric(inputValues$Absolute.number)
                 weight <- factor(x = "red", levels = c("red", "amber", "green"))
-                source <- as.character(openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 13, colNames = TRUE, rows = 13:18)[,2])
+                source <- as.character(openxlsx::read.xlsx(xlsxFile = fileName, sheet = 3, startRow = 40, colNames = TRUE, rows = 40:45)[,2])
                 source[is.na(source)] <- ""
                 # Create data.frame
                 new <- data.frame(country, indicator, year, value, weight, source, stringsAsFactors = FALSE)
