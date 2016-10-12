@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "Vietnam"
+# userCountry <- "South Africa"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -169,8 +169,42 @@ GetMasterDataSet <- function(userCountry) {
         intOne <- int[int$year == 2015 & int$indicator %in% c("PLHIV", "PLHIV Suppressed"),]
         countryMasterDataSet <- rbind(intOne, marrakechData, int[int$year != 2015,])
     } else if (userCountry == "South Africa") {
+
+        #THEMBISA
+        # Just overwrite Spectrum estimates here in:
+            # $calib (yes)
+            # $pop (yes)
+            # $incidence (yes, need 95% CI)
+
+        # Draft code
+        thembisa.cascade    <- data.frame(readr::read_csv("server/data/calibration/thembisa-cascade.csv",    col_names = TRUE, skip = 0), stringsAsFactors = FALSE)
+        thembisa.incidence  <- data.frame(readr::read_csv("server/data/calibration/thembisa-incidence.csv",  col_names = TRUE, skip = 1), stringsAsFactors = FALSE)
+        thembisa.population <- data.frame(readr::read_csv("server/data/calibration/thembisa-population.csv", col_names = TRUE, skip = 0), stringsAsFactors = FALSE)
+
+        # countryData$calib overload
         int <- countryData$calib
-        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV Suppressed"),], int)
+        t1 <- thembisa.cascade
+        t2 <- int[int$source != "Spectrum",]
+        countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV Suppressed"),], t1, t2)
+
+        # countryData$incidence
+        inc <- countryData$incidence
+        inc[1,3:9] <- thembisa.incidence[1,3:9]
+        inc[2,3:9] <- thembisa.incidence[2,3:9]
+        inc[3,3:9] <- thembisa.incidence[3,3:9]
+        countryData$incidence <- inc
+
+        # countryData$pop
+        countryData$pop[["value"]] <- thembisa.population[["value"]]
+
+        # Then overload the Spectrum estimates here (allow me to be able to comment out this section and return to the SPECTRUM estimates)
+
+        # SPECTRUM
+        # (BLANKED OUT WHILE WE USE THEMBISA)
+        # int <- countryData$calib
+        # countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV Suppressed"),], int)
+
+
     } else if (userCountry == "South Sudan") {
         int <- countryData$calib
         countryMasterDataSet <- rbind(marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care"),], int)
