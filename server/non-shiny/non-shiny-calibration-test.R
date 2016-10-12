@@ -257,5 +257,14 @@ p[["Rho"]]
 
 # p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[minErrorRun,])
 
-mean(CalibOut[CalibOut$indicator == "PLHIV" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
-mean(CalibOut[CalibOut$indicator == "PLHIV on ART" & CalibOut$year == 2015 & CalibOut$source == "model", "value"])
+zPLHIV <- CalibOut[CalibOut$indicator == "PLHIV" & CalibOut$year == 2015 & CalibOut$source == "model", "value"]
+zDx    <- CalibOut[CalibOut$indicator == "PLHIV Diagnosed" & CalibOut$year == 2015 & CalibOut$source == "model", "value"]
+zCx    <- CalibOut[CalibOut$indicator == "PLHIV in Care" & CalibOut$year == 2015 & CalibOut$source == "model", "value"]
+zTx    <- CalibOut[CalibOut$indicator == "PLHIV on ART" & CalibOut$year == 2015 & CalibOut$source == "model", "value"]
+zVs    <- CalibOut[CalibOut$indicator == "PLHIV Suppressed" & CalibOut$year == 2015 & CalibOut$source == "model", "value"]
+
+Quantile_95(zPLHIV)
+Quantile_95(zDx)
+Quantile_95(zCx)
+Quantile_95(zTx)
+Quantile_95(zVs)
