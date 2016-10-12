@@ -1,0 +1,13 @@
+year,country,indicator,value,weight,source
+2010,South Africa,PLHIV,6115809,green,Estimates from THEMBISA model
+2011,South Africa,PLHIV,6321715,green,Estimates from THEMBISA model
+2012,South Africa,PLHIV,6508866,green,Estimates from THEMBISA model
+2013,South Africa,PLHIV,6680211,green,Estimates from THEMBISA model
+2014,South Africa,PLHIV,6836429,green,Estimates from THEMBISA model
+2015,South Africa,PLHIV,6980332,green,Estimates from THEMBISA model
+2010,South Africa,PLHIV on ART,1221176,green,Estimates from THEMBISA model
+2011,South Africa,PLHIV on ART,1695555,green,Estimates from THEMBISA model
+2012,South Africa,PLHIV on ART,2164702,green,Estimates from THEMBISA model
+2013,South Africa,PLHIV on ART,2633846,green,Estimates from THEMBISA model
+2014,South Africa,PLHIV on ART,3024454,green,Estimates from THEMBISA model
+2015,South Africa,PLHIV on ART,3358532,green,Estimates from THEMBISA model
