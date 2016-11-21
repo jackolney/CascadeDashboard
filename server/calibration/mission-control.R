@@ -6,6 +6,23 @@ observeEvent(input$selectCountry, {
     # Assign values to master$data
     try(master$data <- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
+    # Important to reset 'values' and 'vFlag' to NULL so that rhandsontable sheets update
+    setHotCascade(NULL)
+    setHotCD4(NULL)
+    setHotCD42015(NULL)
+    setHotIncidence(NULL)
+    setHotGuidelines(NULL)
+    vFlag$vCascade           <- NULL
+    vFlag$vCascadeCountry    <- NULL
+    vFlag$vCD4               <- NULL
+    vFlag$vCD4Country        <- NULL
+    vFlag$vCD42015           <- NULL
+    vFlag$vCD42015Country    <- NULL
+    vFlag$vIncidence         <- NULL
+    vFlag$vIncidenceCountry  <- NULL
+    vFlag$vGuidelines        <- NULL
+    vFlag$vGuidelinesCountry <- NULL
+
     if (!is.null(master$data)) {
         print(master$data)
         if (Check_NewCascade(theData = master$data)) {
