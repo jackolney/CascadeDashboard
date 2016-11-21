@@ -2,10 +2,7 @@
 observeEvent(input$selectCountry, {
 
     # If master$data exists then make it NA, then re-assign.
-    if (!is.null(master$data)) {
-
-        master$data <- NULL
-    }
+    if (!is.null(master$data)) { master$data <- NULL }
     # Assign values to master$data
     try(master$data <- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
