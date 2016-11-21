@@ -1,37 +1,37 @@
 # Observe Functions for Mission Control
 observeEvent(input$selectCountry, {
 
-    # If MasterData exists then destroy it, then re-assign.
-    if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
-    try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
+    # If master$data exists then make it NA, then re-assign.
+    if (!is.na("master$data")) { master$data <- NA }
+    # Assign values to master$data
+    try(master$data <- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
-    if (exists("MasterData")) {
-
-        if (Check_NewCascade(theData = MasterData)) {
+    if (!is.na("master$data")) {
+        if (Check_NewCascade(theData = master$data)) {
             updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
             updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewCD4(theData = MasterData) & Check_NewCD42015(theData = MasterData)) {
+        if (Check_NewCD4(theData = master$data) & Check_NewCD42015(theData = master$data)) {
             updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
             updateButton(session, inputId = "CD4_FLAG",        disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewIncidence(theData = MasterData)) {
+        if (Check_NewIncidence(theData = master$data)) {
             updateButton(session, inputId = "INCIDENCE_FLAG",  disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
             updateButton(session, inputId = "INCIDENCE_FLAG",  disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewGuidelines(theData = MasterData)) {
+        if (Check_NewGuidelines(theData = master$data)) {
             updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
             updateButton(session, inputId = "GUIDELINES_FLAG",  disabled = FALSE, style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         }
 
-        if (Check_NewCascade(theData = MasterData) & Check_NewCD4(theData = MasterData) & Check_NewCD42015(theData = MasterData) & Check_NewIncidence(theData = MasterData) & Check_NewGuidelines(theData = MasterData)) {
+        if (Check_NewCascade(theData = master$data) & Check_NewCD4(theData = master$data) & Check_NewCD42015(theData = master$data) & Check_NewIncidence(theData = master$data) & Check_NewGuidelines(theData = master$data)) {
             shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
             shinyBS::createAlert(session,
                 anchorId = "_PROCEED_",
