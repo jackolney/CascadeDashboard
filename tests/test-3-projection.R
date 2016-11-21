@@ -38,6 +38,14 @@ require("cascade")
 test_that("Simple cascade projection", {
     # Setup
     MasterData <<- GetMasterDataSet("Kenya")
+    # Dynamic Cost
+    reactiveCost <<- data.frame(
+        test = 10,
+        link = 40,
+        care = 40,
+        art = 367
+    )
+    AdvCalib <<- data.frame(NatMort = 0.005, HIVMort = 1)
     # Calibration
     p <- GetBaselinePar(
         masterCD4 = MasterData$cd4_2015,
@@ -61,6 +69,14 @@ test_that("Simple cascade projection", {
 test_that("Zero transmission", {
     # Setup
     MasterData <<- GetMasterDataSet("Kenya")
+    # Dynamic Cost
+    reactiveCost <<- data.frame(
+        test = 10,
+        link = 40,
+        care = 40,
+        art = 367
+    )
+    AdvCalib <<- data.frame(NatMort = 0.005, HIVMort = 1)
     # Calibration
     p <- GetBaselinePar(
         masterCD4 = MasterData$cd4_2015,
@@ -84,6 +100,14 @@ test_that("Zero transmission", {
 
 test_that("Absolute vs. proportional models", {
     MasterData <<- GetMasterDataSet("Kenya")
+    # Dynamic Cost
+    reactiveCost <<- data.frame(
+        test = 10,
+        link = 40,
+        care = 40,
+        art = 367
+    )
+    AdvCalib <<- data.frame(NatMort = 0.005, HIVMort = 1)
     # Calibration
     p <- GetBaselinePar(
         masterCD4 = MasterData$cd4_2015,

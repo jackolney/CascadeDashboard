@@ -40,7 +40,15 @@ test_that("Full optimisation test", {
         initiation =   TRUE,
         adherence =    TRUE,
         retention =    TRUE
-        )
+    )
+    # Dynamic Cost
+    reactiveCost <<- data.frame(
+        test = 10,
+        link = 40,
+        care = 40,
+        art = 367
+    )
+    AdvCalib <<- data.frame(NatMort = 0.005, HIVMort = 1)
     # Intervention Values
     OptInput <<- c()
     OptInput$intValue_rho   <<- parRange["rho", "max"]
