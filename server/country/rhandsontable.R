@@ -82,6 +82,12 @@ output$hot_cascade <- renderRHandsontable({
 
         # ORIGINAL - CURRENTLY IN USE
         # 06/09/16 - Reverting to the original as rhandsontable updates are too slow with the bugfix (will leave commented out in case we need to return to it)
+
+
+        # UPDATE - 21/11/16
+        # Now with a reactiveValue master$data, when you enter data, then change country, the data is not deleted.
+        # Perhaps we need to include is.null(values[["hot_cascade"]]) in these if statements (it is set to NULL upon choosing a new country)
+        # As of now, the answer is not clear, needs some more solid testing.
         if (is.null(input$hot_cascade) || is.null(vFlag$vCascade)) {
             # This will pad out the MasterData with NA's and update its name
             vFlag$vCascade <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = master$data$calib)
