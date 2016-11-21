@@ -88,6 +88,29 @@ output$hot_cascade <- renderRHandsontable({
         # Now with a reactiveValue master$data, when you enter data, then change country, the data is not deleted.
         # Perhaps we need to include is.null(values[["hot_cascade"]]) in these if statements (it is set to NULL upon choosing a new country)
         # As of now, the answer is not clear, needs some more solid testing.
+
+        # The problem is that this all gets run TWICE. Because master$data is REACTIVE, and so are the flags, they trigger multiple repeat calls of the function
+        # Therefore, if INPUT is already defined, then it OVERWRITES EVERYTHING. How can I handle this?
+
+        # message("\nTesting:\n")
+        # # input$hot_cascade
+        # message("input$hot_cascade:")
+        # if (is.null(input$hot_cascade)) {
+        #     print(NULL)
+        # } else {
+        #     print(hot_to_r(input$hot_cascade))
+        # }
+
+        # # vFlag$vCascade
+        # message("vFlag$vCascade:")
+        # print(vFlag$vCascade)
+
+        # # values[["hot_cascade"]]
+        # # if (exists('values[["hot_cascade"]]')) {
+        #     message('values[["hot_cascade"]]:')
+        #     print(values[["hot_cascade"]])
+        # # }
+
         if (is.null(input$hot_cascade) || is.null(vFlag$vCascade)) {
             # This will pad out the MasterData with NA's and update its name
             vFlag$vCascade <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = master$data$calib)
