@@ -4,7 +4,7 @@ observeEvent(input$new_country_name, {
 
     # new we need to 'undisable' the buttons ...
     # activate links to 'edit' pages. (conditional on input$new_country_name != "")
-    # have some methods of populating the MasterData list()
+    # have some methods of populating the master$data list()
 
     # The below buttons are still looking at the current country selected... when a name is entered,
     # we need to override this.
@@ -35,9 +35,9 @@ observeEvent(input$new_country_name, {
         updateButton(session,    inputId = "GUIDELINES_FLAG", disabled = TRUE)
     } else {
         # These actually need to be CHECK functions (as when we edit the country name, then will all go red again)
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
-        try(MasterData <<- GetBlankMasterDataSet(input$new_country_name), silent = FALSE)
-        print(MasterData)
+        if (!is.null(master$data)) { master$data <- NULL }
+        try(master$data <- GetBlankMasterDataSet(input$new_country_name), silent = FALSE)
+        print(master$data)
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -58,7 +58,7 @@ observeEvent(input$new_country_name, {
 # This observe will kill any input into "new_country_name" if the 'NEW_country' button is deactivated
 observeEvent(input$NEW_country, {
     if(input$NEW_country == FALSE) {
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+        if (!is.null(master$data)) { master$data <- NULL }
         updateTextInput(session, inputId = "new_country_name", value = "")
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
@@ -71,7 +71,7 @@ observeEvent(input$NEW_country, {
             append = TRUE)
         updateButton(session, inputId = "NEXT_country", disabled = TRUE)
     } else {
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+        if (!is.null(master$data)) { master$data <- NULL }
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -91,12 +91,12 @@ observeEvent(input$NEW_country, {
 
 # Update mission control button
 observeEvent(input$PREV_editCascade, {
-    if (Check_NewCascade(MasterData)) {
+    if (Check_NewCascade(master$data)) {
         updateButton(session, inputId = "CASCADE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
         updateButton(session, inputId = "CASCADE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(master$data) & Check_NewCD4(master$data) & Check_NewCD42015(master$data) & Check_NewIncidence(master$data) & Check_NewGuidelines(master$data)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -111,12 +111,12 @@ observeEvent(input$PREV_editCascade, {
 })
 
 observeEvent(input$PREV_editCD4, {
-    if (Check_NewCD4(MasterData) & Check_NewCD42015(MasterData)) {
+    if (Check_NewCD4(master$data) & Check_NewCD42015(master$data)) {
         updateButton(session, inputId = "CD4_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
         updateButton(session, inputId = "CD4_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(master$data) & Check_NewCD4(master$data) & Check_NewCD42015(master$data) & Check_NewIncidence(master$data) & Check_NewGuidelines(master$data)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -131,12 +131,12 @@ observeEvent(input$PREV_editCD4, {
 })
 
 observeEvent(input$PREV_editIncidence, {
-    if (Check_NewIncidence(MasterData)) {
+    if (Check_NewIncidence(master$data)) {
         updateButton(session, inputId = "INCIDENCE_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
         updateButton(session, inputId = "INCIDENCE_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(master$data) & Check_NewCD4(master$data) & Check_NewCD42015(master$data) & Check_NewIncidence(master$data) & Check_NewGuidelines(master$data)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -151,12 +151,12 @@ observeEvent(input$PREV_editIncidence, {
 })
 
 observeEvent(input$PREV_editGuidelines, {
-    if (Check_NewGuidelines(MasterData)) {
+    if (Check_NewGuidelines(master$data)) {
         updateButton(session, inputId = "GUIDELINES_FLAG",    style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
     } else {
         updateButton(session, inputId = "GUIDELINES_FLAG",    style = "danger",  icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
     }
-    if (Check_NewCascade(MasterData) & Check_NewCD4(MasterData) & Check_NewCD42015(MasterData) & Check_NewIncidence(MasterData) & Check_NewGuidelines(MasterData)) {
+    if (Check_NewCascade(master$data) & Check_NewCD4(master$data) & Check_NewCD42015(master$data) & Check_NewIncidence(master$data) & Check_NewGuidelines(master$data)) {
         shinyBS::closeAlert(session, alertId = "alertId_DONOTPROCEED")
         shinyBS::createAlert(session,
             anchorId = "_PROCEED_",
@@ -172,14 +172,14 @@ observeEvent(input$PREV_editGuidelines, {
 
 # CD4 CheckBox
 observeEvent(input$copy2010CD4, {
-    if (exists("MasterData")) {
+    if (!is.null(master$data)) {
         if (input$copy2010CD4 == TRUE) {
-            MasterData$cd4_2015 <<- MasterData$cd4
+            master$data$cd4_2015 <<- master$data$cd4
         } else {
             if (input$new_country_name != "" & input$NEW_country == TRUE) {
-                MasterData$cd4_2015 <<- GetCD4Distribution2015(input$new_country_name)
+                master$data$cd4_2015 <<- GetCD4Distribution2015(input$new_country_name)
             } else {
-                MasterData$cd4_2015 <<- GetCD4Distribution2015(input$selectCountry)
+                master$data$cd4_2015 <<- GetCD4Distribution2015(input$selectCountry)
             }
         }
     }

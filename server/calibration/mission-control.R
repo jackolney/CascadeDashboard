@@ -2,11 +2,15 @@
 observeEvent(input$selectCountry, {
 
     # If master$data exists then make it NA, then re-assign.
-    if (!is.na("master$data")) { master$data <- NA }
+    if (!is.null(master$data)) {
+
+        master$data <- NULL
+    }
     # Assign values to master$data
     try(master$data <- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
-    if (!is.na("master$data")) {
+    if (!is.null(master$data)) {
+        print(master$data)
         if (Check_NewCascade(theData = master$data)) {
             updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
         } else {
