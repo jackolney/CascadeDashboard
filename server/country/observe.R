@@ -197,8 +197,6 @@ observe({
     vFlag$vIncidence  <- NULL
     vFlag$vGuidelines <- NULL
 
-    print(vFlag)
-
     if (input$NEW_country == TRUE & input$new_country_name != "") {
         countryReportName <<- input$new_country_name
     } else {
