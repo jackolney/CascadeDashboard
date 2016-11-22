@@ -71,23 +71,15 @@ AssembleComparisonDataFrame <- function(country, model, data) {
 
 # This will need to be able to handle ALL FOUR ERRORS and return a neat data.frame of errors in return.
 SSE <- function(df) {
+    # Calculate total number of data values in dataset
+    N <- dim(df[df$source == "data",])[1]
+
     # if (!is.data.frame(df)) stop("Not passing a data frame.")
     uniqueIndicators <- unique(df$indicator)
     for (i in 1:length(uniqueIndicators)) {
         data <- df[df$indicator == uniqueIndicators[i],]
 
         uniqueYears <- unique(data$year)
-
-        # Calculate number of values in dataset for particular indicator (N)
-        N <- 0
-        for (j in 1:length(uniqueYears)) {
-            iD <- data[data$year == uniqueYears[j] & data$source == "data","value"]
-            if (isEmpty(iD)) {
-                next
-            } else if (!is.na(iD)) {
-                N <- N + 1
-            }
-        }
 
         for (j in 1:length(uniqueYears)) {
             iYr <- data[data$year == uniqueYears[j],]
@@ -112,8 +104,7 @@ SSE <- function(df) {
 
             iModel <- iYr[iYr$source == "model","value"]
 
-            # value <- ((abs(iData - iModel) / iData) * w) / N
-            value <- (abs(iData - iModel) / iData) * w
+            value <- ((abs(iData - iModel) / iData) * w) / N
 
             year <- uniqueYears[j]
 
