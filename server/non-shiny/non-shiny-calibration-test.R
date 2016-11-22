@@ -60,6 +60,10 @@ ZimbabweData <- GetMasterDataSet("Zimbabwe")
 RunNSCalibration(country = "Zimbabwe", data = ZimbabweData, maxIterations = 1e4, maxError = 3, limit = 1000)
 BuildCalibrationPlotDetail(data = CalibOut, originalData = ZimbabweData, limit = 1000)
 
+# Nigeria
+data <- GetMasterDataSet("Nigeria")
+data$calib
+
 ####################################################################################################
 ####################################################################################################
 ## Thesis figures

@@ -56,7 +56,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         # Uses LHS to sample parameter space
         # Fishes out only sensical data
         # Deletes previous data.frame
-        initRange <- DefineInitRange(data = data, min = 0.75, max = 1.25)
+        initRange <- DefineInitRange(data = data, min = 0.5, max = 1.5)
         lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 3)
         lhsInitial_Sense <- FindSense(samples = lhsInitial)
         rm(lhsInitial)
