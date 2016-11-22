@@ -25,6 +25,9 @@ DefineParmRange <- function() {
 }
 
 DefineInitRange <- function(data, min, max) {
+    # Year sequence
+    yr <- seq(2010, 2015, 1)
+
     # Take 2010 subset of data.
     i2010 <- data[["calib"]][data[["calib"]]$year == 2010,]
 
@@ -43,23 +46,36 @@ DefineInitRange <- function(data, min, max) {
         if (!any(indicatorPresence == x)) {
             name <- allIndicators[x]
 
-            # Go back until you find a value.
-            for (z in seq(x - 1, 1)) {
-                if (any(indicatorPresence == z)) {
-                    theMax <- i2010[i2010$indicator == allIndicators[z], "value"]
+            # # Go forward through years to identify max value.
+            for (u in 2:6) {
+                if (any(data[["calib"]][data[["calib"]]$year == yr[u], "indicator"] == allIndicators[x])) {
+                    theMax <- data[["calib"]][data[["calib"]]$year == yr[u] & data[["calib"]]$indicator == allIndicators[x], "value"]
                     break
                 }
             }
 
-            # Go forward until you find a value.
-            for (z in seq(x + 1, length(allIndicators))) {
-                if (any(indicatorPresence == z)) {
-                    theMin <- i2010[i2010$indicator == allIndicators[z], "value"]
-                    break
+            # Else, go back UP CASCADE until you find a value.
+            if (!exists("theMax")) {
+                for (z in seq(x - 1, 1)) {
+                    if (any(indicatorPresence == z)) {
+                        theMax <- i2010[i2010$indicator == allIndicators[z], "value"]
+                        break
+                    }
                 }
             }
+
+            theMin <- 0
+
+            # Go forward DOWN CASCADE until you find a value.
+            # for (z in seq(x + 1, length(allIndicators))) {
+            #     if (any(indicatorPresence == z)) {
+            #         theMin <- i2010[i2010$indicator == allIndicators[z], "value"]
+            #         break
+            #     }
+            # }
             # Append missingIndicators data.frame
             missingIndicators <- rbind(missingIndicators, data.frame(name, theMax, theMin))
+            rm(theMax)
         }
     }
 
