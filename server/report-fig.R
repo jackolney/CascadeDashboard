@@ -72,7 +72,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
 
     # Create some pretty output plots
     ggOne <- ggplot()
-    ggOne <- ggOne + geom_line(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggOne <- ggOne + geom_line(data = na.omit(out2[out2$indicator == "PLHIV",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
     ggOne <- ggOne + geom_line(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight))
     ggOne <- ggOne + geom_point(data = out[out$indicator == "PLHIV",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggOne <- ggOne + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
@@ -88,7 +88,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggOne <- ggOne + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggTwo <- ggplot()
-    ggTwo <- ggTwo + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggTwo <- ggTwo + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Diagnosed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
     ggTwo <- ggTwo + geom_line(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight))
     ggTwo <- ggTwo + geom_point(data = out[out$indicator == "PLHIV Diagnosed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggTwo <- ggTwo + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
@@ -104,7 +104,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggTwo <- ggTwo + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggThree <- ggplot()
-    ggThree <- ggThree + geom_line(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggThree <- ggThree + geom_line(data = na.omit(out2[out2$indicator == "PLHIV in Care",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
     ggThree <- ggThree + geom_line(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight))
     ggThree <- ggThree + geom_point(data = out[out$indicator == "PLHIV in Care",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggThree <- ggThree + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
@@ -120,7 +120,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggThree <- ggThree + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFour <- ggplot()
-    ggFour <- ggFour + geom_line(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFour <- ggFour + geom_line(data = na.omit(out2[out2$indicator == "PLHIV on ART",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
     ggFour <- ggFour + geom_line(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight))
     ggFour <- ggFour + geom_point(data = out[out$indicator == "PLHIV on ART",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggFour <- ggFour + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
@@ -136,7 +136,7 @@ BuildCalibrationPlotDetail_Report <- function(data, originalData, limit) {
     ggFour <- ggFour + expand_limits(y = c(0, round(max(out2$max), digits = -4)))
 
     ggFive <- ggplot()
-    ggFive <- ggFive + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.2, size = 1, col = "#4F8ABA")
+    ggFive <- ggFive + geom_line(data = na.omit(out2[out2$indicator == "PLHIV Suppressed",]), aes(x = year, y = value, group = sim), alpha = 0.1, size = 1, col = "#4F8ABA")
     ggFive <- ggFive + geom_line(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight))
     ggFive <- ggFive + geom_point(data = out[out$indicator == "PLHIV Suppressed",], aes(x = year, y = value, group = weight, color = weight), size = 3)
     ggFive <- ggFive + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5))
@@ -360,20 +360,55 @@ GenNewInfPlot_Report <- function(wizard) {
         max[j] <- dat[["upper"]]
     }
 
-    timeOne <- seq(0, 5, 0.02)
-    NewInfOne <- out / timeOne
-    minOne <- min / timeOne
-    maxOne <- max / timeOne
+    NI_out <- c(0, diff(out))
+    NI_min <- c(0, diff(min))
+    NI_max <- c(0, diff(max))
 
-    time <- c(2, seq(51, 251, 1 * (1/0.02)))
-    NewInf <- NewInfOne[time]
-    min <- minOne[time]
-    max <- maxOne[time]
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, NI_out, NI_min, NI_max)
 
-    timeOut <- seq(2015, 2020, 1)
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    NewInf <- c(
+        sum(bar1[,"NI_out"]),
+        sum(bar2[,"NI_out"]),
+        sum(bar3[,"NI_out"]),
+        sum(bar4[,"NI_out"]),
+        sum(bar5[,"NI_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"NI_min"]),
+        sum(bar2[,"NI_min"]),
+        sum(bar3[,"NI_min"]),
+        sum(bar4[,"NI_min"]),
+        sum(bar5[,"NI_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"NI_max"]),
+        sum(bar2[,"NI_max"]),
+        sum(bar3[,"NI_max"]),
+        sum(bar4[,"NI_max"]),
+        sum(bar5[,"NI_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
     df <- data.frame(timeOut, NewInf, min, max)
 
-    c.fill <- rev(brewer.pal(9,"Blues")[3:8])
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
 
     ggOut <- ggplot(df, aes(x = timeOut, NewInf))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
@@ -382,8 +417,7 @@ GenNewInfPlot_Report <- function(wizard) {
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + ylab("Cumulative New Infections / Time")
-    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
@@ -409,20 +443,55 @@ GenAidsDeathsPlot_Report <- function(wizard) {
         max[j] <- dat[["upper"]]
     }
 
-    timeOne <- seq(0, 5, 0.02)
-    HivMortalityOne <- out / timeOne
-    minOne <- min / timeOne
-    maxOne <- max / timeOne
+    HM_out <- c(0, diff(out))
+    HM_min <- c(0, diff(min))
+    HM_max <- c(0, diff(max))
 
-    time <- c(2, seq(51, 251, 1 * (1/0.02)))
-    HivMortality <- HivMortalityOne[time]
-    min <- minOne[time]
-    max <- maxOne[time]
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, HM_out, HM_min, HM_max)
 
-    timeOut <- seq(2015, 2020, 1)
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    HivMortality <- c(
+        sum(bar1[,"HM_out"]),
+        sum(bar2[,"HM_out"]),
+        sum(bar3[,"HM_out"]),
+        sum(bar4[,"HM_out"]),
+        sum(bar5[,"HM_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"HM_min"]),
+        sum(bar2[,"HM_min"]),
+        sum(bar3[,"HM_min"]),
+        sum(bar4[,"HM_min"]),
+        sum(bar5[,"HM_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"HM_max"]),
+        sum(bar2[,"HM_max"]),
+        sum(bar3[,"HM_max"]),
+        sum(bar4[,"HM_max"]),
+        sum(bar5[,"HM_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
     df <- data.frame(timeOut, HivMortality, min, max)
 
-    c.fill <- rev(brewer.pal(9,"Blues")[3:8])
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
 
     ggOut <- ggplot(df, aes(x = timeOut, HivMortality))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
@@ -431,9 +500,7 @@ GenAidsDeathsPlot_Report <- function(wizard) {
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.x = element_line())
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + xlab("Year")
-    ggOut <- ggOut + ylab("Cumulative AIDS Deaths / Time")
-    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
