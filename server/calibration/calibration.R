@@ -56,10 +56,29 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         # Uses LHS to sample parameter space
         # Fishes out only sensical data
         # Deletes previous data.frame
+
+        # While loop setup, ensures we get 10k iterations to trial.
+        # Can always be extended to KEEP GOING endlessly
         initRange <- DefineInitRange(data = data, min = 0.5, max = 1.5)
-        lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 3)
-        lhsInitial_Sense <- FindSense(samples = lhsInitial)
+        targetIterations <- 1e4
+        its <- 0L
+        lhsInitial_Out <- matrix()
+
+        while (its < targetIterations) {
+            message("loop")
+            lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 5)
+            lhsInitial_Sense <- FindSense(samples = lhsInitial)
+            if (is.na(lhsInitial_Out[[1]])) {
+                lhsInitial_Out <- lhsInitial_Sense
+            } else {
+                lhsInitial_Out <- rbind(lhsInitial_Out, lhsInitial_Sense)
+            }
+            its <- dim(lhsInitial_Out)[1]
+        }
+
+        # Garbage collection
         rm(lhsInitial)
+        rm(lhsInitial_Sense)
 
         ## Sample Incidence
         # Define max / min (from Spectrum Uncertainty Analysis)
@@ -76,7 +95,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         minErrorRun <<- NULL
         runError <<- c()
         CalibOut <<- c()
-        for (k in 1:dim(lhsInitial_Sense)[1]) {
+        for (k in 1:dim(lhsInitial_Out)[1]) {
 
             p[["Rho"]]     <- lhs[,"rho"][k]
             p[["Epsilon"]] <- lhs[,"epsilon"][k]
@@ -88,7 +107,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
             p[["q"]]       <- lhs[,"q"][k]
 
             i <- incidence(as.double(lhsIncidence[k,]))
-            y <- GetCalibInitial(p, data, init2010 = lhsInitial_Sense[k,])
+            y <- GetCalibInitial(p, data, init2010 = lhsInitial_Out[k,])
             iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
             runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
@@ -104,13 +123,13 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
                 setProgress(value = v / limit, detail = paste0(round((v / limit) * 100, digits = 0), "%"))
                 if (v == limit) break;
             }
-            if (k == dim(lhsInitial_Sense)[1]) warning("Hit iteration wall.")
+            if (k == dim(lhsInitial_Out)[1]) warning("Hit iteration wall.")
         }
 
         # Global Data Frames for Parameters / Initial Values
-        CalibParamOut <<- FillParValues(samples = lhs,               positions = selectedRuns, limit = limit)
-        CalibInitOut  <<- FillInitValues(samples = lhsInitial_Sense, positions = selectedRuns, limit = limit)
-        CalibIncOut   <<- FillIncValue(samples = lhsIncidence,       positions = selectedRuns, limit = limit)
+        CalibParamOut <<- FillParValues(samples = lhs,             positions = selectedRuns, limit = limit)
+        CalibInitOut  <<- FillInitValues(samples = lhsInitial_Out, positions = selectedRuns, limit = limit)
+        CalibIncOut   <<- FillIncValue(samples = lhsIncidence,     positions = selectedRuns, limit = limit)
 
         # Calculate min and max values used by parameter set (deprecated now?)
         ParamMaxMin <<- data.frame(
