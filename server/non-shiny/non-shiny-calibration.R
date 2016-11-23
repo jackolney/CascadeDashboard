@@ -43,7 +43,6 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
     lhsInitial_Out <- matrix()
 
     while (its < targetIterations) {
-        message("loop")
         lhsInitial <- FME::Latinhyper(initRange, num = maxIterations * 5)
         lhsInitial_Sense <- FindSense(samples = lhsInitial)
         if (is.na(lhsInitial_Out[[1]])) {
