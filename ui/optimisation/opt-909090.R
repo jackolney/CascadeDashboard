@@ -9,13 +9,19 @@ tabItem(tabName = "opt-909090",
             title = "UNAIDS 90-90-90",
             fluidRow(
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Diagnosed", color = "yellow", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBoxOutput(outputId = "VB_909090_1",     width = "100%"),
+                    valueBoxOutput(outputId = "VB_cum_909090_1", width = "100%"),
+                    uiOutput("UI_909090_1_slider")
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "On Treatment", color = "yellow", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBoxOutput(outputId = "VB_909090_2",     width = "100%"),
+                    valueBoxOutput(outputId = "VB_cum_909090_2", width = "100%"),
+                    uiOutput("UI_909090_2_slider")
                 ),
                 column(width = 4,
-                    valueBox(value = scales::percent(0.9), subtitle = "Virally Suppressed", color = "yellow", width = NULL, icon = icon("check", lib = "font-awesome"))
+                    valueBoxOutput(outputId = "VB_909090_3",     width = "100%"),
+                    valueBoxOutput(outputId = "VB_cum_909090_3", width = "100%"),
+                    uiOutput("UI_909090_3_slider")
                 )
             ),
             bsModal(id = "optimDT909090modalID", title = "Result Table", trigger = "optData909090", size = "large",
@@ -160,6 +166,12 @@ tabItem(tabName = "opt-909090",
                 'View Results' to view individual simulation results. Hitting
                 'Next' takes you to the report generation page.",
             p(""),
+            bsButton(inputId = "resetTarget",
+                        label = "RESET TARGETS",
+                        style = "danger",
+                        block = TRUE,
+                        size = "default",
+                        icon = icon("bullseye", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "optData909090",
                         label = "View Results",
                         type = "action",
