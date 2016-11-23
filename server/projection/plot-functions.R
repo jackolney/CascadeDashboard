@@ -192,16 +192,16 @@ Gen909090Plot <- function() {
 
     vbCol <- c("red", "yellow", "green")
 
-    vbOut1 <- round(out[out$def == "% of PLHIV Diagnosed",    "res"] * 100, digits = 0)
-    vbOut2 <- round(out[out$def == "% of Diagnosed on Treatment", "res"] * 100, digits = 0)
-    vbOut3 <- round(out[out$def == "% of on Treatment Suppressed",   "res"] * 100, digits = 0)
+    vbOut1 <- round(out[out$def == "Diagnosed / PLHIV",    "res"]                * 100, digits = 0)
+    vbOut2 <- round(out[out$def == "On Treatment / Diagnosed", "res"]            * 100, digits = 0)
+    vbOut3 <- round(out[out$def == "Virally Suppressed / On Treatment",   "res"] * 100, digits = 0)
 
-    output$vb_90            <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "% of PLHIV Diagnosed",          color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_9090          <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed on Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_909090        <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of on Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_90_wizard     <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "% of PLHIV Diagnosed",          color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_9090_wizard   <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "% of Diagnosed on Treatment",       color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
-    output$vb_909090_wizard <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "% of on Treatment Suppressed", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_90            <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "Diagnosed / PLHIV",                 color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_9090          <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "On Treatment / Diagnosed",          color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_909090        <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "Virally Suppressed / On Treatment", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_90_wizard     <- renderValueBox({ valueBox(paste0(vbOut1, "%"), "Diagnosed / PLHIV",                 color = vbCol[ranking][1], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_9090_wizard   <- renderValueBox({ valueBox(paste0(vbOut2, "%"), "On Treatment / Diagnosed",          color = vbCol[ranking][2], icon = icon("medkit", lib = "font-awesome")) })
+    output$vb_909090_wizard <- renderValueBox({ valueBox(paste0(vbOut3, "%"), "Virally Suppressed / On Treatment", color = vbCol[ranking][3], icon = icon("medkit", lib = "font-awesome")) })
 
     ggOut <- ggplot(out, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
@@ -238,20 +238,55 @@ GenNewInfPlot <- function(wizard) {
         max[j] <- dat[["upper"]]
     }
 
-    timeOne <- seq(0, 5, 0.02)
-    NewInfOne <- out / timeOne
-    minOne <- min / timeOne
-    maxOne <- max / timeOne
+    NI_out <- c(0, diff(out))
+    NI_min <- c(0, diff(min))
+    NI_max <- c(0, diff(max))
 
-    time <- c(2, seq(51, 251, 1 * (1/0.02)))
-    NewInf <- NewInfOne[time]
-    min <- minOne[time]
-    max <- maxOne[time]
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, NI_out, NI_min, NI_max)
 
-    timeOut <- seq(2015, 2020, 1)
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    NewInf <- c(
+        sum(bar1[,"NI_out"]),
+        sum(bar2[,"NI_out"]),
+        sum(bar3[,"NI_out"]),
+        sum(bar4[,"NI_out"]),
+        sum(bar5[,"NI_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"NI_min"]),
+        sum(bar2[,"NI_min"]),
+        sum(bar3[,"NI_min"]),
+        sum(bar4[,"NI_min"]),
+        sum(bar5[,"NI_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"NI_max"]),
+        sum(bar2[,"NI_max"]),
+        sum(bar3[,"NI_max"]),
+        sum(bar4[,"NI_max"]),
+        sum(bar5[,"NI_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
     df <- data.frame(timeOut, NewInf, min, max)
 
-    c.fill <- rev(brewer.pal(9,"Blues")[3:8])
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
 
     ggOut <- ggplot(df, aes(x = timeOut, NewInf))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
@@ -260,7 +295,7 @@ GenNewInfPlot <- function(wizard) {
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
     ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
@@ -288,20 +323,55 @@ GenAidsDeathsPlot <- function(wizard) {
         max[j] <- dat[["upper"]]
     }
 
-    timeOne <- seq(0, 5, 0.02)
-    HivMortalityOne <- out / timeOne
-    minOne <- min / timeOne
-    maxOne <- max / timeOne
+    HM_out <- c(0, diff(out))
+    HM_min <- c(0, diff(min))
+    HM_max <- c(0, diff(max))
 
-    time <- c(2, seq(51, 251, 1 * (1/0.02)))
-    HivMortality <- HivMortalityOne[time]
-    min <- minOne[time]
-    max <- maxOne[time]
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, HM_out, HM_min, HM_max)
 
-    timeOut <- seq(2015, 2020, 1)
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    HivMortality <- c(
+        sum(bar1[,"HM_out"]),
+        sum(bar2[,"HM_out"]),
+        sum(bar3[,"HM_out"]),
+        sum(bar4[,"HM_out"]),
+        sum(bar5[,"HM_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"HM_min"]),
+        sum(bar2[,"HM_min"]),
+        sum(bar3[,"HM_min"]),
+        sum(bar4[,"HM_min"]),
+        sum(bar5[,"HM_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"HM_max"]),
+        sum(bar2[,"HM_max"]),
+        sum(bar3[,"HM_max"]),
+        sum(bar4[,"HM_max"]),
+        sum(bar5[,"HM_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
     df <- data.frame(timeOut, HivMortality, min, max)
 
-    c.fill <- rev(brewer.pal(9,"Blues")[3:8])
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
 
     ggOut <- ggplot(df, aes(x = timeOut, HivMortality))
     ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
@@ -310,7 +380,7 @@ GenAidsDeathsPlot <- function(wizard) {
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
     ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     if (wizard) {
