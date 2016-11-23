@@ -7,7 +7,7 @@ DefineParmRange <- function() {
             gamma   = 0,
             theta   = 0,
             omega   = 0,
-            p       = 0.1, # Perhaps a little optimisitc but prevents basically 0% VS
+            p       = 0.7, # Perhaps a little optimisitc but prevents basically 0% VS
             q       = 0.1  # Optimistic, but mediated by potential long time to link
         ),
         max = c(
