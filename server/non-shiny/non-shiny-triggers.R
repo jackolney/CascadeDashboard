@@ -53,6 +53,8 @@ SafeReactiveCost <- c(
     art = 367
 )
 
+AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
+
 # ------------ #
 # OPTIMISATION #
 # ------------ #
