@@ -9,7 +9,7 @@ tabItem(tabName = "mortality",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "HIV-related Mortality",
             "Modelled estimates of changes to the number of AIDS-deaths between 2015 and 2020.

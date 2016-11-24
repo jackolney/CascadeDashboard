@@ -17,7 +17,7 @@ tabItem(tabName = "opt-cost",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Intervention Cost",
             "Please review and edit the unit costs applied to the model using the sliders in the main

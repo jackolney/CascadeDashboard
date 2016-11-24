@@ -19,7 +19,7 @@ tabItem(tabName = "edit-cd4",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             helpText("Please enter any available data on this page relating to distribution of CD4

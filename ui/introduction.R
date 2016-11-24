@@ -73,7 +73,7 @@ tabItem(tabName = "introduction",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Quick Start",
             helpText("If you want to skip the introduction and get modelling, click 'Start Wizard' to

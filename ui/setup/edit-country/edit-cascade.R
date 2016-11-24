@@ -11,7 +11,7 @@ tabItem(tabName = "edit-cascade",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             helpText("Please enter any available data on this page relating to the cascade.

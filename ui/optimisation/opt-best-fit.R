@@ -15,7 +15,7 @@ tabItem(tabName = "opt-best-fit",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Intervention Detail",
             "This page shows the calibration results of a randomly sampled 10% of accepted parameter sets.

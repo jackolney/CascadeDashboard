@@ -3,7 +3,7 @@ tabItem(tabName = "opt-intro",
         box(width = NULL,
             status = "primary",
             solidHeader = TRUE,
-            title = "Interventions Targetting the Care Cascade",
+            title = "Interventions Targeting The Care Cascade",
             "The structure of the model allows us to implement and assess the impact of six broad
             interventions acting on various elements of the cascade. The interventions are described
             below and can be implemented on the following pages.",
@@ -53,7 +53,7 @@ tabItem(tabName = "opt-intro",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             "With a calibrated model of the cascade, we can project forward until 2020, to estimate

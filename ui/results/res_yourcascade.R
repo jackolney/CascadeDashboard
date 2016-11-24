@@ -45,7 +45,7 @@ tabItem(tabName = "your_cascade",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Care Cascade",
             "This page shows the breakdown of the care cascade in 2015, resulting from the calibration

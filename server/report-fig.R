@@ -843,7 +843,7 @@ BuildFrontierPlot_Report <- function(CalibParamOut, optResults, target) {
     ggPlot <- ggPlot + theme(axis.line.y = element_line())
     ggPlot <- ggPlot + xlab("Viral Suppression")
     ggPlot <- ggPlot + ylab("Additional Cost of Care")
-    ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = "Red frontiers indicate simulations achieving 73% viral suppression by 2020")
+    ggPlot <- ggPlot + ggtitle(label = "Cost-effectiveness Frontiers", subtitle = paste("Red frontiers indicate simulations achieving", scales::percent(round(target, digits = 2)) ,"viral suppression by 2020"))
     ggPlot <- ggPlot + coord_cartesian(xlim = plotFrontier.ranges$x, ylim = plotFrontier.ranges$y)
     ggPlot
 }

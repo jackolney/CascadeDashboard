@@ -9,7 +9,7 @@ tabItem(tabName = "incidence",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "New Infections",
             "Modelled estimates of changes to the number of new infections between 2015 and 2020.

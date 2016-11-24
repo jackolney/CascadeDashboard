@@ -11,7 +11,7 @@ tabItem(tabName = "edit-guidelines",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             helpText("Please enter the dates of changes in ART guidelines for the new country / region.

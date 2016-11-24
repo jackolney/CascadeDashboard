@@ -9,7 +9,7 @@ tabItem(tabName = "care_cascade",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "The Care Cascade between 2015 and 2020",
             "These figures illustrate how the structure of the cascade is likely to change over time

@@ -9,7 +9,7 @@ tabItem(tabName = "report",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             "Generate a report detailing all data entered into the site, all simulations run, and

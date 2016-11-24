@@ -12,7 +12,7 @@ tabItem(tabName = "_909090",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "UNAIDS 90-90-90",
             "From the predicted distribution of care in 2020, we can visualise the achievement of the

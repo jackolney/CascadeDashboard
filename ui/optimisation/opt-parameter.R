@@ -125,7 +125,7 @@ tabItem(tabName = "opt-parameter",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Intervention Detail",
             "The model allows up to six non-specific interventions targetting different aspects of

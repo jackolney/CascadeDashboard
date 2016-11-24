@@ -31,7 +31,7 @@ tabItem(tabName = "data-review",
     ),
     column(width = 4,
         box(width = NULL,
-            status = "warning",
+            status = "primary",
             solidHeader = TRUE,
             title = "Help Panel",
             helpText("Please review the data that will be used to calibrate
