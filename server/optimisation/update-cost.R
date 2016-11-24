@@ -76,6 +76,22 @@ observeEvent(input$adjustCost, {
     # print(paste("reactiveAdjustCost$switch =", reactiveAdjustCost$switch))
 })
 
+output$UI_AdjustCostValue <- renderUI({
+    if (!is.na(MasterData$pop$value)) {
+        numericInput(inputId = "adjustCostValue", label = "Population size in 2015", value = MasterData$pop$value, min = 0, max = NA, step = 1)
+    } else {
+        numericInput(inputId = "adjustCostValue", label = "Population size in 2015", value = NA, min = 0, max = NA, step = 1)
+    }
+})
+
+observeEvent(input$adjustCostValue, {
+    # If a value is entered / edited.
+    # Then update MasterData$pop$value
+    if (!is.na(input$adjustCostValue)) {
+        MasterData$pop$value <<- input$adjustCostValue
+        print(paste("MasterData$pop$value =", MasterData$pop$value))
+    }
+})
 
 AdjustHIVTestCost <- function() {
     if (reactiveAdjustCost$switch == TRUE) {

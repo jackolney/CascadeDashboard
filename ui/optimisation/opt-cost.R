@@ -23,16 +23,28 @@ tabItem(tabName = "opt-cost",
             "Please review and edit the unit costs applied to the model using the sliders in the main
             panel. These costs will be applied to all simulations and will allow the cost of interventions
             to be quantified against a status quo scenario, in the absence of any intervention.",
-            br(),
-            tags$em("
-                Caution: The unit cost of an HIV test will be scaled to account for the cost of testing HIV-negative individuals.
-                This calculation is done by using an estimate of population size in 2015 from Spectrum and calculating the probability
-                of identifying an HIV-positive individual with the assumption of random testing of the population not in care.
-                If a spectrum estimate is not available, the unit cost will be scaled by 5.
-            "),
             p(""),
-            checkboxInput(inputId = "adjustCost", label = "Scale HIV-test cost to account for undiagnosed", value = TRUE, width = NULL),
             bsButton("resetCost", label = "RESET COST", block = TRUE, style = "danger", size = "default")
+        ),
+        box(width = NULL,
+            status = "danger",
+            solidHeader = TRUE,
+            title = "Cost Adjustment",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            "The model does not capture HIV-negative individuals and assigns a fixed cost for the 'diagnosis' of one individual.
+            This does not reflect the cost associated with testing HIV-negative individuals, nor does it reflect the increasing
+            difficulty of locating infected individuals as testing coverage nears 100%.",
+            p(""),
+            "To account for this, the unit cost of 'diagnosis' is scaled up by estimating the probability of testing a positive
+            individual given the size of the undiagnosed (not in care) population. This calculation uses an estimate of population
+            size in 2015 and the assumption that testing occurs at random. The value below represents an estimate of the population
+            size in 2015 from Spectrum. Please enter or update the estimate. If not estimate is available leave the cell blank and
+            the cost of diagnosis will be scaled by 5, unless the checkbox is unticked.",
+            br(),
+            br(),
+            checkboxInput(inputId = "adjustCost", label = tags$strong("Scale diagnosis cost to account for undiagnosed"), value = TRUE, width = NULL),
+            uiOutput("UI_AdjustCostValue")
         ),
         bsButton(inputId = "PREV_optCost", label = "Back", style = "danger",  size = "large", block = TRUE, icon = icon("arrow-left",  class = "fa-lg fa-fw", lib = "font-awesome"))
     )
