@@ -225,7 +225,11 @@ Finally, we simulate an intervention that reduces loss to follow-up for persons 
 
 ## Costs
 
-The model captures the cost of care by applying a unit cost to four elements of care: the cost of diagnosing a patient with HIV, the cost of linking a patient to care, the annual cost of pre-ART care and the annual cost of ART care. By default, the cost of diagnosing a patient is scaled up to account for the number of HIV-negative individuals that must be tested before an infected individual is identified. This calculation is based upon an estimate of population size in 2015 from Spectrum, otherwise, the unit cost of an HIV-test (\$10 by default) is multiplied by five. The cost of diagnosis below reflects the adjustment described above.
+The model captures the cost of care by applying a unit cost to four elements of care: the cost of diagnosing a patient with HIV, the cost of linking a patient to care, the annual cost of pre-ART care and the annual cost of ART care.
+
+By default, the cost of diagnosing a patient is scaled up to account for the number of HIV-negative individuals that must be tested before an infected individual is identified. This calculation uses an estimate of population size in 2015 and the assumption that testing occurs at random. By default, this estimate comes from Spectrum; however, users can update it. But, if it this value is left blank, the model scales the unit cost of diagnosis up by five (\$10 by default). Additionally, a check-box can be switched that prevents this scale-up event from occurring.
+
+The model adjusts the unit cost of diagnosis by first calculating the size of the HIV-negative population (population estimate - PLHIV), then multiplying this by 0.65, as HIV-negative persons are 0.65 times as likely to test as HIV-positive in general population (according to findings by Eaton et al. DOI: 10.1016/S2214-109X(13)70172-4). Then add this value to the number of PLHIV who are currently not engaged in care, to give the size of the undiagnosed population, and divide this number by the total number of PLHIV not in care. The cost of diagnosis below reflects the adjustment described.
 
 Unit Cost           | Value (USD)
 --------------------|----------------
