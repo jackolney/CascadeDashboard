@@ -3,7 +3,12 @@ output$plotCalibration <- renderPlot({
     # When 'repeat' button pressed, then we re-run calibration
     input$CALIB_data
     input$REPEAT_calib
-    RunCalibration(country = input$selectCountry, data = MasterData, maxIterations = 1e4, maxError = input$maxError, limit = input$minResults)
+
+    # isolate maxError and minResults
+    iMaxError   <- isolate(input$maxError)
+    iMinResults <- isolate(input$minResults)
+
+    RunCalibration(country = input$selectCountry, data = MasterData, maxIterations = 1e4, maxError = iMaxError, limit = iMinResults)
     BuildCalibrationPlot(data = CalibOut, originalData = MasterData)
 }, height = 400, width = 'auto', bg = 'transparent')
 
@@ -12,16 +17,21 @@ output$plotCalibrationDetail <- renderPlot({
     # When 'repeat' button pressed, then we re-run calibration
     input$CALIB_data
     input$REPEAT_calib
-    input$maxError
-    input$minResults
-    BuildCalibrationPlotDetail(data = CalibOut, originalData = MasterData, limit = input$minResults)
+
+    # isolate minResults
+    iMinResults <- isolate(input$minResults)
+
+    BuildCalibrationPlotDetail(data = CalibOut, originalData = MasterData, limit = iMinResults)
 }, height = 750, width = 'auto', bg = 'transparent')
 
 output$plotCalibHist <- renderPlot({
     input$CALIB_data
     input$REPEAT_calib
-    input$minResults
-    BuildCalibrationHistogram(runError = runError, maxError = input$maxError)
+
+    # isolate maxError
+    iMaxError   <- isolate(input$maxError)
+
+    BuildCalibrationHistogram(runError = runError, maxError = iMaxError)
 }, height = 200, width = 'auto', bg = 'transparent')
 
 output$plotData <- renderPlot({
