@@ -11,10 +11,10 @@ output$optCalibBestFit <- renderPlot({
 
 output$plotFrontier <- renderPlot({
     input$NEXT_optIntro
-    BuildFrontierPlot(CalibParamOut = CalibParamOut, optResults = optResults)
+    BuildFrontierPlot(CalibParamOut = CalibParamOut, optResults = optResults, target = custom$target)
 }, height = 500, width = 'auto')
 
 output$plotChanges <- renderPlot({
     input$NEXT_optIntro
-    BuildChangesPlot(CalibParamOut = CalibParamOut, optResults = optResults)
+    BuildChangesPlot(CalibParamOut = CalibParamOut, optResults = optResults, target = custom$target)
 }, height = 400, width = 'auto', bg = 'transparent')

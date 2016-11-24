@@ -207,13 +207,13 @@ theOut <- RunNSOptimisation(propRuns = 0.1, intLength = intLength)
 
 simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = intLength))[1]
 
-optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
+optRuns <- WhichAchieved73(simData = theOut, simLength = simLength, target = custom$target)
 optRuns
 
 frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
 frontierList
 
-intRes <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+intRes <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
 colMeans(intRes)
 
 # remember to format retention interventions correctly...
@@ -397,7 +397,7 @@ ggOut
 # load("thesis2.RData")
 
 # Frontier Plot
-BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults)
+BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults, target = custom$target)
 
 
 # 26/09/16 - We need a new figure
@@ -479,7 +479,7 @@ ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
 ggOut
 
 # Need a better baseline tracker of ADHERENCE. i.e. VIRAL SUPPRESSION.
-BuildChangesPlot(CalibParamOut, optResults)
+BuildChangesPlot(CalibParamOut, optResults, custom$target)
 
 
 b1 <- paste0("iCost = ", scales::dollar(Quantile_95(BaselineCost)["mean"] / 5), " [", scales::dollar(Quantile_95(BaselineCost)["lower"] / 5), " to ", scales::dollar(Quantile_95(BaselineCost)["upper"] / 5), "]")

@@ -1,4 +1,4 @@
-WhichAchieved73 <- function(simData, simLength) {
+WhichAchieved73 <- function(simData, simLength, target) {
     simRepeats <- dim(simData)[1] / simLength
     ach73 <- c()
     iter <- 1L
@@ -6,7 +6,7 @@ WhichAchieved73 <- function(simData, simLength) {
         lower <- (1 + simLength * (n - 1))
         upper <- (simLength + simLength * (n - 1))
         vals <- simData[lower:upper,]
-        if (any(vals[,"VS"] >= (0.9^3))) {
+        if (any(vals[,"VS"] >= target)) {
             ach73[iter] <- n
             iter <- iter + 1L
         }
@@ -14,8 +14,8 @@ WhichAchieved73 <- function(simData, simLength) {
     ach73
 }
 
-FrontierAchieveAboveBelow73 <- function(x) {
-    if (any(x >= 0.9^3) & any(x < 0.9^3)) {
+FrontierAchieveAboveBelow73 <- function(x, target) {
+    if (any(x >= target) & any(x < target)) {
         return(TRUE)
     } else {
         return(FALSE)
@@ -99,7 +99,7 @@ Interpolate <- function(vs, indicator, target) {
     out
 }
 
-RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
+RunInterpolation <- function(simData, optRuns, simLength, frontierList, target) {
     iCost <- c()
     iTest <- c()
     iLink <- c()
@@ -116,15 +116,15 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList) {
         upper <- (simLength + simLength * (optRuns[n] - 1))
         vals <- simData[lower:upper,]
 
-        if (FrontierAchieveAboveBelow73(x = vals[,"VS"][frontierList[[n]]])) {
-            iCost[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = 0.729)
-            iTest[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = 0.729)
-            iLink[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = 0.729)
-            iPreR[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = 0.729)
-            iInit[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = 0.729)
-            iAdhr[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = 0.729)
-            iRetn[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = 0.729)
-            iTCst[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Total Cost"][frontierList[[n]]],        target = 0.729)
+        if (FrontierAchieveAboveBelow73(x = vals[,"VS"][frontierList[[n]]], target = target)) {
+            iCost[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = target)
+            iTest[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = target)
+            iLink[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = target)
+            iPreR[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = target)
+            iInit[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Initiation"][frontierList[[n]]],        target = target)
+            iAdhr[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Adherence"][frontierList[[n]]],         target = target)
+            iRetn[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"ART Retention"][frontierList[[n]]],     target = target)
+            iTCst[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Total Cost"][frontierList[[n]]],        target = target)
             iter <- iter + 1
         }
     }

@@ -4,11 +4,11 @@ CheckInterpolation <- function(propRuns, intLength) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = intLength))[1]
 
-    optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = theOut, simLength = simLength, target = custom$target)
 
     frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
 
-    output <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    output <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
 
     results <- c(
         Cost = mean(output[,"iCost"]),

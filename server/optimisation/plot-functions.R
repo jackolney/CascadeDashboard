@@ -280,11 +280,11 @@ BuildCalibrationRandomFitRunsPlot <- function(data, originalData, limit, minErro
 }
 
 
-BuildFrontierPlot <- function(CalibParamOut, optResults) {
+BuildFrontierPlot <- function(CalibParamOut, optResults, target) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
 
-    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
 
     optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
 
@@ -308,7 +308,7 @@ BuildFrontierPlot <- function(CalibParamOut, optResults) {
     for(n in 1:length(optRuns)) {
         ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[optRuns[n]]]), mapping = aes(x = x, y = y), col = "red", alpha = 0.5, size = 0.75)
     }
-    ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
+    ggPlot <- ggPlot + geom_vline(xintercept = target, alpha = 1)
     ggPlot <- ggPlot + theme_classic()
     ggPlot <- ggPlot + expand_limits(y = round(max(optResults$Cost), digits = -9))
     ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 5))
@@ -373,12 +373,12 @@ BuildOGCostImpactPlot <- function() {
     ggOut
 }
 
-BuildChangesPlot <- function(CalibParamOut, optResults) {
+BuildChangesPlot <- function(CalibParamOut, optResults, target) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
-    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
-    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
 
     # Result Formatting
     intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]

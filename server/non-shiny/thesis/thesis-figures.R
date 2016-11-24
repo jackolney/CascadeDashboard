@@ -706,11 +706,11 @@ GenDiscreteCascade_Thesis <- function() {
     ggOut
 }
 
-BuildFrontierPlot_Thesis <- function(CalibParamOut, optResults) {
+BuildFrontierPlot_Thesis <- function(CalibParamOut, optResults, target = target) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
 
-    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
 
     optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
 

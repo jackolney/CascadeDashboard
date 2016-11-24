@@ -53,6 +53,8 @@ SafeReactiveCost <- c(
     art = 367
 )
 
+custom <- data.frame(target = 0.9^3)
+
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 # ------------ #
@@ -86,13 +88,13 @@ gridExtra::grid.arrange(a, b, c, d, e, ncol = 2, nrow = 3)
 
 simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = intLength))[1]
 
-optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
+optRuns <- WhichAchieved73(simData = theOut, simLength = simLength, target = custom$target)
 optRuns
 
 frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
 frontierList
 
-test <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+test <- RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
 
 NonZeroVectorCheck(colMeans(test))
 Quantile_95(test[,"iCost"])
@@ -111,13 +113,13 @@ Quantile_95(test[,"iTCst"])
 
 simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = intLength))[1]
 
-optRuns <- WhichAchieved73(simData = theOut, simLength = simLength)
+optRuns <- WhichAchieved73(simData = theOut, simLength = simLength, target = custom$target)
 optRuns
 
 frontierList <- GetFrontiers(simData = theOut, optRuns = optRuns, simLength = simLength)
 frontierList
 
-RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+RunInterpolation(simData = theOut, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
 
 NonZeroVectorCheck(test)
 Quantile_95(test[,"iCost"])

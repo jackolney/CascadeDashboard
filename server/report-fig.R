@@ -809,11 +809,11 @@ BuildDataReviewPlot_Report <- function(data) {
     ggOut
 }
 
-BuildFrontierPlot_Report <- function(CalibParamOut, optResults) {
+BuildFrontierPlot_Report <- function(CalibParamOut, optResults, target) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
 
-    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
 
     optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
 
@@ -993,12 +993,12 @@ BuildIncidencePlot_Report <- function(data) {
     ggOut
 }
 
-BuildChangesPlot_Report <- function(CalibParamOut, optResults) {
+BuildChangesPlot_Report <- function(CalibParamOut, optResults, target) {
 
     simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
-    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength)
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
-    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
 
     # Result Formatting
     intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
