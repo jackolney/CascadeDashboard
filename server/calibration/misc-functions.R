@@ -1,5 +1,5 @@
-DefineParmRange <- function() {
-    parRange <- data.frame(
+DefineParmRange <- function(...) {
+    default <- data.frame(
         min = c(
             rho     = 0,
             epsilon = 0,
@@ -16,12 +16,25 @@ DefineParmRange <- function() {
             kappa   = 1,    # 1 year
             gamma   = 2,    # 6 months
             theta   = 2,    # 6 months
-            omega   = 0.05, # As directed by Tim
+            omega   = 0.01, # Tim directed 0.05, but this still results in increasing new infections
             p       = 0.99, # No program is ever going to get 100%
             q       = 0.99  # No program is ever going to get 100%
         )
     )
-    parRange
+    replace <- c(...)
+    if (length(replace) > 0L) {
+        stopifnot(is.numeric(replace))
+        replaceName <- gsub('[[:digit:]]+', '', names(replace))
+        stopifnot(all(replaceName %in% row.names(default)))
+        for(i in 1:length(replaceName)) {
+            if (i %% 2 == 1) {
+                default[replaceName[i], "min"] <- replace[i]
+            } else {
+                default[replaceName[i], "max"] <- replace[i]
+            }
+        }
+    }
+    default
 }
 
 DefineInitRange <- function(data, min, max) {
