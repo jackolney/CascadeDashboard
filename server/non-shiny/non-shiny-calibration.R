@@ -1,4 +1,4 @@
-RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
+RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parRange) {
     # limit = 100
     # maxIterations = 1e4
     # maxError = 2
@@ -25,7 +25,6 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
     # Allows user to override these
     # Uses LHS to sample parameter space
     message("Defining parameter space")
-    parRange <<- DefineParmRange()
     lhs <- FME::Latinhyper(parRange, num = maxIterations)
 
     ## Sample Initial Compartment Values
@@ -115,5 +114,5 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit) {
         min = apply(CalibParamOut, 2, min),
         max = apply(CalibParamOut, 2, max)
     )
-    message(paste("minErrorRun =", minErrorRun))
+    message(paste("\nminErrorRun =", minErrorRun))
 }

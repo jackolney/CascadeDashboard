@@ -299,18 +299,7 @@ GenCascadePlot_Thesis <- function() {
 Gen909090Plot_Thesis <- function() {
     out    <- Get909090Data()
 
-    red    <- rgb(red = 223, green = 74,  blue = 50, max = 255)
-    yellow <- rgb(red = 245, green = 157, blue = 0,  max = 255)
-    green  <- rgb(red = 0,   green = 167, blue = 87, max = 255)
-    cfill  <- c(red, yellow, green)
-
-    ranking <- c(
-        which(sort(out$res) == out$res[1]),
-        which(sort(out$res) == out$res[2]),
-        which(sort(out$res) == out$res[3])
-    )
-
-    vbCol <- c("red", "yellow", "green")
+    cfill <- rev(brewer.pal(9,"Blues")[6:8])
 
     vbOut1 <- round(out[out$def == "% of PLHIV Diagnosed",    "res"] * 100, digits = 0)
     vbOut2 <- round(out[out$def == "% of Diagnosed On Treatment", "res"] * 100, digits = 0)
@@ -320,7 +309,7 @@ Gen909090Plot_Thesis <- function() {
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
     ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 0.5)
     ggOut <- ggOut + scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1), labels = scales::percent, expand = c(0, 0))
-    ggOut <- ggOut + scale_fill_manual(values = cfill[ranking])
+    ggOut <- ggOut + scale_fill_manual(values = cfill)
     ggOut <- ggOut + geom_abline(intercept = 0.9, slope = 0)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5))
