@@ -52,7 +52,6 @@ observe({
 
     # update reactiveValues
     custom$target <- input$slider_909090_1 * input$slider_909090_2 * input$slider_909090_3
-    print(paste("custom$target =", custom$target))
 })
 
 # reset targets button

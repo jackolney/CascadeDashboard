@@ -24,7 +24,7 @@ output$vb909090_COST <- renderValueBox({
     valueBox(
         value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
-        color = "light-blue",
+        color = "olive",
         icon = icon("usd", lib = "font-awesome")
     )
 })
@@ -55,7 +55,7 @@ output$vb909090_COST_NEW <- renderValueBox({
     valueBox(
         value = out,
         subtitle = "Additional cost of care per year between 2015 and 2020",
-        color = "light-blue",
+        color = "olive",
         icon = icon("usd", lib = "font-awesome")
     )
 })
@@ -90,7 +90,7 @@ output$vb909090_testing <- renderInfoBox({
     infoBox(
         title = "Diagnoses",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Additional diagnoses per year",
         width = NULL,
         fill = TRUE,
@@ -129,7 +129,7 @@ output$vb909090_linkage <- renderInfoBox({
     infoBox(
         title = "Linkage",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Additional linkages per year",
         width = NULL,
         fill = TRUE,
@@ -167,7 +167,7 @@ output$vb909090_preRetention <- renderInfoBox({
     infoBox(
         title = "Pre-ART Retention",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Reduction in losses from pre-ART care per year",
         width = NULL,
         fill = TRUE,
@@ -205,7 +205,7 @@ output$vb909090_initiation <- renderInfoBox({
     infoBox(
         title = "ART Initiation",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Additional ART initiations per year",
         width = NULL,
         fill = TRUE,
@@ -243,7 +243,7 @@ output$vb909090_adherence <- renderInfoBox({
     infoBox(
         title = "Viral Suppression",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Additional viral suppressions per year",
         width = NULL,
         fill = TRUE,
@@ -281,7 +281,7 @@ output$vb909090_retention <- renderInfoBox({
     infoBox(
         title = "ART Retention",
         value = out,
-        color = "light-blue",
+        color = "olive",
         subtitle = "Reduction in losses from ART care per year",
         width = NULL,
         fill = TRUE,
