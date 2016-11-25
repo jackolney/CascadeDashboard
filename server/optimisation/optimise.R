@@ -24,12 +24,14 @@ RunOptimisation <- function(propRuns = 0.1) {
         rVS       <- c()
         rImpact   <- c()
         rCost     <- c()
+        rBetaW    <- c()
         rRho      <- c()
         rQ        <- c()
         rKappa    <- c()
         rGamma    <- c()
         rSigma    <- c()
         rOmega    <- c()
+        rPrev     <- c()
         rTest     <- c()
         rLink     <- c()
         rPreR     <- c()
@@ -38,10 +40,11 @@ RunOptimisation <- function(propRuns = 0.1) {
         rRetn     <- c()
 
         # additional cost vectors
-        rCostOrg <- c()
+        rCostOrg  <- c()
         rCostTot  <- c()
 
         # baseline trackers
+        bPrev     <- c()
         bTest     <- c()
         bLink     <- c()
         bPreR     <- c()
@@ -70,6 +73,7 @@ RunOptimisation <- function(propRuns = 0.1) {
             message(paste("\t", scales::comma(BaseDALY), "DALYs, at", scales::dollar(BaseCost)))
 
             # Need some functions to calculate the BASELINE changes to care.
+            bPrev[j] <- BaseModel$NewInf[251]
             bTest[j] <- BaseModel$CumDiag[251]
             bLink[j] <- BaseModel$CumLink[251]
             bPreR[j] <- BaseModel$CumPreL[251]
@@ -101,7 +105,7 @@ RunOptimisation <- function(propRuns = 0.1) {
                     iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
                     masterCD4 = MasterData$cd4_2015)
 
-                p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],])
+                p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],]) * (1 - parSteps$BetaWeight[i])
 
                 SimResult <- RunSim_Prop(y = y, p = p)
 
@@ -115,6 +119,7 @@ RunOptimisation <- function(propRuns = 0.1) {
                 rCostTot[iC]  <- Calc_Cost(SimResult)
 
                 # Care Calculations
+                rPrev[iC]     <- Calc_CarePrevention(baseResult   = BaseModel, simResult = SimResult)
                 rTest[iC]     <- Calc_CareTesting(baseResult      = BaseModel, simResult = SimResult)
                 rLink[iC]     <- Calc_CareLinkage(baseResult      = BaseModel, simResult = SimResult)
                 rPreR[iC]     <- Calc_CarePreRetention(baseResult = BaseModel, simResult = SimResult)
@@ -123,6 +128,7 @@ RunOptimisation <- function(propRuns = 0.1) {
                 rRetn[iC]     <- Calc_CareRetention(baseResult    = BaseModel, simResult = SimResult)
 
                 # These should always just reference i in all cases (as they repeat)
+                rBetaW[iC]  <- parSteps[i,"BetaWeight"]
                 rRho[iC]    <- parSteps[i,"Rho"]
                 rQ[iC]      <- parSteps[i,"Q"]
                 rKappa[iC]  <- parSteps[i,"Kappa"]
@@ -135,11 +141,12 @@ RunOptimisation <- function(propRuns = 0.1) {
             cat("\n")
         }
 
-        optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
-        colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
+        optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rBetaW, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rPrev, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
+        colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Beta Weight", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Prevention", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
 
         # Make all the baseline stuff global
         BaselineCost <<- rCostOrg
+        BaselinePrev <<- bPrev
         BaselineTest <<- bTest
         BaselineLink <<- bLink
         BaselinePreR <<- bPreR

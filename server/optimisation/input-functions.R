@@ -1,6 +1,20 @@
 GetParaMatrixRun <- function(cParamOut, runNumber, length) {
     ParRange <- expand.grid(
 
+        BetaWeight = seq(
+            from = if (intSwitch$prevention) {
+                    0
+                } else {
+                    0
+                },
+            to = if (intSwitch$prevention) {
+                    OptInput$intValue_beta
+                } else {
+                    0
+                },
+            length.out = length
+        ),
+
         Rho   = seq(
             from = if (intSwitch$testing) {
                     cParamOut[runNumber, "rho"]
@@ -64,7 +78,7 @@ GetParaMatrixRun <- function(cParamOut, runNumber, length) {
                     0
                 },
             to = if (intSwitch$adherence) {
-                OptInput$intValue_sigma
+                    OptInput$intValue_sigma
                 } else {
                     0
                 },

@@ -1,12 +1,37 @@
 # Intervention Control
 intSwitch <- reactiveValues(
-    testing =      TRUE,
-    linkage =      TRUE,
+    prevention   = TRUE,
+    testing      = TRUE,
+    linkage      = TRUE,
     preRetention = TRUE,
-    initiation =   TRUE,
-    adherence =    TRUE,
-    retention =    TRUE
-    )
+    initiation   = TRUE,
+    adherence    = TRUE,
+    retention    = TRUE
+)
+
+observeEvent(input$intCheck_prevention, {
+    if (intSwitch$prevention) {
+        message("Prevention Intervention           - OFF")
+        intSwitch$prevention <- FALSE
+        updateButton(session,
+            inputId = "intCheck_prevention",
+            label = "Prevention",
+            style = "danger",
+            size = "default",
+            block = TRUE,
+            icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
+    } else {
+        message("Prevention Intervention           - ON")
+        intSwitch$prevention <- TRUE
+        updateButton(session,
+            inputId = "intCheck_prevention",
+            label = "Prevention",
+            style = "success",
+            size = "default",
+            block = TRUE,
+            icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))
+    }
+})
 
 observeEvent(input$intCheck_testing, {
     if (intSwitch$testing) {

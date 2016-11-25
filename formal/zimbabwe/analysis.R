@@ -118,15 +118,17 @@ GenDiscreteCascade_Thesis()
 # Optimisation
 
 intSwitch <- data.frame(
+    prevention   = FALSE,
     testing      = TRUE,
     linkage      = TRUE,
     preRetention = TRUE,
     initiation   = TRUE,
     adherence    = TRUE,
     retention    = TRUE
-    )
+)
 
 OptInput <- c()
+OptInput$intValue_beta  <- 0.5
 OptInput$intValue_rho   <- parRange["rho", "max"]
 OptInput$intValue_q     <- parRange["q", "max"]
 OptInput$intValue_kappa <- parRange["kappa", "min"]
@@ -134,7 +136,7 @@ OptInput$intValue_gamma <- parRange["gamma", "max"]
 OptInput$intValue_sigma <- 0.5
 OptInput$intValue_omega <- parRange["omega", "min"]
 
-reactiveCost <- c(
+reactiveCost <- data.frame(
     test = 10,
     link = 40,
     care = 40,
@@ -152,3 +154,15 @@ SafeReactiveCost <- c(
 custom <- data.frame(target = 0.9^3)
 
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
+
+
+
+#####
+
+testthat::expect_equal(base_p, p)
+
+testthat::expect_equal(base_y, y)
+
+base_y == y
+base_p == p
+

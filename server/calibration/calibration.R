@@ -155,6 +155,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         CalibParamMaxMin$p_MIN       <- parRange["p",       "min"]
 
         # Info for optimisation intervention setup
+        OptInput$intValue_beta  <- 0.5
         OptInput$intValue_rho   <- CalibParamMaxMin$rho_MAX
         OptInput$intValue_q     <- CalibParamMaxMin$q_MAX
         OptInput$intValue_kappa <- CalibParamMaxMin$kappa_MIN

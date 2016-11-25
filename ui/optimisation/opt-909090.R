@@ -45,6 +45,16 @@ tabItem(tabName = "opt-909090",
                 )
             ),
 
+            # PREV
+            fluidRow(
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_prevention_BASE",   width = "100%" )
+                ),
+                column(width = 6,
+                    infoBoxOutput(outputId = "vb909090_prevention",        width = "100%" )
+                )
+            ),
+
             # TEST
             fluidRow(
                 column(width = 6,

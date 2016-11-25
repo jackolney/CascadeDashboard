@@ -25,6 +25,33 @@ output$vb909090_COST_BASE <- renderValueBox({
     )
 })
 
+output$vb909090_prevention_BASE <- renderInfoBox({
+    input$NEXT_optIntro
+
+    # Baseline diagnoses
+    val <- round(Quantile_95(BaselinePrev) / 5, digits = 0)
+
+    if (val[['upper']] < 0) val[['upper']] <- 0
+    if (val[['mean']]  < 0) val[['mean']]  <- 0
+    if (val[['lower']] < 0) val[['lower']] <- 0
+
+    val <- scales::comma(val)
+
+    out <- paste0(val[['mean']], " [", val[['lower']], " to ", val[['upper']], "]")
+
+    report_909090_testing_BASE <<- out
+
+    infoBox(
+        title = "Prevention",
+        value = out,
+        color = "light-blue",
+        subtitle = "New Infections per year at baseline",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("line-chart", lib = "font-awesome")
+    )
+})
+
 output$vb909090_testing_BASE <- renderInfoBox({
     input$NEXT_optIntro
 

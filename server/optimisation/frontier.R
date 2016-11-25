@@ -101,6 +101,7 @@ Interpolate <- function(vs, indicator, target) {
 
 RunInterpolation <- function(simData, optRuns, simLength, frontierList, target) {
     iCost <- c()
+    iPrev <- c()
     iTest <- c()
     iLink <- c()
     iPreR <- c()
@@ -118,6 +119,7 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList, target) 
 
         if (FrontierAchieveAboveBelow73(x = vals[,"VS"][frontierList[[n]]], target = target)) {
             iCost[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Cost"][frontierList[[n]]],              target = target)
+            iPrev[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Prevention"][frontierList[[n]]],        target = target)
             iTest[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Testing"][frontierList[[n]]],           target = target)
             iLink[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Linkage"][frontierList[[n]]],           target = target)
             iPreR[iter] <- Interpolate(vs = vals[,"VS"][frontierList[[n]]], indicator = vals[,"Pre-ART Retention"][frontierList[[n]]], target = target)
@@ -128,7 +130,7 @@ RunInterpolation <- function(simData, optRuns, simLength, frontierList, target) 
             iter <- iter + 1
         }
     }
-    careOutput <- data.frame(iCost, iTest, iLink, iPreR, iInit, iAdhr, iRetn, iTCst)
+    careOutput <- data.frame(iCost, iPrev, iTest, iLink, iPreR, iInit, iAdhr, iRetn, iTCst)
     careOutput
 }
 

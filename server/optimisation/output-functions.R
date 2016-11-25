@@ -104,6 +104,14 @@ ColorFromMiddle <- function(data, color1, color2) {
         max_val, color1, max_val, color1, color2, color2, max_val, max_val))
 }
 
+Calc_CarePrevention <- function(baseResult, simResult) {
+    baseAnswer <- baseResult$NewInf[251]
+    simAnswer <- simResult$NewInf[251]
+    out <- round(simAnswer - baseAnswer, digits = 0)
+    print(paste("test = ", out))
+    out
+}
+
 Calc_CareTesting <- function(baseResult, simResult) {
     baseAnswer <- baseResult$CumDiag[251]
     simAnswer <- simResult$CumDiag[251]

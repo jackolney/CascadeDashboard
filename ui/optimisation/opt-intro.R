@@ -8,6 +8,9 @@ tabItem(tabName = "opt-intro",
             interventions acting on various elements of the cascade. The interventions are described
             below and can be implemented on the following pages.",
 
+            tags$h3("Prevention"),
+            "Prevention intervention of sorts. This is still under development...",
+
             tags$h3("HIV Testing"),
             "We simulate a broad HIV-testing intervention, that involves increasing the rate at which
             undiagnosed individuals become diagnosed. As the model does not account for HIV-negative
@@ -101,6 +104,7 @@ tabItem(tabName = "opt-intro",
             collapsible = TRUE,
             collapsed = FALSE,
             solidHeader = TRUE,
+            bsButton(inputId = "intCheck_prevention",   label = "Prevention",        type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "intCheck_testing",      label = "Testing",           type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "intCheck_linkage",      label = "Linkage",           type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),
             bsButton(inputId = "intCheck_preRetention", label = "Pre-ART Retention", type = "action", style = "success", size = "default", block = TRUE, icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome")),

@@ -60,6 +60,45 @@ output$vb909090_COST_NEW <- renderValueBox({
     )
 })
 
+output$vb909090_prevention <- renderInfoBox({
+    input$NEXT_optIntro
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = custom$target)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
+    # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
+
+    colValues <- NonZeroVectorCheck(colMeans(intResult[,names(intResult) != c("iCost", "iTCst")]))
+
+    values <- round(Quantile_95(intResult[["iPrev"]]) / 5, digit = 0)
+
+    values <- scales::comma(values)
+
+    out <- paste0("+", values[['mean']], " [+", values[['lower']], " to +", values[['upper']], "]")
+
+    report_909090_testing <<- out
+
+    cols <- c(rep("green", 2), rep("orange", 2), rep("red", 2))
+
+    infoBox(
+        title = "Prevention",
+        value = out,
+        color = "olive",
+        subtitle = "Infections averted per year",
+        width = NULL,
+        fill = TRUE,
+        icon = icon("plus", lib = "font-awesome")
+    )
+})
+
 output$vb909090_testing <- renderInfoBox({
     input$NEXT_optIntro
 
@@ -68,6 +107,7 @@ output$vb909090_testing <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -107,6 +147,7 @@ output$vb909090_linkage <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -145,6 +186,7 @@ output$vb909090_preRetention <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -183,6 +225,7 @@ output$vb909090_initiation <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -221,6 +264,7 @@ output$vb909090_adherence <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -259,6 +303,7 @@ output$vb909090_retention <- renderInfoBox({
     frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = custom$target)
     # Result Formatting
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0

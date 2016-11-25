@@ -2,6 +2,7 @@
 OptInput <- reactiveValues()
 
 # These observeEvent() update values but allow the opt-parameter.R page not to render but the same values be used by the model
+observeEvent(input$opt_beta_intValue,  { OptInput$intValue_beta  <<- input$opt_beta_intValue  })
 observeEvent(input$opt_rho_intValue,   { OptInput$intValue_rho   <<- input$opt_rho_intValue   })
 observeEvent(input$opt_q_intValue,     { OptInput$intValue_q     <<- input$opt_q_intValue     })
 observeEvent(input$opt_kappa_intValue, { OptInput$intValue_kappa <<- input$opt_kappa_intValue })

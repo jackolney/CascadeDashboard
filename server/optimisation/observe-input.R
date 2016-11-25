@@ -1,5 +1,15 @@
 ### Optimisation Input ###
 
+output$UI_opt_beta_MAX <- renderUI({
+    numericInput(inputId = "opt_beta_intValue",
+        label = "Maximum Intervention Reduction:",
+        value = 0.5,
+        min = 0,
+        max = 1,
+        step = 0.001,
+        width = "100%")
+})
+
 output$UI_opt_rho_MAX <- renderUI({
     numericInput(inputId = "opt_rho_intValue",
         label = "Maximum Intervention Rate (py^-1):",

@@ -8,6 +8,25 @@ tabItem(tabName = "opt-parameter",
             solidHeader = TRUE,
             collapsible = TRUE,
             collapsed = TRUE,
+            title = "Prevention",
+            helpText("By adjusting the weight below, we define the percentage reduction in transmission probability for infected individuals. This is shown in the box on the right hand side.
+                All values shown are averaged between 2015 and 2020."),
+            uiOutput("UI_opt_beta_MAX"),
+            fluidRow(
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_prevention_baseline", width = NULL)
+                ),
+                column(width = 6,
+                    valueBoxOutput(outputId = "ib_prevention_intervention", width = NULL)
+                )
+            )
+        ),
+        box(width = NULL,
+            height = '100%',
+            status = "primary",
+            solidHeader = TRUE,
+            collapsible = TRUE,
+            collapsed = TRUE,
             title = "HIV-Testing",
             helpText("By adjusting the rate below, we define the maximum impact that a potential
                 testing intervention can achieve. This is shown in the box on the right hand side.

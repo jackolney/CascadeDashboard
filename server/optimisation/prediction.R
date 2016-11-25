@@ -1,6 +1,40 @@
 # Intervention Detail Page
 # Prediction of results from the model
 
+# Prevention Intervention
+output$ib_prevention_baseline <- renderValueBox({
+
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
+    out <- scales::comma(round(baseline$NewInf[251] / 5, digits = 0))
+
+    valueBox(
+        value = out,
+        subtitle = "New infections per year at baseline",
+        color = "orange",
+        width = NULL,
+        icon = icon("user-md", lib = "font-awesome")
+    )
+})
+
+output$ib_prevention_intervention <- renderValueBox({
+
+    baseline <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1)
+    base_answer <- baseline$NewInf[251] / 5
+
+    alt <- CallBetaFitModel(CalibOut = CalibOut, propRuns = 0.1, betaWeight = OptInput$intValue_beta)
+    alt_answer <- alt$NewInf[251] / 5
+
+    out <- scales::comma(abs(round(alt_answer - base_answer, digits = 0)))
+
+    valueBox(
+        value = out,
+        subtitle = "Infections averted per year with intervention",
+        color = "green",
+        width = NULL,
+        icon = icon("user-md", lib = "font-awesome")
+    )
+})
+
 # Testing Intervention
 output$ib_testing_baseline <- renderValueBox({
 
@@ -92,7 +126,7 @@ output$ib_preRetention_intervention <- renderValueBox({
     alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Kappa = OptInput$intValue_kappa)
     alt_answer <- alt$CumPreL[251] / 5
 
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    out <- scales::comma(abs(round(alt_answer - base_answer, digits = 0)))
 
     valueBox(
         value = out,
@@ -194,7 +228,7 @@ output$ib_retention_intervention <- renderValueBox({
     alt <- CallBestFitModel(CalibOut = CalibOut, propRuns = 0.1, Omega = OptInput$intValue_omega)
     alt_answer <- alt$CumLoss[251] / 5
 
-    out <- scales::comma(round(alt_answer - base_answer, digits = 0))
+    out <- scales::comma(abs(round(alt_answer - base_answer, digits = 0)))
 
     valueBox(
         value = out,
