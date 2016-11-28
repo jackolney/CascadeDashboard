@@ -48,7 +48,7 @@ output$vb909090_prevention_BASE <- renderInfoBox({
         subtitle = "New Infections per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -75,7 +75,7 @@ output$vb909090_testing_BASE <- renderInfoBox({
         subtitle = "Diagnoses per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -103,7 +103,7 @@ output$vb909090_linkage_BASE <- renderInfoBox({
         subtitle = "Linkages per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -130,7 +130,7 @@ output$vb909090_preRetention_BASE <- renderInfoBox({
         subtitle = "Losses from pre-ART care per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -157,7 +157,7 @@ output$vb909090_initiation_BASE <- renderInfoBox({
         subtitle = "ART initiations per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -184,7 +184,7 @@ output$vb909090_adherence_BASE <- renderInfoBox({
         subtitle = "Viral suppressions per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
 
@@ -211,6 +211,6 @@ output$vb909090_retention_BASE <- renderInfoBox({
         subtitle = "Losses from ART care per year at baseline",
         width = NULL,
         fill = TRUE,
-        icon = icon("line-chart", lib = "font-awesome")
+        icon = icon("circle-o", lib = "font-awesome")
     )
 })
