@@ -381,7 +381,8 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
     intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
 
     # Result Formatting
-    intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+    intResult <- intResult[,c("iPrev","iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+    intResult['iPrev'] <- abs(intResult['iPrev'])
     intResult['iPreR'] <- abs(intResult['iPreR'])
     intResult['iRetn'] <- abs(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
@@ -403,6 +404,7 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
 
     # RENAME VARIABLES
     mRes$variable <- as.character(mRes$variable)
+    mRes[mRes$variable == "iPrev", "variable"] <- "Prevention"
     mRes[mRes$variable == "iTest", "variable"] <- "Testing"
     mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
     mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
@@ -410,12 +412,13 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
     mRes[mRes$variable == "iAdhr", "variable"] <- "Viral\nSuppression"
     mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
 
-    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
+    mRes$variable <- factor(mRes$variable, levels = c("Prevention", "Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
 
     # EDITS FROM HERE
-    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
+    variable <- c("Prevention", "Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
 
     mean <- c(
+        Quantile_95(mRes[mRes$variable == "Prevention", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
@@ -425,6 +428,7 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
     )
 
     upper <- c(
+        Quantile_95(mRes[mRes$variable == "Prevention", "value"])[["upper"]],
         Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
@@ -434,6 +438,7 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
     )
 
     lower <- c(
+        Quantile_95(mRes[mRes$variable == "Prevention", "value"])[["lower"]],
         Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
         Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
         Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
@@ -447,6 +452,7 @@ BuildChangesPlot <- function(CalibParamOut, optResults, target) {
     outData <- data.frame(variable, mean, lower, upper, strategy)
 
     theBase <-  rbind(
+        data.frame(variable = "Prevention",         mean = mean(BaselineTest) / 5, strategy = "Baseline"),
         data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
         data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
         data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
