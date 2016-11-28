@@ -108,7 +108,6 @@ Calc_CarePrevention <- function(baseResult, simResult) {
     baseAnswer <- baseResult$NewInf[251]
     simAnswer <- simResult$NewInf[251]
     out <- round(simAnswer - baseAnswer, digits = 0)
-    print(paste("test = ", out))
     out
 }
 
