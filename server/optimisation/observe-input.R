@@ -3,7 +3,7 @@
 output$UI_opt_beta_MAX <- renderUI({
     numericInput(inputId = "opt_beta_intValue",
         label = "Maximum Intervention Reduction:",
-        value = 0.5,
+        value = 0.2,
         min = 0,
         max = 1,
         step = 0.001,

@@ -1,5 +1,6 @@
 # Update cost
 reactiveCost <- reactiveValues(
+    prev = 100,
     test = 10,
     link = 40,
     care = 40,
@@ -8,6 +9,7 @@ reactiveCost <- reactiveValues(
 
 # This is used by the function 'AdjustHIVTetsCost'
 SafeReactiveCost <- reactiveValues(
+    prev = 100,
     test = 10,
     link = 40,
     care = 40,
@@ -15,23 +17,33 @@ SafeReactiveCost <- reactiveValues(
 )
 
 # RENDER UI
+output$UI_PxUnitCost <- renderUI({
+    sliderInput(inputId = 'userPxUnitCost',        label = 'Unit cost of averting one infection (USD):',              min = 0, max = 1000, value = 100, step = 1)
+})
+
 output$UI_DxUnitCost <- renderUI({
-    sliderInput(inputId = 'userDxUnitCost',        label = 'Unit cost of diagnosing a patient (USD):',                min = 0, max = 100, value = 10,  step = 1)
+    sliderInput(inputId = 'userDxUnitCost',        label = 'Unit cost of diagnosing a patient (USD):',                min = 0, max = 100, value = 10,   step = 1)
 })
 
 output$UI_LinkageUnitCost <- renderUI({
-    sliderInput(inputId = 'userLinkageUnitCost',   label = 'Unit cost of linking a patient to care (USD):',           min = 0, max = 100, value = 40,  step = 1)
+    sliderInput(inputId = 'userLinkageUnitCost',   label = 'Unit cost of linking a patient to care (USD):',           min = 0, max = 100, value = 40,   step = 1)
 })
 
 output$UI_AnnualCareCost <- renderUI({
-    sliderInput(inputId = 'userAnnualCareUnit',    label = 'Annual cost of keeping a patient in pre-ART care (USD):', min = 0, max = 100, value = 40,  step = 1)
+    sliderInput(inputId = 'userAnnualCareUnit',    label = 'Annual cost of keeping a patient in pre-ART care (USD):', min = 0, max = 100, value = 40,   step = 1)
 })
 
 output$UI_AnnualARTCost <- renderUI({
-    sliderInput(inputId = 'userAnnualARTUnitCost', label = 'Annual cost of ART (USD):',                               min = 0, max = 500, value = 367, step = 1)
+    sliderInput(inputId = 'userAnnualARTUnitCost', label = 'Annual cost of ART (USD):',                               min = 0, max = 500, value = 367,  step = 1)
 })
 
 # Observe Event for user changes to cost.
+observeEvent(input$userPxUnitCost, {
+    # print(paste("Px Cost = ", input$userPxUnitCost))
+    reactiveCost$prev <<- input$userPxUnitCost
+    SafeReactiveCost$prev <<- input$userPxUnitCost
+})
+
 observeEvent(input$userDxUnitCost, {
     # print(paste("Dx Cost = ", input$userDxUnitCost))
     reactiveCost$test <<- input$userDxUnitCost
@@ -61,6 +73,8 @@ observeEvent(input$userAnnualARTUnitCost, {
 
 # Include elements of MasterData$pop else DEFAULT of 50USD?
 # Write a function to call at the beginning of optimisation?
+
+################################################################################
 
 # Adjust cost switch
 # print(paste("Check input$adjustCost =", input$adjustCost))

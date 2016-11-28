@@ -115,8 +115,16 @@ RunOptimisation <- function(propRuns = 0.1) {
                 rThird90[iC]  <- Calc_909090_Result(  SimResult )[3]
                 rVS[iC]       <- Calc_VS(             SimResult )
                 rImpact[iC]   <- Calc_DALYsAverted(   SimResult , BaseDALY)
-                rCost[iC]     <- Calc_AdditionalCost( SimResult , BaseCost)
-                rCostTot[iC]  <- Calc_Cost(SimResult)
+
+                # COST Functions
+                # Adjust functions to account for changes in infections averted
+                if (parSteps$BetaWeight[i] == 0) {
+                    rCost[iC]     <- Calc_AdditionalCost(out = SimResult, base_COST = BaseCost)
+                    rCostTot[iC]  <- Calc_Cost(out = SimResult)
+                } else {
+                    rCost[iC]     <- Calc_AdditionalCost_Prev(out = SimResult, base_COST = BaseCost, base_RESULT = BaseModel)
+                    rCostTot[iC]  <- Calc_Cost_Prev(out = SimResult, base_RESULT = BaseModel)
+                }
 
                 # Care Calculations
                 rPrev[iC]     <- Calc_CarePrevention(baseResult   = BaseModel, simResult = SimResult)

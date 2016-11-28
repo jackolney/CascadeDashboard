@@ -2,6 +2,17 @@ Calc_Cost <- function(out) {
     out$TotalCost[251]
 }
 
+Calc_Cost_Prev <- function(out, base_RESULT) {
+    # Calculate Infections Averted
+    averted <- abs(Calc_CarePrevention(baseResult = base_RESULT, simResult = out))
+    # Cost of averting infection (# of infections averted * cost of averting one infection)
+    addCost <- averted * reactiveCost$prev
+    # simCost + addCost
+    simCost <- addCost + out$TotalCost[251]
+    # return adjusted simCost
+    return(simCost)
+}
+
 Calc_DALY <- function(out) {
     sum(out$DALY)
 }
@@ -12,6 +23,17 @@ Calc_DALYsAverted <- function(out, base_DALY) {
 
 Calc_AdditionalCost <- function(out, base_COST) {
     return(out$TotalCost[251] - base_COST)
+}
+
+Calc_AdditionalCost_Prev <- function(out, base_COST, base_RESULT) {
+    # Calculate Infections Averted
+    averted <- abs(Calc_CarePrevention(baseResult = base_RESULT, simResult = out))
+    # Cost of averting infection (# of infections averted * cost of averting one infection)
+    addCost <- averted * reactiveCost$prev
+    # simCost + addCost
+    simCost <- addCost + out$TotalCost[251]
+    # return adjusted simCost - base_COST
+    return(simCost - base_COST)
 }
 
 Calc_909090_Result <- function(out) {
