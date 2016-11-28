@@ -18,8 +18,8 @@ MasterData <- GetMasterDataSet(MasterName)
 set.seed(100)
 # ---- #
 
-MaxError <- 0.2
-MinNumber <- 500
+MaxError <- 0.06
+MinNumber <- 1000
 
 # Define Parameter Range
 # function can now be edited
@@ -36,19 +36,22 @@ RunNSCalibration(
     maxIterations = 1e4,
     maxError = MaxError,
     limit = MinNumber,
-    parRange = parRange)
+    parRange = parRange,
+    targetIterations = 1e5)
 
 # Cascade in 2015
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+quartz.save(file = "formal/zimbabwe/fig/cascade-2015.pdf", type = "pdf")
 
 # Error Histogram
 graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
-    maxError = MaxError)
+    maxError = 0.06)
+quartz.save(file = "formal/zimbabwe/fig/calib-hist.pdf", type = "pdf")
 
 # Calibration Detail
 graphics.off(); quartz.options(w = 10, h = 8)
@@ -56,10 +59,12 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+quartz.save(file = "formal/zimbabwe/fig/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
+quartz.save(file = "formal/zimbabwe/fig/par-hist.pdf", type = "pdf")
 
 # Parameter means
 round(colMeans(CalibParamOut), 4)
@@ -89,6 +94,8 @@ Quantile_95(CalibParamOut[["omega"]])
 
 ################################################################################
 # Projection
+
+AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
@@ -152,3 +159,5 @@ SafeReactiveCost <- c(
 custom <- data.frame(target = 0.9^3)
 
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
+
+save.image("formal/zimbabwe/data.RData")

@@ -1,5 +1,5 @@
 # Simple function calls for various permutations of the model
-RunCalibration <- function(country, data, maxIterations, maxError, limit) {
+RunCalibration <- function(country, data, maxIterations, maxError, limit, targetIterations = 1e4) {
     # limit = 100
     # maxIterations = 1e4
     # maxError = 2
@@ -49,7 +49,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         setProgress(value = 0 / 1, detail = "Defining parameter space")
         intParRange <- DefineParmRange()
         parRange <- UserOverRide(intParRange)
-        lhs <- FME::Latinhyper(parRange, num = maxIterations)
+        lhs <- FME::Latinhyper(parRange, num = targetIterations)
 
         ## Sample Initial Compartment Values
         # Define max / min (also accounts for missing data)
@@ -60,7 +60,6 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         # While loop setup, ensures we get 10k iterations to trial.
         # Can always be extended to KEEP GOING endlessly
         initRange <- DefineInitRange(data = data, min = 0.5, max = 1.5)
-        targetIterations <- 1e4
         its <- 0L
         lhsInitial_Out <- matrix()
 
@@ -83,7 +82,7 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit) {
         # Define max / min (from Spectrum Uncertainty Analysis)
         # Uses LHS to sample parameter space
         incRange <- DefineIncidenceRange(incidenceData = data$incidence)
-        lhsIncidence <- FME::Latinhyper(incRange, num = maxIterations)
+        lhsIncidence <- FME::Latinhyper(incRange, num = targetIterations)
 
         ## For each draw, update parameter vector (p), run model, calculate error and store it.
         # Initial Calibration

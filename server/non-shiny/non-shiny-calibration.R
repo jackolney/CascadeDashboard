@@ -1,4 +1,4 @@
-RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parRange) {
+RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parRange, targetIterations = 1e4) {
     # limit = 100
     # maxIterations = 1e4
     # maxError = 2
@@ -25,7 +25,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
     # Allows user to override these
     # Uses LHS to sample parameter space
     message("Defining parameter space")
-    lhs <- FME::Latinhyper(parRange, num = maxIterations)
+    lhs <- FME::Latinhyper(parRange, num = targetIterations)
 
     ## Sample Initial Compartment Values
     # Define max / min (also accounts for missing data)
@@ -37,7 +37,6 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
     # While loop setup, ensures we get 10k iterations to trial.
     # Can always be extended to KEEP GOING endlessly
     initRange <- DefineInitRange(data = data, min = 0.5, max = 1.5)
-    targetIterations <- 1e4
     its <- 0L
     lhsInitial_Out <- matrix()
 
@@ -60,12 +59,12 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
     # Define max / min (from Spectrum Uncertainty Analysis)
     # Uses LHS to sample parameter space
     incRange <- DefineIncidenceRange(incidenceData = data$incidence)
-    lhsIncidence <- FME::Latinhyper(incRange, num = maxIterations)
+    lhsIncidence <- FME::Latinhyper(incRange, num = targetIterations)
 
     ## For each draw, update parameter vector (p), run model, calculate error and store it.
     # Initial Calibration
     message("Running simulations")
-    pb <- txtProgressBar(min = 0, max = limit, style = 1)
+    # pb <- txtProgressBar(min = 0, max = limit, style = 1)
     v <- 0
     selectedRuns <<- c()
     minError <<- 1e6
@@ -97,8 +96,8 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
             }
             selectedRuns[v] <<- k
             CalibOut <<- rbind(CalibOut, iOut)
-            # message(paste0(round((v / limit) * 100, digits = 0), "%"))
-            setTxtProgressBar(pb, v)
+            message(paste(paste0(round((v / limit) * 100, digits = 0), "%"), "of", paste0(round((k / dim(lhsInitial_Out)[1]) * 100, digits = 0), "%")))
+            # setTxtProgressBar(pb, v)
             if (v == limit) break;
         }
         if (k == dim(lhsInitial_Out)[1]) warning("Hit iteration wall.")

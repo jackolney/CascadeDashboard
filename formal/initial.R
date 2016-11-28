@@ -32,4 +32,4 @@ source("server/optimisation/output-functions.R",    local = FALSE)
 source("server/optimisation/parameters.R",          local = FALSE)
 source("server/optimisation/plot-functions.R",      local = FALSE)
 
-message("good to go...")
+message("Good to go...")
