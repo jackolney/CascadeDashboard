@@ -38,7 +38,17 @@ require("cascade")
 test_that("Simple cascade projection", {
     # Setup
     MasterData <<- GetMasterDataSet("Kenya")
+
     # Calibration
+    reactiveCost <<- data.frame(
+        test = 10,
+        link = 40,
+        care = 40,
+        art = 367
+    )
+
+    AdvCalib <<- data.frame(NatMort = 0.005, HIVMort = 1)
+
     p <- GetBaselinePar(
         masterCD4 = MasterData$cd4_2015,
         data = MasterData,
