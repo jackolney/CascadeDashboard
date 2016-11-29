@@ -258,9 +258,9 @@ GetCascadeData <- function(year) {
     min <- c(NX[["lower"]], DX[["lower"]], CX[["lower"]], TX[["lower"]], VS[["lower"]])
     max <- c(NX[["upper"]], DX[["upper"]], CX[["upper"]], TX[["upper"]], VS[["upper"]])
 
-    def <- c("# PLHIV", "# Diagnosed", "# In Care", "# Treatment", "# Suppressed")
+    def <- c("PLHIV", "Diagnosed", "In Care", "Treatment", "Suppressed")
     df <- data.frame(def, res, min, max)
-    df$def <- factor(df$def, levels = c("# PLHIV", "# Diagnosed", "# In Care", "# Treatment", "# Suppressed"))
+    df$def <- factor(df$def, levels = c("PLHIV", "Diagnosed", "In Care", "Treatment", "Suppressed"))
     df
 }
 
@@ -301,9 +301,9 @@ Gen909090Plot_Thesis <- function() {
 
     cfill <- rev(brewer.pal(9,"Blues")[6:8])
 
-    vbOut1 <- round(out[out$def == "% of PLHIV Diagnosed",    "res"] * 100, digits = 0)
-    vbOut2 <- round(out[out$def == "% of Diagnosed On Treatment", "res"] * 100, digits = 0)
-    vbOut3 <- round(out[out$def == "% of On Treatment Suppressed",   "res"] * 100, digits = 0)
+    vbOut1 <- round(out[out$def == "Diagnosed / PLHIV",    "res"] * 100, digits = 0)
+    vbOut2 <- round(out[out$def == "On Treatment / Diagnosed", "res"] * 100, digits = 0)
+    vbOut3 <- round(out[out$def == "Virally Suppressed / On Treatment",   "res"] * 100, digits = 0)
 
     ggOut <- ggplot(out, aes(x = def, y = res))
     ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
@@ -345,9 +345,9 @@ Get909090Data <- function() {
     res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
     min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])
     max <- c(UN_90[["upper"]], UN_9090[["upper"]], UN_909090[["upper"]])
-    def <- c("% of PLHIV Diagnosed","% of Diagnosed On Treatment","% of On Treatment Suppressed")
+    def <- c("Diagnosed / PLHIV", "On Treatment / Diagnosed", "Virally Suppressed / On Treatment")
     out <- data.frame(def, res, min, max)
-    out$def <- factor(out$def, levels = c("% of PLHIV Diagnosed","% of Diagnosed On Treatment","% of On Treatment Suppressed"))
+    out$def <- factor(out$def, levels = c("Diagnosed / PLHIV", "On Treatment / Diagnosed", "Virally Suppressed / On Treatment"))
     out
 }
 
@@ -447,11 +447,11 @@ GetPowersCascadeData <- function(year) {
              VS, TXN,
              VS)
 
-    state <- c("Suppressed", "On Treatment (non-adherent)", "In Care", "Diagnosed", "Undiagnosed", "pre-ART LTFU", "LTFU",
-               "Suppressed", "On Treatment (non-adherent)", "In Care", "Diagnosed", "pre-ART LTFU", "LTFU",
-               "Suppressed", "On Treatment (non-adherent)", "In Care",
-               "Suppressed", "On Treatment (non-adherent)",
-               "Suppressed")
+    state <- c("On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Undiagnosed", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)",
+               "On ART\n virally suppressed")
 
     order <- c(rep("All"       ,7),
                rep("Diagnosed" ,6),
@@ -461,7 +461,7 @@ GetPowersCascadeData <- function(year) {
 
     df <- data.frame(state, res, order)
     df$order <- factor(df$order, levels = c("All", "Diagnosed", "Care", "Treatment", "Suppressed"))
-    df$state <- factor(df$state, levels = c("Suppressed", "On Treatment (non-adherent)", "In Care", "Diagnosed", "Undiagnosed", "pre-ART LTFU", "LTFU"))
+    df$state <- factor(df$state, levels = c("On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Undiagnosed", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART"))
     df
 }
 
@@ -650,7 +650,8 @@ GenDiscreteCascade_Thesis <- function() {
     t2015$pos <- 1-(cumsum(t2015$prop) - t2015$prop / 2)
     t2020$pos <- 1-(cumsum(t2020$prop) - t2020$prop / 2)
 
-    tcomp <- reshape2::melt(t2015, t2020)
+
+    tcomp <- reshape2::melt(rbind(t2015, t2020))
 
     # states <- c(as.character(t2015$state), as.character(t2020$state))
     state <- c(
@@ -684,7 +685,7 @@ GenDiscreteCascade_Thesis <- function() {
     ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9, "Set1"))
     ggOut <- ggOut + theme(axis.line.y = element_line())
-    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::percent, limits = c(0, 0.5))
+    ggOut <- ggOut + scale_y_continuous(expand = c(0, 0), labels = scales::percent, limits = c(0, 0.8))
     ggOut <- ggOut + theme(axis.title.x = element_blank())
     ggOut <- ggOut + theme(legend.text = element_text(size = 10))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
@@ -737,4 +738,125 @@ BuildFrontierPlot_Thesis <- function(CalibParamOut, optResults, target = target)
     ggPlot <- ggPlot + ylab("Additional Cost of Care")
     ggPlot <- ggPlot + theme(text = element_text(family = figFont))
     ggPlot
+}
+
+BuildChangesPlot_Thesis <- function(CalibParamOut, optResults, target) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
+
+    # Result Formatting
+    intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
+
+
+    # Assign a 'run' number to simulations
+    intResult$run <- 1:dim(intResult)[1]
+
+    # Melt them
+    mRes <- reshape2::melt(intResult, id = "run")
+
+    ## DIVIDE ALL VALUES BY FIVE
+    # Conversion from 5 year values to single years
+    mRes$value <- mRes$value / 5
+
+
+    # RENAME VARIABLES
+    mRes$variable <- as.character(mRes$variable)
+    mRes[mRes$variable == "iTest", "variable"] <- "Testing"
+    mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
+    mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
+    mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Viral\nSuppression"
+    mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
+
+    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
+
+    # EDITS FROM HERE
+    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
+
+    mean <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["mean"]]
+    )
+
+    upper <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["upper"]]
+    )
+
+    lower <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["lower"]]
+    )
+
+    strategy <- "Intervention"
+
+    outData <- data.frame(variable, mean, lower, upper, strategy)
+
+    theBase <-  rbind(
+        data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+        data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+        data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline"),
+        data.frame(variable = "Viral\nSuppression", mean = mean(BaselineAdhr) / 5, strategy = "Baseline")
+        )
+
+    theBase$upper <- NA
+    theBase$lower <- NA
+
+    final <- rbind(theBase, outData)
+    final$strategy <- factor(final$strategy, levels = c("Intervention", "Baseline"))
+
+    # Now we need the error_bar data.frame
+    value <- mean
+    mean <- mean + theBase$mean
+    upper <- upper + theBase$mean
+    lower <- lower + theBase$mean
+    theLabel <- data.frame(variable, value, mean, upper, lower)
+
+
+    ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
+    ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
+    ggOut <- ggOut + geom_errorbar(data = theLabel, aes(x = variable, y = mean, ymax = upper, ymin = lower), alpha = 1, width = 0.25, size = 0.5)
+    ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+", scales::comma(round(value, 0)))), vjust = +0.5, family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+    ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ylab("Changes to Care Per Year")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5), expand = c(0, 0))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(legend.position = 'right')
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut
 }
