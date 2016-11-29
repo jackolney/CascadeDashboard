@@ -161,3 +161,4 @@ custom <- data.frame(target = 0.9^3)
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 save.image("formal/zimbabwe/data.RData")
+save.image("formal/zimbabwe/big-data.RData")
