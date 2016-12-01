@@ -860,3 +860,31 @@ BuildChangesPlot_Thesis <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(panel.background = element_blank())
     ggOut
 }
+
+BuildDataReviewPlot_Thesis <- function(data) {
+    data <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = data)
+    data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
+    data$year <- as.numeric(as.character(data$year))
+    ggOut <- ggplot(data, aes(x = year, y = value))
+    ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+    # ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9,"Blues")[3:8])
+    ggOut <- ggOut + scale_fill_brewer(palette = "Accent")
+    ggOut <- ggOut + expand_limits(y = 1.6e6)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(
+        labels = scales::comma,
+        breaks = seq(0, 1.6e6, 2e5),
+        expand = c(0, 0))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2010, 2015, 1), labels = seq(2010, 2015, 1))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut
+}

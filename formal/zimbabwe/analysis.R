@@ -66,6 +66,12 @@ graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
 quartz.save(file = "formal/zimbabwe/fig/cal/par-hist.pdf", type = "pdf")
 
+# DataReviewPlot
+graphics.off(); quartz.options(w = 10, h = 4)
+BuildDataReviewPlot_Thesis(data = MasterData$calib)
+quartz.save(file = "formal/zimbabwe/fig/cal/calib-data.pdf", type = "pdf")
+
+
 # Parameter means
 round(colMeans(CalibParamOut), 4)
 
