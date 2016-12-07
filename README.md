@@ -8,59 +8,28 @@ This model forms the basis of the shiny application available online [here](http
 
 By far the easiest way of acccessing the dashboard is through the online version hosted by Rstudio - https://jackolney.shinyapps.io/CascadeDashboard/
 
-However, some users may like to store a version locally on their machine. This can be achieved in one of two ways, but assumes prior working knowledge of [R](https://cran.r-project.org/) and [git](https://git-scm.com/):
+However, some users may like to store a version locally on their machine. This can be achieved by downloading the app as a 'package', but assumes prior working knowledge of [R](https://cran.r-project.org/) and [git](https://git-scm.com/):
 
-### Method 1
-Cloning the _master_ branch of this git repository and running the app natively through R as follows:
+### Installation
 
-```bash
-git clone https://github.com/jackolney/CascadeDashboard
-git checkout master
-Rscript -e 'shiny::runApp()'
-````
-Although, this method assumes that the user has downloaded the following R packages:
-
-- abind
-- jackolney/cascade
-- deSolve
-- dplyr
-- DT
-- FME
-- hadley/ggplot2
-- ggrepel
-- googlesheets
-- grid
-- gridExtra
-- leaflet
-- RColorBrewer
-- readr
-- reshape2
-- rgdal
-- rhandsontable
-- rmarkdown
-- scales
-- shiny
-- shinyBS
-- jackolney/shinydashboard
-- shinyjs
-- shinythemes
-- showtext
-- V8
-
-And crucially has downloaded the 'Geospatial Data Abstraction Library' and Google's V8 engine, which are available by running the following command on linux / Mac OS X machines:
-
-`sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install libgdal-dev libproj-dev libv8-dev`
-
-### Method 2
-
-This method is still __*under development*__, but aims at providing the 'CascadeDashboard' as a standalone R package that will download all it's dependencies in one go.
+This method provides the 'CascadeDashboard' as a standalone R package that downloads all it's dependencies in one go.
 
 To test this package open R in the command line (ensuring [devtools](https://github.com/hadley/devtools) has been installed) and run the following:
 
 ```R
-devtools::install_github('jackolney/CascadeDashboard', ref = 'as-package')
+devtools::install_github('jackolney/CascadeDashboard', ref = 'R-package')
 CascadeDashboard::launch()
 ```
+
+### Help
+
+A potential error may arise if the 'Geospatial Data Abstraction Library' and Google's V8 engine are not installed.
+
+To rectify the situation, run the following command on linux / Mac OS X machines:
+
+`sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install libgdal-dev libproj-dev libv8-dev`
+
+Windows users are on their own here, but I aim to provide support soon.
 
 Please open an issue or email me at [jack.olney11@imperial.ac.uk](mailto:jack.olney11@imperial.ac.uk) if you encounter any problems.
 
