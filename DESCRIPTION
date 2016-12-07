@@ -29,7 +29,6 @@ Imports:
     scales,
     shiny,
     shinyBS,
-    shinydashboard,
     shinyjs,
     shinythemes,
     showtext,
