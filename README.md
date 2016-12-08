@@ -14,7 +14,7 @@ However, some users may like to store a version locally on their machine. This c
 
 This method provides the 'CascadeDashboard' as a standalone R package that downloads all it's dependencies in one go.
 
-To test this package open R in the command line (ensuring [devtools](https://github.com/hadley/devtools) has been installed) and run the following:
+To install this package open R in the command line (ensuring [devtools](https://github.com/hadley/devtools) has been installed) and run the following:
 
 ```R
 devtools::install_github('jackolney/CascadeDashboard', ref = 'R-package')
