@@ -38,8 +38,8 @@ MasterData$calib
 set.seed(100)
 # ---- #
 
-MaxError <- 0.1
-MinNumber <- 100
+MaxError <- 0.06
+MinNumber <- 1000
 
 # Define Parameter Range
 # function can now be edited
