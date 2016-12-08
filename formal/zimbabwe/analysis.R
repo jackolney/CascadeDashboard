@@ -133,6 +133,39 @@ graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
 quartz.save(file = "formal/zimbabwe/fig/pro/cascade-discrete.pdf", type = "pdf")
 
+# NUMBERS
+
+# PLHIV Estimate in 2015
+scales::comma(round(t0$res[1], -3))
+1.388e+6
+scales::comma(round(t5$res[1], -3))
+1.540e+6
+
+# DIAGNOSED
+scales::comma(round(t0$res[2], -3))
+1.237e+6
+scales::comma(round(t5$res[2], -3))
+1.403e+6
+
+# On ART
+scales::comma(round(t0$res[4], -3))
+scales::comma(round(t5$res[4], -3))
+
+round(t5$res[4], -3) / round(t0$res[4], -3)
+30\% (0.858M to 1.118M)
+
+# Viral suppression
+scales::comma(round(t0$res[5], -3))
+scales::comma(round(t5$res[5], -3))
+
+round(t5$res[5], -3) / round(t0$res[5], -3)
+33\% (0.759M to 1.009M)
+
+t0
+
+t0$res[5]/t0$res[1]
+t5$res[5]/t5$res[1]
+
 ################################################################################
 # Optimisation
 
@@ -222,7 +255,24 @@ resTable[resTable$iAdhr < 0, "iAdhr"] <- 0
 
 colMeans(resTable)
 
-# DIVIDE BY FIVE!!!!!!! (because we are displaying the PER YEAR change)
+# BASELINE
+b1 <- paste0("iCost = ", scales::dollar(Quantile_95(BaselineCost)["mean"] / 5), " [", scales::dollar(Quantile_95(BaselineCost)["lower"] / 5), " to ", scales::dollar(Quantile_95(BaselineCost)["upper"] / 5), "]")
+b2 <- paste0("iTest = ", scales::comma(round(Quantile_95(BaselineTest)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineTest)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineTest)["upper"] / 5, 0)), "]")
+b3 <- paste0("iLink = ", scales::comma(round(Quantile_95(BaselineLink)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineLink)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineLink)["upper"] / 5, 0)), "]")
+b4 <- paste0("iPreR = ", scales::comma(round(Quantile_95(BaselinePreR)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselinePreR)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselinePreR)["upper"] / 5, 0)), "]")
+b5 <- paste0("iInit = ", scales::comma(round(Quantile_95(BaselineInit)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineInit)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineInit)["upper"] / 5, 0)), "]")
+b6 <- paste0("iAdhr = ", scales::comma(round(Quantile_95(BaselineAdhr)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineAdhr)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineAdhr)["upper"] / 5, 0)), "]")
+b7 <- paste0("iRetn = ", scales::comma(round(Quantile_95(BaselineRetn)["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(BaselineRetn)["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(BaselineRetn)["upper"] / 5, 0)), "]")
+
+b1
+b2
+b3
+b4
+b5
+b6
+b7
+
+# INTERVENTIONS
 round(Quantile_95(intRes[,"iCost"])["mean"] / 1e6, 2)
 i1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"] / 5), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"] / 5), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"] / 5), "]")
 i2 <- paste0("iTest = ", scales::comma(round(Quantile_95(resTable[,"iTest"])["mean"] / 5, 0)), " [", scales::comma(round(Quantile_95(resTable[,"iTest"])["lower"] / 5, 0)), " to ", scales::comma(round(Quantile_95(resTable[,"iTest"])["upper"] / 5, 0)), "]")
