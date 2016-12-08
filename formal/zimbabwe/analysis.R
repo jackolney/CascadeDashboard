@@ -2,13 +2,13 @@
 rm(list=ls())
 
 # AIM = Boil the calibration down to a set of REALLY NEAT FUNCTIONS.
-setwd("~/git/CascadeDashboard")
+setwd("~/git/CascadeDashboard/inst/app")
 graphics.off()
 quartz.options(w = 10, h = 8)
 figFont <- "Avenir Next"
 
 # Source initial files
-source("formal/initial.R")
+source("../../formal/initial.R")
 
 # GLOBAL
 MasterName <- "Zimbabwe"
@@ -44,14 +44,14 @@ graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-quartz.save(file = "formal/zimbabwe/fig/cal/cascade-2015.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/cal/cascade-2015.pdf", type = "pdf")
 
 # Error Histogram
 graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
     maxError = 0.06)
-quartz.save(file = "formal/zimbabwe/fig/cal/calib-hist.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/cal/calib-hist.pdf", type = "pdf")
 
 # Calibration Detail
 graphics.off(); quartz.options(w = 10, h = 8)
@@ -59,17 +59,17 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-quartz.save(file = "formal/zimbabwe/fig/cal/calib-detail.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/cal/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/cal/par-hist.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/cal/par-hist.pdf", type = "pdf")
 
 # DataReviewPlot
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildDataReviewPlot_Thesis(data = MasterData$calib)
-quartz.save(file = "formal/zimbabwe/fig/cal/calib-data.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/cal/calib-data.pdf", type = "pdf")
 
 
 # Parameter means
@@ -106,32 +106,32 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/cascade-projection.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/cascade-projection.pdf", type = "pdf")
 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/90-90-90.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
 GenPowersCascadePlot_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/cascade-powers.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/cascade-powers.pdf", type = "pdf")
 
 # New Infections
 graphics.off(); quartz.options(w = 6, h = 4)
 GenNewInfPlot_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/new-infections.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/new-infections.pdf", type = "pdf")
 
 # AIDS Deaths
 graphics.off(); quartz.options(w = 6, h = 4)
 GenAidsDeathsPlot_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/AIDS-deaths.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/AIDS-deaths.pdf", type = "pdf")
 
 # Discrete Cascade
 graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
-quartz.save(file = "formal/zimbabwe/fig/pro/cascade-discrete.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/pro/cascade-discrete.pdf", type = "pdf")
 
 # NUMBERS
 
@@ -216,12 +216,12 @@ theOut <- RunNSOptimisation(propRuns = 0.1, intLength = intLength)
 # Frontier Plot (optResults comes from RunNSOptimisation
 graphics.off(); quartz.options(w = 8, h = 4)
 BuildFrontierPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
-quartz.save(file = "formal/zimbabwe/fig/opt/frontier.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/opt/frontier.pdf", type = "pdf")
 
 # FIGURE GENERATION
 graphics.off(); quartz.options(w = 8, h = 4)
 BuildChangesPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
-quartz.save(file = "formal/zimbabwe/fig/opt/changes.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/fig/opt/changes.pdf", type = "pdf")
 
 ################################################################################
 # TABULATE RESULTS #
@@ -302,5 +302,5 @@ Quantile_95(intRes[,"iTCst"]) / 5
 ################################################################################
 # SAVE IMAGE #
 
-# save.image("formal/zimbabwe/data.RData")
-# save.image("formal/zimbabwe/big-data.RData")
+# save.image("../../formal/zimbabwe/data.RData")
+# save.image("../../formal/zimbabwe/big-data.RData")
