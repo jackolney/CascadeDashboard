@@ -1,0 +1,45 @@
+Package: CascadeDashboard
+Title: A Shiny App for Investigating The Current Trajectory of HIV Care
+Version: 1.0
+Authors@R: person("Jack", "Olney", email = "jack.olney11@imperial.ac.uk", role = c("aut", "cre"))
+Author: Jack Olney
+Maintainer: Jack Olney <jack.olney11@imperial.ac.uk>
+Description: What the package does (one paragraph).
+Depends:
+    R (>= 3.3.0)
+Imports:
+    abind,
+    cascade,
+    deSolve,
+    dplyr,
+    DT,
+    FME,
+    ggplot2,
+    ggrepel,
+    googlesheets,
+    grid,
+    gridExtra,
+    leaflet,
+    RColorBrewer,
+    readr,
+    reshape2,
+    rgdal,
+    rhandsontable,
+    rmarkdown,
+    scales,
+    shiny,
+    shinyBS,
+    shinyjs,
+    shinythemes,
+    showtext,
+    V8
+Remotes:
+    jackolney/cascade,
+    jackolney/shinydashboard,
+    hadley/ggplot2
+Suggests:
+    testthat
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
