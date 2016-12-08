@@ -17,7 +17,7 @@ This method provides the 'CascadeDashboard' as a standalone R package that downl
 To install this package open R in the command line (ensuring [devtools](https://github.com/hadley/devtools) has been installed) and run the following:
 
 ```R
-devtools::install_github('jackolney/CascadeDashboard', ref = 'R-package')
+devtools::install_github('jackolney/CascadeDashboard')
 CascadeDashboard::launch()
 ```
 
