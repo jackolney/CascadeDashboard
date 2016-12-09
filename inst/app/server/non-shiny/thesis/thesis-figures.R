@@ -868,8 +868,8 @@ BuildDataReviewPlot_Thesis <- function(data) {
     data$year <- as.numeric(as.character(data$year))
     ggOut <- ggplot(data, aes(x = year, y = value))
     ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
-    # ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9,"Blues")[3:8])
-    ggOut <- ggOut + scale_fill_brewer(palette = "Accent")
+    ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9,"Blues")[3:8])
+    # ggOut <- ggOut + scale_fill_brewer(palette = "Accent")
     ggOut <- ggOut + expand_limits(y = 1.6e6)
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(

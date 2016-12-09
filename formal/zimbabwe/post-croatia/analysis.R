@@ -91,7 +91,7 @@ graphics.off(); quartz.options(w = 10, h = 4)
 BuildDataReviewPlot_Thesis(data = MasterData$calib)
 quartz.save(file = "../../formal/zimbabwe/post-croatia/fig/cal/calib-data.pdf", type = "pdf")
 
-
+# save.image("../../formal/zimbabwe/post-croatia/data.RData")
 # Parameter means
 round(colMeans(CalibParamOut), 4)
 
@@ -154,33 +154,39 @@ GenDiscreteCascade_Thesis()
 quartz.save(file = "../../formal/zimbabwe/post-croatia/fig/pro/cascade-discrete.pdf", type = "pdf")
 
 # NUMBERS
+t0 <- GetCascadeData(1)   # t0 = 1
+t5 <- GetCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
 
 # PLHIV Estimate in 2015
 scales::comma(round(t0$res[1], -3))
-1.388e+6
+1.385e+6
 scales::comma(round(t5$res[1], -3))
-1.540e+6
+1.534e+6
+
+1.534e+6 / 1.385e+6
 
 # DIAGNOSED
 scales::comma(round(t0$res[2], -3))
-1.237e+6
+1.242e+6
 scales::comma(round(t5$res[2], -3))
-1.403e+6
+1.406e+6
+
+1.406e+6 / 1.242e+6
 
 # On ART
 scales::comma(round(t0$res[4], -3))
 scales::comma(round(t5$res[4], -3))
 
 round(t5$res[4], -3) / round(t0$res[4], -3)
-30\% (0.858M to 1.118M)
+30\% (0.876M to 1.140M)
 
 # Viral suppression
 scales::comma(round(t0$res[5], -3))
 scales::comma(round(t5$res[5], -3))
 
 round(t5$res[5], -3) / round(t0$res[5], -3)
-33\% (0.759M to 1.009M)
-
+33\% (0.773M to 1.027M)
+23 - 14
 t0
 
 t0$res[5]/t0$res[1]
