@@ -330,3 +330,67 @@ Quantile_95(intRes[,"iTCst"]) / 5
 
 # save.image("../../formal/zimbabwe/post-croatia/data.RData")
 # save.image("../../formal/zimbabwe/post-croatia/big-data.RData")
+
+################################################################################
+# PEPFAR PHIA 2016 Analysis
+
+
+Get909090Data_2016 <- function(yr) {
+    result <- GetModel()
+
+    # Always aiming for 2020 here (5.02 / 0.02)
+    # year <- 251
+    year <- ((yr - 2015) / 0.02)
+
+    NX_data <- unlist(lapply(result, function(x) sum(x$N[year])))
+    DX_data <- unlist(lapply(result, function(x) sum(x$Dx[year], x$Care[year], x$PreLtfu[year], x$ART[year], x$Ltfu[year])))
+    TX_data <- unlist(lapply(result, function(x) sum(x$ART[year])))
+    VS_data <- unlist(lapply(result, function(x) sum(x$Vs[year])))
+
+    UN_90 <- Quantile_95(DX_data / NX_data)
+    UN_9090 <- Quantile_95(TX_data / DX_data)
+    UN_909090 <- Quantile_95(VS_data / TX_data)
+
+    res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
+    min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])
+    max <- c(UN_90[["upper"]], UN_9090[["upper"]], UN_909090[["upper"]])
+    def <- c("Diagnosed / PLHIV", "On Treatment / Diagnosed", "Virally Suppressed / On Treatment")
+    out <- data.frame(def, res, min, max)
+    out$def <- factor(out$def, levels = c("Diagnosed / PLHIV", "On Treatment / Diagnosed", "Virally Suppressed / On Treatment"))
+    out
+}
+
+test <- Get909090Data_2016(yr = 2016)
+
+Gen909090Plot_2016 <- function(yr) {
+    out    <- Get909090Data_2016(yr = yr)
+
+    cfill <- rev(brewer.pal(9,"Blues")[6:8])
+
+    vbOut1 <- round(out[out$def == "Diagnosed / PLHIV",    "res"] * 100, digits = 0)
+    vbOut2 <- round(out[out$def == "On Treatment / Diagnosed", "res"] * 100, digits = 0)
+    vbOut3 <- round(out[out$def == "Virally Suppressed / On Treatment",   "res"] * 100, digits = 0)
+
+    ggOut <- ggplot(out, aes(x = def, y = res))
+    ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 0.5)
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1), labels = scales::percent, expand = c(0, 0))
+    ggOut <- ggOut + scale_fill_manual(values = cfill)
+    ggOut <- ggOut + geom_abline(intercept = 0.9, slope = 0)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5))
+    ggOut <- ggOut + theme(title = element_text(size = 20))
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + geom_label(aes(x = def, label = scales::percent(round(out$res, digits = 2))), size = 4)
+    ggOut
+}
+
+Gen909090Plot_2016(yr = 2016)
