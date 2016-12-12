@@ -4,4 +4,10 @@ language: R
 sudo: false
 cache: packages
 os: osx
-before_install: sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install libgdal-dev libproj-dev libv8-dev
+addons:
+  apt:
+    packages:
+      - libgdal-dev
+      - libproj-dev
+      - libv8-dev
+
