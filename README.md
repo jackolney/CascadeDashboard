@@ -30,10 +30,9 @@ To rectify the situation, run the following command on linux / Mac OS X machines
 `sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install libgdal-dev libproj-dev libv8-dev`
 
 This will install the following using `apt-get`:
-
-    - libgdal-dev
-    - libproj-dev
-    - libv8-dev
+* libgdal-dev
+* libproj-dev
+* libv8-dev
 
 Windows users are on their own here, but I aim to provide support soon.
 
