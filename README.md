@@ -23,11 +23,16 @@ CascadeDashboard::launch()
 
 ### Help
 
-A potential error may arise if the 'Geospatial Data Abstraction Library' and Google's V8 engine are not installed.
+A potential error may arise if the 'Geospatial Data Abstraction Library' (GDAL) and Google's V8 engine are not installed. In the absence of GDAL, the app is still fully functional, however the interactive map will be disabled.
 
 To rectify the situation, run the following command on linux / Mac OS X machines:
 
 `sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install libgdal-dev libproj-dev libv8-dev`
+
+This will install the following using `apt-get`:
+    - libgdal-dev
+    - libproj-dev
+    - libv8-dev
 
 Windows users are on their own here, but I aim to provide support soon.
 

@@ -23,7 +23,6 @@ Imports:
     RColorBrewer,
     readr,
     reshape2,
-    rgdal,
     rhandsontable,
     rmarkdown,
     scales,
@@ -38,6 +37,7 @@ Remotes:
     jackolney/shinydashboard,
     hadley/ggplot2
 Suggests:
+    rgdal,
     testthat
 License: GPL-2
 Encoding: UTF-8

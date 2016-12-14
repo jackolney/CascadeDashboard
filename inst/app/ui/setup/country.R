@@ -6,6 +6,7 @@ tabItem(tabName = "country",
             title = "Map",
             collapsible = TRUE,
             collapsed = FALSE,
+            uiOutput("mapWarning"),
             leafletOutput("countryMap", width = "100%", height = 500)
         ),
         box(width = NULL,
