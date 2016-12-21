@@ -197,7 +197,8 @@ BuildCalibrationParameterHistGroup_Thesis <- function() {
 BuildCalibrationParamHist_Thesis <- function(pOut, param) {
     out <- as.data.frame(CalibParamOut)
     ggOut <- ggplot(out, aes_string(param))
-    ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 10)
+    ggOut <- ggOut + geom_histogram(aes(fill = ..count..), bins = 10, position = "identity")
+    ggOut <- ggOut + scale_x_continuous(limits = round(range(out[, param]), 2))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + scale_y_continuous(expand = c(0,0), breaks = scales::pretty_breaks(n = 5))
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
@@ -502,10 +503,12 @@ GenNewInfPlot_Thesis <- function() {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + ylab("New Infections Per Year")
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-    ggOut <- ggOut + theme(axis.title =  element_blank())
+    ggOut <- ggOut + theme(axis.title.x =  element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 11))
     ggOut <- ggOut + expand_limits(y = round(max(df$max), -5))
     ggOut
 }
@@ -547,10 +550,12 @@ GenAidsDeathsPlot_Thesis <- function(wizard) {
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2020, 1), labels = seq(2015, 2020, 1))
     ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + ylab("AIDS Deaths Per Year")
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
-    ggOut <- ggOut + theme(axis.title =  element_blank())
+    ggOut <- ggOut + theme(axis.title.x =  element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 11))
     ggOut <- ggOut + expand_limits(y = 7e4)
     ggOut
 }
