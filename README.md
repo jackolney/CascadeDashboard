@@ -38,4 +38,4 @@ Windows users are on their own here, but I aim to provide support soon.
 
 Please open an issue or email me at [jack.olney11@imperial.ac.uk](mailto:jack.olney11@imperial.ac.uk) if you encounter any problems.
 
-Copyright 2016 Jack Olney
+Copyright 2017 Jack Olney
