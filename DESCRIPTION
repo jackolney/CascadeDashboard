@@ -6,7 +6,7 @@ Author: Jack Olney
 Maintainer: Jack Olney <jack.olney11@imperial.ac.uk>
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.2.4)
 Imports:
     abind,
     cascade,
