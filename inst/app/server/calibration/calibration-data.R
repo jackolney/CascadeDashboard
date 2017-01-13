@@ -417,3 +417,32 @@ GetTreatmentGuidelines <- function(uCountry) {
     treatment_guidelines
 }
 
+new_data <- function(country, year, indicator, value, weight, source) {
+    if (!is.character(country))   stop("country is not a character.")
+    if (!is.numeric(year))        stop("year is not a character.")
+    if (!is.character(indicator)) stop("indicator is not a character.")
+    if (!is.numeric(value))       stop("value is not a character.")
+    if (!is.character(weight))    stop("weight is not a character.")
+    if (!is.character(source))    stop("soruce is not a character.")
+    # Check if valid indicator
+    indicator_list <- c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed")
+    if (!any(indicator_list == indicator)) stop("Not a valid indicator type")
+    new_dat <- data.frame(country, year, indicator, value, weight, source)
+    new_dat
+}
+
+replace_or_append <- function(datOne, datTwo) {
+    # find out if indicator for datTwo exists in datOne
+    if (any(as.character(datOne[datOne$year == datTwo$year, "indicator"]) == as.character(datTwo$indicator))) {
+        # REPLACE
+        datOne[datOne$year == datTwo$year & datOne$indicator == as.character(datTwo$indicator), "value"]  <- as.numeric(datTwo$value)
+        datOne[datOne$year == datTwo$year & datOne$indicator == as.character(datTwo$indicator), "weight"] <- as.character(datTwo$weight)
+        datOne[datOne$year == datTwo$year & datOne$indicator == as.character(datTwo$indicator), "source"] <- as.character(datTwo$source)
+
+    } else {
+        # APPEND
+        datOne <- rbind(datOne, datTwo)
+    }
+    datOne
+}
+

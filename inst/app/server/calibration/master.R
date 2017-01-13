@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "South Africa"
+# userCountry <- "Zimbabwe"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -68,6 +68,25 @@ GetMasterDataSet <- function(userCountry) {
         intTwo <- int[int$indicator != "PLHIV not on ART",]
 
         countryMasterDataSet <- rbind(intOne, intTwo)
+
+        # New Data From Croatia (Global HIV Cascade Workshop 2016)
+        # new_care  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV in Care",    value = 903011,  weight = "amber", source = "Program Data (adjusted ART data)")
+        # new_art   <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV on ART",     value = 879271,  weight = "amber", source = "Program Data (DHIS)")
+        # new_supp  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Suppressed", value = 782551,  weight = "red",   source = "Surveillance")
+
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = new_care)
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = new_art)
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = new_supp)
+
+        # New Data from PHIA
+        PHIA_dx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Diagnosed",    value = 1057915, weight = "green", source = "PHIA")
+        PHIA_tx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV on ART",       value = 918271,  weight = "green", source = "PHIA")
+        PHIA_vs <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Suppressed",   value = 794304,  weight = "green", source = "PHIA")
+
+        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_dx)
+        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_tx)
+        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_vs)
+
     } else if (userCountry == "Brazil") {
         # copy in the countryData
         int <- countryData$calib
