@@ -394,3 +394,58 @@ Gen909090Plot_2016 <- function(yr) {
 }
 
 Gen909090Plot_2016(yr = 2016)
+
+################################################################################
+# Loading RData and running some comparisons to PLHIV spectrum estimates
+load("../../formal/zimbabwe/post-croatia/data.RData")
+
+# get the model output right
+head(CalibOut)
+
+data <- CalibOut
+head(out2)
+
+# Calculate CI's
+out2 <- AppendCI(data[data$source == "model" & data$indicator == "PLHIV",])
+year  <- seq(2010, 2015, 1)
+lower <- unique(out2[,"lower"])
+mean  <- unique(out2[,"mean"])
+upper <- unique(out2[,"upper"])
+type <- "model"
+
+df_model <- data.frame(year, type, lower, mean, upper)
+
+
+spectrum <- readr::read_csv(file = "~/Google Drive/DIDE/HIVMC/WhoCascade/SpectrumCountryFiles/2016-update/output/refined/plhiv-refined.csv", col_names = TRUE, skip = 1)[1:6,]
+
+year <- spectrum$year
+lower <- spectrum$lower
+mean <- spectrum$median
+upper <- spectrum$upper
+type <- "spectrum"
+
+df_data <- data.frame(year, type, lower, mean, upper)
+
+df <- rbind(df, df_data)
+
+graphics.off()
+quartz.options(w = 10, h = 4)
+
+ggOut <- ggplot(df, aes(x = year, y = mean))
+ggOut <- ggOut + geom_bar(aes(fill = type), position = 'dodge', stat = 'identity')
+ggOut <- ggOut + geom_errorbar(mapping = aes(x = year, ymin = lower, ymax = upper, fill = type), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 0.5)
+ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 6))
+ggOut <- ggOut + scale_x_continuous(breaks = seq(2010, 2015, 1), labels = seq(2010, 2015, 1))
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+ggOut <- ggOut + theme(axis.line.y = element_line())
+ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+ggOut <- ggOut + theme(axis.title.x =  element_blank())
+ggOut <- ggOut + theme(axis.title.y =  element_text(size = 10))
+ggOut <- ggOut + ggtitle("PLHIV Comparison", subtitle = "Model vs. Spectrum")
+ggOut <- ggOut + ylab("Number of PLHIV")
+ggOut
+
+# DONE
