@@ -79,13 +79,14 @@ GetMasterDataSet <- function(userCountry) {
         # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = new_supp)
 
         # New Data from PHIA
-        PHIA_dx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Diagnosed",    value = 1057915, weight = "green", source = "PHIA")
-        PHIA_tx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV on ART",       value = 918271,  weight = "green", source = "PHIA")
-        PHIA_vs <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Suppressed",   value = 794304,  weight = "green", source = "PHIA")
+        # 16/01/17 - Updated to now be calibrating to PERCENTAGES for the PHIA
+        # PHIA_dx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Diagnosed",    value = 1057915, weight = "green", source = "PHIA")
+        # PHIA_tx <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV on ART",       value = 918271,  weight = "green", source = "PHIA")
+        # PHIA_vs <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Suppressed",   value = 794304,  weight = "green", source = "PHIA")
 
-        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_dx)
-        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_tx)
-        countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_vs)
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_dx)
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_tx)
+        # countryMasterDataSet <- replace_or_append(datOne = countryMasterDataSet, datTwo = PHIA_vs)
 
     } else if (userCountry == "Brazil") {
         # copy in the countryData
