@@ -104,7 +104,54 @@ SSE <- function(df) {
 
             iModel <- iYr[iYr$source == "model","value"]
 
-            value <- ((abs(iData - iModel) / iData) * w) / N
+            # PHIA ADDITIONS
+            # To remove, simply comment this if statment out and the model will return to
+            # previous state
+            # for collecting results, maybe just write to some data.frame somewhere
+            if (unique(iYr$country) == "Zimbabwe" & unique(iYr$year) == 2015) {
+
+                if (unique(iYr$indicator) == "PLHIV Diagnosed") {
+                    # PLHIV DIAGNOSED
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 74.2% of PLHIV were diagnosed
+                    iData <- 0.742
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else if (unique(iYr$indicator) == "PLHIV on ART") {
+                    # PLHIV on ART
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    modle_den <- df[df$year == 2015 & df$indicator == "PLHIV Diagnosed" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 86.8% of Diagnosed are on ART
+                    iData <- 0.868
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else if (unique(iYr$indicator) == "PLHIV Suppressed") {
+                    # PLHIV Suppressed
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV on ART" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 86.5% of on ART are virally suppressed
+                    iData <- 0.865
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else {
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+                }
+
+            } else {
+                value <- ((abs(iData - iModel) / iData) * w) / N
+            }
+
+            # value <- ((abs(iData - iModel) / iData) * w) / N
 
             year <- uniqueYears[j]
 
