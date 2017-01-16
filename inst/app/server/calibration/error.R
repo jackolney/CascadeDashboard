@@ -118,17 +118,19 @@ SSE <- function(df) {
 
                     # PHIA - 74.2% of PLHIV were diagnosed
                     iData <- 0.742
+                    w <- 1
 
                     value <- ((abs(iData - iModel) / iData) * w) / N
 
                 } else if (unique(iYr$indicator) == "PLHIV on ART") {
                     # PLHIV on ART
                     model_num <- iYr[iYr$source == "model", "value"]
-                    modle_den <- df[df$year == 2015 & df$indicator == "PLHIV Diagnosed" & df$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV Diagnosed" & df$source == "model", "value"]
                     iModel <- model_num / model_den
 
                     # PHIA - 86.8% of Diagnosed are on ART
                     iData <- 0.868
+                    w <- 1
 
                     value <- ((abs(iData - iModel) / iData) * w) / N
 
@@ -140,6 +142,7 @@ SSE <- function(df) {
 
                     # PHIA - 86.5% of on ART are virally suppressed
                     iData <- 0.865
+                    w <- 1
 
                     value <- ((abs(iData - iModel) / iData) * w) / N
 
