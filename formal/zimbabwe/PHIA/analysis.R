@@ -20,6 +20,8 @@ MasterData <- GetMasterDataSet(MasterName)
 
 # MAKE all PLHIV RED!
 # MasterData$calib[MasterData$calib$indicator == "PLHIV", "weight"] <- "red"
+# MAKE all RED!
+# MasterData$calib[, "weight"] <- "red"
 
 # ---- #
 set.seed(100)
@@ -67,6 +69,12 @@ RunNSCalibration(
 # par =initial values for parameters to be optimised over
 # fn = a function to be minimised
 
+
+graphics.off(); quartz.options(w = 9, h = 4)
+BuildPHIAPlot(data = CalibOut)
+quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+
+
 ################################################################################
 #### PLOT ####
 
@@ -94,6 +102,11 @@ BuildCalibDetailPlot_Thesis(
     limit = MinNumber)
 quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
 # quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
+
+################################################################################
+
+
+
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)

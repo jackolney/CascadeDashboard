@@ -146,5 +146,57 @@ find_error_bound <- function(runError = runError, prop = 0.05) {
     return(srtError[round(length(srtError) * prop)])
 }
 
+BuildPHIAPlot <- function(data) {
+    model_2015 <- data[data$source == "model" & data$year == 2015,]
+
+    plhiv <- model_2015[model_2015$indicator == "PLHIV", "value"]
+    diag  <- model_2015[model_2015$indicator == "PLHIV Diagnosed", "value"]
+    art   <- model_2015[model_2015$indicator == "PLHIV on ART", "value"]
+    supp  <- model_2015[model_2015$indicator == "PLHIV Suppressed", "value"]
+
+    UN_90 <- Quantile_95(diag / plhiv)
+    UN_9090 <- Quantile_95(art / diag)
+    UN_909090 <- Quantile_95(supp / art)
+
+    res <- c(UN_90[["mean"]], UN_9090[["mean"]], UN_909090[["mean"]])
+    min <- c(UN_90[["lower"]], UN_9090[["lower"]], UN_909090[["lower"]])
+    max <- c(UN_90[["upper"]], UN_9090[["upper"]], UN_909090[["upper"]])
+    def <- c("Diagnosed / PLHIV","On Treatment / Diagnosed","Virally Suppressed / On Treatment")
+    type <- "model"
+    out <- data.frame(def, res, min, max, type)
+    out$def <- factor(out$def, levels = c("Diagnosed / PLHIV","On Treatment / Diagnosed","Virally Suppressed / On Treatment"))
+    out
+
+    # Data
+    val <- c(0.742, 0.868, 0.865)
+    def <- c("Diagnosed / PLHIV","On Treatment / Diagnosed","Virally Suppressed / On Treatment")
+    type <- "data"
+    out_data <- data.frame(def, val, type)
+
+    cfill <- rev(brewer.pal(9,"Blues")[6:8])
+
+    ggOut <- ggplot(out, aes(x = def, y = res))
+    ggOut <- ggOut + geom_bar(aes(fill = def), position = 'dodge', stat = 'identity')
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max), width = 0.2, size = 0.5)
+    ggOut <- ggOut + geom_point(data = out_data, mapping = aes(x = def, y = val), size = 5.5)
+    ggOut <- ggOut + geom_point(data = out_data, mapping = aes(x = def, y = val), size = 5, color = ggColorHue(10)[4])
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1), labels = scales::percent, expand = c(0, 0))
+    ggOut <- ggOut + scale_fill_manual(values = cfill)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ggtitle("Zimbabwe PHIA Comparison")
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5))
+    ggOut <- ggOut + theme(title = element_text(size = 20))
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut
+}
+
 
 message("Good to go...")
