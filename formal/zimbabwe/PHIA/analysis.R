@@ -44,13 +44,13 @@ MinNumber <- 100
 # parRange for WHO-cascade-paper
 # parRange <- DefineParmRange(p = c(0.7, 1), omega = c(0, 0.01))
 
-# parRange <- DefineParmRange(
-#     p = c(0.7, 1),
-#     omega = c(0, 0.01),
-#     epsilon = c(90, 100),
-#     q = c(0.9, 0.99),
-#     kappa = c(0, 0.05)
-# )
+parRange <- DefineParmRange(
+    p = c(0.7, 1),
+    omega = c(0, 0.01),
+    epsilon = c(90, 100),
+    q = c(0.9, 0.99),
+    kappa = c(0, 0.05)
+)
 
 # Run Calibration
 RunNSCalibration(
@@ -62,21 +62,29 @@ RunNSCalibration(
     parRange = parRange,
     targetIterations = 1e5)
 
+# optim() #
+
+# par =initial values for parameters to be optimised over
+# fn = a function to be minimised
+
+################################################################################
+#### PLOT ####
+
 # Cascade in 2015
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-# quartz.save(file = "~/Desktop/fig/cascade.pdf", type = "pdf")
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/cascade.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
 
 # Error Histogram
 graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
     maxError = MaxError)
-# quartz.save(file = "~/Desktop/fig/hist.pdf", type = "pdf")
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/hist.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
 
 # Calibration Detail
 graphics.off(); quartz.options(w = 10, h = 8)
@@ -84,8 +92,8 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-# quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
@@ -137,8 +145,8 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
-# quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
