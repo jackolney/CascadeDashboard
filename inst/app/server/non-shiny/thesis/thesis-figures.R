@@ -964,3 +964,31 @@ BuildDataReviewPlot_Thesis <- function(data) {
     ggOut <- ggOut + theme(text = element_text(family = figFont))
     ggOut
 }
+
+GenSinglePowersPlot_Thesis <- function() {
+    t0 <- GetPowersCascadeData(1)
+
+    cols <- brewer.pal(9,"Set1")
+    p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
+
+    ggOne <- ggplot(t0, aes(x = order, y = res, fill = state))
+    ggOne <- ggOne + geom_bar(stat = 'identity')
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
+    ggOne <- ggOne + scale_fill_manual(values = p.col, guide = guide_legend(title = ""))
+    ggOne <- ggOne + ggtitle("2015")
+    ggOne <- ggOne + theme_classic()
+    ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
+    ggOne <- ggOne + theme(title = element_text(size = 13))
+    ggOne <- ggOne + theme(axis.title = element_blank())
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 12))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.text = element_text(size = 7))
+    ggOne <- ggOne + theme(legend.title = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(plot.background = element_blank())
+    ggOne <- ggOne + theme(panel.background = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
+    ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + expand_limits(y = round(sum(t0[t0$order == "All","res"]), -5))
+    ggOne
+}

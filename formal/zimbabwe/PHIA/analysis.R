@@ -49,8 +49,8 @@ MinNumber <- 100
 parRange <- DefineParmRange(
     p = c(0.7, 1),
     omega = c(0, 0.01),
-    epsilon = c(90, 100),
-    q = c(0.9, 0.99),
+    epsilon = c(100, 100),
+    q = c(0.9, 1),
     kappa = c(0, 0.05)
 )
 
@@ -63,12 +63,6 @@ RunNSCalibration(
     limit = MinNumber,
     parRange = parRange,
     targetIterations = 1e5)
-
-# optim() #
-
-# par =initial values for parameters to be optimised over
-# fn = a function to be minimised
-
 
 graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = CalibOut)
@@ -103,15 +97,14 @@ BuildCalibDetailPlot_Thesis(
 quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
 # quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
 
-################################################################################
-
-
-
-
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/par.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+
+
+################################################################################
 
 # DataReviewPlot
 graphics.off(); quartz.options(w = 10, h = 4)
@@ -149,6 +142,11 @@ Quantile_95(CalibParamOut[["omega"]])
 # Projection
 
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
+
+# Single Powers Plot
+graphics.off(); quartz.options(w = 8, h = 4)
+GenSinglePowersPlot_Thesis()
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
