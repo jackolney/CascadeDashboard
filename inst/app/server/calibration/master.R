@@ -65,9 +65,14 @@ GetMasterDataSet <- function(userCountry) {
         intOne <- marrakechData[marrakechData$indicator %in% c("PLHIV Diagnosed", "PLHIV in Care", "PLHIV Suppressed"),]
 
         int <- countryData$calib
+
+        int[int$year == 2015 & int$indicator != "PLHIV on ART",]
+
         intTwo <- int[int$indicator != "PLHIV not on ART",]
 
-        countryMasterDataSet <- rbind(intOne, intTwo)
+        intThree <- rbind(intTwo[intTwo$year == 2015 & intTwo$indicator != "PLHIV on ART",], intTwo[intTwo$year != 2015,])
+
+        countryMasterDataSet <- rbind(intOne, intThree)
 
         # New Data From Croatia (Global HIV Cascade Workshop 2016)
         # new_care  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV in Care",    value = 903011,  weight = "amber", source = "Program Data (adjusted ART data)")
