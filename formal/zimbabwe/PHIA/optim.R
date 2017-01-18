@@ -146,7 +146,6 @@ result <- c(
 GetError(result)
 # 400000 in care.
 
-
 GetErrorResult <- function(par) {
 
     p[["Rho"]]     <- abs(par[["Rho"]])
@@ -165,16 +164,24 @@ GetErrorResult <- function(par) {
 
 calibOut <- GetErrorResult(result)
 
+graphics.off(); quartz.options(w = 10, h = 8)
 BuildCalibDetailPlot_Thesis(
     data = calibOut,
     originalData = MasterData,
     limit = 1)
+quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
 
+graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = calibOut)
+quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 8, h = 4)
+BuildOptimPowersPlot(dat = calibOut)
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 
 # OKAY we should only be passing parameters that we VARY
 
-optim parameter bounds
+# optim parameter bounds
 
 
 # optim(par = par, fn = GetError, method = "L-BFGS-B", lower = parRange$min, upper = parRange$max)
@@ -201,7 +208,7 @@ GetErrorConstrained <- function(par) {
     if (par[["Kappa"]]   > 0.05) par[["Kappa"]]   <- 0.05
     if (par[["Gamma"]]   > 2)    par[["Gamma"]]   <- 2
     if (par[["Theta"]]   > 2)    par[["Theta"]]   <- 2
-    if (par[["Omega"]]   > 0.01) par[["Omega"]]   <- 0.05
+    if (par[["Omega"]]   > 0.05) par[["Omega"]]   <- 0.05
     if (par[["p"]]       > 1)    par[["p"]]       <- 1
     if (par[["q"]]       > 1)    par[["q"]]       <- 1
 
@@ -220,8 +227,7 @@ GetErrorConstrained <- function(par) {
 }
 
 GetErrorConstrained(par)
-
-GetRealPar(par)
+GetError(par)
 
 optim(par, GetErrorConstrained)
 
@@ -257,7 +263,7 @@ GetRealPar <- function(par) {
     if (par[["Kappa"]]   > 0.05) par[["Kappa"]]   <- 0.05
     if (par[["Gamma"]]   > 2)    par[["Gamma"]]   <- 2
     if (par[["Theta"]]   > 2)    par[["Theta"]]   <- 2
-    if (par[["Omega"]]   > 0.01) par[["Omega"]]   <- 0.05
+    if (par[["Omega"]]   > 0.05) par[["Omega"]]   <- 0.05
     if (par[["p"]]       > 1)    par[["p"]]       <- 1
     if (par[["q"]]       > 1)    par[["q"]]       <- 1
 
@@ -265,15 +271,295 @@ GetRealPar <- function(par) {
 }
 
 realResult <- GetRealPar(testResult)
+as.matrix(realResult)
+
+GetErrorConstrained(testResult)
+GetErrorConstrained(realResult)
 
 calibOut <- GetErrorResult(realResult)
 
+graphics.off(); quartz.options(w = 10, h = 8)
 BuildCalibDetailPlot_Thesis(
     data = calibOut,
     originalData = MasterData,
     limit = 1)
+quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
 
+graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = calibOut)
+quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 8, h = 4)
+BuildOptimPowersPlot(dat = calibOut)
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
+
+################################################################################
+# Wednesday
+
+GetErrorConstrained <- function(par) {
+
+    # Lower bounds
+    if (par[["Rho"]]     < 1e-3) par[["Rho"]]     <- 1e-3
+    if (par[["Epsilon"]] < 90)   par[["Epsilon"]] <- 90
+    if (par[["Kappa"]]   < 1e-3) par[["Kappa"]]   <- 1e-3
+    if (par[["Gamma"]]   < 1e-3) par[["Gamma"]]   <- 1e-3
+    if (par[["Theta"]]   < 1e-3) par[["Theta"]]   <- 1e-3
+    if (par[["Omega"]]   < 1e-3) par[["Omega"]]   <- 1e-3
+    if (par[["p"]]       < 0.5)  par[["p"]]       <- 0.5
+    if (par[["q"]]       < 0.9)  par[["q"]]       <- 0.9
+
+
+    # Upper bounds
+    if (par[["Rho"]]     > 1)    par[["Rho"]]     <- 1
+    if (par[["Epsilon"]] > 100)  par[["Epsilon"]] <- 100
+    if (par[["Kappa"]]   > 0.5)  par[["Kappa"]]   <- 0.5
+    if (par[["Gamma"]]   > 2)    par[["Gamma"]]   <- 2
+    if (par[["Theta"]]   > 2)    par[["Theta"]]   <- 2
+    if (par[["Omega"]]   > 0.5)  par[["Omega"]]   <- 0.5
+    if (par[["p"]]       > 1)    par[["p"]]       <- 1
+    if (par[["q"]]       > 1)    par[["q"]]       <- 1
+
+    p[["Rho"]]     <- abs(par[["Rho"]])
+    p[["Epsilon"]] <- abs(par[["Epsilon"]])
+    p[["Kappa"]]   <- abs(par[["Kappa"]])
+    p[["Gamma"]]   <- abs(par[["Gamma"]])
+    p[["Theta"]]   <- abs(par[["Theta"]])
+    p[["Omega"]]   <- abs(par[["Omega"]])
+    p[["p"]]       <- abs(par[["p"]])
+    p[["q"]]       <- abs(par[["q"]])
+
+    iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
+
+    return(sum(iOut[iOut$source == "error", "value"]))
+}
+
+GetErrorConstrained(par)
+
+res <- optim(par, GetErrorConstrained)
+as.matrix(res$par)
+res$value
+
+testResult <- c(
+    Rho     = -1.290357779,
+    Epsilon = 101.583061566,
+    Kappa   = 9.674792436,
+    Gamma   = 1.319025464,
+    Theta   = 0.390643260,
+    Omega   = 0.004153525,
+    p       = 0.785520885,
+    q       = 0.897956715
+)
+
+GetErrorConstrained(testResult)
+GetErrorConstrained(res$par)
+
+GetRealPar <- function(par) {
+
+    # Lower bounds
+    if (par[["Rho"]]     < 1e-3) par[["Rho"]]     <- 1e-3
+    if (par[["Epsilon"]] < 90)   par[["Epsilon"]] <- 90
+    if (par[["Kappa"]]   < 1e-3) par[["Kappa"]]   <- 1e-3
+    if (par[["Gamma"]]   < 1e-3) par[["Gamma"]]   <- 1e-3
+    if (par[["Theta"]]   < 1e-3) par[["Theta"]]   <- 1e-3
+    if (par[["Omega"]]   < 1e-3) par[["Omega"]]   <- 1e-3
+    if (par[["p"]]       < 0.5)  par[["p"]]       <- 0.5
+    if (par[["q"]]       < 0.9)  par[["q"]]       <- 0.9
+
+
+    # Upper bounds
+    if (par[["Rho"]]     > 1)    par[["Rho"]]     <- 1
+    if (par[["Epsilon"]] > 100)  par[["Epsilon"]] <- 100
+    if (par[["Kappa"]]   > 0.5)  par[["Kappa"]]   <- 0.5
+    if (par[["Gamma"]]   > 2)    par[["Gamma"]]   <- 2
+    if (par[["Theta"]]   > 2)    par[["Theta"]]   <- 2
+    if (par[["Omega"]]   > 0.5)  par[["Omega"]]   <- 0.5
+    if (par[["p"]]       > 1)    par[["p"]]       <- 1
+    if (par[["q"]]       > 1)    par[["q"]]       <- 1
+
+    par
+}
+
+
+realResult <- GetRealPar(testResult)
+as.matrix(realResult)
+
+GetErrorConstrained(testResult)
+GetErrorConstrained(realResult)
+
+calibOut <- GetErrorResult(realResult)
+
+graphics.off(); quartz.options(w = 10, h = 8)
+BuildCalibDetailPlot_Thesis(
+    data = calibOut,
+    originalData = MasterData,
+    limit = 1)
+quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 9, h = 4)
+BuildPHIAPlot(data = calibOut)
+quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 8, h = 4)
+BuildOptimPowersPlot(dat = calibOut)
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
+
+################################################################################
+# GetErrorCD4
+
+GetErrorCD4 <- function(par) {
+
+    p[["Rho"]]     <- abs(par[["Rho"]])
+    p[["Epsilon"]] <- abs(par[["Epsilon"]])
+    p[["Kappa"]]   <- abs(par[["Kappa"]])
+    p[["Gamma"]]   <- abs(par[["Gamma"]])
+    p[["Theta"]]   <- abs(par[["Theta"]])
+    p[["Omega"]]   <- abs(par[["Omega"]])
+    p[["p"]]       <- abs(par[["p"]])
+    p[["q"]]       <- abs(par[["q"]])
+
+    # Not in care ART initiation rate CD4 adjustment
+    p[["s_1"]] <- 1
+    p[["s_2"]] <- 1
+    p[["s_3"]] <- 1
+    p[["s_4"]] <- 1
+    p[["s_5"]] <- 1
+    p[["s_6"]] <- 1
+    p[["s_7"]] <- 1
+
+    iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
+
+    return(sum(iOut[iOut$source == "error", "value"]))
+}
+
+GetErrorCD4(par)
+
+res <- optim(par, GetErrorCD4)
+as.matrix(res$par)
+res$value
+
+result <- c(
+    Rho     = 0.0002390255,
+    Epsilon = 102.2647,
+    Kappa   = 1.749754,
+    Gamma   = 3.581516,
+    Theta   = 0.3114793,
+    Omega   = 0.006870914,
+    p       = 0.8291169,
+    q       = 0.9473207
+)
+# error = 0.01418761
+GetErrorCD4(result)
+# 400000 in care.
+
+GetErrorResultCD4 <- function(par) {
+
+    p[["Rho"]]     <- abs(par[["Rho"]])
+    p[["Epsilon"]] <- abs(par[["Epsilon"]])
+    p[["Kappa"]]   <- abs(par[["Kappa"]])
+    p[["Gamma"]]   <- abs(par[["Gamma"]])
+    p[["Theta"]]   <- abs(par[["Theta"]])
+    p[["Omega"]]   <- abs(par[["Omega"]])
+    p[["p"]]       <- abs(par[["p"]])
+    p[["q"]]       <- abs(par[["q"]])
+
+    # Not in care ART initiation rate CD4 adjustment
+    p[["s_1"]] <- 1
+    p[["s_2"]] <- 1
+    p[["s_3"]] <- 1
+    p[["s_4"]] <- 1
+    p[["s_5"]] <- 1
+    p[["s_6"]] <- 1
+    p[["s_7"]] <- 1
+
+    iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
+
+    iOut
+}
+
+calibOut <- GetErrorResultCD4(result)
+
+graphics.off(); quartz.options(w = 10, h = 8)
+BuildCalibDetailPlot_Thesis(
+    data = calibOut,
+    originalData = MasterData,
+    limit = 1)
+quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 9, h = 4)
+BuildPHIAPlot(data = calibOut)
+quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+
+GenSinglePowersPlot_Thesis()
+GetPowersCascadeData
+GetModel
+
+BuildOptimPowersPlot <- function(dat) {
+
+    d <- dat[dat$source == "model" & dat$year == 2015,]
+
+    UNDX <- d[d$indicator == "PLHIV","value"] - d[d$indicator == "PLHIV Diagnosed","value"]
+    DX   <- d[d$indicator == "PLHIV Diagnosed","value"] - d[d$indicator == "PLHIV in Care","value"] - d[d$indicator == "PLHIV Pre-ART LTFU","value"] - d[d$indicator == "PLHIV ART LTFU","value"]
+    CX   <- d[d$indicator == "PLHIV in Care","value"] - d[d$indicator == "PLHIV on ART","value"]
+    PLX  <- d[d$indicator == "PLHIV Pre-ART LTFU","value"]
+    TXN  <- d[d$indicator == "PLHIV on ART","value"] - d[d$indicator == "PLHIV Suppressed","value"]
+    VS   <- d[d$indicator == "PLHIV Suppressed","value"]
+    LX   <- d[d$indicator == "PLHIV ART LTFU","value"]
+
+    res <- c(VS, TXN, CX, DX, UNDX, PLX, LX,
+             VS, TXN, CX, DX, PLX, LX,
+             VS, TXN, CX,
+             VS, TXN,
+             VS)
+
+    state <- c("On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Undiagnosed", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART",
+               "On ART\n virally suppressed", "On ART\n (non-adherent)",
+               "On ART\n virally suppressed")
+
+    order <- c(rep("All"       ,7),
+               rep("Diagnosed" ,6),
+               rep("Care"      ,3),
+               rep("Treatment" ,2),
+               rep("Suppressed",1))
+
+    df <- data.frame(state, res, order)
+    df$order <- factor(df$order, levels = c("All", "Diagnosed", "Care", "Treatment", "Suppressed"))
+    df$state <- factor(df$state, levels = c("On ART\n virally suppressed", "On ART\n (non-adherent)", "In care,\nnot on ART", "Diagnosed,\nnot in care", "Undiagnosed", "Diagnosed,\nLTFU pre-ART", "Diagnosed,\nLTFU post-ART"))
+    df
+
+    cols <- brewer.pal(9,"Set1")
+    p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
+
+    ggOne <- ggplot(df, aes(x = order, y = res, fill = state))
+    ggOne <- ggOne + geom_bar(stat = 'identity')
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
+    ggOne <- ggOne + scale_fill_manual(values = p.col, guide = guide_legend(title = ""))
+    ggOne <- ggOne + ggtitle("2015")
+    ggOne <- ggOne + theme_classic()
+    ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
+    ggOne <- ggOne + theme(title = element_text(size = 13))
+    ggOne <- ggOne + theme(axis.title = element_blank())
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 12))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.text = element_text(size = 7))
+    ggOne <- ggOne + theme(legend.title = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(plot.background = element_blank())
+    ggOne <- ggOne + theme(panel.background = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
+    ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + expand_limits(y = round(sum(df[df$order == "All","res"]), -5))
+    ggOne
+}
+
+graphics.off(); quartz.options(w = 8, h = 4)
+BuildOptimPowersPlot(dat = calibOut)
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
+
+
+################################################################################
+#
 
 
 ################################################################################
@@ -307,3 +593,4 @@ par >= lower
 par <= upper
 
 optim(par = par, fn = GetError, method = "L-BFGS-B", lower = lower, upper = upper)
+stop("error...")
