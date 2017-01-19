@@ -28,7 +28,7 @@ set.seed(100)
 # ---- #
 
 # MaxError <- 0.04
-MaxError <- 0.1
+MaxError <- 0.05
 MinNumber <- 100
 
 # After first simulation, run this function
@@ -46,12 +46,38 @@ MinNumber <- 100
 # parRange for WHO-cascade-paper
 # parRange <- DefineParmRange(p = c(0.7, 1), omega = c(0, 0.01))
 
+# parRange <- DefineParmRange(
+#     p = c(0.7, 1),
+#     omega = c(0, 0.01),
+#     epsilon = c(100, 100),
+#     q = c(0.9, 1),
+#     kappa = c(0, 0.05)
+# )
+
+
+# the below works...
+# parRange <- DefineParmRange(
+#     rho     = c(0, 0.0005),
+#     q       = c(0.9, 1),
+#     epsilon = c(100, 105),
+#     kappa   = c(1, 2),
+#     gamma   = c(2, 4),
+#     theta   = c(0, 0.5),
+#     p       = c(0.7, 0.9),
+#     omega   = c(0, 0.01)
+# )
+
+
+# lets be more generous...
 parRange <- DefineParmRange(
-    p = c(0.7, 1),
-    omega = c(0, 0.01),
+    rho     = c(0, 0.001),
+    q       = c(0.9, 1),
     epsilon = c(100, 100),
-    q = c(0.9, 1),
-    kappa = c(0, 0.05)
+    kappa   = c(0, 2),
+    gamma   = c(0, 4),
+    theta   = c(0, 0.5),
+    p       = c(0.7, 1),
+    omega   = c(0, 0.01)
 )
 
 # Run Calibration
@@ -66,7 +92,8 @@ RunNSCalibration(
 
 graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = CalibOut)
-quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/PHIA.pdf", type = "pdf")
 
 
 ################################################################################
@@ -77,16 +104,16 @@ graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-quartz.save(file = "~/Desktop/fig/cascade.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/cascade.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
 
 # Error Histogram
 graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
     maxError = MaxError)
-quartz.save(file = "~/Desktop/fig/hist.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/hist.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
 
 # Calibration Detail
 graphics.off(); quartz.options(w = 10, h = 8)
@@ -94,14 +121,14 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
-quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
-quartz.save(file = "~/Desktop/fig/par.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/par.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
 
 
 ################################################################################
@@ -156,8 +183,8 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
-quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
@@ -217,6 +244,14 @@ t0
 
 t0$res[5]/t0$res[1]
 t5$res[5]/t5$res[1]
+
+# save.image("../../formal/zimbabwe/PHIA/data.RData")
+# load("../../formal/zimbabwe/PHIA/data.RData")
+
+# Can we view the CD4 at ART initiation?
+# i.e. of people on ART,
+
+
 
 ################################################################################
 # Optimisation

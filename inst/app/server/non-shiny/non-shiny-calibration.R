@@ -20,6 +20,16 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
         t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
     )
 
+    # Not in care ART initiation rate CD4 adjustment
+    message("Warning: ART initiation rate for those not in care not scaled by CD4")
+    p[["s_1"]] <- 1
+    p[["s_2"]] <- 1
+    p[["s_3"]] <- 1
+    p[["s_4"]] <- 1
+    p[["s_5"]] <- 1
+    p[["s_6"]] <- 1
+    p[["s_7"]] <- 1
+
     ## Sample Parameters
     # Defines max / min
     # Allows user to override these
