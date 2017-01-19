@@ -206,6 +206,11 @@ graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
 
+# CD4 distribution at ART initiation
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4Data_Thesis(year = 1)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2015.pdf", type = "pdf")
+
 # NUMBERS
 t0 <- GetCascadeData(1)   # t0 = 1
 t5 <- GetCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
@@ -247,10 +252,6 @@ t5$res[5]/t5$res[1]
 
 # save.image("../../formal/zimbabwe/PHIA/data.RData")
 # load("../../formal/zimbabwe/PHIA/data.RData")
-
-# Can we view the CD4 at ART initiation?
-# i.e. of people on ART,
-
 
 
 ################################################################################
