@@ -119,4 +119,32 @@ replace_or_append <- function(datOne, datTwo) {
     datOne
 }
 
+reduce_incidence <- function(inc, weight) {
+
+    # tease out values
+    lower  <- as.double(inc[1,3:9])
+    median <- as.double(inc[2,3:9])
+    upper  <- as.double(inc[3,3:9])
+
+    # multiply by weight
+    inc[1,3:9] <- lower  * weight
+    inc[2,3:9] <- median * weight
+    inc[3,3:9] <- upper  * weight
+
+    return(inc)
+}
+
+find_error_bound <- function(runError = runError, prop = 0.05) {
+    # sort errors
+    srtError <- sort(runError)
+
+    # check
+    check <- scales::percent(sum(runError <= srtError[round(length(srtError) * prop)]) / sum(runError != 0))
+    message(paste(srtError[round(length(srtError) * prop)], "is", check))
+
+    # return maxError bound
+    return(srtError[round(length(srtError) * prop)])
+}
+
+
 message("Good to go...")

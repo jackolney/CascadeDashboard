@@ -15,38 +15,24 @@ source("../../formal/initial.R")
 MasterName <- "Zimbabwe"
 MasterData <- GetMasterDataSet(MasterName)
 
-# EDIT TO INCLUDE DATA DEPOSITED DURING CROATIA MEETING
-# INCLUSION OF PEPFAR PHIA REPORT VALUE (74.2% diagnosed)
-
-# New Data
-new_plhiv <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV",            value = 1425762, weight = "green", source = "Spectrum")
-new_care  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV in Care",    value = 903011,  weight = "amber", source = "Program Data (adjusted ART data)")
-new_art   <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV on ART",     value = 879271,  weight = "amber", source = "Program Data (DHIS)")
-new_supp  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Suppressed", value = 782551,  weight = "red",   source = "Surveillance")
-
-# PEPFAR PHIA DATA
-new_diag  <- new_data(country = "Zimbabwe", year = 2015, indicator = "PLHIV Diagnosed",  value = new_plhiv$value * 0.742,  weight = "green",   source = "PEPFAR PHIA")
-
-MasterData$calib <- replace_or_append(datOne = MasterData$calib, datTwo = new_plhiv)
-MasterData$calib <- replace_or_append(datOne = MasterData$calib, datTwo = new_diag)
-MasterData$calib <- replace_or_append(datOne = MasterData$calib, datTwo = new_care)
-MasterData$calib <- replace_or_append(datOne = MasterData$calib, datTwo = new_art)
-MasterData$calib <- replace_or_append(datOne = MasterData$calib, datTwo = new_supp)
-
-# Ignoring 'PLHIV Diagnosed' value as it was an outdated value from DHS in 2010 (we have a slightly different adjusted version from Mary Mahy)
-
-MasterData$calib
-
+# write function that reduces incidence by some weight
+# MasterData$incidence <- reduce_incidence(inc = MasterData$incidence, weight = 0.5)
 
 # MAKE all PLHIV RED!
-MasterData$calib[MasterData$calib$indicator == "PLHIV", "weight"] <- "red"
+# MasterData$calib[MasterData$calib$indicator == "PLHIV", "weight"] <- "red"
 
 # ---- #
 set.seed(100)
 # ---- #
 
-MaxError <- 0.04
+# MaxError <- 0.04
+MaxError <- 0.1
 MinNumber <- 100
+
+# After first simulation, run this function
+# by default, gives you 5% of simulations
+# MaxError <- find_error_bound(runError, prop = 0.05)
+
 
 # Define Parameter Range
 # function can now be edited
@@ -54,7 +40,17 @@ MinNumber <- 100
 # parRange <- DefineParmRange()
 
 # parRange <- DefineParmRange(p = c(0.86, 1), omega = c(0, 0.01))
-parRange <- DefineParmRange(p = c(0.7, 1), omega = c(0, 0.01))
+
+# parRange for WHO-cascade-paper
+# parRange <- DefineParmRange(p = c(0.7, 1), omega = c(0, 0.01))
+
+# parRange <- DefineParmRange(
+#     p = c(0.7, 1),
+#     omega = c(0, 0.01),
+#     epsilon = c(90, 100),
+#     q = c(0.9, 0.99),
+#     kappa = c(0, 0.05)
+# )
 
 # Run Calibration
 RunNSCalibration(
@@ -71,6 +67,7 @@ graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+# quartz.save(file = "~/Desktop/fig/cascade.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
 
 # Error Histogram
@@ -78,6 +75,7 @@ graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
     maxError = MaxError)
+# quartz.save(file = "~/Desktop/fig/hist.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
 
 # Calibration Detail
@@ -86,6 +84,7 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+# quartz.save(file = "~/Desktop/fig/detail.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
@@ -138,6 +137,7 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
+# quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
@@ -401,3 +401,35 @@ Gen909090Plot_2016 <- function(yr) {
 }
 
 Gen909090Plot_2016(yr = 2016)
+
+
+###
+
+head(CalibOut)
+
+test <- CalibOut
+
+plhiv_2010 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2010, "value"])
+plhiv_2011 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2011, "value"])
+plhiv_2012 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2012, "value"])
+plhiv_2013 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2013, "value"])
+plhiv_2014 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2014, "value"])
+plhiv_2015 <- mean(test[test$source == "model" & test$indicator == "PLHIV" & test$year == 2015, "value"])
+
+plhiv <- c(plhiv_2010, plhiv_2011, plhiv_2012, plhiv_2013, plhiv_2014, plhiv_2015)
+
+inc <- as.double(MasterData$incidence[2,3:8])
+
+inc
+
+rate <- inc / plhiv
+
+year <- seq(2010, 2015, 1)
+
+df <- data.frame(year, rate)
+
+graphics.off(); quartz.options(w = 5, h = 3)
+ggplot(df, aes(x = year, y = rate)) +
+geom_line() +
+ggtitle("Transmission Rate", subtitle = "New Infections / Total PLHIV")
+quartz.save(file = "~/Desktop/fig/transmission-rate.pdf", type = "pdf")
