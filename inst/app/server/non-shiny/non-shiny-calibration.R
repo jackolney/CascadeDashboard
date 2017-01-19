@@ -81,6 +81,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
     minErrorRun <<- NULL
     runError <<- c()
     CalibOut <<- c()
+    modelOut <<- list()
     for (k in 1:dim(lhsInitial_Out)[1]) {
 
         p[["Rho"]]     <- lhs[,"rho"][k]
@@ -94,7 +95,8 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
 
         i <- incidence(as.double(lhsIncidence[k,]))
         y <- GetCalibInitial(p, data, init2010 = lhsInitial_Out[k,])
-        iOut <- SSE(AssembleComparisonDataFrame(country = country, model = CallCalibModel(time, y, p, i), data = data))
+        outModel <- CallCalibModel(time, y, p, i)
+        iOut <- SSE(AssembleComparisonDataFrame(country = country, model = outModel, data = data))
         runError[k] <<- sum(iOut[iOut$source == "error", "value"])
 
         # If error <= maxError then store value of k
@@ -104,6 +106,7 @@ RunNSCalibration <- function(country, data, maxIterations, maxError, limit, parR
                 minError <<- runError[k]
                 minErrorRun <<- v
             }
+            modelOut[[v]] <<- outModel
             selectedRuns[v] <<- k
             CalibOut <<- rbind(CalibOut, iOut)
             message(paste(paste0(round((v / limit) * 100, digits = 0), "%"), "of", paste0(round((k / dim(lhsInitial_Out)[1]) * 100, digits = 0), "%")))

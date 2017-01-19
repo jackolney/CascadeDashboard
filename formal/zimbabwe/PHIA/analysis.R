@@ -90,6 +90,17 @@ RunNSCalibration(
     parRange = parRange,
     targetIterations = 1e5)
 
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2010.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 6, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2015.pdf", type = "pdf")
+
+
+
+
 graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = CalibOut)
 # quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
@@ -208,8 +219,8 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", ty
 
 # CD4 distribution at ART initiation
 graphics.off(); quartz.options(w = 8, h = 6)
-BuildCD4Data_Thesis(year = 1)
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2015.pdf", type = "pdf")
+BuildCD4Data_Thesis(year = 251)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
 
 # NUMBERS
 t0 <- GetCascadeData(1)   # t0 = 1
@@ -252,7 +263,6 @@ t5$res[5]/t5$res[1]
 
 # save.image("../../formal/zimbabwe/PHIA/data.RData")
 # load("../../formal/zimbabwe/PHIA/data.RData")
-
 
 ################################################################################
 # Optimisation
