@@ -65,7 +65,7 @@ BuildEditCD42010Plot <- function(data) {
         }
         if (any(!is.na(data[8:14,"Proportion"]))) {
             DF_On <- data[8:14,]
-            DF_On$pos <- cumsum(DF_On$Proportion) - DF_On$Proportion / 2
+            DF_On$pos <- 1 - (cumsum(DF_On$Proportion) - DF_On$Proportion / 2)
             DF_On$Category <- factor(DF_On$Category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
             ggOn <- ggplot(DF_On, aes(x = "", y = Proportion, fill = Category))
             ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
@@ -133,7 +133,7 @@ BuildEditCD42015Plot <- function(data) {
         }
         if (any(!is.na(data[8:14,"Proportion"]))) {
             DF_On <- data[8:14,]
-            DF_On$pos <- cumsum(DF_On$Proportion) - DF_On$Proportion / 2
+            DF_On$pos <- 1 - (cumsum(DF_On$Proportion) - DF_On$Proportion / 2)
             DF_On$Category <- factor(DF_On$Category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
             ggOn <- ggplot(DF_On, aes(x = "", y = Proportion, fill = Category))
             ggOn <- ggOn + geom_bar(width = 1, stat = "identity")
