@@ -389,38 +389,165 @@ quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 
 
 ################################################################################
-
-
-
 ################################################################################
-# Constrained Optimisation
+## CD4 distribution at ART initiation
+#
+# PLAN:
+# omega = 0
+# p = 1
+# delta 1-5 = 0
+# tau 1-7 = 0
+# this will force 'Tx_A' to spit out the CD4 count at ART initiation
+# test out in optim() and then move to approx Bayesian tomorrow
 
-parRange
+# first we need a test base.
 
-lower <- c(
-    Rho     = 1e-3,
-    Epsilon = 90,
-    Kappa   = 1e-3,
-    Gamma   = 1e-3,
-    Theta   = 1e-3,
-    Omega   = 1e-3,
-    p       = 0.7,
-    q       = 0.9
+result <- c(
+    Rho     = 0.0002390255,
+    Epsilon = 102.2647,
+    Kappa   = 1.749754,
+    Gamma   = 3.581516,
+    Theta   = 0.3114793,
+    Omega   = 0.006870914,
+    p       = 0.8291169,
+    q       = 0.9473207
 )
 
-upper <- c(
-    Rho     = 1,
-    Epsilon = 100,
-    Kappa   = 0.05,
-    Gamma   = 2,
-    Theta   = 2,
-    Omega   = 0.01,
-    p       = 1,
-    q       = 1
-)
+# the below is a constrained parameters
+# result_old <- c(
+#     Rho     = 0.01644884,
+#     Epsilon = 101.10953770,
+#     Kappa   = 4.39250933,
+#     Gamma   = 0.84941599,
+#     Theta   = 0.49302572,
+#     Omega   = 6.27621235,
+#     p       = 0.17461624,
+#     q       = 1.24494045
+# )
 
-par >= lower
-par <= upper
+GetResult_CUSTOM <- function(par) {
 
-optim(par = par, fn = GetError, method = "L-BFGS-B", lower = lower, upper = upper)
-stop("error...")
+    p[["Rho"]]     <- abs(par[["Rho"]])
+    p[["Epsilon"]] <- abs(par[["Epsilon"]])
+    p[["Kappa"]]   <- abs(par[["Kappa"]])
+    p[["Gamma"]]   <- abs(par[["Gamma"]])
+    p[["Theta"]]   <- abs(par[["Theta"]])
+    p[["Omega"]]   <- abs(par[["Omega"]])
+    p[["p"]]       <- abs(par[["p"]])
+    p[["q"]]       <- abs(par[["q"]])
+
+    # Not in care ART initiation rate CD4 adjustment
+    p[["s_1"]] <- 1
+    p[["s_2"]] <- 1
+    p[["s_3"]] <- 1
+    p[["s_4"]] <- 1
+    p[["s_5"]] <- 1
+    p[["s_6"]] <- 1
+    p[["s_7"]] <- 1
+
+    # custom edits to output CD4 distribution at ART initiation
+    p[["Omega"]]   <- 0
+    p[["p"]]       <- 1
+    p[["Delta_1"]] <- 0
+    p[["Delta_2"]] <- 0
+    p[["Delta_3"]] <- 0
+    p[["Delta_4"]] <- 0
+    p[["Delta_5"]] <- 0
+    p[["Tau_1"]]   <- 0
+    p[["Tau_2"]]   <- 0
+    p[["Tau_3"]]   <- 0
+    p[["Tau_4"]]   <- 0
+    p[["Tau_5"]]   <- 0
+    p[["Tau_6"]]   <- 0
+    p[["Tau_7"]]   <- 0
+
+    out <- CallCalibModel(time, y, p, i)
+    out
+}
+
+test <- GetResult_CUSTOM(result)
+
+head(test)
+
+a <- test$Tx_A_500 + test$Tx_A_350500 + test$Tx_A_250350 + test$Tx_A_200250 + test$Tx_A_100200 + test$Tx_A_50100 + test$Tx_A_50
+
+plot(a)
+
+cd4_500 <- test$Tx_A_500[6] / a[6]
+cd4_350500 <- test$Tx_A_350500[6] / a[6]
+cd4_250350 <- test$Tx_A_250350[6] / a[6]
+cd4_200250 <- test$Tx_A_200250[6] / a[6]
+cd4_100200 <- test$Tx_A_100200[6] / a[6]
+cd4_50100 <- test$Tx_A_50100[6] / a[6]
+cd4_50 <- test$Tx_A_50[6] / a[6]
+
+year <- 6
+
+proportion <- c(cd4_500, cd4_350500, cd4_250350, cd4_200250, cd4_100200, cd4_50100, cd4_50)
+category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+df <- data.frame(category, proportion)
+
+
+# set levels
+df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+
+# set position
+df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
+
+ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
+ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
+ggOut <- ggOut + theme_classic()
+ggOut <- ggOut + coord_polar(theta = "y")
+ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+ggOut <- ggOut + theme(text = element_text(family = figFont))
+ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+ggOut <- ggOut + theme(legend.position = "right")
+ggOut <- ggOut + theme(axis.title = element_blank())
+ggOut <- ggOut + theme(legend.title = element_blank())
+ggOut <- ggOut + theme(axis.text = element_blank())
+ggOut <- ggOut + theme(axis.line.x = element_blank())
+ggOut <- ggOut + theme(axis.line.y = element_blank())
+ggOut <- ggOut + theme(axis.ticks = element_blank())
+ggOut <- ggOut + theme(plot.background = element_blank())
+ggOut <- ggOut + theme(legend.background = element_blank())
+ggOut <- ggOut + theme(panel.background = element_blank())
+ggOut <- ggOut + theme(legend.text = element_text(size = 15))
+ggOut <- ggOut + theme(legend.key.size = unit(1, "cm"))
+ggOut <- ggOut + ggtitle(paste("CD4 distribution of persons on ART in", 2010 + (year - 1)))
+ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 18))
+ggOut
+
+
+# convert this to use the approx Bayesian calibration method
+
+# need some narrative around how the model, with the CD4 dependency on theta,
+# alters (I think increases) theta to produce the CD4 distribution we see,
+# then when we remove the CD4 dependency on theta, calibration adjusts theta to
+# give us a similar result? perhaps.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
