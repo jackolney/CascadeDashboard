@@ -525,7 +525,49 @@ ggOut
 # then when we remove the CD4 dependency on theta, calibration adjusts theta to
 # give us a similar result? perhaps.
 
+######
+# initiation rate = # initiating by CD4 / number untreated in that category
 
+
+a <- test$Tx_A_500    / (test$UnDx_500    + test$Dx_500    + test$Care_500    + test$PreLtfu_500)
+b <- test$Tx_A_350500 / (test$UnDx_350500 + test$Dx_350500 + test$Care_350500 + test$PreLtfu_350500)
+c <- test$Tx_A_250350 / (test$UnDx_250350 + test$Dx_250350 + test$Care_250350 + test$PreLtfu_250350)
+d <- test$Tx_A_200250 / (test$UnDx_200250 + test$Dx_200250 + test$Care_200250 + test$PreLtfu_200250)
+e <- test$Tx_A_100200 / (test$UnDx_100200 + test$Dx_100200 + test$Care_100200 + test$PreLtfu_100200)
+f <- test$Tx_A_50100  / (test$UnDx_50100  + test$Dx_50100  + test$Care_50100  + test$PreLtfu_50100)
+g <- test$Tx_A_50     / (test$UnDx_50     + test$Dx_50     + test$Care_50     + test$PreLtfu_50)
+
+rate <- c(a, b, c, d, e, f, g)
+category <- c(
+    rep("<500", 6),
+     rep("350-500", 6),
+     rep("250-350", 6),
+     rep("200-250", 6),
+     rep("100-200", 6),
+     rep("50-100", 6),
+     rep("<50", 6)
+)
+year <- rep(seq(2010, 2015, 1), 7)
+df <- data.frame(year, category, rate)
+
+df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+
+ggplot(df, aes(x = year, y = rate, group = category)) + geom_line(aes(color = category))
+
+
+
+(test$UnDx_500 + test$Dx_500 + test$Care_500 + test$PreLtfu_500)
+
+
+test$Tx_A_500[6] / a[6]
+
+
+test$Tx_A_350500[6] / a[6]
+test$Tx_A_250350[6] / a[6]
+test$Tx_A_200250[6] / a[6]
+test$Tx_A_100200[6] / a[6]
+test$Tx_A_50100[6] / a[6]
+test$Tx_A_50[6] / a[6]
 
 
 
