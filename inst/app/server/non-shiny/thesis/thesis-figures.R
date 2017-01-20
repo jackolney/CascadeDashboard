@@ -924,7 +924,7 @@ BuildChangesPlot_Thesis <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + expand_limits(y = 1e5)
+    # ggOut <- ggOut + expand_limits(y = 1e5)
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')

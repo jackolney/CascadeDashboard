@@ -276,13 +276,23 @@ intSwitch <- data.frame(
     retention    = TRUE
 )
 
+# These need updating
+# and re-write this definition, it looks vile
+# OptInput <- c()
+# OptInput$intValue_rho   <- parRange["rho", "max"]
+# OptInput$intValue_q     <- parRange["q", "max"]
+# OptInput$intValue_kappa <- parRange["kappa", "min"]
+# OptInput$intValue_gamma <- parRange["gamma", "max"]
+# OptInput$intValue_sigma <- 0.5
+# OptInput$intValue_omega <- parRange["omega", "min"]
+
 OptInput <- c()
-OptInput$intValue_rho   <- parRange["rho", "max"]
-OptInput$intValue_q     <- parRange["q", "max"]
-OptInput$intValue_kappa <- parRange["kappa", "min"]
-OptInput$intValue_gamma <- parRange["gamma", "max"]
+OptInput$intValue_rho   <- 1
+OptInput$intValue_q     <- 1
+OptInput$intValue_kappa <- 0
+OptInput$intValue_gamma <- 4
 OptInput$intValue_sigma <- 0.5
-OptInput$intValue_omega <- parRange["omega", "min"]
+OptInput$intValue_omega <- 0
 
 reactiveCost <- data.frame(
     test = 10,

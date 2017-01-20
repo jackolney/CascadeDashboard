@@ -54,12 +54,11 @@ p <- parameters(
     t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
 )
 
-
-
 # define y
 optim_initial <- matrix(0,1,4)
 colnames(optim_initial) <- c("plhiv", "plhiv_diag", "plhiv_care", "plhiv_art")
 optim_initial[1,] <- c(1220058, 728013, 400000, 292573)
+# p[["p"]] <- 0
 y <- GetCalibInitial(p, data, init2010 = optim_initial[1,])
 
 # define i
@@ -413,17 +412,18 @@ result <- c(
     q       = 0.9473207
 )
 
-# the below is a constrained parameters
-# result_old <- c(
-#     Rho     = 0.01644884,
-#     Epsilon = 101.10953770,
-#     Kappa   = 4.39250933,
-#     Gamma   = 0.84941599,
-#     Theta   = 0.49302572,
-#     Omega   = 6.27621235,
-#     p       = 0.17461624,
-#     q       = 1.24494045
-# )
+# Calibration 2
+# below are the constrained parameters
+result_old <- c(
+    Rho     = 0.031277257,
+    Epsilon = 102.567917414,
+    Kappa   = 2.064367960,
+    Gamma   = 1.619482994,
+    Theta   = 0.421657503,
+    Omega   = 0.001290356,
+    p       = 0.785773456,
+    q       = 1.269157212
+)
 
 GetResult_CUSTOM <- function(par) {
 
@@ -465,57 +465,62 @@ GetResult_CUSTOM <- function(par) {
     out
 }
 
-test <- GetResult_CUSTOM(result)
+test <- GetResult_CUSTOM(result_old)
 
-head(test)
+plot_CD4_at_initiation <- function(year, dat) {
 
-a <- test$Tx_A_500 + test$Tx_A_350500 + test$Tx_A_250350 + test$Tx_A_200250 + test$Tx_A_100200 + test$Tx_A_50100 + test$Tx_A_50
+    a <- dat$Tx_A_500 + dat$Tx_A_350500 + dat$Tx_A_250350 + dat$Tx_A_200250 + dat$Tx_A_100200 + dat$Tx_A_50100 + dat$Tx_A_50
 
-plot(a)
+    cd4_500 <- dat$Tx_A_500[year] / a[year]
+    cd4_350500 <- dat$Tx_A_350500[year] / a[year]
+    cd4_250350 <- dat$Tx_A_250350[year] / a[year]
+    cd4_200250 <- dat$Tx_A_200250[year] / a[year]
+    cd4_100200 <- dat$Tx_A_100200[year] / a[year]
+    cd4_50100 <- dat$Tx_A_50100[year] / a[year]
+    cd4_50 <- dat$Tx_A_50[year] / a[year]
 
-cd4_500 <- test$Tx_A_500[6] / a[6]
-cd4_350500 <- test$Tx_A_350500[6] / a[6]
-cd4_250350 <- test$Tx_A_250350[6] / a[6]
-cd4_200250 <- test$Tx_A_200250[6] / a[6]
-cd4_100200 <- test$Tx_A_100200[6] / a[6]
-cd4_50100 <- test$Tx_A_50100[6] / a[6]
-cd4_50 <- test$Tx_A_50[6] / a[6]
+    proportion <- c(cd4_500, cd4_350500, cd4_250350, cd4_200250, cd4_100200, cd4_50100, cd4_50)
+    category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    df <- data.frame(category, proportion)
 
-year <- 6
+    # set levels
+    df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
 
-proportion <- c(cd4_500, cd4_350500, cd4_250350, cd4_200250, cd4_100200, cd4_50100, cd4_50)
-category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
-df <- data.frame(category, proportion)
+    # set position
+    df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
 
+    ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
+    ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + coord_polar(theta = "y")
+    ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+    ggOut <- ggOut + theme(legend.position = "right")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.text = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_blank())
+    ggOut <- ggOut + theme(axis.ticks = element_blank())
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 15))
+    ggOut <- ggOut + theme(legend.key.size = unit(1, "cm"))
+    ggOut <- ggOut + ggtitle(paste("CD4 distribution of persons on ART in", 2010 + (year - 1)))
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOut
+}
 
-# set levels
-df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+plot_CD4_at_initiation(year = 6, dat = test)
 
-# set position
-df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
+graphics.off(); quartz.options(w = 8, h = 6)
 
-ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
-ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
-ggOut <- ggOut + theme_classic()
-ggOut <- ggOut + coord_polar(theta = "y")
-ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
-ggOut <- ggOut + theme(text = element_text(family = figFont))
-ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
-ggOut <- ggOut + theme(legend.position = "right")
-ggOut <- ggOut + theme(axis.title = element_blank())
-ggOut <- ggOut + theme(legend.title = element_blank())
-ggOut <- ggOut + theme(axis.text = element_blank())
-ggOut <- ggOut + theme(axis.line.x = element_blank())
-ggOut <- ggOut + theme(axis.line.y = element_blank())
-ggOut <- ggOut + theme(axis.ticks = element_blank())
-ggOut <- ggOut + theme(plot.background = element_blank())
-ggOut <- ggOut + theme(legend.background = element_blank())
-ggOut <- ggOut + theme(panel.background = element_blank())
-ggOut <- ggOut + theme(legend.text = element_text(size = 15))
-ggOut <- ggOut + theme(legend.key.size = unit(1, "cm"))
-ggOut <- ggOut + ggtitle(paste("CD4 distribution of persons on ART in", 2010 + (year - 1)))
-ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 18))
-ggOut
+year = 6
+plot_CD4_at_initiation(year = year, dat = test)
+filename <- paste0("../../formal/zimbabwe/PHIA/fig/cal/CD4-", 2010 + (year - 1) ,".pdf")
+quartz.save(file = filename, type = "pdf")
 
 
 # convert this to use the approx Bayesian calibration method
@@ -525,9 +530,10 @@ ggOut
 # then when we remove the CD4 dependency on theta, calibration adjusts theta to
 # give us a similar result? perhaps.
 
-######
+####################################################################################################
 # initiation rate = # initiating by CD4 / number untreated in that category
 
+head(test)
 
 a <- test$Tx_A_500    / (test$UnDx_500    + test$Dx_500    + test$Care_500    + test$PreLtfu_500)
 b <- test$Tx_A_350500 / (test$UnDx_350500 + test$Dx_350500 + test$Care_350500 + test$PreLtfu_350500)
@@ -540,20 +546,50 @@ g <- test$Tx_A_50     / (test$UnDx_50     + test$Dx_50     + test$Care_50     + 
 rate <- c(a, b, c, d, e, f, g)
 category <- c(
     rep("<500", 6),
-     rep("350-500", 6),
-     rep("250-350", 6),
-     rep("200-250", 6),
-     rep("100-200", 6),
-     rep("50-100", 6),
-     rep("<50", 6)
+    rep("350-500", 6),
+    rep("250-350", 6),
+    rep("200-250", 6),
+    rep("100-200", 6),
+    rep("50-100", 6),
+    rep("<50", 6)
 )
 year <- rep(seq(2010, 2015, 1), 7)
 df <- data.frame(year, category, rate)
 
+# actually I think its this.
+a <- diff(test$Tx_A_500)    / (test$UnDx_500    + test$Dx_500    + test$Care_500    + test$PreLtfu_500)[2:6]
+b <- diff(test$Tx_A_350500) / (test$UnDx_350500 + test$Dx_350500 + test$Care_350500 + test$PreLtfu_350500)[2:6]
+c <- diff(test$Tx_A_250350) / (test$UnDx_250350 + test$Dx_250350 + test$Care_250350 + test$PreLtfu_250350)[2:6]
+d <- diff(test$Tx_A_200250) / (test$UnDx_200250 + test$Dx_200250 + test$Care_200250 + test$PreLtfu_200250)[2:6]
+e <- diff(test$Tx_A_100200) / (test$UnDx_100200 + test$Dx_100200 + test$Care_100200 + test$PreLtfu_100200)[2:6]
+f <- diff(test$Tx_A_50100)  / (test$UnDx_50100  + test$Dx_50100  + test$Care_50100  + test$PreLtfu_50100)[2:6]
+g <- diff(test$Tx_A_50)     / (test$UnDx_50     + test$Dx_50     + test$Care_50     + test$PreLtfu_50)[2:6]
+
+
+
+rate <- c(a, b, c, d, e, f, g)
+category <- c(
+    rep("<500", 5),
+    rep("350-500", 5),
+    rep("250-350", 5),
+    rep("200-250", 5),
+    rep("100-200", 5),
+    rep("50-100", 5),
+    rep("<50", 5)
+)
+year <- rep(seq(2011, 2015, 1), 7)
+df <- data.frame(year, category, rate)
+
 df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
 
-ggplot(df, aes(x = year, y = rate, group = category)) + geom_line(aes(color = category))
 
+graphics.off(); quartz.options(w = 5.5, h = 3.5)
+ggplot(df, aes(x = year, y = rate, group = category)) +
+geom_line(aes(color = category)) +
+geom_point(aes(color = category)) +
+scale_colour_manual(values = rev(brewer.pal(7, "RdYlGn"))) +
+ggtitle("ART initiation rate by CD4 count", subtitle = "# initiating by CD4 / total number untreated in that category")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/initiation-rate.pdf", type = "pdf")
 
 
 (test$UnDx_500 + test$Dx_500 + test$Care_500 + test$PreLtfu_500)
