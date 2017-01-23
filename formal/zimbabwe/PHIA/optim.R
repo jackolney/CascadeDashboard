@@ -436,14 +436,14 @@ GetResult_CUSTOM <- function(par) {
     p[["p"]]       <- abs(par[["p"]])
     p[["q"]]       <- abs(par[["q"]])
 
-    # Not in care ART initiation rate CD4 adjustment
-    p[["s_1"]] <- 1
-    p[["s_2"]] <- 1
-    p[["s_3"]] <- 1
-    p[["s_4"]] <- 1
-    p[["s_5"]] <- 1
-    p[["s_6"]] <- 1
-    p[["s_7"]] <- 1
+    # # Not in care ART initiation rate CD4 adjustment
+    # p[["s_1"]] <- 1
+    # p[["s_2"]] <- 1
+    # p[["s_3"]] <- 1
+    # p[["s_4"]] <- 1
+    # p[["s_5"]] <- 1
+    # p[["s_6"]] <- 1
+    # p[["s_7"]] <- 1
 
     # custom edits to output CD4 distribution at ART initiation
     p[["Omega"]]   <- 0
@@ -535,27 +535,6 @@ quartz.save(file = filename, type = "pdf")
 
 head(test)
 
-a <- test$Tx_A_500    / (test$UnDx_500    + test$Dx_500    + test$Care_500    + test$PreLtfu_500)
-b <- test$Tx_A_350500 / (test$UnDx_350500 + test$Dx_350500 + test$Care_350500 + test$PreLtfu_350500)
-c <- test$Tx_A_250350 / (test$UnDx_250350 + test$Dx_250350 + test$Care_250350 + test$PreLtfu_250350)
-d <- test$Tx_A_200250 / (test$UnDx_200250 + test$Dx_200250 + test$Care_200250 + test$PreLtfu_200250)
-e <- test$Tx_A_100200 / (test$UnDx_100200 + test$Dx_100200 + test$Care_100200 + test$PreLtfu_100200)
-f <- test$Tx_A_50100  / (test$UnDx_50100  + test$Dx_50100  + test$Care_50100  + test$PreLtfu_50100)
-g <- test$Tx_A_50     / (test$UnDx_50     + test$Dx_50     + test$Care_50     + test$PreLtfu_50)
-
-rate <- c(a, b, c, d, e, f, g)
-category <- c(
-    rep("<500", 6),
-    rep("350-500", 6),
-    rep("250-350", 6),
-    rep("200-250", 6),
-    rep("100-200", 6),
-    rep("50-100", 6),
-    rep("<50", 6)
-)
-year <- rep(seq(2010, 2015, 1), 7)
-df <- data.frame(year, category, rate)
-
 # actually I think its this.
 a <- diff(test$Tx_A_500)    / (test$UnDx_500    + test$Dx_500    + test$Care_500    + test$PreLtfu_500)[2:6]
 b <- diff(test$Tx_A_350500) / (test$UnDx_350500 + test$Dx_350500 + test$Care_350500 + test$PreLtfu_350500)[2:6]
@@ -592,18 +571,6 @@ ggtitle("ART initiation rate by CD4 count", subtitle = "# initiating by CD4 / to
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/initiation-rate.pdf", type = "pdf")
 
 
-(test$UnDx_500 + test$Dx_500 + test$Care_500 + test$PreLtfu_500)
-
-
-test$Tx_A_500[6] / a[6]
-
-
-test$Tx_A_350500[6] / a[6]
-test$Tx_A_250350[6] / a[6]
-test$Tx_A_200250[6] / a[6]
-test$Tx_A_100200[6] / a[6]
-test$Tx_A_50100[6] / a[6]
-test$Tx_A_50[6] / a[6]
 
 
 
@@ -615,17 +582,102 @@ test$Tx_A_50[6] / a[6]
 
 
 
+####################################################################################################
+# Monday 23rd January, 2017
+
+# by removing 'mu' for persons on ART, we can see the distribution at ART initiation
+
+plot_CD4_at_initiation <- function(year, dat) {
+
+    a <- dat$Tx_A_500 + dat$Tx_A_350500 + dat$Tx_A_250350 + dat$Tx_A_200250 + dat$Tx_A_100200 + dat$Tx_A_50100 + dat$Tx_A_50
+
+    # the trouble is, that persons in this group, obviously dwindle over time... natural mortality
+    # this branch of 'cascade' has mu for those persons switched off
+
+    cd4_500    <- diff(dat$Tx_A_500)    / diff(a)
+    cd4_350500 <- diff(dat$Tx_A_350500) / diff(a)
+    cd4_250350 <- diff(dat$Tx_A_250350) / diff(a)
+    cd4_200250 <- diff(dat$Tx_A_200250) / diff(a)
+    cd4_100200 <- diff(dat$Tx_A_100200) / diff(a)
+    cd4_50100  <- diff(dat$Tx_A_50100)  / diff(a)
+    cd4_50     <- diff(dat$Tx_A_50)     / diff(a)
 
 
+    proportion <- c(cd4_500[year], cd4_350500[year], cd4_250350[year], cd4_200250[year], cd4_100200[year], cd4_50100[year], cd4_50[year])
+    category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    df <- data.frame(category, proportion)
 
+    # set levels
+    df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
 
+    # set position
+    df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
 
+    ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
+    ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + coord_polar(theta = "y")
+    ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 5, family = figFont, show.legend = FALSE)
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+    ggOut <- ggOut + theme(legend.position = "none")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.text = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_blank())
+    ggOut <- ggOut + theme(axis.ticks = element_blank())
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 10))
+    ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + ggtitle(paste("CD4 distribution\nof persons initiating ART in\n", 2010 + year))
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 12))
+    ggOut
 
+}
 
+year = 5
+graphics.off(); quartz.options(w = 5, h = 4)
+plot_CD4_at_initiation(year = year, dat = test)
+filename <- paste0("../../formal/zimbabwe/PHIA/fig/cal/CD4-", 2010 + year ,".pdf")
+quartz.save(file = filename, type = "pdf")
 
+# Approximate median CD4 count of persons initiating ART in each year.
 
+# so for each category what is the median?
+# >500 = 750?
+# 350-500 = 425
+# 250-350 = 300
+# 200-250 = 225
+# 100-200 = 150
+# 50-100 = 75
+# <50 = 25
 
+calculate_median_cd4_at_initiation <- function(dat) {
 
+    a <- dat$Tx_A_500 + dat$Tx_A_350500 + dat$Tx_A_250350 + dat$Tx_A_200250 + dat$Tx_A_100200 + dat$Tx_A_50100 + dat$Tx_A_50
 
+    cd4_500    <- diff(dat$Tx_A_500)    * 750
+    cd4_350500 <- diff(dat$Tx_A_350500) * 425
+    cd4_250350 <- diff(dat$Tx_A_250350) * 300
+    cd4_200250 <- diff(dat$Tx_A_200250) * 225
+    cd4_100200 <- diff(dat$Tx_A_100200) * 150
+    cd4_50100  <- diff(dat$Tx_A_50100)  * 75
+    cd4_50     <- diff(dat$Tx_A_50)     * 25
 
+    median_cd4_2011 <- sum(cd4_500[1], cd4_350500[1], cd4_250350[1], cd4_200250[1], cd4_100200[1], cd4_50100[1], cd4_50[1]) / diff(a)[1]
+    median_cd4_2012 <- sum(cd4_500[2], cd4_350500[2], cd4_250350[2], cd4_200250[2], cd4_100200[2], cd4_50100[2], cd4_50[2]) / diff(a)[2]
+    median_cd4_2013 <- sum(cd4_500[3], cd4_350500[3], cd4_250350[3], cd4_200250[3], cd4_100200[3], cd4_50100[3], cd4_50[3]) / diff(a)[3]
+    median_cd4_2014 <- sum(cd4_500[4], cd4_350500[4], cd4_250350[4], cd4_200250[4], cd4_100200[4], cd4_50100[4], cd4_50[4]) / diff(a)[4]
+    median_cd4_2015 <- sum(cd4_500[5], cd4_350500[5], cd4_250350[5], cd4_200250[5], cd4_100200[5], cd4_50100[5], cd4_50[5]) / diff(a)[5]
 
+    median <- c(median_cd4_2011, median_cd4_2012, median_cd4_2013, median_cd4_2014, median_cd4_2015)
+    year <- seq(2011, 2015, 1)
+    df <- data.frame(year, median)
+    df
+
+}
+
+calculate_median_cd4_at_initiation(dat = test)
