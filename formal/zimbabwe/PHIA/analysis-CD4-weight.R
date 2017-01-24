@@ -53,7 +53,8 @@ RunNSCalibration(
     parRange = parRange,
     targetIterations = 1e5)
 finish.time <- proc.time() - start.time
-finish.time
+finish.time[3] / 60
+# 95 min runtime
 
 graphics.off(); quartz.options(w = 8, h = 6)
 BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
