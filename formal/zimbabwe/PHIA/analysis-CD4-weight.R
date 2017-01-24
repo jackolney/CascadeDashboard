@@ -34,7 +34,7 @@ MinNumber <- 1000
 parRange <- DefineParmRange(
     rho     = c(0, 0.005),
     q       = c(0.9, 1),
-    epsilon = c(100, 105),
+    epsilon = c(100, 100),
     kappa   = c(0, 3),
     gamma   = c(2, 4),
     theta   = c(0, 0.5),
@@ -43,6 +43,7 @@ parRange <- DefineParmRange(
 )
 
 # Run Calibration
+start.time <- proc.time()
 RunNSCalibration(
     country = MasterName,
     data = MasterData,
@@ -51,52 +52,54 @@ RunNSCalibration(
     limit = MinNumber,
     parRange = parRange,
     targetIterations = 1e5)
+finish.time <- proc.time() - start.time
+finish.time
 
-    graphics.off(); quartz.options(w = 8, h = 6)
-    BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2010.pdf", type = "pdf")
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2010.pdf", type = "pdf")
 
-    graphics.off(); quartz.options(w = 8, h = 6)
-    BuildCD4CalibData_Thesis(year = 6, modelOut = modelOut)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2015.pdf", type = "pdf")
-
-
-    graphics.off(); quartz.options(w = 9, h = 4)
-    BuildPHIAPlot(data = CalibOut)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/PHIA.pdf", type = "pdf")
-
-    ####################################################################################################
-    #### PLOT ####
-
-    # Cascade in 2015
-    graphics.off(); quartz.options(w = 10, h = 4)
-    BuildCalibPlot_Thesis(data = CalibOut,
-        originalData = MasterData,
-        limit = MinNumber)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
-
-    # Error Histogram
-    graphics.off(); quartz.options(w = 6, h = 3)
-    BuildCalibrationHistogram_Thesis(
-        runError = runError,
-        maxError = MaxError)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
-
-    # Calibration Detail
-    graphics.off(); quartz.options(w = 10, h = 8)
-    BuildCalibDetailPlot_Thesis(
-        data = CalibOut,
-        originalData = MasterData,
-        limit = MinNumber)
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
-
-    # Parameter Histograms
-    graphics.off(); quartz.options(w = 10, h = 4)
-    BuildCalibrationParameterHistGroup_Thesis()
-    quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 6, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2015.pdf", type = "pdf")
 
 
-    ################################################################################
+graphics.off(); quartz.options(w = 9, h = 4)
+BuildPHIAPlot(data = CalibOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/PHIA.pdf", type = "pdf")
+
+####################################################################################################
+#### PLOT ####
+
+# Cascade in 2015
+graphics.off(); quartz.options(w = 10, h = 4)
+BuildCalibPlot_Thesis(data = CalibOut,
+    originalData = MasterData,
+    limit = MinNumber)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/cascade-2015.pdf", type = "pdf")
+
+# Error Histogram
+graphics.off(); quartz.options(w = 6, h = 3)
+BuildCalibrationHistogram_Thesis(
+    runError = runError,
+    maxError = MaxError)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-hist.pdf", type = "pdf")
+
+# Calibration Detail
+graphics.off(); quartz.options(w = 10, h = 8)
+BuildCalibDetailPlot_Thesis(
+    data = CalibOut,
+    originalData = MasterData,
+    limit = MinNumber)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type = "pdf")
+
+# Parameter Histograms
+graphics.off(); quartz.options(w = 10, h = 4)
+BuildCalibrationParameterHistGroup_Thesis()
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+
+
+################################################################################
 
 # DataReviewPlot
 graphics.off(); quartz.options(w = 10, h = 4)
