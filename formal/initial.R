@@ -185,7 +185,7 @@ BuildPHIAPlot <- function(data) {
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ggtitle("Zimbabwe PHIA Comparison (2015)")
     ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5))
-    ggOut <- ggOut + theme(title = element_text(size = 20))
+    ggOut <- ggOut + theme(title = element_text(size = 15))
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
