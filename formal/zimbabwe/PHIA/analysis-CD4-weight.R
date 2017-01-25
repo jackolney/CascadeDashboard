@@ -246,11 +246,11 @@ intSwitch <- data.frame(
 # OptInput$intValue_omega <- parRange["omega", "min"]
 
 OptInput <- c()
-OptInput$intValue_rho   <- 1
+OptInput$intValue_rho   <- 0.1
 OptInput$intValue_q     <- 1
 OptInput$intValue_kappa <- 0
-OptInput$intValue_gamma <- 52
-OptInput$intValue_sigma <- 0.5
+OptInput$intValue_gamma <- 10
+OptInput$intValue_sigma <- 0.1
 OptInput$intValue_omega <- 0
 
 reactiveCost <- data.frame(
