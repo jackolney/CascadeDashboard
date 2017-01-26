@@ -143,41 +143,52 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 graphics.off(); quartz.options(w = 8, h = 4)
 GenSinglePowersPlot_Thesis()
 quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/cascade-projection.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", type = "pdf")
+
+# What is the average value of beta?
+OutputBeta()
 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
 GenPowersCascadePlot_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-powers.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/cascade-powers.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-powers.pdf", type = "pdf")
 
 # New Infections
 graphics.off(); quartz.options(w = 6, h = 4)
 GenNewInfPlot_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/new-infections.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/new-infections.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/new-infections.pdf", type = "pdf")
 
 # AIDS Deaths
 graphics.off(); quartz.options(w = 6, h = 4)
 GenAidsDeathsPlot_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/AIDS-deaths.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/AIDS-deaths.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/AIDS-deaths.pdf", type = "pdf")
 
 # Discrete Cascade
 graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/cascade-discrete.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
 
 # CD4 distribution at ART initiation
 graphics.off(); quartz.options(w = 8, h = 6)
 BuildCD4Data_Thesis(year = 251)
-quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
+quartz.save(file = "~/Desktop/fig/CD4-2020.pdf", type = "pdf")
+# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
 
 # NUMBERS
 t0 <- GetCascadeData(1)   # t0 = 1
@@ -223,7 +234,21 @@ t5$res[5]/t5$res[1]
 # save.image("../../formal/zimbabwe/PHIA/data-24-01-17.RData")
 # load("../../formal/zimbabwe/PHIA/data-24-01-17.RData")
 
-################################################################################
+####################################################################################################
+# if we were to adjust 'beta' such that it is reduced by 50%, then what functions would need to be
+# adjusted? Remember, that we only wanted to adjust transmission between 2015 to 2020, not during
+# calibration.
+
+# Projection:
+# GetModel()
+
+# Optimisation:
+# RunNSOptimisation()
+
+# What about the baselineModel function that RunNSOptimisation() calls?
+
+
+####################################################################################################
 # Optimisation
 
 intSwitch <- data.frame(
@@ -288,6 +313,7 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/frontier.pdf", type = "pd
 # FIGURE GENERATION
 graphics.off(); quartz.options(w = 8, h = 4)
 BuildChangesPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
+quartz.save(file = "~/Desktop/fig/changes.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes.pdf", type = "pdf")
 
 ################################################################################

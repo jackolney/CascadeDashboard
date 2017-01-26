@@ -198,5 +198,32 @@ BuildPHIAPlot <- function(data) {
     ggOut
 }
 
+OutputBeta <- function() {
+    beta_out <- c()
+
+    # FOR EACH PARAMETER SET
+    for (i in 1:dim(CalibParamOut)[1]) {
+
+        p <- GetParameters(
+            masterCD4 = MasterData$cd4_2015,
+            data = MasterData,
+            iterationParam = CalibParamOut[i,])
+
+        # Now we need the initials.
+        y <- GetInitial(
+            p = p,
+            iterationResult = CalibOut[CalibOut$year == 2015 & CalibOut$source == "model",][1:7 + 7 * (i - 1),],
+            masterCD4 = MasterData$cd4_2015
+            )
+
+        beta_out[i] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[i,])
+    }
+
+    mean <- round(Quantile_95(beta_out)[["mean"]], 4)
+    upper <- round(Quantile_95(beta_out)[["upper"]], 4)
+    lower <- round(Quantile_95(beta_out)[["lower"]], 4)
+
+    return(paste0(mean, " [", lower, " to ", upper, "]"))
+}
 
 message("Good to go...")
