@@ -11,3 +11,7 @@ launch <- function() {
     }
     shiny::runApp(wd, quiet = FALSE, display.mode = "normal")
 }
+
+cluster_test <- function() {
+    message("HEY JACK, THIS IS WORKING!")
+}
