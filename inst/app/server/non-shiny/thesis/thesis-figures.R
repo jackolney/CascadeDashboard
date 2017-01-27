@@ -231,7 +231,7 @@ GetModel <- function() {
             masterCD4 = MasterData$cd4_2015
             )
 
-        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[i,]) * 0.5
+        p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[i,])
 
         MasterOut[[i]] <- RunSim_Abs(y = y, p = p)
     }

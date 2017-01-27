@@ -94,7 +94,7 @@ RunNSOptimisation <- function(propRuns, intLength) {
                 iterationResult = bestTenPercentCalibInitial[1:7 + 7 * (j - 1),],
                 masterCD4 = MasterData$cd4_2015)
 
-            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],]) * 0.5
+            p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[shuffledRuns[j],])
 
             SimResult <- RunSim_Prop(y = y, p = p)
 

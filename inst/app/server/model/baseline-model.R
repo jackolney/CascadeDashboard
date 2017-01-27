@@ -13,7 +13,7 @@ CallBaselineModel <- function(runNumber, initVals) {
         iterationResult = initVals,
         masterCD4 = MasterData$cd4_2015)
 
-    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[runNumber,]) * 0.5
+    p[["beta"]] <- GetBeta(y = y, p = p, iterationInc = CalibIncOut[runNumber,])
 
     result <- RunSim_Abs(y = y, p = p)
     result
