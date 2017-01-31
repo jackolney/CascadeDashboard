@@ -4,14 +4,26 @@
 \alias{RunClusterOptimisation}
 \title{Cluster optimisation function.}
 \usage{
-RunClusterOptimisation(propRuns, intLength)
+RunClusterOptimisation(CalibOut, CalibParamOut, intLength, OptInput, propRuns,
+  runError, selectedRuns)
 }
 \arguments{
-\item{propRuns}{proportion of total simulations to sample during optimisation}
+\item{CalibOut}{results from calibration}
+
+\item{CalibParamOut}{parameter values from calibration}
 
 \item{intLength}{integer defining number of individual intervention permutations to simulate}
+
+\item{OptInput}{optimisation input data.frame}
+
+\item{propRuns}{proportion of total simulations to sample during optimisation}
+
+\item{runError}{errors resulting from calibration}
+
+\item{selectedRuns}{sampled runs from calibration that will be optimised}
 }
 \description{
 This function controls the entire optimisation procedure in CascadeDashboard, and is a port of
+ the version used in the R-package
 }
 

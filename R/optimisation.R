@@ -1,14 +1,27 @@
 #' Cluster optimisation function.
 #'
 #' This function controls the entire optimisation procedure in CascadeDashboard, and is a port of
-#  the version used in the R-package
+#'  the version used in the R-package
 #'
-#' @param propRuns proportion of total simulations to sample during optimisation
+#' @param CalibOut results from calibration
+#'
+#' @param CalibParamOut parameter values from calibration
 #'
 #' @param intLength integer defining number of individual intervention permutations to simulate
 #'
+#' @param OptInput optimisation input data.frame
+#'
+#' @param propRuns proportion of total simulations to sample during optimisation
+#'
+#' @param runError errors resulting from calibration
+#'
+#' @param selectedRuns sampled runs from calibration that will be optimised
+#'
 #' @export
 RunClusterOptimisation <- function(CalibOut, CalibParamOut, intLength, OptInput, propRuns, runError, selectedRuns) {
+
+    # This needs to source a package specific file.
+    source(system.file("app/clustr-initial.R", package = "CascadeDashboard"), local = FALSE)
 
     # CHECKLIST
     message(paste("OptInput$intValue_rho =", OptInput$intValue_rho))
