@@ -153,4 +153,4 @@ job <- obj$enqueue(
 job$status()
 job$log()
 
-
+# need to include reactiveAdjustCost as an arguement here
