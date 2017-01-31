@@ -24,7 +24,7 @@ RunClusterCalibration <- function(country, data, maxIterations, maxError, limit,
     # maxError = 2
 
     # This needs to source a package specific file.
-    source(system.file("clustr-initial.R", package = "CascadeDashboard"), local = FALSE)
+    source(system.file("app/clustr-initial.R", package = "CascadeDashboard"), local = FALSE)
 
     # Set Global Variables
     time <- seq(0, 5, 1)
