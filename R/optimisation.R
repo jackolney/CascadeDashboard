@@ -8,8 +8,7 @@
 #' @param intLength integer defining number of individual intervention permutations to simulate
 #'
 #' @export
-RunClusterOptimisation <- function(propRuns, intLength) {
-    # This should be triggered by the renderPlot().
+RunClusterOptimisation <- function(CalibOut, CalibParamOut, intLength, OptInput, propRuns, runError, selectedRuns) {
 
     # CHECKLIST
     message(paste("OptInput$intValue_rho =", OptInput$intValue_rho))
@@ -25,7 +24,7 @@ RunClusterOptimisation <- function(propRuns, intLength) {
     time <- proc.time()[[1]]
 
     # Extract the initial values of a random 10% of simulations from calibration
-    bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
+    bestTenPercentCalibInitial <- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
     # Account for testing HIV-negatives
     AdjustHIVTestCost()
@@ -138,18 +137,31 @@ RunClusterOptimisation <- function(propRuns, intLength) {
         cat("\n")
     }
 
-    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
-    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
+    optResults <- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
+    colnames(optResults) <- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
 
     # Make all the baseline stuff global
-    BaselineCost <<- rCostOrg
-    BaselineTest <<- bTest
-    BaselineLink <<- bLink
-    BaselinePreR <<- bPreR
-    BaselineInit <<- bInit
-    BaselineAdhr <<- bAdhr
-    BaselineRetn <<- bRetn
+    BaselineCost <- rCostOrg
+    BaselineTest <- bTest
+    BaselineLink <- bLink
+    BaselinePreR <- bPreR
+    BaselineInit <- bInit
+    BaselineAdhr <- bAdhr
+    BaselineRetn <- bRetn
 
     message("\nFinished")
-    optResults
+
+    # output a list
+    out <- list(
+        bestTenPercentCalibInitial = bestTenPercentCalibInitial,
+        optResults = optResults,
+        BaselineCost = BaselineCost,
+        BaselineTest = BaselineTest,
+        BaselineLink = BaselineLink,
+        BaselinePreR = BaselinePreR,
+        BaselineInit = BaselineInit,
+        BaselineAdhr = BaselineAdhr,
+        BaselineRetn = BaselineRetn
+    )
+    out
 }

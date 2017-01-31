@@ -27,7 +27,6 @@ set.seed(100)
 MaxError <- 1
 MinNumber <- 100
 
-
 # After first simulation, run this function (default = 5%)
 # MaxError <- find_error_bound(runError, prop = 0.05)
 
@@ -44,7 +43,9 @@ parRange <- DefineParmRange(
 )
 
 # Run Calibration
-obj <- clustr::login(cluster = "fi--dideclusthn")
+obj <- clustr::login()
+# to run backup cluster
+# obj <- clustr::login(cluster = "fi--dideclusthn")
 
 t <- obj$enqueue(
     RunClusterCalibration(
@@ -60,30 +61,96 @@ t <- obj$enqueue(
 t$status()
 t$log()
 
-# Run Calibration
-# start.time <- proc.time()
-# RunNSCalibration(
-#     country = MasterName,
-#     data = MasterData,
-#     maxIterations = 1e4,
-#     maxError = MaxError,
-#     limit = MinNumber,
-#     parRange = parRange,
-#     targetIterations = 1e5)
-# finish.time <- proc.time() - start.time
-# finish.time[3] / 60
-# 95 min runtime
+t$id
 
-graphics.off(); quartz.options(w = 8, h = 6)
-BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2010.pdf", type = "pdf")
+obj$cluster_load()
 
-graphics.off(); quartz.options(w = 8, h = 6)
-BuildCD4CalibData_Thesis(year = 6, modelOut = modelOut)
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2015.pdf", type = "pdf")
+out <- t$result()
 
+# strip calibration results from object
+for(i in 1:length(out)) assign(names(out)[i], out[[i]])
 
 graphics.off(); quartz.options(w = 9, h = 4)
 BuildPHIAPlot(data = CalibOut)
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/PHIA.pdf", type = "pdf")
+
+# Cascade in 2015
+graphics.off(); quartz.options(w = 10, h = 4)
+BuildCalibPlot_Thesis(data = CalibOut,
+    originalData = MasterData,
+    limit = MinNumber)
+
+# Error Histogram
+graphics.off(); quartz.options(w = 6, h = 3)
+BuildCalibrationHistogram_Thesis(
+    runError = runError,
+    maxError = MaxError)
+
+# Calibration Detail
+graphics.off(); quartz.options(w = 10, h = 8)
+BuildCalibDetailPlot_Thesis(
+    data = CalibOut,
+    originalData = MasterData,
+    limit = MinNumber)
+
+# Parameter Histograms
+graphics.off(); quartz.options(w = 10, h = 4)
+BuildCalibrationParameterHistGroup_Thesis()
+
+####################################################################################################
+# Optimisation
+
+intSwitch <- data.frame(
+    testing      = TRUE,
+    linkage      = TRUE,
+    preRetention = TRUE,
+    initiation   = TRUE,
+    adherence    = TRUE,
+    retention    = TRUE
+)
+
+OptInput <- c()
+OptInput$intValue_rho   <- 0.1
+OptInput$intValue_q     <- 1
+OptInput$intValue_kappa <- 0
+OptInput$intValue_gamma <- 10
+OptInput$intValue_sigma <- 0.1
+OptInput$intValue_omega <- 0
+
+reactiveCost <- data.frame(
+    test = 10,
+    link = 40,
+    care = 40,
+    art = 367
+)
+
+# This is used by the function 'AdjustHIVTetsCost'
+SafeReactiveCost <- data.frame(
+    test = 10,
+    link = 40,
+    care = 40,
+    art = 367
+)
+
+custom <- data.frame(target = 0.9^3)
+
+AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
+
+reactiveAdjustCost <- data.frame(switch = TRUE)
+
+AdjustHIVTestCost()
+
+job <- obj$enqueue(
+    RunClusterOptimisation(
+        CalibOut = CalibOut,
+        CalibParamOut = CalibParamOut,
+        intLength = 2,
+        OptInput = OptInput,
+        propRuns = 0.1,
+        runError = runError,
+        selectedRuns = selectedRuns
+    )
+)
+job$status()
+job$log()
+
 
