@@ -3,22 +3,35 @@
 #' This function controls the entire optimisation procedure in CascadeDashboard, and is a port of
 #'  the version used in the R-package
 #'
+#' @param AdvCalib advanced mortality adjustments set during calibration
+#'
 #' @param CalibOut results from calibration
 #'
 #' @param CalibParamOut parameter values from calibration
 #'
 #' @param intLength integer defining number of individual intervention permutations to simulate
 #'
+#' @param intSwitch intervention boolean switches
+#'
 #' @param OptInput optimisation input data.frame
 #'
 #' @param propRuns proportion of total simulations to sample during optimisation
 #'
+#' @param reactiveAdjustCost cost-adjustment switch (scaling HIV-testing unit cost)
+#'
+#' @param reactiveCost data.frame of unit costs
+#'
 #' @param runError errors resulting from calibration
+#'
+#' @param SafeReactiveCost default unit cost values
 #'
 #' @param selectedRuns sampled runs from calibration that will be optimised
 #'
+#'
 #' @export
-RunClusterOptimisation <- function(CalibOut, CalibParamOut, intLength, OptInput, propRuns, runError, selectedRuns) {
+RunClusterOptimisation <- function(AdvCalib, CalibOut, CalibParamOut, intLength, intSwitch,
+    OptInput, propRuns, reactiveAdjustCost, reactiveCost, runError, SafeReactiveCost, selectedRuns)
+    {
 
     # This needs to source a package specific file.
     source(system.file("app/clustr-initial.R", package = "CascadeDashboard"), local = FALSE)

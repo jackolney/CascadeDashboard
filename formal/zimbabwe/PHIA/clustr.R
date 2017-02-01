@@ -61,6 +61,8 @@ t <- obj$enqueue(
 t$status()
 t$log()
 
+
+
 t$id
 
 obj$cluster_load()
@@ -123,7 +125,7 @@ reactiveCost <- data.frame(
     art = 367
 )
 
-# This is used by the function 'AdjustHIVTetsCost'
+# This is used by the function 'AdjustHIVTestCost'
 SafeReactiveCost <- data.frame(
     test = 10,
     link = 40,
@@ -141,16 +143,19 @@ AdjustHIVTestCost()
 
 job <- obj$enqueue(
     RunClusterOptimisation(
+        AdvCalib = AdvCalib,
         CalibOut = CalibOut,
         CalibParamOut = CalibParamOut,
         intLength = 2,
+        intSwitch = intSwitch,
         OptInput = OptInput,
         propRuns = 0.1,
+        reactiveAdjustCost = reactiveAdjustCost,
+        reactiveCost = reactiveCost,
         runError = runError,
+        SafeReactiveCost = SafeReactiveCost,
         selectedRuns = selectedRuns
     )
 )
 job$status()
 job$log()
-
-# need to include reactiveAdjustCost as an arguement here
