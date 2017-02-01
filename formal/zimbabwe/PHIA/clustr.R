@@ -139,7 +139,7 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 reactiveAdjustCost <- data.frame(switch = TRUE)
 
-AdjustHIVTestCost()
+AdjustHIVTestCost(reactiveAdjustCost, reactiveCost, SafeReactiveCost)
 
 job <- obj$enqueue(
     RunClusterOptimisation(

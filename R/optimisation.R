@@ -53,7 +53,7 @@ RunClusterOptimisation <- function(AdvCalib, CalibOut, CalibParamOut, intLength,
     bestTenPercentCalibInitial <- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
     # Account for testing HIV-negatives
-    AdjustHIVTestCost()
+    AdjustHIVTestCost(reactiveAdjustCost, reactiveCost, SafeReactiveCost)
 
     # index counter
     iC <- 1L

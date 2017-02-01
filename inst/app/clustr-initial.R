@@ -28,7 +28,7 @@ source(system.file("app/server/optimisation/output-functions.R",    package = "C
 source(system.file("app/server/optimisation/parameters.R",          package = "CascadeDashboard"), local = FALSE)
 source(system.file("app/server/optimisation/plot-functions.R",      package = "CascadeDashboard"), local = FALSE)
 
-AdjustHIVTestCost <- function() {
+AdjustHIVTestCost <- function(reactiveAdjustCost, reactiveCost, SafeReactiveCost) {
     if (reactiveAdjustCost$switch == TRUE) {
         message("AdjustCost == TRUE")
         if (exists("CalibOut")) {
@@ -46,7 +46,7 @@ AdjustHIVTestCost <- function() {
                     Negative <- MasterData$pop$value - meanPLHIV
 
                     # Jeff's assumption
-                    # HIV-negative persons are 0.75 times as likely to test as HIV-positive in general population
+                    # HIV-negative persons are 0.65 times as likely to test as HIV-positive in general population
                     # Lancet GH Cost-Effectiveness Paper (suppl info page 10)
                     jeff <- 0.65
 
