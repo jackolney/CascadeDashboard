@@ -148,6 +148,7 @@ job <- obj$enqueue(
         CalibParamOut = CalibParamOut,
         intLength = 2,
         intSwitch = intSwitch,
+        MasterData = MasterData,
         OptInput = OptInput,
         propRuns = 0.1,
         reactiveAdjustCost = reactiveAdjustCost,

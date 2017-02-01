@@ -4,21 +4,34 @@
 \alias{RunClusterOptimisation}
 \title{Cluster optimisation function.}
 \usage{
-RunClusterOptimisation(CalibOut, CalibParamOut, intLength, OptInput, propRuns,
-  runError, selectedRuns)
+RunClusterOptimisation(AdvCalib, CalibOut, CalibParamOut, intLength, intSwitch,
+  MasterData, OptInput, propRuns, reactiveAdjustCost, reactiveCost, runError,
+  SafeReactiveCost, selectedRuns)
 }
 \arguments{
+\item{AdvCalib}{advanced mortality adjustments set during calibration}
+
 \item{CalibOut}{results from calibration}
 
 \item{CalibParamOut}{parameter values from calibration}
 
 \item{intLength}{integer defining number of individual intervention permutations to simulate}
 
+\item{intSwitch}{intervention boolean switches}
+
+\item{MasterData}{model master data structure}
+
 \item{OptInput}{optimisation input data.frame}
 
 \item{propRuns}{proportion of total simulations to sample during optimisation}
 
+\item{reactiveAdjustCost}{cost-adjustment switch (scaling HIV-testing unit cost)}
+
+\item{reactiveCost}{data.frame of unit costs}
+
 \item{runError}{errors resulting from calibration}
+
+\item{SafeReactiveCost}{default unit cost values}
 
 \item{selectedRuns}{sampled runs from calibration that will be optimised}
 }

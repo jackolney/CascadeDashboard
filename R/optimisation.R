@@ -13,6 +13,8 @@
 #'
 #' @param intSwitch intervention boolean switches
 #'
+#' @param MasterData model master data structure
+#'
 #' @param OptInput optimisation input data.frame
 #'
 #' @param propRuns proportion of total simulations to sample during optimisation
@@ -30,8 +32,8 @@
 #'
 #' @export
 RunClusterOptimisation <- function(AdvCalib, CalibOut, CalibParamOut, intLength, intSwitch,
-    OptInput, propRuns, reactiveAdjustCost, reactiveCost, runError, SafeReactiveCost, selectedRuns)
-    {
+    MasterData, OptInput, propRuns, reactiveAdjustCost, reactiveCost, runError, SafeReactiveCost,
+    selectedRuns) {
 
     # This needs to source a package specific file.
     source(system.file("app/clustr-initial.R", package = "CascadeDashboard"), local = FALSE)
