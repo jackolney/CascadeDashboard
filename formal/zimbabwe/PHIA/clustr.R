@@ -139,7 +139,7 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 reactiveAdjustCost <- data.frame(switch = TRUE)
 
-AdjustHIVTestCost(reactiveAdjustCost, reactiveCost, SafeReactiveCost)
+AdjustHIVTestCost()
 
 job <- obj$enqueue(
     RunClusterOptimisation(
@@ -160,3 +160,13 @@ job <- obj$enqueue(
 )
 job$status()
 job$log()
+
+
+# BUGS #
+#
+# 1
+# clustr still complains about CallBaselineModel() -> GetBaselinePar() -> cascade::parameters()
+# cannot see 'MasterData'
+#
+# 2
+# warning that AdjustHIVTestCost() cannot see CalibOut (and I'm guessing MasterData too)
