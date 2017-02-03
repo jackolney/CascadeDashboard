@@ -493,3 +493,180 @@ ggplot(df, aes(x = year, y = rate)) +
 geom_line() +
 ggtitle("Transmission Rate", subtitle = "New Infections / Total PLHIV")
 quartz.save(file = "~/Desktop/fig/transmission-rate.pdf", type = "pdf")
+
+
+####################################################################################################
+####################################################################################################
+# CROI 2017 FIGURE GENERATION
+
+# Baseline Changes Figure
+build_changes_baseline_CROI <- function() {
+
+    theBase <-  rbind(
+        data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+        data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+        data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline"),
+        data.frame(variable = "Viral\nSuppression", mean = mean(BaselineAdhr) / 5, strategy = "Baseline")
+        )
+
+    theBase$upper <- NA
+    theBase$lower <- NA
+
+    theBase$variable <- factor(theBase$variable, levels = c("Testing", "Linkage",
+       "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
+
+    ggOut <- ggplot(theBase, aes(x = variable, y = mean, fill = strategy))
+    ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
+    ggOut <- ggOut + scale_fill_manual(values = "#E41A1C")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ylab("Annual Movement Through Care (2015 to 2020)")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + expand_limits(y = 8e4)
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 8), expand = c(0, 0))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(legend.position = 'right')
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut
+}
+
+graphics.off(); quartz.options(w = 8, h = 4)
+build_changes_baseline_CROI()
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes-baseline.pdf", type = "pdf")
+
+# Complete Changes Figures
+build_changes_CROI <- function(CalibParamOut, optResults, target) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
+    frontierList <- GetFrontiers(simData = optResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = optResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
+
+    # Result Formatting
+    intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+    intResult['iPreR'] <- abs(intResult['iPreR'])
+    intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult[intResult$iTest < 0, 'iTest'] <- 0
+    intResult[intResult$iLink < 0, 'iLink'] <- 0
+    intResult[intResult$iInit < 0, 'iInit'] <- 0
+    intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
+
+
+    # Assign a 'run' number to simulations
+    intResult$run <- 1:dim(intResult)[1]
+
+    # Melt them
+    mRes <- reshape2::melt(intResult, id = "run")
+
+    ## DIVIDE ALL VALUES BY FIVE
+    # Conversion from 5 year values to single years
+    mRes$value <- mRes$value / 5
+
+
+    # RENAME VARIABLES
+    mRes$variable <- as.character(mRes$variable)
+    mRes[mRes$variable == "iTest", "variable"] <- "Testing"
+    mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
+    mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
+    mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Viral\nSuppression"
+    mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
+
+    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
+
+    # EDITS FROM HERE
+    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
+
+    mean <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["mean"]]
+    )
+
+    upper <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["upper"]]
+    )
+
+    lower <- c(
+        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["lower"]]
+    )
+
+    strategy <- "Intervention"
+
+    outData <- data.frame(variable, mean, lower, upper, strategy)
+
+    theBase <-  rbind(
+        data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
+        data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
+        data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
+        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline"),
+        data.frame(variable = "Viral\nSuppression", mean = mean(BaselineAdhr) / 5, strategy = "Baseline")
+        )
+
+    theBase$upper <- NA
+    theBase$lower <- NA
+
+    final <- rbind(theBase, outData)
+    final$strategy <- factor(final$strategy, levels = c("Intervention", "Baseline"))
+
+    # Now we need the error_bar data.frame
+    value <- mean
+    mean <- mean + theBase$mean
+    upper <- upper + theBase$mean
+    lower <- lower + theBase$mean
+    theLabel <- data.frame(variable, value, mean, upper, lower)
+
+    ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
+    ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
+    ggOut <- ggOut + geom_errorbar(data = theLabel, aes(x = variable, y = mean, ymax = upper, ymin = lower), alpha = 1, width = 0.25, size = 0.5)
+    ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+", scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0, 0.5, 0.5, 0.5), family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+    ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ylab("Annual Movement Through Care (2015 to 2020)")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + expand_limits(y = 8e4)
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 8), expand = c(0, 0))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(legend.position = 'right')
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut
+}
+
+graphics.off(); quartz.options(w = 8, h = 4)
+build_changes_CROI(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes.pdf", type = "pdf")
