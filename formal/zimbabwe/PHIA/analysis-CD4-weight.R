@@ -517,6 +517,14 @@ build_changes_baseline_CROI <- function() {
     theBase$variable <- factor(theBase$variable, levels = c("Testing", "Linkage",
        "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
 
+    # make retention values NEGATIVE
+    theBase[theBase$variable == "Pre-ART\nRetention", "mean"] <- - theBase[theBase$variable ==
+    "Pre-ART\nRetention", "mean"]
+
+    theBase[theBase$variable == "ART\nRetention", "mean"] <- - theBase[theBase$variable ==
+    "ART\nRetention", "mean"]
+
+
     ggOut <- ggplot(theBase, aes(x = variable, y = mean, fill = strategy))
     ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
     ggOut <- ggOut + scale_fill_manual(values = "#E41A1C")
@@ -528,22 +536,34 @@ build_changes_baseline_CROI <- function() {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + expand_limits(y = 8e4)
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 8), expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(limits = c(-1e4, 8e4), labels = scales::comma, breaks =
+       scales::pretty_breaks(n = 8), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
     ggOut <- ggOut + theme(legend.title = element_blank())
     ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + geom_hline(yintercept = 0)
     ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(legend.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut
 }
 
 graphics.off(); quartz.options(w = 8, h = 4)
 build_changes_baseline_CROI()
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes-baseline.pdf", type = "pdf")
+
+# handy invert function
+invert <- function(x) {
+    if (x <= 0) {
+        x <- abs(x)
+    } else {
+        x <- - x
+    }
+    x
+}
 
 # Complete Changes Figures
 build_changes_CROI <- function(CalibParamOut, optResults, target) {
@@ -555,13 +575,12 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
 
     # Result Formatting
     intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
-    intResult['iPreR'] <- abs(intResult['iPreR'])
-    intResult['iRetn'] <- abs(intResult['iRetn'])
+    intResult['iPreR'] <- invert(intResult['iPreR'])
+    intResult['iRetn'] <- invert(intResult['iRetn'])
     intResult[intResult$iTest < 0, 'iTest'] <- 0
     intResult[intResult$iLink < 0, 'iLink'] <- 0
     intResult[intResult$iInit < 0, 'iInit'] <- 0
     intResult[intResult$iAhdr < 0, 'iAdhr'] <- 0
-
 
     # Assign a 'run' number to simulations
     intResult$run <- 1:dim(intResult)[1]
@@ -572,7 +591,6 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     ## DIVIDE ALL VALUES BY FIVE
     # Conversion from 5 year values to single years
     mRes$value <- mRes$value / 5
-
 
     # RENAME VARIABLES
     mRes$variable <- as.character(mRes$variable)
@@ -619,6 +637,7 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
 
     outData <- data.frame(variable, mean, lower, upper, strategy)
 
+    # baseline data.frame
     theBase <-  rbind(
         data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
         data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
@@ -631,6 +650,12 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     theBase$upper <- NA
     theBase$lower <- NA
 
+    # invert base values
+    theBase[theBase$variable == "Pre-ART\nRetention", "mean"] <- invert(theBase[theBase$variable ==
+       "Pre-ART\nRetention", "mean"])
+    theBase[theBase$variable == "ART\nRetention", "mean"] <- invert(theBase[theBase$variable ==
+       "ART\nRetention", "mean"])
+
     final <- rbind(theBase, outData)
     final$strategy <- factor(final$strategy, levels = c("Intervention", "Baseline"))
 
@@ -641,10 +666,31 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     lower <- lower + theBase$mean
     theLabel <- data.frame(variable, value, mean, upper, lower)
 
+    # going to need to modify the data.frame
+    # new one for TWO retention bars (these will be overlayed!)
+    # else all as standard
+
+    # ZERO the Intervention bars
+    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "mean"]  <- 0
+    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "upper"] <- 0
+    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "lower"] <- 0
+
+    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "mean"]  <- 0
+    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "upper"] <- 0
+    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "lower"] <- 0
+
+    # fill in bars for retention (stuff that we zeroed immediately above)
+    mean <- c(0, 0, theLabel$mean[3], 0, theLabel$mean[5], 0)
+    filler <- data.frame(variable, mean)
+
     ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
     ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
+    ggOut <- ggOut + geom_bar(data = filler, aes(x = variable, y = mean), stat = "identity", fill =
+        "#4F8ABA")
+    ggOut <- ggOut + geom_hline(yintercept = 0)
     ggOut <- ggOut + geom_errorbar(data = theLabel, aes(x = variable, y = mean, ymax = upper, ymin = lower), alpha = 1, width = 0.25, size = 0.5)
-    ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+", scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0, 0.5, 0.5, 0.5), family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+    ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+",
+       scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5), family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
     ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ylab("Annual Movement Through Care (2015 to 2020)")
@@ -654,8 +700,8 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + expand_limits(y = 8e4)
-    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 8), expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(limits = c(-1e4, 8e4), labels = scales::comma, breaks =
+       scales::pretty_breaks(n = 8), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
     ggOut <- ggOut + theme(legend.title = element_blank())
@@ -664,6 +710,7 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(plot.background = element_blank())
     ggOut <- ggOut + theme(legend.background = element_blank())
     ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
     ggOut
 }
 
