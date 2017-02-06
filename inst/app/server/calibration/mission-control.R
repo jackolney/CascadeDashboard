@@ -2,7 +2,7 @@
 observeEvent(input$selectCountry, {
 
     # If MasterData exists then destroy it, then re-assign.
-    if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+    if (!is.null(MasterData)) MasterData <<- list()
     try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
     if (exists("MasterData")) {

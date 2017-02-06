@@ -180,7 +180,7 @@ observeEvent(input$resetTxGuidelines, {
 })
 
 observeEvent(input$resetDATA, {
-    if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+    if (!is.null(MasterData)) MasterData <<- list()
     MasterData <<- GetMasterDataSet(input$selectCountry)
     shinyjs::reset("plhiv_panel")
     shinyjs::reset("diag_panel")
