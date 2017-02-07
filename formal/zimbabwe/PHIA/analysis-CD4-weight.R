@@ -384,6 +384,7 @@ i6
 i7
 
 
+
 Quantile_95(resTable[,"iTest"]) / 5
 Quantile_95(resTable[,"iLink"]) / 5
 Quantile_95(resTable[,"iPreR"]) / 5
@@ -594,43 +595,45 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
 
     # RENAME VARIABLES
     mRes$variable <- as.character(mRes$variable)
-    mRes[mRes$variable == "iTest", "variable"] <- "Testing"
-    mRes[mRes$variable == "iLink", "variable"] <- "Linkage"
-    mRes[mRes$variable == "iPreR", "variable"] <- "Pre-ART\nRetention"
-    mRes[mRes$variable == "iInit", "variable"] <- "ART\nInitiation"
-    mRes[mRes$variable == "iAdhr", "variable"] <- "Viral\nSuppression"
-    mRes[mRes$variable == "iRetn", "variable"] <- "ART\nRetention"
+    mRes[mRes$variable == "iTest", "variable"] <- "Number of\nPLHIV to\nDiagnose"
+    mRes[mRes$variable == "iLink", "variable"] <- "Number of\nPLHIV to\nLink"
+    mRes[mRes$variable == "iPreR", "variable"] <- "Number of\nPLHIV to\nRetain in\nPre-ART Care"
+    mRes[mRes$variable == "iInit", "variable"] <- "Number of\nPLHIV to\nInitiate ART"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Number of\nPLHIV to\nMaintain Viral\nSuppression"
+    mRes[mRes$variable == "iRetn", "variable"] <- "Number of\nPLHIV to\nRetain on\nART"
 
-    mRes$variable <- factor(mRes$variable, levels = c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression"))
+    mRes$variable <- factor(mRes$variable, levels = c("Number of\nPLHIV to\nDiagnose", "Number of\nPLHIV to\nLink", "Number of\nPLHIV to\nRetain in\nPre-ART Care", "Number of\nPLHIV to\nInitiate ART",
+        "Number of\nPLHIV to\nRetain on\nART", "Number of\nPLHIV to\nMaintain Viral\nSuppression"))
 
     # EDITS FROM HERE
-    variable <- c("Testing", "Linkage", "Pre-ART\nRetention", "ART\nInitiation", "ART\nRetention", "Viral\nSuppression")
+    variable <- c("Number of\nPLHIV to\nDiagnose", "Number of\nPLHIV to\nLink",
+        "Number of\nPLHIV to\nRetain in\nPre-ART Care", "Number of\nPLHIV to\nInitiate ART", "Number of\nPLHIV to\nRetain on\nART", "Number of\nPLHIV to\nMaintain Viral\nSuppression")
 
     mean <- c(
-        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["mean"]],
-        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["mean"]]
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain in\nPre-ART Care", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain on\nART", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["mean"]]
     )
 
     upper <- c(
-        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["upper"]],
-        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["upper"]]
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain in\nPre-ART Care", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain on\nART", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["upper"]]
     )
 
     lower <- c(
-        Quantile_95(mRes[mRes$variable == "Testing", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "Linkage", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "Pre-ART\nRetention", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "ART\nInitiation", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "ART\nRetention", "value"])[["lower"]],
-        Quantile_95(mRes[mRes$variable == "Viral\nSuppression", "value"])[["lower"]]
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain in\nPre-ART Care", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nRetain on\nART", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["lower"]]
     )
 
     strategy <- "Intervention"
@@ -639,22 +642,28 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
 
     # baseline data.frame
     theBase <-  rbind(
-        data.frame(variable = "Testing",            mean = mean(BaselineTest) / 5, strategy = "Baseline"),
-        data.frame(variable = "Linkage",            mean = mean(BaselineLink) / 5, strategy = "Baseline"),
-        data.frame(variable = "Pre-ART\nRetention", mean = mean(BaselinePreR) / 5, strategy = "Baseline"),
-        data.frame(variable = "ART\nInitiation",    mean = mean(BaselineInit) / 5, strategy = "Baseline"),
-        data.frame(variable = "ART\nRetention",     mean = mean(BaselineRetn) / 5, strategy = "Baseline"),
-        data.frame(variable = "Viral\nSuppression", mean = mean(BaselineAdhr) / 5, strategy = "Baseline")
+        data.frame(variable = "Number of\nPLHIV to\nDiagnose",
+                   mean = mean(BaselineTest) / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nLink",
+                   mean = mean(BaselineLink) / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nRetain in\nPre-ART Care",
+                   mean = mean(BaselinePreR) / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nInitiate ART",
+                   mean = mean(BaselineInit) / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nRetain on\nART",
+                   mean = mean(BaselineRetn) / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nMaintain Viral\nSuppression",
+                   mean = mean(BaselineAdhr) / 5,
+                   strategy = "Baseline")
         )
 
     theBase$upper <- NA
     theBase$lower <- NA
-
-    # invert base values
-    theBase[theBase$variable == "Pre-ART\nRetention", "mean"] <- invert(theBase[theBase$variable ==
-       "Pre-ART\nRetention", "mean"])
-    theBase[theBase$variable == "ART\nRetention", "mean"] <- invert(theBase[theBase$variable ==
-       "ART\nRetention", "mean"])
 
     final <- rbind(theBase, outData)
     final$strategy <- factor(final$strategy, levels = c("Intervention", "Baseline"))
@@ -666,41 +675,22 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     lower <- lower + theBase$mean
     theLabel <- data.frame(variable, value, mean, upper, lower)
 
-    # going to need to modify the data.frame
-    # new one for TWO retention bars (these will be overlayed!)
-    # else all as standard
-
-    # ZERO the Intervention bars
-    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "mean"]  <- 0
-    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "upper"] <- 0
-    final[final$strategy == "Intervention" & final$variable == "Pre-ART\nRetention", "lower"] <- 0
-
-    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "mean"]  <- 0
-    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "upper"] <- 0
-    final[final$strategy == "Intervention" & final$variable == "ART\nRetention", "lower"] <- 0
-
-    # fill in bars for retention (stuff that we zeroed immediately above)
-    mean <- c(0, 0, theLabel$mean[3], 0, theLabel$mean[5], 0)
-    filler <- data.frame(variable, mean)
-
     ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
     ggOut <- ggOut + geom_bar(stat = "identity", alpha = 1)
-    ggOut <- ggOut + geom_bar(data = filler, aes(x = variable, y = mean), stat = "identity", fill =
-        "#4F8ABA")
     ggOut <- ggOut + geom_hline(yintercept = 0)
     ggOut <- ggOut + geom_errorbar(data = theLabel, aes(x = variable, y = mean, ymax = upper, ymin = lower), alpha = 1, width = 0.25, size = 0.5)
     ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+",
-       scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5), family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+       scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0, 0.5, 0.5, 0.5), family = "Avenir Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
     ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
     ggOut <- ggOut + theme_classic()
-    ggOut <- ggOut + ylab("Annual Movement Through Care (2015 to 2020)")
-    ggOut <- ggOut + theme(axis.text.x = element_text(size = 10))
+    ggOut <- ggOut + ylab("Annual Targets")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
     ggOut <- ggOut + theme(axis.title.x = element_blank())
     ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + scale_y_continuous(limits = c(-1e4, 8e4), labels = scales::comma, breaks =
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), labels = scales::comma, breaks =
        scales::pretty_breaks(n = 8), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
