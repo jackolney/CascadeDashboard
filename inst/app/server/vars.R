@@ -10,12 +10,11 @@ MasterData <- list()
 
 ## Calibration
 countryReportName <- character()
+CalibIncOut <- data.frame()
+CalibInitOut <- data.frame()
+CalibParamOut <- data.frame()
 
-# CalibIncOut
-# CalibInitOut
 # CalibOut
-# CalibParamOut
-# countryReportName
 # minError
 # minErrorRun
 # ParamMaxMin
