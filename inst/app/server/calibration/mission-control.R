@@ -2,10 +2,10 @@
 observeEvent(input$selectCountry, {
 
     # If MasterData exists then destroy it, then re-assign.
-    if (!is.null(MasterData)) MasterData <<- list()
+    if (length(MasterData) > 0) MasterData <<- list()
     try(MasterData <<- GetMasterDataSet(input$selectCountry), silent = FALSE)
 
-    if (exists("MasterData")) {
+    if (length(MasterData) > 0) {
 
         if (Check_NewCascade(theData = MasterData)) {
             updateButton(session, inputId = "CASCADE_FLAG",    disabled = FALSE, style = "success", icon = icon("check", class = "fa-lg fa-fw", lib = "font-awesome"))

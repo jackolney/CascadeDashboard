@@ -35,8 +35,8 @@ source("server/optimisation/plot-functions.R",      local = FALSE)
 AdjustHIVTestCost <- function() {
     if (reactiveAdjustCost$switch == TRUE) {
         message("AdjustCost == TRUE")
-        if (exists("CalibOut")) {
-            if (exists("MasterData")) {
+        if (!is.null(CalibOut)) {
+            if (length(MasterData) > 0) {
                 if (!is.na(MasterData$pop$value)) {
                     # pop value is not NA
 

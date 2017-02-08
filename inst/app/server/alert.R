@@ -361,7 +361,7 @@ observeEvent(input$uVIRAL_source, {
 
 # Optimisation Slider Alert
 observeEvent(input$opt_VS_cutoff, {
-    if (exists("optResult")) {
+    if (length(optResult) > 0) {
         if (dim(subset(optResult, optResult$VS >= (input$opt_VS_cutoff / 100)))[1] == 0) {
             shinyBS::closeAlert(session, alertId = "alertId_opt_VS_cutoff")
             shinyBS::createAlert(session,

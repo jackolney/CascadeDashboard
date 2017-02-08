@@ -47,5 +47,3 @@ report_909090_linkage_BASE      <- character()
 report_909090_preRetention_BASE <- character()
 report_909090_retention_BASE    <- character()
 report_909090_testing_BASE      <- character()
-
-# Now need to repurpose all the calls to 'exists()'
