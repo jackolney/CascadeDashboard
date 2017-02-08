@@ -9,42 +9,43 @@
 MasterData <- list()
 
 ## Calibration
+CalibIncOut       <- data.frame()
+CalibInitOut      <- data.frame()
+CalibOut          <- c()
+CalibParamOut     <- data.frame()
 countryReportName <- character()
-CalibIncOut <- data.frame()
-CalibInitOut <- data.frame()
-CalibParamOut <- data.frame()
-
-# CalibOut
-# minError
-# minErrorRun
-# ParamMaxMin
-# runError
-# selectedRuns
+minError          <- numeric()
+minErrorRun       <- c()
+ParamMaxMin       <- data.frame()
+runError          <- c()
+selectedRuns      <- c()
 
 ## Optimisation
-# baseTenPercentCalibInitial
-# shuffledRuns
-# optResults
-# BaselineAdhr
-# BaselineCost
-# BaselineInit
-# BaselineLink
-# BaselinePreR
-# BaselineRetn
-# BaselineTest
+BaselineAdhr               <- numeric()
+BaselineCost               <- numeric()
+BaselineInit               <- numeric()
+BaselineLink               <- numeric()
+BaselinePreR               <- numeric()
+BaselineRetn               <- numeric()
+BaselineTest               <- numeric()
+bestTenPercentCalibInitial <- data.frame()
+optResults                 <- data.frame()
+shuffledRuns               <- integer()
 
 ## Report
-# report_909090_adherence
-# report_909090_adherence_BASE
-# report_909090_cost
-# report_909090_cost_BASE
-# report_909090_initiation
-# report_909090_initiation_BASE
-# report_909090_linkage
-# report_909090_linkage_BASE
-# report_909090_preRetention
-# report_909090_preRetention_BASE
-# report_909090_retention
-# report_909090_retention_BASE
-# report_909090_testing
-# report_909090_testing_BASE
+report_909090_adherence         <- character()
+report_909090_cost              <- character()
+report_909090_initiation        <- character()
+report_909090_linkage           <- character()
+report_909090_preRetention      <- character()
+report_909090_retention         <- character()
+report_909090_testing           <- character()
+report_909090_adherence_BASE    <- character()
+report_909090_cost_BASE         <- character()
+report_909090_initiation_BASE   <- character()
+report_909090_linkage_BASE      <- character()
+report_909090_preRetention_BASE <- character()
+report_909090_retention_BASE    <- character()
+report_909090_testing_BASE      <- character()
+
+# Now need to repurpose all the calls to 'exists()'

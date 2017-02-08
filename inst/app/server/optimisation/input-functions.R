@@ -228,7 +228,7 @@ GetRandomTenPercentCalibOut <- function(CalibOut, runError, selectedRuns, propRu
     orderedRuns <- order(runError[selectedRuns])
 
     # randomly shuffle the ordered runs
-    if (!exists("shuffledRuns")) {
+    if (is.null(dim(shuffledRuns))) {
         shuffledRuns <<- sample(orderedRuns)
     }
 
