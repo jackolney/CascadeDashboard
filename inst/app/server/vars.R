@@ -8,16 +8,13 @@
 ## Muy Importante
 MasterData <- list()
 
-# Need to look for:
-# rm(MasterData)
-# exists("MasterData") too
-
 ## Calibration
+countryReportName <- character()
+
 # CalibIncOut
 # CalibInitOut
 # CalibOut
 # CalibParamOut
-# countryReportName
 # countryReportName
 # minError
 # minErrorRun
