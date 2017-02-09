@@ -115,8 +115,10 @@ test_that("Absolute vs. proportional models", {
     testthat::expect_equal(resOne$N, resTwo$N, label = )
 
     # ignore differences
-    resOne_trunc <- subset(resOne, select = -c(ART, UnDx, Dx, Care, PreLtfu, Tx, Vs, Ltfu))
-    resTwo_trunc <- subset(resTwo, select = -c(ART, UnDx, Dx, Care, PreLtfu, Tx, Vs, Ltfu))
+    resOne_trunc <- subset(resOne, select = -c(cd4_500, cd4_350500, cd4_250350, cd4_200250,
+       cd4_100200, cd4_50100, cd4_50, ART, UnDx, Dx, Care, PreLtfu, Tx, Vs, Ltfu))
+    resTwo_trunc <- subset(resTwo, select = -c(cd4_500, cd4_350500, cd4_250350, cd4_200250,
+       cd4_100200, cd4_50100, cd4_50, ART, UnDx, Dx, Care, PreLtfu, Tx, Vs, Ltfu))
 
     testthat::expect_equal(resOne_trunc, resTwo_trunc, info = "Truncated results not equal", label = "Truncated result test")
 })
