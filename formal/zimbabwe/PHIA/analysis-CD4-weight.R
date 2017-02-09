@@ -26,7 +26,6 @@ set.seed(100)
 MaxError <- 0.06
 MinNumber <- 1000
 
-
 # After first simulation, run this function (default = 5%)
 # MaxError <- find_error_bound(runError, prop = 0.05)
 
@@ -690,8 +689,8 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + scale_y_continuous(limits = c(0, 8e4), labels = scales::comma, breaks =
-       scales::pretty_breaks(n = 8), expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 9e4), labels = scales::comma, breaks =
+       scales::pretty_breaks(n = 9), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
     ggOut <- ggOut + theme(legend.title = element_blank())
