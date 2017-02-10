@@ -61,31 +61,31 @@ RunSim_Abs <- function(y, p) {
 
         cd4_500 = rowSums(result[, c(
             "UnDx_500", "Dx_500", "Care_500", "PreLtfu_500", "Tx_Na_500", "Tx_A_500", "Ltfu_500"
-            )]) / result[, "N"],
+            )]),
 
         cd4_350500 = rowSums(result[, c(
             "UnDx_350500", "Dx_350500", "Care_350500", "PreLtfu_350500", "Tx_Na_350500", "Tx_A_350500", "Ltfu_350500"
-            )]) / result[, "N"],
+            )]),
 
         cd4_250350 = rowSums(result[, c(
             "UnDx_250350", "Dx_250350", "Care_250350", "PreLtfu_250350", "Tx_Na_250350", "Tx_A_250350", "Ltfu_250350"
-            )]) / result[, "N"],
+            )]),
 
         cd4_200250 = rowSums(result[, c(
             "UnDx_200250", "Dx_200250", "Care_200250", "PreLtfu_200250", "Tx_Na_200250", "Tx_A_200250", "Ltfu_200250"
-            )]) / result[, "N"],
+            )]),
 
         cd4_100200 = rowSums(result[, c(
             "UnDx_100200", "Dx_100200", "Care_100200", "PreLtfu_100200", "Tx_Na_100200", "Tx_A_100200", "Ltfu_100200"
-            )]) / result[, "N"],
+            )]),
 
         cd4_50100 = rowSums(result[, c(
             "UnDx_50100", "Dx_50100", "Care_50100", "PreLtfu_50100", "Tx_Na_50100", "Tx_A_50100", "Ltfu_50100"
-            )]) / result[, "N"],
+            )]),
 
         cd4_50 = rowSums(result[, c(
             "UnDx_50", "Dx_50", "Care_50", "PreLtfu_50", "Tx_Na_50", "Tx_A_50", "Ltfu_50"
-            )]) / result[, "N"],
+            )]),
 
         DALY = (
             (rowSums(result[, c("UnDx_500", "Dx_500", "Care_500", "PreLtfu_500", "Tx_Na_500", "Ltfu_500",

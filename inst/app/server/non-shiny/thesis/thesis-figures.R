@@ -924,7 +924,7 @@ BuildChangesPlot_Thesis <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + expand_limits(y = 1e5)
+    # ggOut <- ggOut + expand_limits(y = 1e5)
     ggOut <- ggOut + scale_y_continuous(labels = scales::comma, breaks = scales::pretty_breaks(n = 5), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
@@ -962,5 +962,147 @@ BuildDataReviewPlot_Thesis <- function(data) {
     ggOut <- ggOut + theme(axis.title = element_blank())
     ggOut <- ggOut + theme(legend.title = element_blank())
     ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut
+}
+
+GenSinglePowersPlot_Thesis <- function() {
+    t0 <- GetPowersCascadeData(1)
+
+    cols <- brewer.pal(9,"Set1")
+    p.col <- c(cols[3], cols[2], cols[4], cols[5], cols[1], cols[9], cols[8])
+
+    ggOne <- ggplot(t0, aes(x = order, y = res, fill = state))
+    ggOne <- ggOne + geom_bar(stat = 'identity')
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
+    ggOne <- ggOne + scale_fill_manual(values = p.col, guide = guide_legend(title = ""))
+    ggOne <- ggOne + ggtitle("2015")
+    ggOne <- ggOne + theme_classic()
+    ggOne <- ggOne + theme(plot.title = element_text(hjust = 0.5))
+    ggOne <- ggOne + theme(title = element_text(size = 13))
+    ggOne <- ggOne + theme(axis.title = element_blank())
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 12))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.text = element_text(size = 7))
+    ggOne <- ggOne + theme(legend.title = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(plot.background = element_blank())
+    ggOne <- ggOne + theme(panel.background = element_blank())
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
+    ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + expand_limits(y = round(sum(t0[t0$order == "All","res"]), -5))
+    ggOne
+}
+
+BuildCD4Data_Thesis <- function(year) {
+    # get data from model
+    result <- GetModel()
+
+    # need average for each CD4 across time.
+    cd4_500    <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_500[year]))))    + mean(unlist(lapply(result, function(x) sum(x$Tx_A_500[year]))))
+    cd4_350500 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_350500[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_350500[year]))))
+    cd4_250350 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_250350[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_250350[year]))))
+    cd4_200250 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_200250[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_200250[year]))))
+    cd4_100200 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_100200[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_100200[year]))))
+    cd4_50100  <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_50100[year]))))  + mean(unlist(lapply(result, function(x) sum(x$Tx_A_50100[year]))))
+    cd4_50     <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_50[year]))))     + mean(unlist(lapply(result, function(x) sum(x$Tx_A_50[year]))))
+
+    # calculate proportions
+    cd4_500_prop    <- cd4_500    / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_350500_prop <- cd4_350500 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_250350_prop <- cd4_250350 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_200250_prop <- cd4_200250 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_100200_prop <- cd4_100200 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_50100_prop  <- cd4_50100  / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_50_prop     <- cd4_50     / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+
+    # pull together a dataframe
+    proportion <- c(cd4_500_prop, cd4_350500_prop, cd4_250350_prop, cd4_200250_prop, cd4_100200_prop, cd4_50100_prop, cd4_50_prop)
+    category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    df <- data.frame(category, proportion)
+
+    # set levels
+    df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+
+    # set position
+    df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
+
+    ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
+    ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + coord_polar(theta = "y")
+    ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+    ggOut <- ggOut + theme(legend.position = "right")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.text = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_blank())
+    ggOut <- ggOut + theme(axis.ticks = element_blank())
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 15))
+    ggOut <- ggOut + theme(legend.key.size = unit(1, "cm"))
+    ggOut <- ggOut + ggtitle(paste("CD4 distribution of persons on ART in", 2015 + ((year * 0.02) - 0.02)))
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 18))
+    ggOut
+}
+
+BuildCD4CalibData_Thesis <- function(year, modelOut) {
+    result <- modelOut
+
+    # need average for each CD4 across time.
+    cd4_500    <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_500[year]))))    + mean(unlist(lapply(result, function(x) sum(x$Tx_A_500[year]))))
+    cd4_350500 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_350500[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_350500[year]))))
+    cd4_250350 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_250350[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_250350[year]))))
+    cd4_200250 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_200250[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_200250[year]))))
+    cd4_100200 <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_100200[year])))) + mean(unlist(lapply(result, function(x) sum(x$Tx_A_100200[year]))))
+    cd4_50100  <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_50100[year]))))  + mean(unlist(lapply(result, function(x) sum(x$Tx_A_50100[year]))))
+    cd4_50     <- mean(unlist(lapply(result, function(x) sum(x$Tx_Na_50[year]))))     + mean(unlist(lapply(result, function(x) sum(x$Tx_A_50[year]))))
+
+    # calculate proportions
+    cd4_500_prop    <- cd4_500    / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_350500_prop <- cd4_350500 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_250350_prop <- cd4_250350 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_200250_prop <- cd4_200250 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_100200_prop <- cd4_100200 / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_50100_prop  <- cd4_50100  / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+    cd4_50_prop     <- cd4_50     / mean(unlist(lapply(result, function(x) sum(x$Tx[year]))))
+
+    # pull together a dataframe
+    proportion <- c(cd4_500_prop, cd4_350500_prop, cd4_250350_prop, cd4_200250_prop, cd4_100200_prop, cd4_50100_prop, cd4_50_prop)
+    category <- c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50")
+    df <- data.frame(category, proportion)
+
+
+    # set levels
+    df$category <- factor(df$category, levels = c("<500", "350-500", "250-350", "200-250", "100-200", "50-100", "<50"))
+
+    # set position
+    df$pos <- 1 - (cumsum(df$proportion) - df$proportion / 2)
+
+    ggOut <- ggplot(df, aes(x = "", y = proportion, fill = category))
+    ggOut <- ggOut + geom_bar(width = 1, stat = "identity")
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + coord_polar(theta = "y")
+    ggOut <- ggOut + ggrepel::geom_label_repel(aes(y = pos, label = scales::percent(round(proportion, digits = 2))), size = 8, family = figFont, show.legend = FALSE)
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + scale_fill_manual(values = rev(brewer.pal(7, "RdYlGn")))
+    ggOut <- ggOut + theme(legend.position = "right")
+    ggOut <- ggOut + theme(axis.title = element_blank())
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(axis.text = element_blank())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + theme(axis.line.y = element_blank())
+    ggOut <- ggOut + theme(axis.ticks = element_blank())
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 15))
+    ggOut <- ggOut + theme(legend.key.size = unit(1, "cm"))
+    ggOut <- ggOut + ggtitle(paste("CD4 distribution of persons on ART in", 2010 + (year - 1)))
+    ggOut <- ggOut + theme(plot.title = element_text(hjust = 0.5, size = 18))
     ggOut
 }

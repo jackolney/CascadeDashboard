@@ -2,7 +2,7 @@ output$downloadMasterDataSet <- downloadHandler(
     filename = 'MasterData.RDS',
     content = function(file) {
         message("trying to save data.")
-        if (exists("MasterData")) {
+        if (length(MasterData) > 0) {
             saveRDS(MasterData, file = file)
         }
     }
@@ -12,7 +12,7 @@ output$downloadExcel <- downloadHandler(
     filename = 'MasterData.xlsx',
     content = function(file) {
         message("trying to save data.")
-        if (exists("MasterData")) {
+        if (length(MasterData) > 0) {
             wb <- openxlsx::createWorkbook()
             openxlsx::addWorksheet(wb = wb, sheetName = "cascade", gridLines = FALSE)
             openxlsx::writeDataTable(wb = wb, sheet = 1, x = MasterData$calib)
@@ -46,7 +46,7 @@ observeEvent(input$uploadMasterDataSet, {
         # Check to see if length of list == 6, verifying that it is a 'MasterData' object
         if (length(newFile) == 6) {
             # Remove old MasterData
-            if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+            if (length(MasterData) > 0) MasterData <<- list()
             # Apply new one
             try(MasterData <<- newFile, silent = FALSE)
 
@@ -117,7 +117,7 @@ observeEvent(input$uploadCascade, {
         # Read the file
         country <- openxlsx::read.xlsx(xlsxFile = fileName, sheet = 1, startRow = 3, cols = 1:2, colNames = FALSE)[1,2]
         # Check MasterData exists
-        if (exists("MasterData")) {
+        if (length(MasterData) > 0) {
             # Check name matches MasterData country name.
             if (MasterData$calib$country[1] == country) {
                 # Read in inputValues

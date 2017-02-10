@@ -35,7 +35,7 @@ observeEvent(input$new_country_name, {
         updateButton(session,    inputId = "GUIDELINES_FLAG", disabled = TRUE)
     } else {
         # These actually need to be CHECK functions (as when we edit the country name, then will all go red again)
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+        if (length(MasterData) > 0) MasterData <<- list()
         try(MasterData <<- GetBlankMasterDataSet(input$new_country_name), silent = FALSE)
         print(MasterData)
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = FALSE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -58,7 +58,7 @@ observeEvent(input$new_country_name, {
 # This observe will kill any input into "new_country_name" if the 'NEW_country' button is deactivated
 observeEvent(input$NEW_country, {
     if(input$NEW_country == FALSE) {
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+        if (length(MasterData) > 0) MasterData <<- list()
         updateTextInput(session, inputId = "new_country_name", value = "")
         shinyBS::closeAlert(session, alertId = "alertId_PROCEED")
         shinyBS::createAlert(session,
@@ -71,7 +71,7 @@ observeEvent(input$NEW_country, {
             append = TRUE)
         updateButton(session, inputId = "NEXT_country", disabled = TRUE)
     } else {
-        if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+        if (length(MasterData) > 0) MasterData <<- list()
         updateButton(session, inputId = "CASCADE_FLAG",     style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "CD4_FLAG",         style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
         updateButton(session, inputId = "INCIDENCE_FLAG",   style = "danger",  disabled = TRUE, icon = icon("times", class = "fa-lg fa-fw", lib = "font-awesome"))
@@ -172,7 +172,7 @@ observeEvent(input$PREV_editGuidelines, {
 
 # CD4 CheckBox
 observeEvent(input$copy2010CD4, {
-    if (exists("MasterData")) {
+    if (length(MasterData) > 0) {
         if (input$copy2010CD4 == TRUE) {
             MasterData$cd4_2015 <<- MasterData$cd4
         } else {

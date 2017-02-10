@@ -180,7 +180,7 @@ observeEvent(input$resetTxGuidelines, {
 })
 
 observeEvent(input$resetDATA, {
-    if (exists("MasterData")) rm(MasterData, pos = ".GlobalEnv")
+    if (length(MasterData) > 0) MasterData <<- list()
     MasterData <<- GetMasterDataSet(input$selectCountry)
     shinyjs::reset("plhiv_panel")
     shinyjs::reset("diag_panel")
@@ -225,7 +225,7 @@ observeEvent(input$test_AdhProp_L,        { userParRange$p_MIN       <<- input$t
 
 observeEvent(input$calib_speed, {
     updateNumericInput(session, inputId = "minResults", value = 100)
-    if (exists("runError")) {
+    if (!is.null(runError)) {
         # Re-run simulations and set maxError to level that would accept 90% of previous runs
         prop <- 0.9
         val <- round(sort(runError)[round(length(runError) * prop, digits = 0)], digits = 1)
@@ -239,7 +239,7 @@ observeEvent(input$calib_speed, {
 
 observeEvent(input$calib_quality, {
     updateNumericInput(session, inputId = "minResults", value = 1000)
-    if (exists("runError")) {
+    if (!is.null(runError)) {
         # Re-run simulations and set maxError to level that would accept 50% of previous runs
         prop <- 0.50
         val <- round(sort(runError)[round(length(runError) * prop, digits = 0)], digits = 1)

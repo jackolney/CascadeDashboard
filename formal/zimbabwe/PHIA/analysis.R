@@ -20,13 +20,15 @@ MasterData <- GetMasterDataSet(MasterName)
 
 # MAKE all PLHIV RED!
 # MasterData$calib[MasterData$calib$indicator == "PLHIV", "weight"] <- "red"
+# MAKE all RED!
+# MasterData$calib[, "weight"] <- "red"
 
 # ---- #
 set.seed(100)
 # ---- #
 
 # MaxError <- 0.04
-MaxError <- 0.1
+MaxError <- 0.05
 MinNumber <- 100
 
 # After first simulation, run this function
@@ -47,10 +49,36 @@ MinNumber <- 100
 # parRange <- DefineParmRange(
 #     p = c(0.7, 1),
 #     omega = c(0, 0.01),
-#     epsilon = c(90, 100),
-#     q = c(0.9, 0.99),
+#     epsilon = c(100, 100),
+#     q = c(0.9, 1),
 #     kappa = c(0, 0.05)
 # )
+
+
+# the below works...
+# parRange <- DefineParmRange(
+#     rho     = c(0, 0.0005),
+#     q       = c(0.9, 1),
+#     epsilon = c(100, 105),
+#     kappa   = c(1, 2),
+#     gamma   = c(2, 4),
+#     theta   = c(0, 0.5),
+#     p       = c(0.7, 0.9),
+#     omega   = c(0, 0.01)
+# )
+
+
+# lets be more generous...
+parRange <- DefineParmRange(
+    rho     = c(0, 0.001),
+    q       = c(0.9, 1),
+    epsilon = c(100, 100),
+    kappa   = c(0, 2),
+    gamma   = c(0, 4),
+    theta   = c(0, 0.5),
+    p       = c(0.7, 1),
+    omega   = c(0, 0.01)
+)
 
 # Run Calibration
 RunNSCalibration(
@@ -61,6 +89,26 @@ RunNSCalibration(
     limit = MinNumber,
     parRange = parRange,
     targetIterations = 1e5)
+
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 1, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2010.pdf", type = "pdf")
+
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4CalibData_Thesis(year = 6, modelOut = modelOut)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/CD4-2015.pdf", type = "pdf")
+
+
+
+
+graphics.off(); quartz.options(w = 9, h = 4)
+BuildPHIAPlot(data = CalibOut)
+# quartz.save(file = "~/Desktop/fig/PHIA.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/PHIA.pdf", type = "pdf")
+
+
+################################################################################
+#### PLOT ####
 
 # Cascade in 2015
 graphics.off(); quartz.options(w = 10, h = 4)
@@ -90,7 +138,11 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/calib-detail.pdf", type =
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
+# quartz.save(file = "~/Desktop/fig/par.pdf", type = "pdf")
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/cal/par-hist.pdf", type = "pdf")
+
+
+################################################################################
 
 # DataReviewPlot
 graphics.off(); quartz.options(w = 10, h = 4)
@@ -129,6 +181,11 @@ Quantile_95(CalibParamOut[["omega"]])
 
 AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
+# Single Powers Plot
+graphics.off(); quartz.options(w = 8, h = 4)
+GenSinglePowersPlot_Thesis()
+quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
+
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
@@ -159,6 +216,11 @@ quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/AIDS-deaths.pdf", type = 
 graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
+
+# CD4 distribution at ART initiation
+graphics.off(); quartz.options(w = 8, h = 6)
+BuildCD4Data_Thesis(year = 251)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
 
 # NUMBERS
 t0 <- GetCascadeData(1)   # t0 = 1
@@ -199,6 +261,9 @@ t0
 t0$res[5]/t0$res[1]
 t5$res[5]/t5$res[1]
 
+# save.image("../../formal/zimbabwe/PHIA/data.RData")
+# load("../../formal/zimbabwe/PHIA/data.RData")
+
 ################################################################################
 # Optimisation
 
@@ -211,13 +276,23 @@ intSwitch <- data.frame(
     retention    = TRUE
 )
 
+# These need updating
+# and re-write this definition, it looks vile
+# OptInput <- c()
+# OptInput$intValue_rho   <- parRange["rho", "max"]
+# OptInput$intValue_q     <- parRange["q", "max"]
+# OptInput$intValue_kappa <- parRange["kappa", "min"]
+# OptInput$intValue_gamma <- parRange["gamma", "max"]
+# OptInput$intValue_sigma <- 0.5
+# OptInput$intValue_omega <- parRange["omega", "min"]
+
 OptInput <- c()
-OptInput$intValue_rho   <- parRange["rho", "max"]
-OptInput$intValue_q     <- parRange["q", "max"]
-OptInput$intValue_kappa <- parRange["kappa", "min"]
-OptInput$intValue_gamma <- parRange["gamma", "max"]
+OptInput$intValue_rho   <- 1
+OptInput$intValue_q     <- 1
+OptInput$intValue_kappa <- 0
+OptInput$intValue_gamma <- 4
 OptInput$intValue_sigma <- 0.5
-OptInput$intValue_omega <- parRange["omega", "min"]
+OptInput$intValue_omega <- 0
 
 reactiveCost <- data.frame(
     test = 10,

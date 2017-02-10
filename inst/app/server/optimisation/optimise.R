@@ -10,7 +10,7 @@ RunOptimisation <- function(propRuns = 0.1) {
         # Extract the initial values of a random 10% of simulations from calibration
         bestTenPercentCalibInitial <<- GetRandomTenPercentCalibOut(CalibOut = CalibOut, runError = runError, selectedRuns = selectedRuns, propRuns = propRuns)
 
-        print("reactiveAdjustCost$switch =", reactiveAdjustCost$switch)
+        print(paste("reactiveAdjustCost$switch =", reactiveAdjustCost$switch))
         # Account for testing HIV-negatives
         AdjustHIVTestCost()
 
@@ -74,7 +74,7 @@ RunOptimisation <- function(propRuns = 0.1) {
             bLink[j] <- BaseModel$CumLink[251]
             bPreR[j] <- BaseModel$CumPreL[251]
             bInit[j] <- BaseModel$CumInit[251]
-            bAdhr[j] <- BaseModel$Vs[251] - BaseModel$Vs[1]
+            bAdhr[j] <- BaseModel$CumAdhr[251]
             bRetn[j] <- BaseModel$CumLoss[251]
 
             parSteps <- GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = shuffledRuns[j], length = 2)

@@ -5,6 +5,7 @@ tabItem(tabName = "session",
             solidHeader = TRUE,
             title = "Session Info",
             verbatimTextOutput("console")
+            # verbatimTextOutput("global")
         )
     ),
     column(width = 4,
@@ -14,6 +15,8 @@ tabItem(tabName = "session",
             title = "Help Panel",
             "This is a diagnostic zone.
             Users are not required to access this area."
+            # bsButton(inputId = "update_global", label = "REFRESH", style = "danger", size = "large",
+               # block = TRUE)
         )
     )
 )

@@ -42,6 +42,16 @@ RunCalibration <- function(country, data, maxIterations, maxError, limit, target
             Mu = AdvCalib$NatMort
         )
 
+        # Not in care ART initiation rate CD4 adjustment
+        message("Warning: theta only scaled for CD4 <200")
+        p[["s_1"]] <- 1
+        p[["s_2"]] <- 1
+        p[["s_3"]] <- 1
+        p[["s_4"]] <- 1
+        p[["s_5"]] <- 2.824565
+        p[["s_6"]] <- 2.824565
+        p[["s_7"]] <- 2.824565
+
         ## Sample Parameters
         # Defines max / min
         # Allows user to override these

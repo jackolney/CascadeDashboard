@@ -648,7 +648,7 @@ BuildCalibrationRandomFitRunsPlot_Report <- function(data, originalData, limit, 
     orderedRuns <- order(runError[selectedRuns])
 
     # sort runs by error (lowest to highest)
-    if (!exists("shuffledRuns")) {
+    if (is.null(dim(shuffledRuns))) {
         shuffledRuns <<- sample(orderedRuns)
     }
 

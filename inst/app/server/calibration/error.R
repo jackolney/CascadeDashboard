@@ -84,27 +84,102 @@ SSE <- function(df) {
         for (j in 1:length(uniqueYears)) {
             iYr <- data[data$year == uniqueYears[j],]
 
-            iData  <- iYr[iYr$source == "data","value"]
-            if (isEmpty(iData)) next
-            if (any(is.na(iData))) next
-            if (length(iData) > 1) {
-                iData <- mean(iData)
-                warning("iData length > 1")
+            # PHIA ADDITIONS
+            # To remove, simply comment this if statment out and the model will return to
+            # previous state
+            # for collecting results, maybe just write to some data.frame somewhere
+            if (unique(iYr$country) == "Zimbabwe" & unique(iYr$year) == 2015) {
+
+                if (unique(iYr$indicator) == "PLHIV Diagnosed") {
+                    # PLHIV DIAGNOSED
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 74.2% of PLHIV were diagnosed
+                    iData <- 0.742
+                    iWeight <- "green"
+                    w <- 1
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else if (unique(iYr$indicator) == "PLHIV on ART") {
+                    # PLHIV on ART
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV Diagnosed" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 86.8% of Diagnosed are on ART
+                    iData <- 0.868
+                    iWeight <- "green"
+                    w <- 1
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else if (unique(iYr$indicator) == "PLHIV Suppressed") {
+                    # PLHIV Suppressed
+                    model_num <- iYr[iYr$source == "model", "value"]
+                    model_den <- df[df$year == 2015 & df$indicator == "PLHIV on ART" & df$source == "model", "value"]
+                    iModel <- model_num / model_den
+
+                    # PHIA - 86.5% of on ART are virally suppressed
+                    iData <- 0.865
+                    iWeight <- "green"
+                    w <- 1
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+
+                } else {
+
+                    iData  <- iYr[iYr$source == "data","value"]
+                    if (isEmpty(iData)) next
+                    if (any(is.na(iData))) next
+                    if (length(iData) > 1) {
+                        iData <- mean(iData)
+                        warning("iData length > 1")
+                    }
+
+                    iWeight <- iYr[iYr$source == "data","weight"]
+                    if (isEmpty(iWeight)) next
+                    if (iWeight == "green") {
+                        w <- 1
+                    } else if (iWeight == "amber") {
+                        w <- 0.5
+                    } else if (iWeight == "red") {
+                        w <- 0.1
+                    }
+
+                    iModel <- iYr[iYr$source == "model","value"]
+
+                    value <- ((abs(iData - iModel) / iData) * w) / N
+                }
+
+            } else {
+
+                iData  <- iYr[iYr$source == "data","value"]
+                if (isEmpty(iData)) next
+                if (any(is.na(iData))) next
+                if (length(iData) > 1) {
+                    iData <- mean(iData)
+                    warning("iData length > 1")
+                }
+
+                iWeight <- iYr[iYr$source == "data","weight"]
+                if (isEmpty(iWeight)) next
+                if (iWeight == "green") {
+                    w <- 1
+                } else if (iWeight == "amber") {
+                    w <- 0.5
+                } else if (iWeight == "red") {
+                    w <- 0.1
+                }
+
+                iModel <- iYr[iYr$source == "model","value"]
+
+                value <- ((abs(iData - iModel) / iData) * w) / N
             }
 
-            iWeight <- iYr[iYr$source == "data","weight"]
-            if (isEmpty(iWeight)) next
-            if (iWeight == "green") {
-                w <- 1
-            } else if (iWeight == "amber") {
-                w <- 0.5
-            } else if (iWeight == "red") {
-                w <- 0.1
-            }
-
-            iModel <- iYr[iYr$source == "model","value"]
-
-            value <- ((abs(iData - iModel) / iData) * w) / N
+            # value <- ((abs(iData - iModel) / iData) * w) / N
 
             year <- uniqueYears[j]
 

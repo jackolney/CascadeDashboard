@@ -2,6 +2,8 @@
 # GLOBAL #
 # ------ #
 
+source("server/vars.R",                              local = TRUE)
+
 source("server/alert.R",                             local = TRUE)
 source("server/diagnostics.R",                       local = TRUE)
 source("server/font.R",                              local = TRUE)

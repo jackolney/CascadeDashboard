@@ -14,7 +14,7 @@ vCascadeCountry = NULL
 observe({
     # dependency
     input$PREV_editCascade
-    if (!is.null(values[["hot_cascade"]]) & exists("MasterData")) {
+    if (!is.null(values[["hot_cascade"]]) & length(MasterData) > 0) {
         MasterData$calib <<- na.omit(values[["hot_cascade"]])
     }
 })
@@ -118,7 +118,7 @@ vCD4Country = NULL
 observe({
     # dependency
     input$PREV_editCD4
-    if (!is.null(values[["hot_cd4"]]) & exists("MasterData")) {
+    if (!is.null(values[["hot_cd4"]]) & length(MasterData) > 0) {
         MasterData$cd4[2:15] <<- values[["hot_cd4"]]$Proportion
         if (input$new_country_name != "") {
             MasterData$cd4[[1]] <<- input$new_country_name
@@ -178,7 +178,7 @@ vCD42015Country = NULL
 observe({
     # dependency
     input$PREV_editCD4
-    if (!is.null(values[["hot_cd4_2015"]]) & exists("MasterData")) {
+    if (!is.null(values[["hot_cd4_2015"]]) & length(MasterData) > 0) {
         MasterData$cd4_2015[2:15] <<- values[["hot_cd4_2015"]]$Proportion
         if (input$new_country_name != "") {
             MasterData$cd4_2015[[1]] <<- input$new_country_name
@@ -243,7 +243,7 @@ vIncidenceCountry = NULL
 observe({
     # dependency
     input$PREV_editIncidence
-    if (!is.null(values[["hot_incidence"]]) & exists("MasterData")) {
+    if (!is.null(values[["hot_incidence"]]) & length(MasterData) > 0) {
         MasterData$incidence <<- values[["hot_incidence"]]
     }
 })
@@ -298,7 +298,7 @@ vGuidelinesCountry = NULL
 observe({
     # dependency
     input$PREV_editGuidelines
-    if (!is.null(values[["hot_guidelines"]]) & exists("MasterData")) {
+    if (!is.null(values[["hot_guidelines"]]) & length(MasterData) > 0) {
         MasterData$treatment_guidelines[,c("less200", "less250", "less350", "less500", "more500")] <<- values[["hot_guidelines"]]$Year
     }
 })
