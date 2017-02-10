@@ -1,6 +1,6 @@
 Package: CascadeDashboard
 Title: A Shiny App for Investigating The Current Trajectory of HIV Care
-Version: 1.0
+Version: 1.1
 Authors@R: person("Jack", "Olney", email = "jack.olney11@imperial.ac.uk", role = c("aut", "cre"))
 Author: Jack Olney
 Maintainer: Jack Olney <jack.olney11@imperial.ac.uk>
