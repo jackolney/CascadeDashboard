@@ -12,7 +12,7 @@ By far the easiest way of acccessing the dashboard is through the online version
 
 However, some users may like to store a version locally on their machine. This can be achieved by downloading the app as a 'package', but assumes prior working knowledge of [R](https://cran.r-project.org/) and [git](https://git-scm.com/):
 
-### Installation
+## Installation
 
 This method provides the 'CascadeDashboard' as a standalone R package that downloads all it's dependencies in one go.
 
@@ -23,7 +23,7 @@ devtools::install_github('jackolney/CascadeDashboard')
 CascadeDashboard::launch()
 ```
 
-### Help
+## Help
 
 A potential error may arise if the 'Geospatial Data Abstraction Library' (GDAL) and Google's V8 engine are not installed. In the absence of GDAL, the app is still fully functional, however the interactive map will be disabled.
 
