@@ -1,4 +1,6 @@
-# 'CascadeDashboard' -- a shiny app for investigating the current trajectory of HIV care
+# CascadeDashboard
+
+### shiny app for investigating the current trajectory of HIV care
 
 [![Build Status](https://travis-ci.org/jackolney/CascadeDashboard.svg?branch=master)](https://travis-ci.org/jackolney/CascadeDashboard)
 
