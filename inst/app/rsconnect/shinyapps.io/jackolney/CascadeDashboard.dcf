@@ -1,7 +1,8 @@
 name: CascadeDashboard
+title:
 account: jackolney
 server: shinyapps.io
 appId: 81511
-bundleId: 628679
+bundleId: 706998
 url: https://jackolney.shinyapps.io/CascadeDashboard/
-when: 1480413059.28516
+when: 1486726340.30679
