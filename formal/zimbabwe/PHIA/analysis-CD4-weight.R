@@ -147,47 +147,47 @@ quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 # CareCascade Plot
 graphics.off(); quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
-quartz.save(file = "~/Desktop/fig/cascade-projection.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/cascade-projection.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-projection.pdf", type = "pdf")
 
 # What is the average value of beta?
-OutputBeta()
+# OutputBeta()
 
 # 90-90-90 Plot
 graphics.off(); quartz.options(w = 9, h = 4)
 Gen909090Plot_Thesis()
-quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/90-90-90.pdf", type = "pdf")
 
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
 GenPowersCascadePlot_Thesis()
-quartz.save(file = "~/Desktop/fig/cascade-powers.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-powers.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/cascade-powers.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-powers.pdf", type = "pdf")
 
 # New Infections
 graphics.off(); quartz.options(w = 6, h = 4)
 GenNewInfPlot_Thesis()
-quartz.save(file = "~/Desktop/fig/new-infections.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/new-infections.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/new-infections.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/new-infections.pdf", type = "pdf")
 
 # AIDS Deaths
 graphics.off(); quartz.options(w = 6, h = 4)
 GenAidsDeathsPlot_Thesis()
-quartz.save(file = "~/Desktop/fig/AIDS-deaths.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/AIDS-deaths.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/AIDS-deaths.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/AIDS-deaths.pdf", type = "pdf")
 
 # Discrete Cascade
 graphics.off(); quartz.options(w = 10, h = 4)
 GenDiscreteCascade_Thesis()
-quartz.save(file = "~/Desktop/fig/cascade-discrete.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/cascade-discrete.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/cascade-discrete.pdf", type = "pdf")
 
 # CD4 distribution at ART initiation
 graphics.off(); quartz.options(w = 8, h = 6)
 BuildCD4Data_Thesis(year = 251)
-quartz.save(file = "~/Desktop/fig/CD4-2020.pdf", type = "pdf")
-# quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
+# quartz.save(file = "~/Desktop/fig/CD4-2020.pdf", type = "pdf")
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/pro/CD4-2020.pdf", type = "pdf")
 
 # NUMBERS
 t0 <- GetCascadeData(1)   # t0 = 1
@@ -689,8 +689,8 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
     ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
     ggOut <- ggOut + theme(axis.line.y = element_line())
     ggOut <- ggOut + theme(axis.line.x = element_blank())
-    ggOut <- ggOut + scale_y_continuous(limits = c(0, 9e4), labels = scales::comma, breaks =
-       scales::pretty_breaks(n = 9), expand = c(0, 0))
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 11e4), labels = scales::comma, breaks =
+       scales::pretty_breaks(n = 11), expand = c(0, 0))
     ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
     ggOut <- ggOut + theme(legend.position = 'right')
     ggOut <- ggOut + theme(legend.title = element_blank())
