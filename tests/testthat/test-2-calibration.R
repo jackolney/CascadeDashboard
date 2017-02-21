@@ -35,7 +35,8 @@ test_that("Get parameters", {
         t_4 = ConvertYear(data[["treatment_guidelines"]][["less250"]]),
         t_5 = ConvertYear(data[["treatment_guidelines"]][["less200"]])
     )
-    testthat::expect_true(round(sum(p), digits = 4) == 525.1713, label = "Parameters", info = "not valid")
+    testthat::expect_true(round(sum(p), digits = 4) == 530.645, label = "Parameters", info = "not
+       valid")
 })
 
 test_that("LHS parameter range", {
