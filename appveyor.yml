@@ -12,6 +12,14 @@ install:
 
 # Adapt as necessary starting from here
 
+environment:
+
+  matrix:
+  - R_VERSION: stable
+    USE_RTOOLS: true
+    CRAN: http://cran.rstudio.com
+    GCC_PATH: mingw_32
+
 build_script:
   - travis-tool.sh install_deps
 
