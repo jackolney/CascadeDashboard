@@ -2,7 +2,7 @@
 
 ### shiny app for investigating the current trajectory of HIV care
 
-[![Build Status](https://travis-ci.org/jackolney/CascadeDashboard.svg?branch=master)](https://travis-ci.org/jackolney/CascadeDashboard)
+[![Build Status](https://travis-ci.org/jackolney/CascadeDashboard.svg?branch=master)](https://travis-ci.org/jackolney/CascadeDashboard) [![Build status](https://ci.appveyor.com/api/projects/status/050867wrfgscrxp9/branch/master?svg=true)](https://ci.appveyor.com/project/jackolney/cascadedashboard/branch/master)
 
 This model forms the basis of the shiny application available online [here](https://jackolney.shinyapps.io/CascadeDashboard/). The backend of the model consists of a deterministic model of HIV care written in C, source code available [here](https://github.com/jackolney/cascade).
 
@@ -38,7 +38,7 @@ This will install the following using `apt-get`:
 * libproj-dev
 * libv8-dev
 
-Windows users are on their own here, but I aim to provide support soon.
+Windows builds are tested using [AppVeyor](https://ci.appveyor.com/project/jackolney/cascadedashboard)
 
 Please open an issue or email me at [jack.olney11@imperial.ac.uk](mailto:jack.olney11@imperial.ac.uk) if you encounter any problems.
 
