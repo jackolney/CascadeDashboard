@@ -8,7 +8,7 @@ This model forms the basis of the shiny application available online [here](http
 
 ## Accessing 'CascadeDashboard'
 
-By far the easiest way of acccessing the dashboard is through the online version hosted by Rstudio - [https://jackolney.shinyapps.io/CascadeDashboard/](https://jackolney.shinyapps.io/CascadeDashboard/)
+By far the easiest way of acccessing the dashboard is through the online version hosted by Rstudio - [jackolney.shinyapps.io/CascadeDashboard/](https://jackolney.shinyapps.io/CascadeDashboard/)
 
 However, some users may like to store a version locally on their machine. This can be achieved by downloading the app as a 'package', but assumes prior working knowledge of [R](https://cran.r-project.org/) and [git](https://git-scm.com/):
 
