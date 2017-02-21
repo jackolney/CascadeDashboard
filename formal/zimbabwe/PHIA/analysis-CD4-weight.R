@@ -706,3 +706,52 @@ build_changes_CROI <- function(CalibParamOut, optResults, target) {
 graphics.off(); quartz.options(w = 8, h = 4)
 build_changes_CROI(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes.pdf", type = "pdf")
+
+build_custom_frontier_plot <- function(CalibParamOut, optResults, target = target, ylim) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+
+    optRuns <- WhichAchieved73(simData = optResults, simLength = simLength, target = target)
+
+    optResults$sim <- rep(x = 1:(dim(optResults)[1] / simLength), each = simLength)
+
+    allRuns <- GetFrontiers(simData = optResults, optRuns = 1:(dim(optResults)[1] / simLength), simLength = simLength)
+
+    interpol <- list()
+    for(n in 1:(dim(optResults)[1] / simLength)) {
+        lower <- (1 + simLength * (n - 1))
+        upper <- (simLength + simLength * (n - 1))
+        vals <- optResults[lower:upper,]
+
+        interpolation <- approx(x = vals[,"VS"][allRuns[[n]]], y = vals[,"Cost"][allRuns[[n]]])
+        interpol[[n]] <- interpolation
+    }
+
+    ggPlot <- ggplot(optResults, aes(x = VS, y = Cost))
+    ggPlot <- ggPlot + geom_point(col = '#4F8ABA', alpha = 0.2)
+    for(n in 1:(dim(optResults)[1] / simLength)) {
+        ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[n]]), mapping = aes(x = x, y = y), col = 'black', alpha = 0.2, size = 0.5)
+    }
+    for(n in 1:length(optRuns)) {
+        ggPlot <- ggPlot + geom_line(data = as.data.frame(interpol[[optRuns[n]]]), mapping = aes(x = x, y = y), col = "red", alpha = 0.5, size = 0.75)
+    }
+    ggPlot <- ggPlot + geom_vline(xintercept = 0.9^3, alpha = 1)
+    ggPlot <- ggPlot + theme_classic()
+    ggPlot <- ggPlot + expand_limits(y = ylim)
+    ggPlot <- ggPlot + scale_y_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 5))
+    ggPlot <- ggPlot + scale_x_continuous(labels = scales::percent, breaks = scales::pretty_breaks(n = 5))
+    ggPlot <- ggPlot + theme(axis.text.x = element_text(size = 10))
+    ggPlot <- ggPlot + theme(axis.text.y = element_text(size = 10))
+    ggPlot <- ggPlot + theme(axis.title = element_text(size = 11))
+    ggPlot <- ggPlot + theme(axis.line.x = element_line())
+    ggPlot <- ggPlot + theme(axis.line.y = element_line())
+    ggPlot <- ggPlot + xlab("Viral Suppression")
+    ggPlot <- ggPlot + ylab("Additional Cost of Care")
+    ggPlot <- ggPlot + theme(text = element_text(family = figFont))
+    ggPlot
+}
+
+graphics.off(); quartz.options(w = 8, h = 4)
+build_custom_frontier_plot(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3,
+    ylim = 2.5e8)
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/frontier.pdf", type = "pdf")
