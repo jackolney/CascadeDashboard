@@ -882,7 +882,7 @@ build_changes_paper_figure <- function(target = 0.9^3) {
     ggOut <- ggOut + geom_bar(position = "dodge", stat = "identity", alpha = 1)
     ggOut <- ggOut + geom_errorbar(aes(x = variable, ymax = upper, ymin = lower), position =
         position_dodge(0.9), alpha = 1, width = 0.25, size = 0.5)
-    ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
+    ggOut <- ggOut + scale_fill_manual(values = c("#E41A1C","#4F8ABA"))
     ggOut <- ggOut + theme_classic()
     ggOut <- ggOut + ylab("Annual Targets")
     ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
