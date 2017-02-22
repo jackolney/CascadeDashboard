@@ -195,33 +195,33 @@ t5 <- GetCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
 
 # PLHIV Estimate in 2015
 scales::comma(round(t0$res[1], -3))
-1.385e+6
+1.394e+6
 scales::comma(round(t5$res[1], -3))
-1.534e+6
+1.516e+6
 
-1.534e+6 / 1.385e+6
+1.516e+6 / 1.394e+6
 
 # DIAGNOSED
 scales::comma(round(t0$res[2], -3))
-1.242e+6
+1.044e+6
 scales::comma(round(t5$res[2], -3))
-1.406e+6
+1.296e+6
 
-1.406e+6 / 1.242e+6
+1.296e+6 / 1.044e+6
 
 # On ART
 scales::comma(round(t0$res[4], -3))
 scales::comma(round(t5$res[4], -3))
 
 round(t5$res[4], -3) / round(t0$res[4], -3)
-30\% (0.876M to 1.140M)
+37\% (0.899M to 1.233M)
 
 # Viral suppression
 scales::comma(round(t0$res[5], -3))
 scales::comma(round(t5$res[5], -3))
 
 round(t5$res[5], -3) / round(t0$res[5], -3)
-33\% (0.773M to 1.027M)
+40\% (0.791M to 1.104M)
 23 - 14
 t0
 
@@ -755,3 +755,156 @@ graphics.off(); quartz.options(w = 8, h = 4)
 build_custom_frontier_plot(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3,
     ylim = 2.5e8)
 quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/frontier.pdf", type = "pdf")
+
+####################################################################################################
+### PAPER CHANGE FIGURE (Adapted from version presented at CROI 2017)
+
+# new variable: absResults
+# this maps the ABSOLUTE changes in care (not those relative to baseline) in the optResults df
+
+build_changes_paper_figure <- function(target = 0.9^3) {
+
+    simLength <- dim(GetParaMatrixRun(cParamOut = CalibParamOut, runNumber = 1, length = 2))[1]
+    optRuns <- WhichAchieved73(simData = absResults, simLength = simLength, target = target)
+    frontierList <- GetFrontiers(simData = absResults, optRuns = optRuns, simLength = simLength)
+    intResult <- RunInterpolation(simData = absResults, optRuns = optRuns, simLength = simLength, frontierList = frontierList, target = target)
+
+    # Result Formatting
+    intResult <- intResult[,c("iTest","iLink","iPreR","iInit","iAdhr","iRetn")]
+
+    # Assign a 'run' number to simulations
+    intResult$run <- 1:dim(intResult)[1]
+
+    # Melt them
+    mRes <- reshape2::melt(intResult, id = "run")
+
+    ## DIVIDE ALL VALUES BY FIVE
+    # Conversion from 5 year values to single years
+    mRes$value <- mRes$value / 5
+
+    # RENAME VARIABLES
+    mRes$variable <- as.character(mRes$variable)
+    mRes[mRes$variable == "iTest", "variable"] <- "Number of\nPLHIV to\nDiagnose"
+    mRes[mRes$variable == "iLink", "variable"] <- "Number of\nPLHIV to\nLink"
+    mRes[mRes$variable == "iPreR", "variable"] <- "Number of\nPLHIV\nLost From\nPre-ART Care"
+    mRes[mRes$variable == "iInit", "variable"] <- "Number of\nPLHIV to\nInitiate ART"
+    mRes[mRes$variable == "iAdhr", "variable"] <- "Number of\nPLHIV to\nMaintain Viral\nSuppression"
+    mRes[mRes$variable == "iRetn", "variable"] <- "Number of\nPLHIV\nLost From\nART Care"
+
+    mRes$variable <- factor(mRes$variable, levels = c("Number of\nPLHIV to\nDiagnose", "Number of\nPLHIV to\nLink", "Number of\nPLHIV\nLost From\nPre-ART Care", "Number of\nPLHIV to\nInitiate ART",
+        "Number of\nPLHIV\nLost From\nART Care", "Number of\nPLHIV to\nMaintain Viral\nSuppression"))
+
+    # EDITS FROM HERE
+    variable <- c("Number of\nPLHIV to\nDiagnose", "Number of\nPLHIV to\nLink",
+        "Number of\nPLHIV\nLost From\nPre-ART Care", "Number of\nPLHIV to\nInitiate ART", "Number of\nPLHIV\nLost From\nART Care", "Number of\nPLHIV to\nMaintain Viral\nSuppression")
+
+    mean <- c(
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nPre-ART Care", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nART Care", "value"])[["mean"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["mean"]]
+    )
+
+    upper <- c(
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nPre-ART Care", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nART Care", "value"])[["upper"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["upper"]]
+    )
+
+    lower <- c(
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nDiagnose", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nLink", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nPre-ART Care", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nInitiate ART", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV\nLost From\nART Care", "value"])[["lower"]],
+        Quantile_95(mRes[mRes$variable == "Number of\nPLHIV to\nMaintain Viral\nSuppression", "value"])[["lower"]]
+    )
+
+    strategy <- "Intervention"
+
+    outData <- data.frame(variable, mean, lower, upper, strategy)
+
+    # baseline data.frame
+    theBase <- rbind(
+        data.frame(variable = "Number of\nPLHIV to\nDiagnose",
+                   mean  = Quantile_95(BaselineTest)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselineTest)[["lower"]] / 5,
+                   upper = Quantile_95(BaselineTest)[["upper"]] / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nLink",
+                   mean  = Quantile_95(BaselineLink)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselineLink)[["lower"]] / 5,
+                   upper = Quantile_95(BaselineLink)[["upper"]] / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV\nLost From\nPre-ART Care",
+                   mean  = Quantile_95(BaselinePreR)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselinePreR)[["lower"]] / 5,
+                   upper = Quantile_95(BaselinePreR)[["upper"]] / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nInitiate ART",
+                   mean  = Quantile_95(BaselineInit)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselineInit)[["lower"]] / 5,
+                   upper = Quantile_95(BaselineInit)[["upper"]] / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV\nLost From\nART Care",
+                   mean  = Quantile_95(BaselineRetn)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselineRetn)[["lower"]] / 5,
+                   upper = Quantile_95(BaselineRetn)[["upper"]] / 5,
+                   strategy = "Baseline"),
+        data.frame(variable = "Number of\nPLHIV to\nMaintain Viral\nSuppression",
+                   mean  = Quantile_95(BaselineAdhr)[["mean"]]  / 5,
+                   lower = Quantile_95(BaselineAdhr)[["lower"]] / 5,
+                   upper = Quantile_95(BaselineAdhr)[["upper"]] / 5,
+                   strategy = "Baseline")
+        )
+
+    final <- rbind(theBase, outData)
+    final$strategy <- factor(final$strategy, levels = c("Baseline", "Intervention"))
+
+    # WHAT I NEED
+    # -> Single data.frame containing 'baseline' 'intervention'
+    # -> cols = Intervention, mean, upper, lower
+    # -> IGNORE geom_label for now (I think it is too complicated with a geom_label call)
+    # need to re-run the simulations and then spit out ANOTHER data.frame that just shows things like
+    # the baseline changes but for interventions
+
+    # Leave option for labels
+    # ggOut <- ggOut + geom_label(data = theLabel, aes(x = variable, y = mean, label = paste0("+",
+    # scales::comma(round(value, 0)))), vjust = c(0.5, 0.5, 0, 0.5, 0.5, 0.5), family = "Avenir
+    # Next", colour = "black", size = 3, alpha = 1, show.legend = FALSE)
+
+    ggOut <- ggplot(final, aes(x = variable, y = mean, fill = strategy))
+    ggOut <- ggOut + geom_bar(position = "dodge", stat = "identity", alpha = 1)
+    ggOut <- ggOut + geom_errorbar(aes(x = variable, ymax = upper, ymin = lower), position =
+        position_dodge(0.9), alpha = 1, width = 0.25, size = 0.5)
+    ggOut <- ggOut + scale_fill_manual(values = c("#4F8ABA","#E41A1C"))
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + ylab("Annual Targets")
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 8))
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.line.x = element_blank())
+    ggOut <- ggOut + scale_y_continuous(limits = c(0, 12e4), labels = scales::comma, breaks =
+       scales::pretty_breaks(n = 12), expand = c(0, 0))
+    ggOut <- ggOut + theme(text = element_text(family = "Avenir Next"))
+    ggOut <- ggOut + theme(legend.position = 'right')
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + theme(legend.key.size = unit(0.5, "cm"))
+    ggOut <- ggOut + guides(fill = guide_legend(override.aes = list(alpha = 1)))
+    ggOut <- ggOut + theme(plot.background = element_blank())
+    ggOut <- ggOut + theme(legend.background = element_blank())
+    ggOut <- ggOut + theme(panel.background = element_blank())
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut
+}
+
+graphics.off(); quartz.options(w = 8, h = 4)
+build_changes_paper_figure()
+quartz.save(file = "../../formal/zimbabwe/PHIA/fig/opt/changes-dodge.pdf", type = "pdf")

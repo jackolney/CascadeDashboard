@@ -43,6 +43,14 @@ RunNSOptimisation <- function(propRuns, intLength) {
     rAdhr     <- c()
     rRetn     <- c()
 
+    # absolute change trackers
+    aTest     <- c()
+    aLink     <- c()
+    aPreR     <- c()
+    aInit     <- c()
+    aAdhr     <- c()
+    aRetn     <- c()
+
     # additional cost vectors
     rCostOrg  <- c()
     rCostTot  <- c()
@@ -115,6 +123,14 @@ RunNSOptimisation <- function(propRuns, intLength) {
             rAdhr[iC]     <- Calc_CareAdherence(baseResult    = BaseModel, simResult = SimResult)
             rRetn[iC]     <- Calc_CareRetention(baseResult    = BaseModel, simResult = SimResult)
 
+            # absolute change trackers
+            aTest[iC] <- SimResult$CumDiag[251]
+            aLink[iC] <- SimResult$CumLink[251]
+            aPreR[iC] <- SimResult$CumPreL[251]
+            aInit[iC] <- SimResult$CumInit[251]
+            aAdhr[iC] <- SimResult$CumAdhr[251]
+            aRetn[iC] <- SimResult$CumLoss[251]
+
             # These should always just reference i in all cases (as they repeat)
             rRho[iC]    <- parSteps[i,"Rho"]
             rQ[iC]      <- parSteps[i,"Q"]
@@ -128,8 +144,17 @@ RunNSOptimisation <- function(propRuns, intLength) {
         cat("\n")
     }
 
-    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma, rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
-    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q", "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation", "Adherence", "ART Retention", "Total Cost")
+    optResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma,
+       rSigma, rOmega, rTest, rLink, rPreR, rInit, rAdhr, rRetn, rCostTot)
+    colnames(optResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q",
+        "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation",
+        "Adherence", "ART Retention", "Total Cost")
+
+    absResults <<- data.frame(rFirst90, rSecond90, rThird90, rVS, rCost, rRho, rQ, rKappa, rGamma,
+       rSigma, rOmega, aTest, aLink, aPreR, aInit, aAdhr, aRetn, rCostTot)
+    colnames(absResults) <<- c("First 90", "Second 90", "Third 90", "VS", "Cost", "Rho", "Q",
+       "Kappa", "Gamma", "Sigma", "Omega", "Testing", "Linkage", "Pre-ART Retention", "Initiation",
+       "Adherence", "ART Retention", "Total Cost")
 
     # Make all the baseline stuff global
     BaselineCost <<- rCostOrg
