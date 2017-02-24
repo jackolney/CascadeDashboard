@@ -2,7 +2,7 @@
 
 ### shiny app for investigating the current trajectory of HIV care
 
-[![Build Status](https://travis-ci.org/jackolney/CascadeDashboard.svg?branch=master)](https://travis-ci.org/jackolney/CascadeDashboard) [![Build status](https://ci.appveyor.com/api/projects/status/050867wrfgscrxp9/branch/master?svg=true)](https://ci.appveyor.com/project/jackolney/cascadedashboard/branch/master)
+[![Build Status](https://travis-ci.org/jackolney/CascadeDashboard.svg?branch=master)](https://travis-ci.org/jackolney/CascadeDashboard) [![Build status](https://ci.appveyor.com/api/projects/status/050867wrfgscrxp9/branch/master?svg=true)](https://ci.appveyor.com/project/jackolney/cascadedashboard/branch/master) [![codecov](https://codecov.io/gh/jackolney/CascadeDashboard/branch/master/graph/badge.svg)](https://codecov.io/gh/jackolney/CascadeDashboard)
 
 This model forms the basis of the shiny application available online [here](https://jackolney.shinyapps.io/CascadeDashboard/). The backend of the model consists of a deterministic model of HIV care written in C, source code available [here](https://github.com/jackolney/cascade).
 
