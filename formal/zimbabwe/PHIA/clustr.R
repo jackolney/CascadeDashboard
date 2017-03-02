@@ -24,8 +24,8 @@ set.seed(100)
 # ---- #
 
 # These will be adjusted in due course:
-MaxError <- 1
-MinNumber <- 100
+MaxError <- 0.06
+MinNumber <- 1000
 
 # After first simulation, run this function (default = 5%)
 # MaxError <- find_error_bound(runError, prop = 0.05)
@@ -42,10 +42,11 @@ parRange <- DefineParmRange(
     omega   = c(0, 0.01)
 )
 
-# Run Calibration
-obj <- clustr::login()
-# to run backup cluster
-# obj <- clustr::login(cluster = "fi--dideclusthn")
+# Run Calibration (cluster arg is "MRC" or "DIDE")
+obj <- clustr::login(cluster = "DIDE")
+obj$cluster_load()
+
+# scales::percent(obj$cluster_load()$overall$free / obj$cluster_load()$overall$used)
 
 t <- obj$enqueue(
     RunClusterCalibration(
@@ -60,7 +61,8 @@ t <- obj$enqueue(
 
 t$status()
 t$log()
-
+t$times()
+id <- "d774a7e061af4f6aad90c43bf0e81552"
 
 
 t$id
