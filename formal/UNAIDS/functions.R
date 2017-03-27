@@ -256,7 +256,7 @@ write_spreadsheet <- function(country_name, global_out, path) {
 }
 
 # Build spreadsheet data structure
-get_spreadsheet_data <- function(country_name) {
+get_spreadsheet_data <- function(country_name, notes) {
     # Global Output that will constitute one line of each workbook
     global_out <- list()
 
@@ -291,7 +291,8 @@ get_spreadsheet_data <- function(country_name) {
     # u3rd_90 <- paste0(x_3, " (", min_3, " to ", max_3, ")")
 
     # NOTES
-    notes <- "Good fit."
+    # comes in as arg now
+    # notes <- "Good fit."
 
     global_out[[1]] <- c(country_name, x_1, x_2, x_3, min_1, min_2, min_3, max_1, max_2, max_3, notes)
 
