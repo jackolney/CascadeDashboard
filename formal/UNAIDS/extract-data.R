@@ -48,8 +48,8 @@ set.seed(100)
 # These will be adjusted in due course:
 # MaxError <- 0.06
 # MinNumber <- 1000
-MaxError <- 1
-MinNumber <- 100
+MaxError <- 0.1
+MinNumber <- 500
 
 # After first simulation, run this function (default = 5%)
 # MaxError <- find_error_bound(runError, prop = 0.05)
@@ -86,17 +86,25 @@ finish.time[3] / 60
 ####################################################################################################
 # We will want to do some calibration checking...
 
+# What about a country directory, with calibration figures, data and a workspace?
+# Define output_path
+output_path <- paste0("../../formal/UNAIDS/results/", MasterName, "/")
+# Create result directory (safely, -p)
+system(paste0("mkdir -p ", output_path))
+
 # Cascade in 2015
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibPlot_Thesis(data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+quartz.save(file = paste0(output_path, "cascade-2015.pdf"), type = "pdf")
 
 # Error Histogram
 graphics.off(); quartz.options(w = 6, h = 3)
 BuildCalibrationHistogram_Thesis(
     runError = runError,
     maxError = MaxError)
+quartz.save(file = paste0(output_path, "sim-error.pdf"), type = "pdf")
 
 # Calibration Detail
 graphics.off(); quartz.options(w = 10, h = 8)
@@ -104,11 +112,12 @@ BuildCalibDetailPlot_Thesis(
     data = CalibOut,
     originalData = MasterData,
     limit = MinNumber)
+quartz.save(file = paste0(output_path, "cascade-detail.pdf"), type = "pdf")
 
 # Parameter Histograms
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
-
+quartz.save(file = paste0(output_path, "parameter-hist.pdf"), type = "pdf")
 
 ####################################################################################################
 # UNAIDS workbook creation and completion functions
@@ -118,13 +127,13 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 out_data <- get_spreadsheet_data(
     country_name = MasterName,
-    notes = "testing")
+    notes = "max_error = 0.1, min_number = 500")
 
 write_spreadsheet(
     country_name = MasterName,
     global_out = out_data,
-    path = "../../formal/UNAIDS/results/")
+    path = output_path)
 
 # Save image
-image.path <- paste0("../../formal/UNAIDS/workspace/", MasterName, ".RData")
+image.path <- paste0(output_path, MasterName, ".RData")
 save.image(file = image.path)
