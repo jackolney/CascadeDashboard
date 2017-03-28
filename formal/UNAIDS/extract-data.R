@@ -34,15 +34,15 @@ countries <- c("Brazil", "Cambodia", "Cameroon", "China", "Cote d'Ivoire", "DRC"
 length(countries)
 
 # GLOBAL
-MasterName <- countries[21]
+MasterName <- countries[27]
 MasterData <- GetMasterDataSet(MasterName)
 
 # Do we have an R test MasterData function?
 # its usually just overloading the guidelines
 MasterData$treatment_guidelines
 # MasterData$treatment_guidelines[[4]] <- 2015
-MasterData$treatment_guidelines[[5]] <- 2015
-MasterData$treatment_guidelines[[6]] <- 2016
+# MasterData$treatment_guidelines[[5]] <- 2015
+# MasterData$treatment_guidelines[[6]] <- 2016
 
 # ---- #
 set.seed(100)
@@ -130,7 +130,7 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 out_data <- get_spreadsheet_data(
     country_name = MasterName,
-    notes = "max_error = 0.2, min_number = 500, treat all from 2016")
+    notes = "max_error = 0.06, min_number = 1000")
 
 write_spreadsheet(
     country_name = MasterName,
