@@ -17,7 +17,7 @@
 # This function will need to run some tests on the data.set to make sure that it is sensical.
 
 # Set country
-# userCountry <- "Zimbabwe"
+# userCountry <- "DRC"
 
 GetMasterDataSet <- function(userCountry) {
     # Get all the data (all your base)
@@ -117,10 +117,20 @@ GetMasterDataSet <- function(userCountry) {
         intTwo <- int[int$year == 2013,][2:4,]
         countryMasterDataSet <- rbind(int[int$year != 2013 & int$year != 2014,], intTwo, intOne)
     } else if (userCountry == "DRC") {
+        # Pull in data.structure
         int <- countryData$calib
+        # Ignore PLHIV estimate from Marrakech, as it conflicts with
+        int2 <- marrakechData[marrakechData$indicator != "PLHIV",]
+        # Want to keep the DRC estimate of numbers on ART from 2014
+        int3 <- int[int$year == 2014 & int$indicator != "PLHIV on ART",]
+        # Now want int for all years except 2014
+        int4 <- int[int$year != 2014,]
+        # Pull it all together
+        countryMasterDataSet <- rbind(int2, int3, int4)
+        # DHS Spectrum value in 2013, do we want?
         # Ignore the high PLHIV diagnosed value
-        value <- rbind(int[int$year == 2013 & int$indicator != "PLHIV Diagnosed",], int[int$year == 2013 & int$indicator == "PLHIV Diagnosed",][2,])
-        countryMasterDataSet <- rbind(int[int$year != 2013 & int$year != 2014,], value, marrakechData)
+        # value <- rbind(int[int$year == 2013 & int$indicator != "PLHIV Diagnosed",], int[int$year == 2013 & int$indicator == "PLHIV Diagnosed",][2,])
+        # countryMasterDataSet <- rbind(int[int$year != 2013 & int$year != 2014,], value, marrakechData)
     } else if (userCountry == "India") {
         int <- countryData$calib
         countryMasterDataSet <- rbind(int, marrakechData)
