@@ -121,7 +121,7 @@ quartz.save(file = paste0(output_path, "cascade-detail.pdf"), type = "pdf")
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
 quartz.save(file = paste0(output_path, "parameter-hist.pdf"), type = "pdf")
-
+8.5 * 1.2
 ####################################################################################################
 # UNAIDS workbook creation and completion functions
 
@@ -130,7 +130,7 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 
 out_data <- get_spreadsheet_data(
     country_name = MasterName,
-    notes = "max_error = 0.06, min_number = 1000")
+    notes = "max_error = 0.15, min_number = 1000")
 
 write_spreadsheet(
     country_name = MasterName,

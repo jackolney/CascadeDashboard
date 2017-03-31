@@ -28,7 +28,6 @@ set.seed(100)
 # ---- #
 
 # These will be adjusted in due course:
-# MaxError <- 0.18
 MaxError <- 0.15
 MinNumber <- 1000
 
@@ -109,6 +108,18 @@ BuildCalibDetailPlot_Thesis(
 quartz.save(file = "../../formal/DRC/fig/cal/calib-detail.pdf", type = "pdf")
 
 # Parameter Histograms
+BuildCalibrationParameterHistGroup_Thesis <- function() {
+    ggA <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "rho")
+    ggB <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "q")
+    ggD <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "kappa")
+    ggE <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "gamma")
+    ggF <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "theta")
+    ggG <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "omega")
+    ggH <- BuildCalibrationParamHist_Thesis(pOut = CalibParamOut, param = "p")
+
+    gridExtra::grid.arrange(ggA, ggB, ggD, ggE, ggF, ggG, ggH, ncol = 4, nrow = 2)
+}
+
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildCalibrationParameterHistGroup_Thesis()
 quartz.save(file = "../../formal/DRC/fig/cal/par-hist.pdf", type = "pdf")
@@ -117,6 +128,37 @@ quartz.save(file = "../../formal/DRC/fig/cal/par-hist.pdf", type = "pdf")
 ################################################################################
 
 # DataReviewPlot
+
+BuildDataReviewPlot_Thesis <- function(data) {
+    data <- AddNAToMasterData(theBlank = GetBlankMasterDataSet("blank")$calib, theData = data)
+    data$indicator <- factor(data$indicator, levels = c("PLHIV", "PLHIV Diagnosed", "PLHIV in Care", "PLHIV on ART", "PLHIV Suppressed"))
+    data$year <- as.numeric(as.character(data$year))
+    ggOut <- ggplot(data, aes(x = year, y = value))
+    ggOut <- ggOut + geom_bar(aes(fill = indicator), stat = "identity", position = "dodge")
+    ggOut <- ggOut + scale_fill_manual(values = brewer.pal(9,"Blues")[3:8])
+    # ggOut <- ggOut + scale_fill_brewer(palette = "Accent")
+    ggOut <- ggOut + expand_limits(y = 0.5e6)
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(
+        labels = scales::comma,
+        breaks = seq(0, 0.5e6, 1e5),
+        expand = c(0, 0))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2010, 2015, 1), labels = seq(2010, 2015, 1))
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(legend.text = element_text(size = 10))
+    ggOut <- ggOut + theme(axis.line.x = element_line())
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + theme(axis.title.x = element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 10))
+    ggOut <- ggOut + theme(legend.title = element_blank())
+    ggOut <- ggOut + ylab("Number of persons")
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut
+}
+
 graphics.off(); quartz.options(w = 10, h = 4)
 BuildDataReviewPlot_Thesis(data = MasterData$calib)
 quartz.save(file = "../../formal/DRC/fig/cal/calib-data.pdf", type = "pdf")
@@ -136,6 +178,16 @@ g <- paste0(round(Quantile_95(CalibParamOut[["p"]])[["mean"]], 4), " [", round(Q
 h <- paste0(round(Quantile_95(CalibParamOut[["omega"]])[["mean"]], 4), " [", round(Quantile_95(CalibParamOut[["omega"]])[["lower"]], 4), " to ", round(Quantile_95(CalibParamOut[["omega"]])[["upper"]], 4), "]")
 
 list(a,b,c,d,e,f,g,h)
+
+# Results from 29-03-17.RData file
+# rho "0.0276 [0.0117 to 0.0474]"
+# q "0.5023 [0.4113 to 0.588]"
+# epsilon "100 [100 to 100]"
+# kappa "3.9759 [2.1951 to 5.8066]"
+# gamma "2.0258 [1.1084 to 2.8964]"
+# theta "0.0801 [0.0539 to 0.0983]"
+# p "0.2765 [0.0424 to 0.567]"
+# omega "0.0142 [0.0014 to 0.0285]"
 
 Quantile_95(CalibParamOut[["rho"]])
 Quantile_95(CalibParamOut[["q"]])
@@ -160,6 +212,40 @@ AdvCalib <- data.frame(NatMort = 0.005, HIVMort = 1)
 # quartz.save(file = "~/Desktop/fig/powers.pdf", type = "pdf")
 
 # CareCascade Plot
+GenCascadePlot_Thesis <- function() {
+    t0 <- GetCascadeData(1)   # t0 = 1
+    t5 <- GetCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
+
+    c.fill <- rev(brewer.pal(9,"Blues")[3:8])
+
+    t0$year <- 2015
+    t5$year <- 2020
+    out <- rbind(t0, t5)
+
+    ggOne <- ggplot(out, aes(x = def, y = res))
+    ggOne <- ggOne + geom_bar(aes(fill = as.factor(year)), position = 'dodge', stat = 'identity')
+    ggOne <- ggOne + geom_errorbar(mapping = aes(x = def, ymin = min, ymax = max, fill = as.factor(year)), position = position_dodge(width = 0.9), stat = "identity", width = 0.2, size = 0.5)
+    ggOne <- ggOne + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 9))
+    ggOne <- ggOne + scale_fill_manual(values = c(c.fill[2],c.fill[5]), guide = guide_legend(title = ""))
+    ggOne <- ggOne + theme_classic()
+    ggOne <- ggOne + theme(title = element_text(size = 13))
+    ggOne <- ggOne + theme(axis.title = element_text(size = 10))
+    ggOne <- ggOne + theme(axis.title.x = element_blank())
+    ggOne <- ggOne + theme(axis.text.x = element_text(size = 12))
+    ggOne <- ggOne + theme(axis.text.y = element_text(size = 12))
+    ggOne <- ggOne + theme(axis.ticks.x = element_blank())
+    ggOne <- ggOne + theme(legend.position = "right")
+    ggOne <- ggOne + theme(legend.title = element_text(size = 12))
+    ggOne <- ggOne + theme(legend.text = element_text(size = 12))
+    ggOne <- ggOne + theme(plot.background = element_blank())
+    ggOne <- ggOne + theme(panel.background = element_blank())
+    ggOne <- ggOne + theme(axis.line.y = element_line())
+    ggOne <- ggOne + theme(text = element_text(family = figFont))
+    ggOne <- ggOne + ylab("Number of persons")
+    ggOne <- ggOne + expand_limits(y = round(max(out$max), digits = -5) + 1e5)
+    ggOne
+}
+
 graphics.off(); quartz.options(w = 10, h = 4)
 GenCascadePlot_Thesis()
 # quartz.save(file = "~/Desktop/fig/cascade-projection.pdf", type = "pdf")
@@ -174,6 +260,11 @@ Gen909090Plot_Thesis()
 # quartz.save(file = "~/Desktop/fig/90-90-90.pdf", type = "pdf")
 quartz.save(file = "../../formal/DRC/fig/pro/90-90-90.pdf", type = "pdf")
 
+# Get 90-90-90 numbers
+out <- Get909090Data()
+DRC_out <- out
+save(DRC_out, file = "../../formal/DRC/UNAIDS-90-90-90.RData")
+
 # Powers Plot
 graphics.off(); quartz.options(w = 15, h = 4)
 GenPowersCascadePlot_Thesis()
@@ -181,12 +272,174 @@ GenPowersCascadePlot_Thesis()
 quartz.save(file = "../../formal/DRC/fig/pro/cascade-powers.pdf", type = "pdf")
 
 # New Infections
+GenNewInfPlot_Thesis <- function() {
+    result <- GetModel()
+
+    out <- c()
+    min <- c()
+    max <- c()
+    for (j in 1:251) {
+        dat <- Quantile_95(unlist(lapply(result, function(x) sum(x$NewInf[j]))))
+        out[j] <- dat[["mean"]]
+        min[j] <- dat[["lower"]]
+        max[j] <- dat[["upper"]]
+    }
+
+    NI_out <- c(0, diff(out))
+    NI_min <- c(0, diff(min))
+    NI_max <- c(0, diff(max))
+
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, NI_out, NI_min, NI_max)
+
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    NewInf <- c(
+        sum(bar1[,"NI_out"]),
+        sum(bar2[,"NI_out"]),
+        sum(bar3[,"NI_out"]),
+        sum(bar4[,"NI_out"]),
+        sum(bar5[,"NI_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"NI_min"]),
+        sum(bar2[,"NI_min"]),
+        sum(bar3[,"NI_min"]),
+        sum(bar4[,"NI_min"]),
+        sum(bar5[,"NI_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"NI_max"]),
+        sum(bar2[,"NI_max"]),
+        sum(bar3[,"NI_max"]),
+        sum(bar4[,"NI_max"]),
+        sum(bar5[,"NI_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
+    df <- data.frame(timeOut, NewInf, min, max)
+
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
+
+    ggOut <- ggplot(df, aes(x = timeOut, NewInf))
+    ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
+    ggOut <- ggOut + expand_limits(y = round(max(df$max), digits = -4))
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + ylab("New Infections Per Year")
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.title.x =  element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 11))
+    ggOut <- ggOut + expand_limits(y = 25e3)
+    ggOut
+}
 graphics.off(); quartz.options(w = 6, h = 4)
 GenNewInfPlot_Thesis()
 # quartz.save(file = "~/Desktop/fig/new-infections.pdf", type = "pdf")
 quartz.save(file = "../../formal/DRC/fig/pro/new-infections.pdf", type = "pdf")
 
 # AIDS Deaths
+GenAidsDeathsPlot_Thesis <- function() {
+    result <- GetModel()
+
+    out <- c()
+    min <- c()
+    max <- c()
+    for (j in 1:251) {
+        dat <- Quantile_95(unlist(lapply(result, function(x) sum(x$HivMortality[j]))))
+        out[j] <- dat[["mean"]]
+        min[j] <- dat[["lower"]]
+        max[j] <- dat[["upper"]]
+    }
+
+    HM_out <- c(0, diff(out))
+    HM_min <- c(0, diff(min))
+    HM_max <- c(0, diff(max))
+
+    times <- seq(0, 5, 0.02)
+    combo <- cbind(times, HM_out, HM_min, HM_max)
+
+    # Calculate time intervals
+    yr2015 <- times[times >= 0 & times <= 1]
+    yr2016 <- times[times > 1  & times <= 2]
+    yr2017 <- times[times > 2  & times <= 3]
+    yr2018 <- times[times > 3  & times <= 4]
+    yr2019 <- times[times > 4  & times <= 5]
+
+    # count between years to calculate bars
+    bar1 <- combo[times %in% yr2015,]
+    bar2 <- combo[times %in% yr2016,]
+    bar3 <- combo[times %in% yr2017,]
+    bar4 <- combo[times %in% yr2018,]
+    bar5 <- combo[times %in% yr2019,]
+
+    HivMortality <- c(
+        sum(bar1[,"HM_out"]),
+        sum(bar2[,"HM_out"]),
+        sum(bar3[,"HM_out"]),
+        sum(bar4[,"HM_out"]),
+        sum(bar5[,"HM_out"])
+    )
+
+    min <- c(
+        sum(bar1[,"HM_min"]),
+        sum(bar2[,"HM_min"]),
+        sum(bar3[,"HM_min"]),
+        sum(bar4[,"HM_min"]),
+        sum(bar5[,"HM_min"])
+    )
+
+    max <- c(
+        sum(bar1[,"HM_max"]),
+        sum(bar2[,"HM_max"]),
+        sum(bar3[,"HM_max"]),
+        sum(bar4[,"HM_max"]),
+        sum(bar5[,"HM_max"])
+    )
+
+    timeOut <- seq(2015, 2019, 1)
+    df <- data.frame(timeOut, HivMortality, min, max)
+
+    c.fill <- rev(brewer.pal(9,"Blues")[4:8])
+
+    ggOut <- ggplot(df, aes(x = timeOut, HivMortality))
+    ggOut <- ggOut + geom_bar(stat = "identity", size = 2, fill = c.fill)
+    ggOut <- ggOut + geom_errorbar(mapping = aes(x = timeOut, ymin = min, ymax = max), width = 0.2, size = 0.5)
+    ggOut <- ggOut + expand_limits(y = round(max(df$max), digits = -4))
+    ggOut <- ggOut + theme_classic()
+    ggOut <- ggOut + scale_y_continuous(labels = scales::comma, expand = c(0, 0), breaks = scales::pretty_breaks(n = 5))
+    ggOut <- ggOut + theme(axis.line.y = element_line())
+    ggOut <- ggOut + scale_x_continuous(breaks = seq(2015, 2019, 1), labels = seq(2015, 2019, 1))
+    ggOut <- ggOut + theme(text = element_text(family = figFont))
+    ggOut <- ggOut + ylab("AIDS Deaths Per Year")
+    ggOut <- ggOut + theme(axis.ticks.x = element_blank())
+    ggOut <- ggOut + theme(axis.text.x = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.text.y = element_text(size = 12))
+    ggOut <- ggOut + theme(axis.title.x =  element_blank())
+    ggOut <- ggOut + theme(axis.title.y = element_text(size = 11))
+    ggOut <- ggOut + expand_limits(y = 3e4)
+    ggOut
+}
 graphics.off(); quartz.options(w = 6, h = 4)
 GenAidsDeathsPlot_Thesis()
 # quartz.save(file = "~/Desktop/fig/AIDS-deaths.pdf", type = "pdf")
@@ -245,8 +498,10 @@ t5$res[5]/t5$res[1]
 
 # edit on the 24/01/17 for new model that only has a CD4 dependency on theta for persons with CD4
 # <200
-save.image("../../formal/DRC/data-29-03-17.RData")
-# load("../../formal/DRC/data-24-01-17.RData")
+
+# Current as of 29/03/17
+# save.image("../../formal/DRC/data-29-03-17.RData")
+# load("../../formal/DRC/data-29-03-17.RData")
 
 ####################################################################################################
 # if we were to adjust 'beta' such that it is reduced by 50%, then what functions would need to be
@@ -285,11 +540,11 @@ intSwitch <- data.frame(
 # OptInput$intValue_omega <- parRange["omega", "min"]
 
 OptInput <- c()
-OptInput$intValue_rho   <- 0.1
+OptInput$intValue_rho   <- 2
 OptInput$intValue_q     <- 1
 OptInput$intValue_kappa <- 0
-OptInput$intValue_gamma <- 10
-OptInput$intValue_sigma <- 0.1
+OptInput$intValue_gamma <- 20
+OptInput$intValue_sigma <- 0.5
 OptInput$intValue_omega <- 0
 
 reactiveCost <- data.frame(
@@ -327,7 +582,6 @@ quartz.save(file = "../../formal/DRC/fig/opt/frontier.pdf", type = "pdf")
 # FIGURE GENERATION
 graphics.off(); quartz.options(w = 8, h = 4)
 BuildChangesPlot_Thesis(CalibParamOut = CalibParamOut, optResults = optResults, target = 0.9^3)
-quartz.save(file = "~/Desktop/fig/changes.pdf", type = "pdf")
 quartz.save(file = "../../formal/DRC/fig/opt/changes.pdf", type = "pdf")
 
 ################################################################################
@@ -379,6 +633,15 @@ b5
 b6
 b7
 
+# Results from 29-03-17.RData calibration
+# "iCost = $52,028,104 [$40,278,497 to $61,593,505]"
+# "iTest = 23,755 [19,390 to 29,014]"
+# "iLink = 21,320 [16,740 to 26,142]"
+# "iPreR = 4,100 [1,788 to 6,799]"
+# "iInit = 25,298 [18,346 to 30,274]"
+# "iAdhr = 7,000 [1,223 to 14,347]"
+# "iRetn = 1,924 [284 to 3,846]"
+
 # INTERVENTIONS
 round(Quantile_95(intRes[,"iCost"])["mean"] / 1e6, 2)
 i1 <- paste0("iCost = ", scales::dollar(Quantile_95(intRes[,"iCost"])["mean"] / 5), " [", scales::dollar(Quantile_95(intRes[,"iCost"])["lower"] / 5), " to ", scales::dollar(Quantile_95(intRes[,"iCost"])["upper"] / 5), "]")
@@ -397,7 +660,14 @@ i5
 i6
 i7
 
-
+# Results from 29-03-17.RData calibration
+# "iCost = $71,868,939 [$54,886,611 to $92,014,301]"
+# "iTest = 22,128 [15,202 to 31,883]"
+# "iLink = 24,547 [17,625 to 34,275]"
+# "iPreR = 4,089 [1,782 to 6,805]"
+# "iInit = 24,432 [17,559 to 33,982]"
+# "iAdhr = 42,399 [29,841 to 53,913]"
+# "iRetn = 1,921 [284 to 3,846]"
 
 Quantile_95(resTable[,"iTest"]) / 5
 Quantile_95(resTable[,"iLink"]) / 5
