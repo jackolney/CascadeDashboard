@@ -463,33 +463,33 @@ t5 <- GetCascadeData(251) # t5 = (5 / 0.02) + 1 [t0]
 
 # PLHIV Estimate in 2015
 scales::comma(round(t0$res[1], -3))
-1.394e+6
+394e3
 scales::comma(round(t5$res[1], -3))
-1.516e+6
+353e3
 
-1.516e+6 / 1.394e+6
+1-(353e3 / 394e3)
 
 # DIAGNOSED
 scales::comma(round(t0$res[2], -3))
-1.044e+6
+166e3
 scales::comma(round(t5$res[2], -3))
-1.296e+6
+207e3
 
-1.296e+6 / 1.044e+6
+207e3 / 166e3
 
 # On ART
 scales::comma(round(t0$res[4], -3))
 scales::comma(round(t5$res[4], -3))
 
 round(t5$res[4], -3) / round(t0$res[4], -3)
-37\% (0.899M to 1.233M)
+56\% (0.098M to 0.153M)
 
 # Viral suppression
 scales::comma(round(t0$res[5], -3))
 scales::comma(round(t5$res[5], -3))
 
 round(t5$res[5], -3) / round(t0$res[5], -3)
-40\% (0.791M to 1.104M)
+65\% (0.037M to 0.061M)
 23 - 14
 t0
 
