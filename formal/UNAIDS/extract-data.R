@@ -21,6 +21,10 @@ source("../../formal/UNAIDS/functions.R")
 source("../../formal/initial.R")
 
 
+# Table data export
+# load("../../formal/UNAIDS/results/Mozambique/Mozambique.RData")
+# gridExtra::grid.table(MasterData$calib)
+
 ####################################################################################################
 # Countries
 
